@@ -1,0 +1,4 @@
+#Wed Oct 28 12:31:20 IST 2020
+base.0=E\:\\Priyesh\\hookup-ui (1)\\SourceCode\\All Code\\hookup4u\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

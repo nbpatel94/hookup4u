@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hookup4u/Screens/auth/otp.dart';
+import 'package:hookup4u/Screens/auth/login_page.dart';
 import 'package:hookup4u/util/color.dart';
 
 class UpdateNumber extends StatelessWidget {
@@ -66,7 +66,7 @@ class UpdateNumber extends StatelessWidget {
                     ),
                   ),
                   onTap: () => Navigator.push(
-                      context, MaterialPageRoute(builder: (context) => OTP())),
+                      context, MaterialPageRoute(builder: (context) => LoginPage())),
                 ),
               ),
             )

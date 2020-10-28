@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hookup4u/Screens/auth/login.dart';
+import 'package:hookup4u/Screens/auth/start_screen.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -14,7 +14,7 @@ class _SplashState extends State<Splash> {
     super.initState();
     Future.delayed(Duration(seconds: 2), () {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Login()));
+          context, MaterialPageRoute(builder: (context) => StartScreen()));
     });
   }
 

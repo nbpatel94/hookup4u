@@ -8,3 +8,11 @@ Color textColor = Colors.white;
 
 Color darkButton = Color(0xff2A4755);
 Color lightButton = Color(0xffEE2722);
+
+class ColorRes{
+  static Color primaryColor = Color(0xff142A3B);
+
+  static Color darkButton = Color(0xff2A4755);
+  static Color lightButton = Color(0xffEE2722);
+  static Color textColor = Color(0xff9AA3AB);
+}

@@ -2,28 +2,40 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hookup4u/Screens/auth/forgot_password.dart';
-import 'package:hookup4u/Screens/auth/otp_verification.dart';
+import 'package:hookup4u/Screens/auth/login_viewmodel.dart';
 import 'package:hookup4u/Screens/auth/singup_page.dart';
 import 'package:hookup4u/util/color.dart';
 
 class LoginPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  LoginPageState createState() => LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class LoginPageState extends State<LoginPage> {
 
-  TextEditingController emailCont = TextEditingController();
-  TextEditingController passwordCont = TextEditingController();
+  LoginViewModel model;
+
+  TextEditingController usernameCont = TextEditingController(text: 'test.test');
+  TextEditingController passwordCont = TextEditingController(text: 'test');
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     print("Current page --> $runtimeType");
+    model ?? (model = LoginViewModel(this));
 
     return Scaffold(
       backgroundColor: ColorRes.primaryColor,
+      key: _scaffoldKey,
       body: SafeArea(
-        child: Stack(
+        child:  isLoading
+            ? Center(
+          child: CircularProgressIndicator(),
+        )
+            : Stack(
           alignment: Alignment.center,
           children: [
             Center(
@@ -46,19 +58,18 @@ class _LoginPageState extends State<LoginPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "EMAIL ADDRESS",
+                            "USERNAME",
                             textAlign: TextAlign.start,
                             style: TextStyle(
                                 fontSize: 16, color: Colors.grey[200]),
                           ),
                           TextFormField(
-                            keyboardType: TextInputType.emailAddress,
                             style: TextStyle(
                                 fontSize: 16, color: ColorRes.textColor),
                             cursorColor: ColorRes.textColor,
-                            controller: emailCont,
+                            controller: usernameCont,
                             decoration: InputDecoration(
-                              hintText: "example@example.com",
+                              hintText: "iLoveDate",
                               hintStyle: TextStyle(
                                   color: ColorRes.textColor, fontSize: 16),
                               focusColor: ColorRes.textColor,
@@ -118,7 +129,12 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           GestureDetector(
                             onTap: () {
-
+                              if(model.validate()){
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                model.login();
+                              }
                             },
                             child: Container(
                               height: MediaQuery.of(context).size.height * .075,
@@ -194,5 +210,16 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  showSnackBar(String message,{bool isError = false}){
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+      content: new Text(
+        message,
+        textAlign: TextAlign.center,
+      ),
+      backgroundColor: isError ? ColorRes.lightButton: ColorRes.darkButton,
+      duration: Duration(seconds: 3),
+    ));
   }
 }

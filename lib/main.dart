@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hookup4u/Screens/Splash.dart';
 import 'package:hookup4u/util/color.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'app.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -9,7 +12,10 @@ void main() {
     DeviceOrientation.portraitDown,
     DeviceOrientation.portraitUp,
   ]).then((_) {
-    runApp(new MyApp());
+    SharedPreferences.getInstance().then((prefs) {
+      sharedPreferences = prefs;
+      runApp(MyApp());
+    });
   });
 }
 

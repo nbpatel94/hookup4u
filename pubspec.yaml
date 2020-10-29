@@ -25,6 +25,7 @@ dependencies:
   pin_code_fields: ^2.3.0+3
   swipe_stack: ^1.0.0
   flutter_swiper: ^1.1.6
+  shared_preferences: ^0.5.12+2
  
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

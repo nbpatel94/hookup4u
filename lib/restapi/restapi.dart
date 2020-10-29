@@ -1,33 +1,70 @@
-import 'package:hookup4u/restapi/app.dart';
+import 'dart:convert';
+
+import 'package:hookup4u/app.dart';
+import 'package:hookup4u/models/profile_detail.dart';
+import 'package:hookup4u/prefrences.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
-class RestApi{
-  static Future<bool> signUpApi(String loginId, String name,String email, String password) async{
+class RestApi {
+  static Future<String> signUpApi(String loginId, String name, String email, String password) async {
     String url = App.baseUrl + App.signUp;
 
     var bodyData = {
-      'user_login': 'testuser',
-      'user_email': 'test@user.mail',
-      'user_name': 'test@user.mail',
-      'password': 'test123'
+      "user_login": loginId,
+      "user_email": email,
+      "user_name": name,
+      "password": password
+    };
+
+    var headerData = {
+      "Authorization" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZG9vci5paGVhcnRtdXNsaW1zLmNvbSIsImlhdCI6MTYwMzg2NTg0NSwibmJmIjoxNjAzODY1ODQ1LCJleHAiOjE2MDQ0NzA2NDUsImRhdGEiOnsidXNlciI6eyJpZCI6NH19fQ.sc9EMD37nM1SLakLt_gOtgjGH8ejLuRe5_jxEbwtaZo"
     };
 
     print(url);
     print(bodyData);
+    print(headerData);
 
-    try{
-      Response response = await http.post(url,body: bodyData);
+    try {
+      Response response = await http.post(url,headers: headerData, body: bodyData);
       print(response.statusCode);
-      if(response.statusCode==200){
+      if (response.statusCode == 200) {
         print(response.body);
-        return true;
-      }else{
-        return true;
+        return 'success';
+      } else {
+        print(response.body);
+        return jsonDecode(response.body)['message'];
       }
-    }catch(e){
+    } catch (e) {
       print(e);
-      return false;
+      return 'Something went wrong! Please try later';
+    }
+  }
+
+  static Future<String> logInApi(String loginId, String password) async {
+    String url = App.loginBase;
+
+    var bodyData = {"username": loginId, "password": password};
+
+    print(url);
+    print(bodyData);
+
+    Response response = await http.post(url, body: bodyData);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      print(response.body);
+      var userDetail = userDetailFromJson(response.body);
+      if (userDetail.statusCode == 200) {
+        appState.userDetail = userDetail;
+        await sharedPreferences.setString(Preferences.profile, jsonEncode(userDetail.toJson()));
+        await sharedPreferences.setString(Preferences.username, loginId);
+        await sharedPreferences.setString(Preferences.password, password);
+        return 'success';
+      } else {
+        return userDetail.message;
+      }
+    } else {
+      return 'Something went wrong! Please try later';
     }
   }
 
@@ -36,20 +73,20 @@ class RestApi{
 
     print(url);
 
-    try{
+    try {
       Response response = await http.get(url);
       print(response.statusCode);
-      if(response.statusCode==200){
+      if (response.statusCode == 200) {
         print(response.body);
-        if(response.body.toString()=='[]'){
+        if (response.body.toString() == '[]') {
           return null;
-        }else{
+        } else {
           return response.body;
         }
-      }else{
+      } else {
         return null;
       }
-    }catch(e){
+    } catch (e) {
       print(e);
       return null;
     }
@@ -60,20 +97,20 @@ class RestApi{
 
     print(url);
 
-    try{
+    try {
       Response response = await http.get(url);
       print(response.statusCode);
-      if(response.statusCode==200){
+      if (response.statusCode == 200) {
         print(response.body);
-        if(response.body.toString()=='[]'){
+        if (response.body.toString() == '[]') {
           return null;
-        }else{
+        } else {
           return response.body;
         }
-      }else{
+      } else {
         return null;
       }
-    }catch(e){
+    } catch (e) {
       print(e);
       return null;
     }

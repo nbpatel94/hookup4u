@@ -13,12 +13,149 @@ class ListHolderPage extends StatefulWidget {
 }
 
 class ListHolderPageState extends State<ListHolderPage> {
-
   bool isLoading = false;
 
   DateTime currentBackPressTime;
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  get drawerWidget => SafeArea(
+        child: Drawer(
+          child: Container(
+            color: ColorRes.primaryColor,
+            child: Stack(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.only(top: 30),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(80),
+                            child: Image.asset(
+                              'asset/userPictures/otherUsers/bunny1.jpeg',
+                              height: 120,
+                              width: 120,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          SizedBox(height: 10,),
+                          Text("Cameron",style: TextStyle(fontSize: 28,color: ColorRes.textColor)),
+                          SizedBox(height: 2,),
+                          Text("EDIT PROFILE",style: TextStyle(fontSize: 12,color: Colors.white,fontWeight: FontWeight.bold))
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 70,),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12),
+                      child: Column(
+                        children: [
+                          ListTile(
+                            onTap: () {
+                              // Navigator.of(context).pushNamed('/Pages', arguments: 2);
+                            },
+                            leading: Icon(
+                              Icons.group_rounded,
+                              color: ColorRes.textColor,
+                              size: 25,
+                            ),
+                            title: Text(
+                              'Browse',
+                              style: TextStyle(
+                                  color: ColorRes.textColor,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                          ListTile(
+                            onTap: () {
+                              // Navigator.of(context).pushNamed('/Pages', arguments: 0);
+                            },
+                            leading: Icon(
+                              Icons.message,
+                              color: ColorRes.textColor,
+                              size: 25,
+                            ),
+                            title: Text(
+                              'Message',
+                              style: TextStyle(
+                                  color: ColorRes.textColor,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                          ListTile(
+                            onTap: () {
+                              // Navigator.of(context).pushNamed('/Pages', arguments: 3);
+                            },
+                            leading: Icon(
+                              Icons.favorite_outlined,
+                              color: ColorRes.textColor,
+                              size: 25,
+                            ),
+                            title: Text(
+                              'My Matches',
+                              style: TextStyle(
+                                  color: ColorRes.textColor,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                          ListTile(
+                            onTap: () {
+                              // Navigator.of(context).pushNamed('/Pages', arguments: 4);
+                            },
+                            leading: Icon(
+                              Icons.star,
+                              color: ColorRes.textColor,
+                              size: 25,
+                            ),
+                            title: Text(
+                              'Favorite',
+                              style: TextStyle(
+                                  color: ColorRes.textColor,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                          ListTile(
+                            onTap: () {
+                              // Navigator.of(context).pushNamed('/Help');
+                            },
+                            leading: Icon(
+                              Icons.settings,
+                              color: ColorRes.textColor,
+                              size: 25,
+                            ),
+                            title: Text(
+                              'Settings',
+                              style: TextStyle(
+                                  color: ColorRes.textColor,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                Positioned(
+                  top: 30,
+                  right: 15,
+                  child: GestureDetector(
+                    child: Icon(Icons.arrow_back,size: 30,color: ColorRes.textColor,),
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      );
 
   showSnack(String text) {
     final snackBar = SnackBar(
@@ -60,7 +197,7 @@ class ListHolderPageState extends State<ListHolderPage> {
                             Tab(
                               icon: Icon(
                                 Icons.person,
-                                size: 30,
+                                size: 25,
                               ),
                             ),
                             Tab(
@@ -98,6 +235,7 @@ class ListHolderPageState extends State<ListHolderPage> {
                       physics: NeverScrollableScrollPhysics(),
                     )),
               ),
+        drawer: drawerWidget,
       ),
     );
   }
@@ -107,6 +245,7 @@ class ListHolderPageState extends State<ListHolderPage> {
     if (currentBackPressTime == null ||
         now.difference(currentBackPressTime) > Duration(seconds: 2)) {
       currentBackPressTime = now;
+      _scaffoldKey.currentState.openDrawer();
       showSnack('Tap again for exit');
       return Future.value(false);
     }

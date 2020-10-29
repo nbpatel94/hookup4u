@@ -33,7 +33,7 @@ class SignUpPageState extends State<SignUpPage> {
       body: SafeArea(
         child: isLoading
             ? Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(backgroundColor: Colors.white,),
               )
             : Stack(
                 children: [

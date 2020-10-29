@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:hookup4u/app.dart';
+import 'package:hookup4u/models/activitymodel.dart';
 import 'package:hookup4u/models/profile_detail.dart';
 import 'package:hookup4u/prefrences.dart';
 import 'package:http/http.dart' as http;
@@ -73,23 +74,18 @@ class RestApi {
 
     print(url);
 
-    try {
       Response response = await http.get(url);
       print(response.statusCode);
       if (response.statusCode == 200) {
         print(response.body);
         if (response.body.toString() == '[]') {
-          return null;
+          return List();
         } else {
-          return response.body;
+          return activityModelFromJson(response.body);
         }
       } else {
-        return null;
+        return List();
       }
-    } catch (e) {
-      print(e);
-      return null;
-    }
   }
 
   static Future getNotifications() async {

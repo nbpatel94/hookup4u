@@ -148,6 +148,9 @@ class ListHolderPageState extends State<ListHolderPage> {
                   top: 30,
                   right: 15,
                   child: GestureDetector(
+                    onTap: (){
+                      Navigator.pop(context);
+                    },
                     child: Icon(Icons.arrow_back,size: 30,color: ColorRes.textColor,),
                   ),
                 )
@@ -245,7 +248,6 @@ class ListHolderPageState extends State<ListHolderPage> {
     if (currentBackPressTime == null ||
         now.difference(currentBackPressTime) > Duration(seconds: 2)) {
       currentBackPressTime = now;
-      _scaffoldKey.currentState.openDrawer();
       showSnack('Tap again for exit');
       return Future.value(false);
     }

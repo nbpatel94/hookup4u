@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hookup4u/Screens/Welcome.dart';
 import 'package:hookup4u/Screens/auth/login_page.dart';
 import 'package:hookup4u/Screens/auth/singup_page.dart';
+import 'package:hookup4u/app.dart';
 import 'package:hookup4u/restapi/restapi.dart';
 import 'package:hookup4u/util/color.dart';
 
@@ -19,13 +20,13 @@ class SignUpViewModel {
     state.setState(() {
       state.isLoading = false;
     });
+
     if (confirm == 'success') {
+      appState.name = state.userNameCont.text.trim();
       successfullySignUp();
     }else{
       state.showSnackBar(confirm);
     }
-
-    // successfullySignUp();
   }
 
   bool validate() {
@@ -62,10 +63,10 @@ class SignUpViewModel {
         barrierDismissible: false,
         context: state.context,
         builder: (_) {
-          Future.delayed(Duration(seconds: 7), () {
+          Future.delayed(Duration(seconds: 5), () {
             Navigator.pushReplacement(
                 state.context,
-                MaterialPageRoute(builder: (context) => LoginPage()));
+                MaterialPageRoute(builder: (context) => Welcome()));
           });
           return Center(
               child: Container(

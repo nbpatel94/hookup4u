@@ -12,4 +12,13 @@ class AppState {
 
   ProfileDetail userDetail;
 
+  String name = '';
+  String iAm = '';
+  String sexualOrientation = '';
+  String status = '';
+  String livingIn = '';
+  String jobTitle = '';
+  String about = '';
+  String dateOfBirth = '';
+
 }

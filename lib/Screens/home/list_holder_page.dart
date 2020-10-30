@@ -162,7 +162,8 @@ class ListHolderPageState extends State<ListHolderPage> {
 
   showSnack(String text) {
     final snackBar = SnackBar(
-      content: Text(text),
+      content: Text('$text ',style: TextStyle(color: ColorRes.white),textAlign: TextAlign.center,),
+      backgroundColor: ColorRes.lightButton,
       duration: Duration(seconds: 3),
     );
     _scaffoldKey.currentState.showSnackBar(snackBar);

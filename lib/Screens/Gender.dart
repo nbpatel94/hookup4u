@@ -1,24 +1,37 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hookup4u/Screens/SexualOrientation.dart';
+import 'package:hookup4u/app.dart';
 import 'package:hookup4u/util/color.dart';
 
-bool man = false;
-bool woman = false;
-bool other = false;
-bool select = false;
-
 class Gender extends StatefulWidget {
+  bool generated;
+
+  Gender({this.generated = false});
+
   @override
   _GenderState createState() => _GenderState();
 }
 
 class _GenderState extends State<Gender> {
+  bool man = false;
+  bool woman = false;
+  bool select = false;
+
+  bool isIm = false;
+  bool isLiving = false;
+  bool isJobTitle = false;
+
+  TextEditingController livingCont = TextEditingController();
+  TextEditingController jobTitleCont = TextEditingController();
+  TextEditingController aboutCont = TextEditingController();
+
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   snackbar(String text) {
     final snackBar = SnackBar(
-      content: Text('$text '),
-      duration: Duration(seconds: 1),
+      content: Text('$text ',style: TextStyle(color: ColorRes.white),textAlign: TextAlign.center,),
+      backgroundColor: ColorRes.lightButton,
+      duration: Duration(milliseconds: 1500),
     );
     _scaffoldKey.currentState.showSnackBar(snackBar);
   }
@@ -27,222 +40,282 @@ class _GenderState extends State<Gender> {
   Widget build(BuildContext context) {
     print("Current page --> $runtimeType");
 
-    return Scaffold(
-      key: _scaffoldKey,
-      backgroundColor: Colors.white,
-      // floatingActionButton: AnimatedOpacity(
-      //   opacity: 1.0,
-      //   duration: Duration(milliseconds: 50),
-      //   child: Padding(
-      //     padding: const EdgeInsets.only(top: 90.0),
-      //     child: FloatingActionButton(
-      //       elevation: 10,
-      //       child: IconButton(
-      //         color: secondryColor,
-      //         icon: Icon(Icons.arrow_back_ios),
-      //         onPressed: () {
-      //           Navigator.pop(context);
-      //         },
-      //       ),
-      //       backgroundColor: Colors.white38,
-      //       onPressed: () {
-      //         dispose();
-      //         Navigator.pop(context);
-      //       },
-      //     ),
-      //   ),
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
-      body: Stack(
-        children: <Widget>[
-          Padding(
-            child: Text(
-              "I am a",
-              style: TextStyle(fontSize: 40),
-            ),
-            padding: EdgeInsets.only(left: 50, top: 120),
-          ),
-          Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                OutlineButton(
-                  highlightedBorderColor: primaryColor,
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * .065,
-                    width: MediaQuery.of(context).size.width * .75,
-                    child: Center(
-                        child: Text("MAN",
-                            style: TextStyle(
-                                fontSize: 20,
-                                color:
-                                    man ? primaryColor : secondryColor,
-                                fontWeight: FontWeight.bold))),
-                  ),
-                  borderSide: BorderSide(
-                      width: 1,
-                      style: BorderStyle.solid,
-                      color: man ? primaryColor : secondryColor),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25)),
-                  onPressed: () {
+    return WillPopScope(
+      onWillPop: ()async{
+        if(isJobTitle){
+          setState(() {
+            isJobTitle = false;
+          });
+        }else if(isLiving){
+          setState(() {
+            isLiving = false;
+          });
+        }else if(isIm){
+          setState(() {
+            isIm = false;
+          });
+        }else{
+          Navigator.pop(context);
+        }
+        return false;
+      },
+      child: Scaffold(
+        key: _scaffoldKey,
+        backgroundColor: ColorRes.primaryColor,
+        bottomNavigationBar: Container(
+          child: GestureDetector(
+            child: Container(
+                decoration: BoxDecoration(
+                    shape: BoxShape.rectangle,
+                    borderRadius: BorderRadius.circular(25),
+                    color: ColorRes.lightButton),
+                height: MediaQuery.of(context).size.height * .065,
+                margin: EdgeInsets.symmetric(horizontal: 50,vertical: 5),
+                child: Center(
+                    child: Text(
+                      "CONTINUE",
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: textColor,
+                          fontWeight: FontWeight.bold),
+                    ))),
+            onTap: () {
+              if(widget.generated){
+                if(man || woman) {
+                  if(man){
+                    appState.iAm = 'Man';
+                  }else{
+                    appState.iAm = 'Woman';
+                  }
+                  Navigator.pop(context);
+                }else{
+                  snackbar('Select gender');
+                }
+              }else{
+                if(isJobTitle){
+                  if(jobTitleCont.text.trim()!=''){
+                    appState.jobTitle = jobTitleCont.text.trim();
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => SexualOrientation()));
+                  }else{
+                    snackbar('Write something about what do you do');
+                  }
+                } else if(isLiving){
+                  if(livingCont.text.trim()!=''){
+                    appState.livingIn = livingCont.text.trim();
                     setState(() {
-                      woman = false;
-                      man = true;
-                      other = false;
+                      isJobTitle = true;
                     });
-                  },
+                  }else{
+                    snackbar('Write where do you live');
+                  }
+                } else if(isIm){
+                  if(aboutCont.text.trim()!=''){
+                    appState.about = aboutCont.text.trim();
+                    setState(() {
+                      isLiving = true;
+                    });
+                  }else{
+                    snackbar('Write something about you');
+                  }
+                } else {
+                  if(man || woman) {
+                    if(man){
+                      appState.iAm = 'man';
+                    }else{
+                      appState.iAm = 'woman';
+                    }
+                    setState(() {
+                      isIm = true;
+                    });
+                  }else{
+                    snackbar('Select gender');
+                  }
+                }
+              }
+            },
+          ),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              child: Text(
+                isIm ?
+                isLiving ?
+                isJobTitle ? "Job title" : "Living in": "About me" : "I am",
+                style: TextStyle(fontSize: 30,color: ColorRes.white),
+              ),
+              padding: EdgeInsets.only(bottom: 50),
+            ),
+            Center(
+              child: isIm ?
+              isLiving ?
+              isJobTitle ?
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 50),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "JOB TITLE",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontSize: 16, color: Colors.grey[200]),
+                    ),
+                    TextFormField(
+                      style: TextStyle(
+                          fontSize: 16, color: ColorRes.textColor),
+                      cursorColor: ColorRes.textColor,
+                      controller: jobTitleCont,
+                      
+                      decoration: InputDecoration(
+                        hintText: "Engineer",
+                        hintStyle: TextStyle(
+                            color: ColorRes.textColor, fontSize: 16),
+                        focusColor: ColorRes.textColor,
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide:
+                            BorderSide(color: ColorRes.textColor)),
+                        enabledBorder: UnderlineInputBorder(
+                            borderSide:
+                            BorderSide(color: ColorRes.textColor)),
+                      ),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: OutlineButton(
+              ) :
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 50),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "LIVING",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontSize: 16, color: Colors.grey[200]),
+                    ),
+                    TextFormField(
+                      style: TextStyle(
+                          fontSize: 16, color: ColorRes.textColor),
+                      cursorColor: ColorRes.textColor,
+                      controller: livingCont,
+                      
+                      decoration: InputDecoration(
+                        hintText: "NewYork, America",
+                        hintStyle: TextStyle(
+                            color: ColorRes.textColor, fontSize: 16),
+                        focusColor: ColorRes.textColor,
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide:
+                            BorderSide(color: ColorRes.textColor)),
+                        enabledBorder: UnderlineInputBorder(
+                            borderSide:
+                            BorderSide(color: ColorRes.textColor)),
+                      ),
+                    ),
+                  ],
+                ),
+              ) :
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 50),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "ABOUT",
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                          fontSize: 16, color: Colors.grey[200]),
+                    ),
+                    TextFormField(
+                      style: TextStyle(
+                          fontSize: 16, color: ColorRes.textColor),
+                      cursorColor: ColorRes.textColor,
+                      controller: aboutCont,
+                      maxLines: 6,
+                      decoration: InputDecoration(
+                        hintText: "I'm foody and ...\nI love travelling...",
+                        hintStyle: TextStyle(
+                            color: ColorRes.textColor, fontSize: 16),
+                        focusColor: ColorRes.textColor,
+                        focusedBorder: UnderlineInputBorder(
+                            borderSide:
+                            BorderSide(color: ColorRes.textColor)),
+                        enabledBorder: UnderlineInputBorder(
+                            borderSide:
+                            BorderSide(color: ColorRes.textColor)),
+                      ),
+                    ),
+                  ],
+                ),
+              ) :
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  OutlineButton(
+                    highlightedBorderColor: primaryColor,
                     child: Container(
                       height: MediaQuery.of(context).size.height * .065,
                       width: MediaQuery.of(context).size.width * .75,
                       child: Center(
-                          child: Text("WOMAN",
+                          child: Text("MAN",
                               style: TextStyle(
                                   fontSize: 20,
-                                  color: woman
-                                      ? primaryColor
-                                      : secondryColor,
+                                  color:
+                                  ColorRes.textColor,
                                   fontWeight: FontWeight.bold))),
                     ),
                     borderSide: BorderSide(
-                      color: woman ? primaryColor : secondryColor,
-                      width: 1,
-                      style: BorderStyle.solid,
-                    ),
+                        width: 1,
+                        style: BorderStyle.solid,
+                        color: man ? ColorRes.lightButton : ColorRes.darkButton),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25)),
                     onPressed: () {
                       setState(() {
-                        woman = true;
-                        man = false;
-                        other = false;
+                        woman = false;
+                        man = true;
                       });
-                      // Navigator.push(
-                      //     context, MaterialPageRoute(builder: (context) => OTP()));
                     },
                   ),
-                ),
-                OutlineButton(
-                  focusColor: primaryColor,
-                  highlightedBorderColor: primaryColor,
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * .065,
-                    width: MediaQuery.of(context).size.width * .75,
-                    child: Center(
-                        child: Text("OTHER",
-                            style: TextStyle(
-                                fontSize: 20,
-                                color:
-                                    other ? primaryColor : secondryColor,
-                                fontWeight: FontWeight.bold))),
-                  ),
-                  borderSide: BorderSide(
-                      width: 1,
-                      style: BorderStyle.solid,
-                      color: other ? primaryColor : secondryColor),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25)),
-                  onPressed: () {
-                    setState(() {
-                      woman = false;
-                      man = false;
-                      other = true;
-                    });
-                    // Navigator.push(
-                    //     context, MaterialPageRoute(builder: (context) => OTP()));
-                  },
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 100.0, left: 10),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: ListTile(
-                leading: Checkbox(
-                  activeColor: primaryColor,
-                  value: select,
-                  onChanged: (bool newValue) {
-                    setState(() {
-                      select = newValue;
-                    });
-                  },
-                ),
-                title: Text("Show my gender on my profile"),
-              ),
-            ),
-          ),
-          man || woman || other
-              ? Padding(
-                  padding: const EdgeInsets.only(bottom: 40),
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: InkWell(
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: OutlineButton(
                       child: Container(
-                          decoration: BoxDecoration(
-                              shape: BoxShape.rectangle,
-                              borderRadius: BorderRadius.circular(25),
-                              gradient: LinearGradient(
-                                  begin: Alignment.topRight,
-                                  end: Alignment.bottomLeft,
-                                  colors: [
-                                    primaryColor.withOpacity(.5),
-                                    primaryColor.withOpacity(.8),
-                                    primaryColor,
-                                    primaryColor
-                                  ])),
-                          height: MediaQuery.of(context).size.height * .065,
-                          width: MediaQuery.of(context).size.width * .75,
-                          child: Center(
-                              child: Text(
-                            "CONTINUE",
-                            style: TextStyle(
-                                fontSize: 15,
-                                color: textColor,
-                                fontWeight: FontWeight.bold),
-                          ))),
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SexualOrientation()));
+                        height: MediaQuery.of(context).size.height * .065,
+                        width: MediaQuery.of(context).size.width * .75,
+                        child: Center(
+                            child: Text("WOMAN",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: ColorRes.textColor,
+                                    fontWeight: FontWeight.bold))),
+                      ),
+                      borderSide: BorderSide(
+                        color: woman ? ColorRes.lightButton : ColorRes.darkButton,
+                        width: 1,
+                        style: BorderStyle.solid,
+                      ),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25)),
+                      onPressed: () {
+                        setState(() {
+                          woman = true;
+                          man = false;
+                        });
+                        // Navigator.push(
+                        //     context, MaterialPageRoute(builder: (context) => OTP()));
                       },
                     ),
                   ),
-                )
-              : Padding(
-                  padding: const EdgeInsets.only(bottom: 40),
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: InkWell(
-                      child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.rectangle,
-                            borderRadius: BorderRadius.circular(25),
-                          ),
-                          height: MediaQuery.of(context).size.height * .065,
-                          width: MediaQuery.of(context).size.width * .75,
-                          child: Center(
-                              child: Text(
-                            "CONTINUE",
-                            style: TextStyle(
-                                fontSize: 15,
-                                color: secondryColor,
-                                fontWeight: FontWeight.bold),
-                          ))),
-                      onTap: () {
-                        snackbar("Please select one");
-                      },
-                    ),
-                  ),
-                )
-        ],
+                ],
+              )
+            ),
+          ],
+        ),
       ),
     );
   }

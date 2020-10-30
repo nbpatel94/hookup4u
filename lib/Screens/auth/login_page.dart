@@ -1,6 +1,7 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hookup4u/Screens/Welcome.dart';
 import 'package:hookup4u/Screens/auth/forgot_password.dart';
 import 'package:hookup4u/Screens/auth/login_viewmodel.dart';
 import 'package:hookup4u/Screens/auth/singup_page.dart';
@@ -196,7 +197,8 @@ class LoginPageState extends State<LoginPage> {
               bottom: 0,
               child: GestureDetector(
                 onTap: (){
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignUpPage()));
+                  // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignUpPage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Welcome()));
                 },
                 child: Container(
                     color: Color(0xff192E3F),

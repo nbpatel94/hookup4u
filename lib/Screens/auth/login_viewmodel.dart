@@ -17,7 +17,7 @@ class LoginViewModel{
       state.isLoading = false;
     });
     if (confirm == 'success') {
-      successfullySignUp();
+      Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => ListHolderPage()),(Route<dynamic> route) => false);
     }else{
       state.showSnackBar(confirm);
     }
@@ -34,39 +34,5 @@ class LoginViewModel{
       return false;
     }
     return true;
-  }
-
-  successfullySignUp() {
-    showDialog(
-        barrierDismissible: false,
-        context: state.context,
-        builder: (_) {
-          Future.delayed(Duration(seconds: 3), () {
-            Navigator.pushAndRemoveUntil(state.context,
-                MaterialPageRoute(builder: (context) => ListHolderPage()),(Route<dynamic> route) => false);
-          });
-          return Center(
-            child: Container(
-              width: MediaQuery.of(state.context).size.width/2,
-                height: 100,
-                decoration: BoxDecoration(
-                    color: ColorRes.primaryColor,
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.circular(20)),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "Login\n Successfully!",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          decoration: TextDecoration.none,
-                          color: Colors.white,
-                          fontSize: 14),
-                    )
-                  ],
-                )),
-          );
-        });
   }
 }

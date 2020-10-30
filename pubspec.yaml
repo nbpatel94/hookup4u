@@ -26,7 +26,8 @@ dependencies:
   swipe_stack: ^1.0.0
   flutter_swiper: ^1.1.6
   shared_preferences: ^0.5.12+2
- 
+  flutter_datetime_picker: ^1.4.0
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.2
@@ -54,6 +55,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
    - asset/userPictures/otherUsers/
+   - asset/userPictures/currentUser/
 
   #  - images/a_dot_ham.jpeg
 

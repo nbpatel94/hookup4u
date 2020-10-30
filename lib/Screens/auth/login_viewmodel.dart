@@ -12,10 +12,6 @@ class LoginViewModel{
 
   login() async {
     String confirm = await RestApi.logInApi(state.usernameCont.text.trim(), state.passwordCont.text.trim());
-
-    state.setState(() {
-      state.isLoading = false;
-    });
     if (confirm == 'success') {
       Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => ListHolderPage()),(Route<dynamic> route) => false);
     }else{

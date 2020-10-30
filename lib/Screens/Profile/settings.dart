@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:hookup4u/Screens/auth/start_screen.dart';
 import 'package:hookup4u/util/color.dart';
 import 'UpdateNumber.dart';
 
@@ -307,16 +308,21 @@ class _SettingsState extends State<Settings> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Card(
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(18.0),
-                        child: Text(
-                          "Logout",
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.w500),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => StartScreen()),(Route<dynamic> route) => false);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(18.0),
+                          child: Text(
+                            "Logout",
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.w500),
+                          ),
                         ),
                       ),
                     ),

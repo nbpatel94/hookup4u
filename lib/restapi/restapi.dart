@@ -69,6 +69,81 @@ class RestApi {
     }
   }
 
+  static Future<String> requestVerificationCodeApi(String email) async {
+    String url = App.baseUrl2 + App.reset_password;
+
+    var bodyData = {"email": email};
+
+    var headerData = {
+      "Authorization" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZG9vci5paGVhcnRtdXNsaW1zLmNvbSIsImlhdCI6MTYwMzg2NTg0NSwibmJmIjoxNjAzODY1ODQ1LCJleHAiOjE2MDQ0NzA2NDUsImRhdGEiOnsidXNlciI6eyJpZCI6NH19fQ.sc9EMD37nM1SLakLt_gOtgjGH8ejLuRe5_jxEbwtaZo"
+    };
+
+    print(url);
+    print(bodyData);
+    print(headerData);
+
+    Response response = await http.post(url, body: bodyData,headers: headerData);
+    print(response.statusCode);
+    var userDetail = userDetailFromJson(response.body);
+    if (response.statusCode == 200) {
+      print(response.body);
+      return 'success';
+    } else {
+      print(response.body);
+      return userDetail.message;
+    }
+  }
+
+  static Future<String> verifyVerificationCodeApi(String email, String code) async {
+    String url = App.baseUrl2 + App.validate_code;
+
+    var bodyData = {"email": email, "code": code};
+
+    var headerData = {
+      "Authorization" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZG9vci5paGVhcnRtdXNsaW1zLmNvbSIsImlhdCI6MTYwMzg2NTg0NSwibmJmIjoxNjAzODY1ODQ1LCJleHAiOjE2MDQ0NzA2NDUsImRhdGEiOnsidXNlciI6eyJpZCI6NH19fQ.sc9EMD37nM1SLakLt_gOtgjGH8ejLuRe5_jxEbwtaZo"
+    };
+
+    print(url);
+    print(bodyData);
+    print(headerData);
+
+    Response response = await http.post(url, body: bodyData,headers: headerData);
+    print(response.statusCode);
+    var userDetail = userDetailFromJson(response.body);
+    if (response.statusCode == 200) {
+      print(response.body);
+      return 'success';
+    } else {
+      print(response.body);
+      return userDetail.message;
+    }
+  }
+
+  static Future<String> resetPasswordApi(String email, String password, String code,) async {
+    String url = App.baseUrl2 + App.set_password;
+
+    var bodyData = {"email": email, "password": password, "code": code};
+
+    var headerData = {
+      "Authorization" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZG9vci5paGVhcnRtdXNsaW1zLmNvbSIsImlhdCI6MTYwMzg2NTg0NSwibmJmIjoxNjAzODY1ODQ1LCJleHAiOjE2MDQ0NzA2NDUsImRhdGEiOnsidXNlciI6eyJpZCI6NH19fQ.sc9EMD37nM1SLakLt_gOtgjGH8ejLuRe5_jxEbwtaZo"
+    };
+
+    print(url);
+    print(bodyData);
+    print(headerData);
+
+    Response response = await http.post(url, body: bodyData,headers: headerData);
+    print(response.statusCode);
+    var userDetail = userDetailFromJson(response.body);
+    if (response.statusCode == 200) {
+      print(response.body);
+      return 'success';
+    } else {
+      print(response.body);
+      return userDetail.message;
+    }
+  }
+
   static Future getActivity() async {
     String url = App.baseUrl + App.activity;
 

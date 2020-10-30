@@ -18,18 +18,16 @@ class _ChatScreenState extends State<ChatScreen> {
   _buildMessage(Message message, bool isMe, bool isUnread) {
     final Container msg = Container(
       margin: isMe
-          ? EdgeInsets.only(top: 8.0, bottom: 8.0, left: 80.0, right: 10)
+          ? EdgeInsets.only(top: 8.0, bottom: 8.0, left: MediaQuery.of(context).size.width * 0.4, right: 10)
           : EdgeInsets.only(
               top: 8.0,
               bottom: 8.0,
             ),
       padding: EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-      width: MediaQuery.of(context).size.width * 0.7,
+      width: MediaQuery.of(context).size.width * 0.5,
       decoration: BoxDecoration(
-          color: isMe
-              ? primaryColor.withOpacity(.1)
-              : secondryColor.withOpacity(.3),
-          borderRadius: BorderRadius.circular(20)),
+          color: ColorRes.darkButton,
+          borderRadius: BorderRadius.circular(10)),
       child: InkWell(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -40,41 +38,12 @@ class _ChatScreenState extends State<ChatScreen> {
                 child: Text(
                   message.text,
                   style: TextStyle(
-                    color: Colors.black87,
+                    color: ColorRes.textColor,
                     fontSize: 16.0,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                Text(
-                  message.time,
-                  style: TextStyle(
-                    color: secondryColor,
-                    fontSize: 13.0,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                isMe
-                    ? isUnread
-                        ? Icon(
-                            Icons.done,
-                            color: secondryColor,
-                            size: 15,
-                          )
-                        : Icon(
-                            Icons.done_all,
-                            color: primaryColor,
-                            size: 15,
-                          )
-                    : Text("")
-              ],
             ),
           ],
         ),
@@ -87,10 +56,9 @@ class _ChatScreenState extends State<ChatScreen> {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(5.0),
-          child: CircleAvatar(
-            backgroundColor: secondryColor,
-            radius: 25,
-            backgroundImage: AssetImage("${widget.sender.imageUrl[0]}"),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(40),
+            child: Image.asset("${widget.sender.imageUrl[0]}",fit: BoxFit.cover,height: 40,width: 40,),
           ),
         ),
         msg,
@@ -193,33 +161,20 @@ class _ChatScreenState extends State<ChatScreen> {
         child: Column(
           children: <Widget>[
             Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(50),
-                        topRight: Radius.circular(50)),
-                    color: Colors.white),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(50.0),
-                    topRight: Radius.circular(50.0),
-                  ),
-                  child: ListView.builder(
-                    reverse: true,
-                    padding: EdgeInsets.only(top: 15.0),
-                    itemCount: messages.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final Message message = messages[index];
-                      final bool isMe = message.sender.id == currentUser.id;
-                      final bool isUnread = message.unread;
-                      return _buildMessage(
-                        message,
-                        isMe,
-                        isUnread,
-                      );
-                    },
-                  ),
-                ),
+              child: ListView.builder(
+                reverse: true,
+                padding: EdgeInsets.only(top: 15.0),
+                itemCount: messages.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final Message message = messages[index];
+                  final bool isMe = message.sender.id == currentUser.id;
+                  final bool isUnread = message.unread;
+                  return _buildMessage(
+                    message,
+                    isMe,
+                    isUnread,
+                  );
+                },
               ),
             ),
             _buildMessageComposer(),

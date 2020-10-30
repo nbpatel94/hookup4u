@@ -179,7 +179,7 @@ List<Message> messages = [
   Message(
     sender: luv,
     time: '2:45 PM',
-    text: 'How\'s the bunny?',
+    text: 'How\'s the bunny? What are u doing And how was your day, I heard that you are getting new job, congratulations?',
     unread: true,
   ),
   Message(

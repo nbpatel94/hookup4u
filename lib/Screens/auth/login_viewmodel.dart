@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hookup4u/Screens/Welcome.dart';
 import 'package:hookup4u/Screens/auth/login_page.dart';
 import 'package:hookup4u/Screens/home/list_holder_page.dart';
+import 'package:hookup4u/app.dart';
+import 'package:hookup4u/models/user_detail_model.dart';
 import 'package:hookup4u/restapi/restapi.dart';
 import 'package:hookup4u/util/color.dart';
 
@@ -13,7 +15,12 @@ class LoginViewModel{
   login() async {
     String confirm = await RestApi.logInApi(state.usernameCont.text.trim(), state.passwordCont.text.trim());
     if (confirm == 'success') {
-      Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => ListHolderPage()),(Route<dynamic> route) => false);
+      UserDetailsModel userDetailsModel = await RestApi.getSingleUserDetails(appState.userDetail.data.id);
+      if(userDetailsModel!=null && userDetailsModel.meta.about!=""){
+        Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => ListHolderPage()),(Route<dynamic> route) => false);
+      }else{
+        Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => Welcome()),(Route<dynamic> route) => false);
+      }
     }else{
       state.showSnackBar(confirm);
     }

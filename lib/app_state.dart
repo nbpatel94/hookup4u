@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hookup4u/models/profile_detail.dart';
+import 'package:hookup4u/models/user_detail_model.dart';
 
 class AppState {
   static final AppState _singleton = AppState._internal();
@@ -11,6 +12,7 @@ class AppState {
   AppState._internal();
 
   ProfileDetail userDetail;
+  UserDetailsModel userDetailsModel = UserDetailsModel();
 
   String name = '';
   String iAm = '';

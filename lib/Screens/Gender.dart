@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hookup4u/Screens/SexualOrientation.dart';
 import 'package:hookup4u/app.dart';
+import 'package:hookup4u/models/user_detail_model.dart';
 import 'package:hookup4u/util/color.dart';
 
 class Gender extends StatefulWidget {
@@ -95,6 +96,7 @@ class _GenderState extends State<Gender> {
                 if(isJobTitle){
                   if(jobTitleCont.text.trim()!=''){
                     appState.jobTitle = jobTitleCont.text.trim();
+                    appState.userDetailsModel.meta.jobTitle = appState.jobTitle;
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => SexualOrientation()));
                   }else{
@@ -103,6 +105,7 @@ class _GenderState extends State<Gender> {
                 } else if(isLiving){
                   if(livingCont.text.trim()!=''){
                     appState.livingIn = livingCont.text.trim();
+                    appState.userDetailsModel.meta.livingIn = appState.livingIn;
                     setState(() {
                       isJobTitle = true;
                     });
@@ -112,6 +115,7 @@ class _GenderState extends State<Gender> {
                 } else if(isIm){
                   if(aboutCont.text.trim()!=''){
                     appState.about = aboutCont.text.trim();
+                    appState.userDetailsModel.meta.about = appState.about;
                     setState(() {
                       isLiving = true;
                     });
@@ -125,6 +129,8 @@ class _GenderState extends State<Gender> {
                     }else{
                       appState.iAm = 'woman';
                     }
+                    appState.userDetailsModel.meta = Meta();
+                    appState.userDetailsModel.meta.gender = appState.iAm;
                     setState(() {
                       isIm = true;
                     });

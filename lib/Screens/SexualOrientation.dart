@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -103,11 +105,16 @@ class _SexualOrientationState extends State<SexualOrientation> {
                       snackbar('Must require 16+');
                     } else {
                       appState.dateOfBirth = dateOfBirth;
-                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => ListHolderPage()),(Route<dynamic> route) => false);
+                      appState.userDetailsModel.meta.dateOfBirth = appState.dateOfBirth;
+
+                      print(jsonEncode(appState.userDetailsModel.meta.toJson()));
+
+                      // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => ListHolderPage()),(Route<dynamic> route) => false);
                     }
                   }else{
                     if(selectedStatus.isNotEmpty) {
                       appState.status = selectedStatus[0].toString();
+                      appState.userDetailsModel.meta.relation = appState.status;
                       setState(() {
                         isStatus = true;
                       });
@@ -118,6 +125,7 @@ class _SexualOrientationState extends State<SexualOrientation> {
                 }else{
                   if(selectedOrientation.isNotEmpty) {
                     appState.sexualOrientation = selectedOrientation[0].toString();
+                    appState.userDetailsModel.meta.sexualOrientation = appState.sexualOrientation;
                     setState(() {
                       isOrientation = true;
                     });

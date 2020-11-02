@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/models/activitymodel.dart';
 import 'package:hookup4u/models/profile_detail.dart';
+import 'package:hookup4u/models/user_detail_model.dart';
 import 'package:hookup4u/prefrences.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
@@ -161,6 +162,26 @@ class RestApi {
       } else {
         return List();
       }
+  }
+
+  static Future getSingleUserDetails(int id) async {
+    String url = App.baseUrlV2 + App.users + id.toString();
+
+    var headerData = {
+      "Authorization" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZG9vci5paGVhcnRtdXNsaW1zLmNvbSIsImlhdCI6MTYwMzg2NTg0NSwibmJmIjoxNjAzODY1ODQ1LCJleHAiOjE2MDQ0NzA2NDUsImRhdGEiOnsidXNlciI6eyJpZCI6NH19fQ.sc9EMD37nM1SLakLt_gOtgjGH8ejLuRe5_jxEbwtaZo"
+    };
+
+    print(url);
+    print(headerData);
+
+    Response response = await http.get(url,headers: headerData);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      print(response.body);
+      return userDetailsModelFromJson(response.body);
+    } else {
+      return null;
+    }
   }
 
   static Future getNotifications() async {

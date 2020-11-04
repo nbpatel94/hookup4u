@@ -64,9 +64,7 @@ class SignUpViewModel {
         context: state.context,
         builder: (_) {
           Future.delayed(Duration(seconds: 5), () {
-            Navigator.pushReplacement(
-                state.context,
-                MaterialPageRoute(builder: (context) => Welcome()));
+            Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => LoginPage()),(Route<dynamic> route) => false);
           });
           return Center(
               child: Container(

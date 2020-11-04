@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:hookup4u/app.dart';
+
 UserDetailsModel userDetailsModelFromJson(String str) => UserDetailsModel.fromJson(json.decode(str));
 
 String userDetailsModelToJson(UserDetailsModel data) => json.encode(data.toJson());
@@ -82,12 +84,11 @@ class Meta {
   );
 
   Map<String, dynamic> toJson() => {
+    "id" : appState.userDetail.data.id.toString(),
     "about": about,
-    "date_of_birth": dateOfBirth,
     "sexual_orientation": sexualOrientation,
     "job_title": jobTitle,
     "relation": relation,
     "living_in": livingIn,
-    "gender": gender,
   };
 }

@@ -1,11 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hookup4u/Screens/Gender.dart';
 import 'package:hookup4u/Screens/Profile/profile.dart';
 import 'package:hookup4u/Screens/SexualOrientation.dart';
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/models/data_model.dart';
+import 'package:hookup4u/models/user_detail_model.dart';
+import 'package:hookup4u/restapi/restapi.dart';
 import 'package:hookup4u/util/color.dart';
+
 
 class EditProfile extends StatefulWidget {
   @override
@@ -28,6 +34,22 @@ class EditProfileState extends State<EditProfile> {
     _scaffoldKey.currentState.showSnackBar(snackBar);
   }
 
+  snackbarWithDismiss(String text) {
+    final snackBar = SnackBar(
+      content: Text('$text ',style: TextStyle(color: ColorRes.white),textAlign: TextAlign.center,),
+      action: SnackBarAction(
+        label: "Dismiss",
+        textColor: ColorRes.darkButton,
+        onPressed: () => Navigator.pop(context),
+      ),
+      backgroundColor: ColorRes.lightButton,
+      duration: Duration(seconds: 500),
+    );
+    _scaffoldKey.currentState.showSnackBar(snackBar);
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -39,10 +61,27 @@ class EditProfileState extends State<EditProfile> {
         } else if(livingCont.text.trim()==''){
           snackbar('Write where do you live');
         }else{
+          EasyLoading.show();
           appState.jobTitle = jobTitleCont.text.trim();
+          appState.userDetailsModel.meta.jobTitle = jobTitleCont.text.trim();
           appState.about = aboutCont.text.trim();
+          appState.userDetailsModel.meta.about = aboutCont.text.trim();
           appState.livingIn = livingCont.text.trim();
-          Navigator.pop(context);
+          appState.userDetailsModel.meta.livingIn = livingCont.text.trim();
+          appState.userDetailsModel.meta.sexualOrientation = appState.sexualOrientation;
+          appState.userDetailsModel.meta.relation = appState.status;
+
+          print(appState.userDetailsModel.meta.toJson());
+
+          String check = await RestApi.updateUserDetails(appState.userDetailsModel.meta.toJson());
+          if(check=='success'){
+            Navigator.pop(context);
+          }else{
+            snackbarWithDismiss('Something went wrong! Try to update after sometime');
+          }
+
+          EasyLoading.dismiss();
+
         }
         return false;
       },
@@ -58,7 +97,7 @@ class EditProfileState extends State<EditProfile> {
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios),
               color: Colors.white,
-              onPressed: () {
+              onPressed: () async {
                 if(aboutCont.text.trim()==''){
                   snackbar('Write something about you');
                 } else if(jobTitleCont.text.trim()==''){
@@ -66,10 +105,26 @@ class EditProfileState extends State<EditProfile> {
                 } else if(livingCont.text.trim()==''){
                   snackbar('Write where do you live');
                 }else{
+                  EasyLoading.show();
                   appState.jobTitle = jobTitleCont.text.trim();
+                  appState.userDetailsModel.meta.jobTitle = jobTitleCont.text.trim();
                   appState.about = aboutCont.text.trim();
+                  appState.userDetailsModel.meta.about = aboutCont.text.trim();
                   appState.livingIn = livingCont.text.trim();
-                  Navigator.pop(context);
+                  appState.userDetailsModel.meta.livingIn = livingCont.text.trim();
+                  appState.userDetailsModel.meta.sexualOrientation = appState.sexualOrientation;
+                  appState.userDetailsModel.meta.relation = appState.status;
+
+                  print(appState.userDetailsModel.meta.toJson());
+
+                  String check = await RestApi.updateUserDetails(appState.userDetailsModel.meta.toJson());
+                  if(check=='success'){
+                    Navigator.pop(context);
+                  }else{
+                    snackbarWithDismiss('Something went wrong! Try to update after sometime');
+                  }
+
+                  EasyLoading.dismiss();
                 }
               },
             ),
@@ -253,7 +308,7 @@ class EditProfileState extends State<EditProfile> {
                         ),
                         ListTile(
                             title: Text(
-                              "I am",
+                              "In Relation",
                               style: TextStyle(
                                   fontWeight: FontWeight.w500,
                                   fontSize: 16,
@@ -267,7 +322,7 @@ class EditProfileState extends State<EditProfile> {
                                     mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      Text("${appState.iAm}"),
+                                      Text("${appState.status}"),
                                       Icon(
                                         Icons.arrow_forward_ios,
                                         size: 16,
@@ -278,7 +333,7 @@ class EditProfileState extends State<EditProfile> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              Gender(generated: true,))),
+                                              SexualOrientation(isStatus: true,generated: true,))),
                                 ),
                               ),
                             )),

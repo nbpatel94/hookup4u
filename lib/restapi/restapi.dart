@@ -20,7 +20,7 @@ class RestApi {
     };
 
     var headerData = {
-      "Authorization" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZG9vci5paGVhcnRtdXNsaW1zLmNvbSIsImlhdCI6MTYwMzg2NTg0NSwibmJmIjoxNjAzODY1ODQ1LCJleHAiOjE2MDQ0NzA2NDUsImRhdGEiOnsidXNlciI6eyJpZCI6NH19fQ.sc9EMD37nM1SLakLt_gOtgjGH8ejLuRe5_jxEbwtaZo"
+      "Authorization" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZG9vci5paGVhcnRtdXNsaW1zLmNvbSIsImlhdCI6MTYwNDAzMjkxMiwibmJmIjoxNjA0MDMyOTEyLCJleHAiOjE2MDQ2Mzc3MTIsImRhdGEiOnsidXNlciI6eyJpZCI6OX19fQ.ZcZuPd1EQtZnlwWlJ4fpEiuSU-R113pTaNqQAQFYHOg"
     };
 
     print(url);
@@ -126,7 +126,7 @@ class RestApi {
     var bodyData = {"email": email, "password": password, "code": code};
 
     var headerData = {
-      "Authorization" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZG9vci5paGVhcnRtdXNsaW1zLmNvbSIsImlhdCI6MTYwMzg2NTg0NSwibmJmIjoxNjAzODY1ODQ1LCJleHAiOjE2MDQ0NzA2NDUsImRhdGEiOnsidXNlciI6eyJpZCI6NH19fQ.sc9EMD37nM1SLakLt_gOtgjGH8ejLuRe5_jxEbwtaZo"
+      "Authorization" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZG9vci5paGVhcnRtdXNsaW1zLmNvbSIsImlhdCI6MTYwNDAzMjkxMiwibmJmIjoxNjA0MDMyOTEyLCJleHAiOjE2MDQ2Mzc3MTIsImRhdGEiOnsidXNlciI6eyJpZCI6OX19fQ.ZcZuPd1EQtZnlwWlJ4fpEiuSU-R113pTaNqQAQFYHOg"
     };
 
     print(url);
@@ -145,30 +145,11 @@ class RestApi {
     }
   }
 
-  static Future getActivity() async {
-    String url = App.baseUrl + App.activity;
-
-    print(url);
-
-      Response response = await http.get(url);
-      print(response.statusCode);
-      if (response.statusCode == 200) {
-        print(response.body);
-        if (response.body.toString() == '[]') {
-          return List();
-        } else {
-          return activityModelFromJson(response.body);
-        }
-      } else {
-        return List();
-      }
-  }
-
   static Future getSingleUserDetails(int id) async {
     String url = App.baseUrlV2 + App.users + id.toString();
 
     var headerData = {
-      "Authorization" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZG9vci5paGVhcnRtdXNsaW1zLmNvbSIsImlhdCI6MTYwMzg2NTg0NSwibmJmIjoxNjAzODY1ODQ1LCJleHAiOjE2MDQ0NzA2NDUsImRhdGEiOnsidXNlciI6eyJpZCI6NH19fQ.sc9EMD37nM1SLakLt_gOtgjGH8ejLuRe5_jxEbwtaZo"
+      "Authorization" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZG9vci5paGVhcnRtdXNsaW1zLmNvbSIsImlhdCI6MTYwNDAzMjkxMiwibmJmIjoxNjA0MDMyOTEyLCJleHAiOjE2MDQ2Mzc3MTIsImRhdGEiOnsidXNlciI6eyJpZCI6OX19fQ.ZcZuPd1EQtZnlwWlJ4fpEiuSU-R113pTaNqQAQFYHOg"
     };
 
     print(url);
@@ -181,6 +162,33 @@ class RestApi {
       return userDetailsModelFromJson(response.body);
     } else {
       return null;
+    }
+  }
+
+  static Future<String> updateUserDetails(Map bodyData) async {
+    String url = App.baseUrlV1 + App.user;
+
+    var headerData = {
+      "Authorization" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZG9vci5paGVhcnRtdXNsaW1zLmNvbSIsImlhdCI6MTYwNDAzMjkxMiwibmJmIjoxNjA0MDMyOTEyLCJleHAiOjE2MDQ2Mzc3MTIsImRhdGEiOnsidXNlciI6eyJpZCI6OX19fQ.ZcZuPd1EQtZnlwWlJ4fpEiuSU-R113pTaNqQAQFYHOg"
+    };
+
+    print(url);
+    print(bodyData);
+    print(headerData);
+
+    try {
+      Response response = await http.post(url,headers: headerData, body: bodyData);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        print(response.body);
+        return 'success';
+      } else {
+        print(response.body);
+        return jsonDecode(response.body)['message'];
+      }
+    } catch (e) {
+      print(e);
+      return 'Something went wrong! Please try later';
     }
   }
 

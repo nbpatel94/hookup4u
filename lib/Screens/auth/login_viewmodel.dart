@@ -13,14 +13,22 @@ class LoginViewModel{
   LoginViewModel(this.state);
 
   login() async {
+    // String confirm = await RestApi.logInApi(state.usernameCont.text.trim(), state.passwordCont.text.trim());
+    // if (confirm == 'success') {
+    //   UserDetailsModel userDetailsModel = await RestApi.getSingleUserDetails(appState.userDetail.data.id);
+    //   if(userDetailsModel!=null && userDetailsModel.meta.about!=""){
+    //     appState.userDetailsModel = userDetailsModel;
+    //     Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => ListHolderPage()),(Route<dynamic> route) => false);
+    //   }else{
+    //     Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => Welcome()),(Route<dynamic> route) => false);
+    //   }
+    // }else{
+    //   state.showSnackBar(confirm);
+    // }
+
     String confirm = await RestApi.logInApi(state.usernameCont.text.trim(), state.passwordCont.text.trim());
     if (confirm == 'success') {
-      UserDetailsModel userDetailsModel = await RestApi.getSingleUserDetails(appState.userDetail.data.id);
-      if(userDetailsModel!=null && userDetailsModel.meta.about!=""){
         Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => ListHolderPage()),(Route<dynamic> route) => false);
-      }else{
-        Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => Welcome()),(Route<dynamic> route) => false);
-      }
     }else{
       state.showSnackBar(confirm);
     }

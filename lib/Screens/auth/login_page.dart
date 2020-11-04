@@ -16,7 +16,7 @@ class LoginPageState extends State<LoginPage> {
 
   LoginViewModel model;
 
-  TextEditingController usernameCont = TextEditingController(text: 'test.test');
+  TextEditingController usernameCont = TextEditingController(text: 'test1');
   TextEditingController passwordCont = TextEditingController(text: 'test');
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -206,9 +206,9 @@ class LoginPageState extends State<LoginPage> {
                 bottom: 0,
                 child: GestureDetector(
                   onTap: (){
-                    // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignUpPage()));
                     if(!isLoading){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Welcome()));
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignUpPage()));
+                      // Navigator.push(context, MaterialPageRoute(builder: (context) => Welcome()));
                     }
                   },
                   child: Container(

@@ -3,17 +3,18 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:hookup4u/Screens/ShowGender.dart';
 import 'package:hookup4u/Screens/home/list_holder_page.dart';
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/util/color.dart';
+import 'package:hookup4u/restapi/restapi.dart';
 
 bool select = false;
 
 class SexualOrientation extends StatefulWidget {
   bool generated;
+  bool isStatus;
 
-  SexualOrientation({this.generated = false});
+  SexualOrientation({this.generated = false,this.isStatus= false});
 
   @override
   _SexualOrientationState createState() => _SexualOrientationState();
@@ -54,12 +55,23 @@ class _SexualOrientationState extends State<SexualOrientation> {
   bool isStatus = false;
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.isStatus){
+      setState(() {
+        isOrientation =true;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     print("Current page --> $runtimeType");
 
     return WillPopScope(
       onWillPop: ()async{
-        if(isOrientation){
+        if(isOrientation && !widget.isStatus){
           setState(() {
             isOrientation = false;
           });
@@ -88,14 +100,24 @@ class _SexualOrientationState extends State<SexualOrientation> {
                           color: textColor,
                           fontWeight: FontWeight.bold),
                     ))),
-            onTap: () {
+            onTap: () async {
               if(widget.generated){
-                if(selectedOrientation.isNotEmpty) {
-                  appState.sexualOrientation = selectedOrientation[0].toString();
-                  Navigator.pop(context);
+                if(widget.isStatus){
+                  if(selectedStatus.isNotEmpty) {
+                    appState.status = selectedStatus[0].toString();
+                    Navigator.pop(context);
+                  }else{
+                    snackbar('Select relationship status');
+                  }
                 }else{
-                  snackbar('Select sexual orientation');
+                  if(selectedOrientation.isNotEmpty) {
+                    appState.sexualOrientation = selectedOrientation[0].toString();
+                    Navigator.pop(context);
+                  }else{
+                    snackbar('Select sexual orientation');
+                  }
                 }
+
               }else{
                 if(isOrientation){
                   if(isStatus){
@@ -107,9 +129,13 @@ class _SexualOrientationState extends State<SexualOrientation> {
                       appState.dateOfBirth = dateOfBirth;
                       appState.userDetailsModel.meta.dateOfBirth = appState.dateOfBirth;
 
-                      print(jsonEncode(appState.userDetailsModel.meta.toJson()));
-
-                      // Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => ListHolderPage()),(Route<dynamic> route) => false);
+                      // print(jsonEncode(appState.userDetailsModel.meta.toJson()));
+                      String check = await RestApi.updateUserDetails(appState.userDetailsModel.meta.toJson());
+                      if(check=='success'){
+                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => ListHolderPage()),(Route<dynamic> route) => false);
+                      }else{
+                        snackbar('Something went wrong! Try to update after sometime');
+                      }
                     }
                   }else{
                     if(selectedStatus.isNotEmpty) {

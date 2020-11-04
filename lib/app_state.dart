@@ -14,6 +14,7 @@ class AppState {
   ProfileDetail userDetail;
   UserDetailsModel userDetailsModel = UserDetailsModel();
 
+  int id;
   String name = '';
   String iAm = '';
   String sexualOrientation = '';

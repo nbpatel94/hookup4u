@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hookup4u/Screens/Profile/profile.dart';
-import 'package:hookup4u/Screens/notifications.dart';
-import '../Chat/home_screen.dart';
+import 'package:hookup4u/Screens/Chat/messages_page.dart';
+import 'package:hookup4u/Screens/Profile/EditProfile.dart';
+import 'package:hookup4u/Screens/Profile/settings.dart';
+import 'package:hookup4u/app.dart';
 import '../cardpage/card_pictures.dart';
 import 'package:hookup4u/util/color.dart';
 
@@ -43,9 +44,17 @@ class ListHolderPageState extends State<ListHolderPage> {
                             ),
                           ),
                           SizedBox(height: 10,),
-                          Text("Cameron",style: TextStyle(fontSize: 28,color: ColorRes.textColor)),
+                          Text(appState.userDetail.data.displayName,style: TextStyle(fontSize: 28,color: ColorRes.textColor)),
                           SizedBox(height: 2,),
-                          Text("EDIT PROFILE",style: TextStyle(fontSize: 12,color: Colors.white,fontWeight: FontWeight.bold))
+                          GestureDetector(
+                              onTap: (){
+                                Navigator.pop(context);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => EditProfile()));
+                              },
+                              child: Text("EDIT PROFILE",style: TextStyle(fontSize: 12,color: Colors.white,fontWeight: FontWeight.bold)))
                         ],
                       ),
                     ),
@@ -73,7 +82,11 @@ class ListHolderPageState extends State<ListHolderPage> {
                           ),
                           ListTile(
                             onTap: () {
-                              // Navigator.of(context).pushNamed('/Pages', arguments: 0);
+                              Navigator.pop(context);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => MessagesScreen()));
                             },
                             leading: Icon(
                               Icons.message,
@@ -124,7 +137,11 @@ class ListHolderPageState extends State<ListHolderPage> {
                           ),
                           ListTile(
                             onTap: () {
-                              // Navigator.of(context).pushNamed('/Help');
+                              Navigator.pop(context);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Settings()));
                             },
                             leading: Icon(
                               Icons.settings,
@@ -177,68 +194,31 @@ class ListHolderPageState extends State<ListHolderPage> {
       onWillPop: onWillPop,
       child: Scaffold(
         key: _scaffoldKey,
+        appBar: AppBar(
+          elevation: 0,
+          leading: GestureDetector(
+              onTap: (){
+                _scaffoldKey.currentState.openDrawer();
+              },
+              child: Icon(Icons.menu)),
+          actions: [
+            GestureDetector(
+                onTap: (){
+                  _scaffoldKey.currentState.openDrawer();
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: Icon(Icons.message),
+                )),
+          ],
+        ),
         body: isLoading
             ? Center(
                 child: CupertinoActivityIndicator(
                   radius: 15,
                 ),
               )
-            : DefaultTabController(
-                length: 4,
-                initialIndex: 1,
-                child: Scaffold(
-                    appBar: AppBar(
-                      elevation: 0,
-                      backgroundColor: primaryColor,
-                      automaticallyImplyLeading: false,
-                      title: TabBar(
-                          labelColor: Colors.white,
-                          indicatorColor: Colors.white,
-                          unselectedLabelColor: Colors.black,
-                          isScrollable: false,
-                          indicatorSize: TabBarIndicatorSize.label,
-                          tabs: [
-                            Tab(
-                              icon: Icon(
-                                Icons.person,
-                                size: 25,
-                              ),
-                            ),
-                            Tab(
-                              icon: Icon(
-                                Icons.whatshot,
-                              ),
-
-                              // child: Switch(
-                              //     materialTapTargetSize: MaterialTapTargetSize.padded,
-                              //     activeColor: primaryColor,
-                              //     value: false,
-                              //     onChanged: (value) {
-                              //       value = !value;
-                              //     }),
-                            ),
-                            Tab(
-                              icon: Icon(
-                                Icons.notifications,
-                              ),
-                            ),
-                            Tab(
-                              icon: Icon(
-                                Icons.message,
-                              ),
-                            )
-                          ]),
-                    ),
-                    body: TabBarView(
-                      children: [
-                        Center(child: Profile()),
-                        Center(child: CardPictures()),
-                        Center(child: Notifications()),
-                        Center(child: HomeScreen()),
-                      ],
-                      physics: NeverScrollableScrollPhysics(),
-                    )),
-              ),
+            : CardPictures(),
         drawer: drawerWidget,
       ),
     );

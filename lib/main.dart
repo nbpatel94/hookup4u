@@ -44,6 +44,7 @@ class MyApp extends StatelessWidget {
         primaryColor: primaryColor,
       ),
       home: Splash(),
+      debugShowCheckedModeBanner: false,
       builder: (BuildContext context, Widget child) {
         /// make sure that loading can be displayed in front of all other widgets
         return FlutterEasyLoading(child: child);

@@ -2,21 +2,196 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:hookup4u/Screens/Chat/chat_screen.dart';
+import 'package:hookup4u/Screens/Profile/EditProfile.dart';
+import 'package:hookup4u/Screens/Profile/settings.dart';
+import 'package:hookup4u/app.dart';
 import 'package:hookup4u/models/data_model.dart';
 import 'package:hookup4u/util/color.dart';
 
-import 'Matches.dart';
-
-class HomeScreen extends StatefulWidget {
+class MessagesScreen extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _MessagesScreenState createState() => _MessagesScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _MessagesScreenState extends State<MessagesScreen> {
+
+  get drawerWidget => SafeArea(
+    child: Drawer(
+      child: Container(
+        color: ColorRes.primaryColor,
+        child: Stack(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(top: 30),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(80),
+                        child: Image.asset(
+                          'asset/userPictures/otherUsers/bunny1.jpeg',
+                          height: 120,
+                          width: 120,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      SizedBox(height: 10,),
+                      Text(appState.userDetail.data.displayName,style: TextStyle(fontSize: 28,color: ColorRes.textColor)),
+                      SizedBox(height: 2,),
+                      GestureDetector(
+                          onTap: (){
+                            Navigator.pop(context);
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EditProfile()));
+                          },
+                          child: Text("EDIT PROFILE",style: TextStyle(fontSize: 12,color: Colors.white,fontWeight: FontWeight.bold)))
+                    ],
+                  ),
+                ),
+                SizedBox(height: 70,),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  child: Column(
+                    children: [
+                      ListTile(
+                        onTap: () {
+                          // Navigator.of(context).pushNamed('/Pages', arguments: 2);
+                        },
+                        leading: Icon(
+                          Icons.group_rounded,
+                          color: ColorRes.textColor,
+                          size: 25,
+                        ),
+                        title: Text(
+                          'Browse',
+                          style: TextStyle(
+                              color: ColorRes.textColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      ListTile(
+                        onTap: () {
+                          Navigator.pop(context);
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MessagesScreen()));
+                        },
+                        leading: Icon(
+                          Icons.message,
+                          color: ColorRes.textColor,
+                          size: 25,
+                        ),
+                        title: Text(
+                          'Message',
+                          style: TextStyle(
+                              color: ColorRes.textColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      ListTile(
+                        onTap: () {
+                          // Navigator.of(context).pushNamed('/Pages', arguments: 3);
+                        },
+                        leading: Icon(
+                          Icons.favorite_outlined,
+                          color: ColorRes.textColor,
+                          size: 25,
+                        ),
+                        title: Text(
+                          'My Matches',
+                          style: TextStyle(
+                              color: ColorRes.textColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      ListTile(
+                        onTap: () {
+                          // Navigator.of(context).pushNamed('/Pages', arguments: 4);
+                        },
+                        leading: Icon(
+                          Icons.star,
+                          color: ColorRes.textColor,
+                          size: 25,
+                        ),
+                        title: Text(
+                          'Favorite',
+                          style: TextStyle(
+                              color: ColorRes.textColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                      ListTile(
+                        onTap: () {
+                          Navigator.pop(context);
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Settings()));
+                        },
+                        leading: Icon(
+                          Icons.settings,
+                          color: ColorRes.textColor,
+                          size: 25,
+                        ),
+                        title: Text(
+                          'Settings',
+                          style: TextStyle(
+                              color: ColorRes.textColor,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              ],
+            ),
+            Positioned(
+              top: 30,
+              right: 15,
+              child: GestureDetector(
+                onTap: (){
+                  Navigator.pop(context);
+                },
+                child: Icon(Icons.arrow_back,size: 30,color: ColorRes.textColor,),
+              ),
+            )
+          ],
+        ),
+      ),
+    ),
+  );
+
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorRes.primaryColor,
+      key: _scaffoldKey,
+      appBar: AppBar(
+        elevation: 0,
+        title: Container(
+          // margin: EdgeInsets.only(right: MediaQuery.of(context).size.width/6),
+          margin: EdgeInsets.only(right: 40),
+            alignment:Alignment.center,child: Text("Messages",)),
+        backgroundColor: ColorRes.darkButton,
+        leading: GestureDetector(
+            onTap: (){
+              _scaffoldKey.currentState.openDrawer();
+            },
+            child: Icon(Icons.menu)),
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,6 +329,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
       ),
+      drawer: drawerWidget,
     );
   }
 }

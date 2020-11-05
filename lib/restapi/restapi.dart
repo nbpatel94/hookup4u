@@ -220,6 +220,32 @@ class RestApi {
     }
   }
 
+  static Future<String> deleteUserMedia(int id) async {
+    String url = App.baseUrlV2 + App.media + '/$id?force=true';
+
+    var headerData = {
+      "Authorization" : "Bearer ${appState.accessToken}",
+    };
+
+    print(url);
+    print(headerData);
+
+    try {
+      Response response = await http.delete(url,headers: headerData);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        print(response.body);
+        return 'success';
+      } else {
+        print(response.body);
+        return '-';
+      }
+    } catch (e) {
+      print(e);
+      return '-';
+    }
+  }
+
   static Future<String> updateUserDetails(Map bodyData) async {
     String url = App.baseUrlV1 + App.user;
 

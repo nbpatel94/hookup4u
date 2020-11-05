@@ -10,11 +10,12 @@ import 'package:hookup4u/Screens/Profile/profile.dart';
 import 'package:hookup4u/Screens/SexualOrientation.dart';
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/models/data_model.dart';
+import 'package:hookup4u/models/mediamodel.dart';
 import 'package:hookup4u/models/user_detail_model.dart';
+import 'package:hookup4u/prefrences.dart';
 import 'package:hookup4u/restapi/restapi.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:image_picker/image_picker.dart';
-
 
 class EditProfile extends StatefulWidget {
   @override
@@ -22,15 +23,21 @@ class EditProfile extends StatefulWidget {
 }
 
 class EditProfileState extends State<EditProfile> {
-
-  TextEditingController livingCont = TextEditingController(text: appState.livingIn);
-  TextEditingController jobTitleCont = TextEditingController(text: appState.jobTitle);
+  TextEditingController livingCont =
+      TextEditingController(text: appState.livingIn);
+  TextEditingController jobTitleCont =
+      TextEditingController(text: appState.jobTitle);
   TextEditingController aboutCont = TextEditingController(text: appState.about);
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
   snackbar(String text) {
     final snackBar = SnackBar(
-      content: Text('$text ',style: TextStyle(color: ColorRes.white),textAlign: TextAlign.center,),
+      content: Text(
+        '$text ',
+        style: TextStyle(color: ColorRes.white),
+        textAlign: TextAlign.center,
+      ),
       backgroundColor: ColorRes.lightButton,
       duration: Duration(milliseconds: 1500),
     );
@@ -39,7 +46,11 @@ class EditProfileState extends State<EditProfile> {
 
   snackbarWithDismiss(String text) {
     final snackBar = SnackBar(
-      content: Text('$text ',style: TextStyle(color: ColorRes.white),textAlign: TextAlign.center,),
+      content: Text(
+        '$text ',
+        style: TextStyle(color: ColorRes.white),
+        textAlign: TextAlign.center,
+      ),
       action: SnackBarAction(
         label: "Dismiss",
         textColor: ColorRes.darkButton,
@@ -52,23 +63,23 @@ class EditProfileState extends State<EditProfile> {
   }
 
   EditProfileViewModel model;
+
   // bool isLoading = true;
   File image;
 
   @override
   Widget build(BuildContext context) {
-
     model ?? (model = EditProfileViewModel(this));
 
     return WillPopScope(
       onWillPop: () async {
-        if(aboutCont.text.trim()==''){
+        if (aboutCont.text.trim() == '') {
           snackbar('Write something about you');
-        } else if(jobTitleCont.text.trim()==''){
+        } else if (jobTitleCont.text.trim() == '') {
           snackbar('Write something about what do you do');
-        } else if(livingCont.text.trim()==''){
+        } else if (livingCont.text.trim() == '') {
           snackbar('Write where do you live');
-        }else{
+        } else {
           EasyLoading.show();
           appState.jobTitle = jobTitleCont.text.trim();
           appState.userDetailsModel.meta.jobTitle = jobTitleCont.text.trim();
@@ -76,20 +87,22 @@ class EditProfileState extends State<EditProfile> {
           appState.userDetailsModel.meta.about = aboutCont.text.trim();
           appState.livingIn = livingCont.text.trim();
           appState.userDetailsModel.meta.livingIn = livingCont.text.trim();
-          appState.userDetailsModel.meta.sexualOrientation = appState.sexualOrientation;
+          appState.userDetailsModel.meta.sexualOrientation =
+              appState.sexualOrientation;
           appState.userDetailsModel.meta.relation = appState.status;
 
           print(appState.userDetailsModel.meta.toJson());
 
-          String check = await RestApi.updateUserDetails(appState.userDetailsModel.meta.toJson());
-          if(check=='success'){
+          String check = await RestApi.updateUserDetails(
+              appState.userDetailsModel.meta.toJson());
+          if (check == 'success') {
             Navigator.pop(context);
-          }else{
-            snackbarWithDismiss('Something went wrong! Try to update after sometime');
+          } else {
+            snackbarWithDismiss(
+                'Something went wrong! Try to update after sometime');
           }
 
           EasyLoading.dismiss();
-
         }
         return false;
       },
@@ -106,30 +119,35 @@ class EditProfileState extends State<EditProfile> {
               icon: Icon(Icons.arrow_back_ios),
               color: Colors.white,
               onPressed: () async {
-                if(aboutCont.text.trim()==''){
+                if (aboutCont.text.trim() == '') {
                   snackbar('Write something about you');
-                } else if(jobTitleCont.text.trim()==''){
+                } else if (jobTitleCont.text.trim() == '') {
                   snackbar('Write something about what do you do');
-                } else if(livingCont.text.trim()==''){
+                } else if (livingCont.text.trim() == '') {
                   snackbar('Write where do you live');
-                }else{
+                } else {
                   EasyLoading.show();
                   appState.jobTitle = jobTitleCont.text.trim();
-                  appState.userDetailsModel.meta.jobTitle = jobTitleCont.text.trim();
+                  appState.userDetailsModel.meta.jobTitle =
+                      jobTitleCont.text.trim();
                   appState.about = aboutCont.text.trim();
                   appState.userDetailsModel.meta.about = aboutCont.text.trim();
                   appState.livingIn = livingCont.text.trim();
-                  appState.userDetailsModel.meta.livingIn = livingCont.text.trim();
-                  appState.userDetailsModel.meta.sexualOrientation = appState.sexualOrientation;
+                  appState.userDetailsModel.meta.livingIn =
+                      livingCont.text.trim();
+                  appState.userDetailsModel.meta.sexualOrientation =
+                      appState.sexualOrientation;
                   appState.userDetailsModel.meta.relation = appState.status;
 
                   print(appState.userDetailsModel.meta.toJson());
 
-                  String check = await RestApi.updateUserDetails(appState.userDetailsModel.meta.toJson());
-                  if(check=='success'){
+                  String check = await RestApi.updateUserDetails(
+                      appState.userDetailsModel.meta.toJson());
+                  if (check == 'success') {
                     Navigator.pop(context);
-                  }else{
-                    snackbarWithDismiss('Something went wrong! Try to update after sometime');
+                  } else {
+                    snackbarWithDismiss(
+                        'Something went wrong! Try to update after sometime');
                   }
 
                   EasyLoading.dismiss();
@@ -181,10 +199,9 @@ class EditProfileState extends State<EditProfile> {
                                 // height: 16,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color:
-                                  appState.medialList.length > index
-                                          ? Colors.white
-                                          : primaryColor,
+                                  color: appState.medialList.length > index
+                                      ? Colors.white
+                                      : primaryColor,
                                 ),
                                 child: appState.medialList.length > index
                                     ? InkWell(
@@ -195,9 +212,7 @@ class EditProfileState extends State<EditProfile> {
                                         ),
                                         onTap: () async {
                                           if (appState.medialList.length > 1) {
-                                            setState(() {
-                                              appState.medialList.removeAt(index);
-                                            });
+                                            model.removePhoto(appState.medialList[index].id, index);
                                           } else {
                                             source(context);
                                           }
@@ -210,34 +225,12 @@ class EditProfileState extends State<EditProfile> {
                                           color: Colors.white,
                                         ),
                                         onTap: () async {
-                      source(context);
-                                        }
-                                      )),
+                                          source(context);
+                                        })),
                           ),
                         ),
                       );
                     })),
-              ),
-              InkWell(
-                child: Container(
-                    decoration: BoxDecoration(
-                        shape: BoxShape.rectangle,
-                        borderRadius: BorderRadius.circular(25),
-                    color: ColorRes.darkButton
-                    ),
-                    height: 50,
-                    width: 340,
-                    child: Center(
-                        child: Text(
-                      "Add media",
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: textColor,
-                          fontWeight: FontWeight.bold),
-                    ))),
-                onTap: () async {
-                  source(context);
-                },
               ),
               SizedBox(
                 height: 20,
@@ -308,7 +301,7 @@ class EditProfileState extends State<EditProfile> {
                             child: InkWell(
                               child: Row(
                                 mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text("${appState.status}"),
                                   Icon(
@@ -320,8 +313,10 @@ class EditProfileState extends State<EditProfile> {
                               onTap: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          SexualOrientation(isStatus: true,generated: true,))),
+                                      builder: (context) => SexualOrientation(
+                                            isStatus: true,
+                                            generated: true,
+                                          ))),
                             ),
                           ),
                         )),
@@ -351,8 +346,9 @@ class EditProfileState extends State<EditProfile> {
                               onTap: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          SexualOrientation(generated: true,))),
+                                      builder: (context) => SexualOrientation(
+                                            generated: true,
+                                          ))),
                             ),
                           ),
                         )),

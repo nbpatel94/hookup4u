@@ -6,6 +6,7 @@ import 'package:hookup4u/Screens/Information.dart';
 import 'package:hookup4u/Screens/cardpage/card_picture_view_Model.dart';
 import 'package:hookup4u/models/data_model.dart';
 import 'package:hookup4u/util/color.dart';
+import 'package:lottie/lottie.dart';
 import 'package:swipe_stack/swipe_stack.dart';
 
 GlobalKey<SwipeStackState> swipeKey = GlobalKey<SwipeStackState>();
@@ -19,6 +20,7 @@ class CardPicturesState extends State<CardPictures>
     with AutomaticKeepAliveClientMixin<CardPictures> {
   CardPictureViewModel model;
   bool onEnd = false;
+  bool isLoading = true;
 
   bool get wantKeepAlive => true;
 
@@ -29,7 +31,10 @@ class CardPicturesState extends State<CardPictures>
     super.build(context);
     return Scaffold(
       backgroundColor: ColorRes.primaryColor,
-      body: Container(
+      body: isLoading ? Center(child: Padding(
+        padding: const EdgeInsets.only(bottom:50),
+        child: Lottie.asset('asset/Icon/main_loader.json',height: MediaQuery.of(context).size.width/2,width: MediaQuery.of(context).size.width/2),
+      ),): Container(
         child: Stack(
           alignment: Alignment.topCenter,
           children: <Widget>[
@@ -61,7 +66,7 @@ class CardPicturesState extends State<CardPictures>
                     height: MediaQuery.of(context).size.height / 1.8,
                     child: SwipeStack(
                       key: swipeKey,
-                      children: users.reversed.map((index) {
+                      children: model.list.reversed.map((index) {
                         // User user;
                         return SwiperItem(builder:
                             (SwiperPosition position, double progress) {
@@ -89,13 +94,13 @@ class CardPicturesState extends State<CardPictures>
                                               2,
                                           width:
                                               MediaQuery.of(context).size.width,
-                                          child: Image.asset(
-                                            index.imageUrl[index2],
+                                          child: Image.network(
+                                            'https://freepngimg.com/thumb/light/2-2-light-free-download-png.png',
                                             fit: BoxFit.cover,
                                           ),
                                         );
                                       },
-                                      itemCount: index.imageUrl.length,
+                                      itemCount: 1,
                                       pagination: new SwiperPagination(
                                           alignment: Alignment.bottomCenter,
                                           builder: DotSwiperPaginationBuilder(
@@ -163,32 +168,32 @@ class CardPicturesState extends State<CardPictures>
                                               )
                                             : Container(),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 10),
-                                    child: Align(
-                                        alignment: Alignment.bottomLeft,
-                                        child: ListTile(
-                                            onTap: () => showDialog(
-                                                barrierDismissible: false,
-                                                context: context,
-                                                builder: (context) {
-                                                  return Info(index);
-                                                }),
-                                            title: Text(
-                                              "${index.name}  ${index.age}",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 25,
-                                                  fontWeight: FontWeight.bold),
-                                            ),
-                                            subtitle: Text(
-                                              "${index.address}",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20,
-                                              ),
-                                            ))),
-                                  ),
+                                  // Padding(
+                                  //   padding: const EdgeInsets.only(bottom: 10),
+                                  //   child: Align(
+                                  //       alignment: Alignment.bottomLeft,
+                                  //       child: ListTile(
+                                  //           onTap: () => showDialog(
+                                  //               barrierDismissible: false,
+                                  //               context: context,
+                                  //               builder: (context) {
+                                  //                 return Info(index);
+                                  //               }),
+                                  //           title: Text(
+                                  //             "${index.name}  ${index.age}",
+                                  //             style: TextStyle(
+                                  //                 color: Colors.white,
+                                  //                 fontSize: 25,
+                                  //                 fontWeight: FontWeight.bold),
+                                  //           ),
+                                  //           subtitle: Text(
+                                  //             "${index.address}",
+                                  //             style: TextStyle(
+                                  //               color: Colors.white,
+                                  //               fontSize: 20,
+                                  //             ),
+                                  //           ))),
+                                  // ),
                                 ],
                               ));
                         });
@@ -205,11 +210,11 @@ class CardPicturesState extends State<CardPictures>
                         setState(() {
                           onEnd = true;
                         });
-                        users.removeLast();
+                        model.list.removeLast();
                       },
                       onSwipe: (int index, SwiperPosition position) {
-                        if (index + 1 < users.length) {
-                          users.removeAt(index + 1);
+                        if (index + 1 < model.list.length) {
+                          model.list.removeAt(index + 1);
                         }
 
                         debugPrint("onSwipe $index $position");
@@ -229,7 +234,7 @@ class CardPicturesState extends State<CardPictures>
                         children: <Widget>[
                           GestureDetector(
                             onTap: () {
-                              if (users.length > 0) {
+                              if (model.list.length > 0) {
                                 swipeKey.currentState.swipeLeft();
                               }
                             },
@@ -248,7 +253,7 @@ class CardPicturesState extends State<CardPictures>
                           ),
                           GestureDetector(
                             onTap: () {
-                              if (users.length > 0) {
+                              if (model.list.length > 0) {
                                 swipeKey.currentState.swipeRight();
                               }
                             },

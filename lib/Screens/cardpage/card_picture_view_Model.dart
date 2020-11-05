@@ -6,8 +6,18 @@ class CardPictureViewModel{
   CardPicturesState state;
 
   CardPictureViewModel(this.state){
-
+    getUsers();
   }
 
   List<ActivityModel> list;
+
+  getUsers() async {
+    list = await RestApi.getActivity();
+
+    print(list.length);
+
+    state.setState(() {
+      state.isLoading = false;
+    });
+  }
 }

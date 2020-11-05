@@ -425,7 +425,7 @@ class EditProfileState extends State<EditProfile> {
                   var _image = await ImagePicker.pickImage(source: ImageSource.camera);
                   if (_image != null) {
                     image = _image;
-                    print("Image ${image.path}");
+                    print("Image ${image.absolute.path}");
                     Navigator.pop(context);
                   }
                 },
@@ -454,7 +454,7 @@ class EditProfileState extends State<EditProfile> {
                   File _image = await ImagePicker.pickImage(source: ImageSource.gallery);
                   if (_image != null) {
                     image = _image;
-                    print("Image ${image.path}");
+                    print("Image ${image.absolute.path}");
                     model.uploadUseMedia();
                     Navigator.pop(context);
                   }

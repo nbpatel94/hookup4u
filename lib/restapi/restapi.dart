@@ -190,6 +190,26 @@ class RestApi {
     }
   }
 
+  static Future<List<ActivityModel>> getActivity() async {
+    String url = App.baseUrlV2 + App.users;
+
+    var headerData = {
+      "Authorization" : "Bearer ${appState.accessToken}"
+    };
+
+    print(url);
+    print(headerData);
+
+    Response response = await http.get(url,headers: headerData);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      print(response.body);
+      return activityModelFromJson(response.body);
+    } else {
+      return null;
+    }
+  }
+
   static Future<MediaModel> uploadUserMedia(File file) async {
     String url = App.baseUrlV2 + App.media;
 

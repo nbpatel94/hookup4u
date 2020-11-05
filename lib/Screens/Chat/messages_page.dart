@@ -39,7 +39,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                         ),
                       ),
                       SizedBox(height: 10,),
-                      Text(appState.userDetail.data.displayName,style: TextStyle(fontSize: 28,color: ColorRes.textColor)),
+                      Text(appState.currentUserData.data.displayName,style: TextStyle(fontSize: 28,color: ColorRes.textColor)),
                       SizedBox(height: 2,),
                       GestureDetector(
                           onTap: (){

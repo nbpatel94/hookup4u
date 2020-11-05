@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hookup4u/Screens/Gender.dart';
+import 'package:hookup4u/Screens/Profile/edit_profile_viewmodel.dart';
 import 'package:hookup4u/Screens/Profile/profile.dart';
 import 'package:hookup4u/Screens/SexualOrientation.dart';
 import 'package:hookup4u/app.dart';
@@ -11,6 +13,7 @@ import 'package:hookup4u/models/data_model.dart';
 import 'package:hookup4u/models/user_detail_model.dart';
 import 'package:hookup4u/restapi/restapi.dart';
 import 'package:hookup4u/util/color.dart';
+import 'package:image_picker/image_picker.dart';
 
 
 class EditProfile extends StatefulWidget {
@@ -48,10 +51,15 @@ class EditProfileState extends State<EditProfile> {
     _scaffoldKey.currentState.showSnackBar(snackBar);
   }
 
-
+  EditProfileViewModel model;
+  // bool isLoading = true;
+  File image;
 
   @override
   Widget build(BuildContext context) {
+
+    model ?? (model = EditProfileViewModel(this));
+
     return WillPopScope(
       onWillPop: () async {
         if(aboutCont.text.trim()==''){
@@ -150,13 +158,13 @@ class EditProfileState extends State<EditProfile> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Container(
-                          decoration: currentUser.imageUrl.length > index
+                          decoration: appState.medialList.length > index
                               ? BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   image: DecorationImage(
                                       fit: BoxFit.cover,
-                                      image: AssetImage(
-                                        currentUser.imageUrl[index],
+                                      image: NetworkImage(
+                                        appState.medialList[index].sourceUrl,
                                       )),
                                 )
                               : BoxDecoration(
@@ -174,24 +182,21 @@ class EditProfileState extends State<EditProfile> {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   color:
-                                      currentUser.imageUrl.length > index
+                                  appState.medialList.length > index
                                           ? Colors.white
                                           : primaryColor,
                                 ),
-                                child: currentUser.imageUrl.length > index
+                                child: appState.medialList.length > index
                                     ? InkWell(
                                         child: Icon(
                                           Icons.cancel,
                                           color: primaryColor,
                                           size: 22,
                                         ),
-                                        onTap: () {
-                                          if (currentUser
-                                                  .imageUrl.length >
-                                              1) {
+                                        onTap: () async {
+                                          if (appState.medialList.length > 1) {
                                             setState(() {
-                                              currentUser.imageUrl
-                                                  .removeAt(index);
+                                              appState.medialList.removeAt(index);
                                             });
                                           } else {
                                             source(context);
@@ -204,7 +209,9 @@ class EditProfileState extends State<EditProfile> {
                                           size: 22,
                                           color: Colors.white,
                                         ),
-                                        onTap: () => source(context),
+                                        onTap: () async {
+                      source(context);
+                                        }
                                       )),
                           ),
                         ),
@@ -228,7 +235,7 @@ class EditProfileState extends State<EditProfile> {
                           color: textColor,
                           fontWeight: FontWeight.bold),
                     ))),
-                onTap: () {
+                onTap: () async {
                   source(context);
                 },
               ),
@@ -405,5 +412,79 @@ class EditProfileState extends State<EditProfile> {
         ),
       ),
     );
+  }
+
+  source(context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            title: Text(
+              "Select source",
+            ),
+            insetAnimationCurve: Curves.decelerate,
+            actions: <Widget>[
+              GestureDetector(
+                onTap: () async {
+                  var _image = await ImagePicker.pickImage(source: ImageSource.camera);
+                  if (_image != null) {
+                    image = _image;
+                    print("Image ${image.path}");
+                    Navigator.pop(context);
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.photo_camera,
+                        size: 28,
+                      ),
+                      Text(
+                        " Camera",
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            decoration: TextDecoration.none),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () async {
+                  File _image = await ImagePicker.pickImage(source: ImageSource.gallery);
+                  if (_image != null) {
+                    image = _image;
+                    print("Image ${image.path}");
+                    model.uploadUseMedia();
+                    Navigator.pop(context);
+                  }
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.photo_library,
+                        size: 28,
+                      ),
+                      Text(
+                        " Gallery",
+                        style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            decoration: TextDecoration.none),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
   }
 }

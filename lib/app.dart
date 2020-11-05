@@ -11,6 +11,7 @@ class App{
   static const String signUp = 'signup';
   static const String activity = 'activity';
   static const String users = 'users/';
+  static const String media = 'media';
   static const String user = 'user';
   static const String set_password = 'set-password';
   static const String reset_password = 'reset-password';

@@ -84,7 +84,7 @@ class Meta {
   );
 
   Map<String, dynamic> toJson() => {
-    "id" : appState.userDetail.data.id.toString(),
+    "id" : appState.currentUserData.data.id.toString(),
     "about": about,
     "sexual_orientation": sexualOrientation,
     "job_title": jobTitle,

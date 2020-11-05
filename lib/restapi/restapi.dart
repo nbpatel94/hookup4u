@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/models/activitymodel.dart';
+import 'package:hookup4u/models/mediamodel.dart';
 import 'package:hookup4u/models/profile_detail.dart';
 import 'package:hookup4u/models/user_detail_model.dart';
 import 'package:hookup4u/prefrences.dart';
@@ -57,10 +59,13 @@ class RestApi {
       print(response.body);
       var userDetail = userDetailFromJson(response.body);
       if (userDetail.statusCode == 200) {
-        appState.userDetail = userDetail;
+        appState.currentUserData = userDetail;
+        appState.accessToken = userDetail.data.token;
+        appState.id = userDetail.data.id;
         await sharedPreferences.setString(Preferences.profile, jsonEncode(userDetail.toJson()));
         await sharedPreferences.setString(Preferences.username, loginId);
         await sharedPreferences.setString(Preferences.password, password);
+        await sharedPreferences.setString(Preferences.accessToken, userDetail.data.token);
         return 'success';
       } else {
         return userDetail.message;
@@ -145,11 +150,11 @@ class RestApi {
     }
   }
 
-  static Future getSingleUserDetails(int id) async {
+  static Future<UserDetailsModel> getSingleUserDetails(int id) async {
     String url = App.baseUrlV2 + App.users + id.toString();
 
     var headerData = {
-      "Authorization" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZG9vci5paGVhcnRtdXNsaW1zLmNvbSIsImlhdCI6MTYwNDAzMjkxMiwibmJmIjoxNjA0MDMyOTEyLCJleHAiOjE2MDQ2Mzc3MTIsImRhdGEiOnsidXNlciI6eyJpZCI6OX19fQ.ZcZuPd1EQtZnlwWlJ4fpEiuSU-R113pTaNqQAQFYHOg"
+      "Authorization" : "Bearer ${appState.accessToken}"
     };
 
     print(url);
@@ -165,11 +170,61 @@ class RestApi {
     }
   }
 
+  static Future<List<MediaModel>> getSingleUserMedia() async {
+    String url = App.baseUrlV2 + App.media + '?author=${appState.id}';
+
+    var headerData = {
+      "Authorization" : "Bearer ${appState.accessToken}"
+    };
+
+    print(url);
+    print(headerData);
+
+    Response response = await http.get(url,headers: headerData);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      print(response.body);
+      return mediaListFromJson(response.body);
+    } else {
+      return null;
+    }
+  }
+
+  static Future<MediaModel> uploadUserMedia(File file) async {
+    String url = App.baseUrlV2 + App.media;
+
+    var headerData = {
+      "Authorization" : "Bearer ${appState.accessToken}",
+      "Content-Disposition" : "attachment; filename=user_image.jpg",
+      "Content-Type":"image/png"
+    };
+
+    print(url);
+    print(file.absolute.path);
+    print(file.readAsBytesSync());
+    print(headerData);
+
+    try {
+      Response response = await http.post(url,headers: headerData, body: file.readAsBytesSync());
+      print(response.statusCode);
+      if (response.statusCode == 201) {
+        print(response.body);
+        return mediaModelFromJson(response.body);
+      } else {
+        print(response.body);
+        return null;
+      }
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   static Future<String> updateUserDetails(Map bodyData) async {
     String url = App.baseUrlV1 + App.user;
 
     var headerData = {
-      "Authorization" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZG9vci5paGVhcnRtdXNsaW1zLmNvbSIsImlhdCI6MTYwNDAzMjkxMiwibmJmIjoxNjA0MDMyOTEyLCJleHAiOjE2MDQ2Mzc3MTIsImRhdGEiOnsidXNlciI6eyJpZCI6OX19fQ.ZcZuPd1EQtZnlwWlJ4fpEiuSU-R113pTaNqQAQFYHOg"
+      "Authorization" : "Bearer ${appState.accessToken}"
     };
 
     print(url);

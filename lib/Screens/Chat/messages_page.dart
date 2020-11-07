@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:hookup4u/Screens/Chat/chat_screen.dart';
 import 'package:hookup4u/Screens/Profile/EditProfile.dart';
 import 'package:hookup4u/Screens/Profile/settings.dart';
+import 'package:hookup4u/Screens/my_matches.dart';
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/models/data_model.dart';
 import 'package:hookup4u/util/color.dart';
@@ -98,6 +99,11 @@ class _MessagesScreenState extends State<MessagesScreen> {
                       ),
                       ListTile(
                         onTap: () {
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyMatchesPage()));
                           // Navigator.of(context).pushNamed('/Pages', arguments: 3);
                         },
                         leading: Icon(

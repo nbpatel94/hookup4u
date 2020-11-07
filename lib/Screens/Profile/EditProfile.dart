@@ -38,7 +38,7 @@ class EditProfileState extends State<EditProfile> {
         style: TextStyle(color: ColorRes.white),
         textAlign: TextAlign.center,
       ),
-      backgroundColor: ColorRes.lightButton,
+      backgroundColor: ColorRes.redButton,
       duration: Duration(milliseconds: 1500),
     );
     _scaffoldKey.currentState.showSnackBar(snackBar);
@@ -56,7 +56,7 @@ class EditProfileState extends State<EditProfile> {
         textColor: ColorRes.darkButton,
         onPressed: () => Navigator.pop(context),
       ),
-      backgroundColor: ColorRes.lightButton,
+      backgroundColor: ColorRes.redButton,
       duration: Duration(seconds: 500),
     );
     _scaffoldKey.currentState.showSnackBar(snackBar);

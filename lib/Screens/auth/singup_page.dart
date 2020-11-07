@@ -220,7 +220,7 @@ class SignUpPageState extends State<SignUpPage> {
                                           MediaQuery.of(context).size.width / 3.5,
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(10),
-                                        color: ColorRes.lightButton,
+                                        color: ColorRes.redButton,
                                       ),
                                       child: Center(
                                           child: isLoading ? Padding(child: CircularProgressIndicator(backgroundColor: ColorRes.primaryColor,),padding: EdgeInsets.all(5),):Text("SIGNUP",
@@ -282,7 +282,7 @@ class SignUpPageState extends State<SignUpPage> {
         message,
         textAlign: TextAlign.center,
       ),
-      backgroundColor: isError ? ColorRes.lightButton: ColorRes.darkButton,
+      backgroundColor: isError ? ColorRes.redButton: ColorRes.darkButton,
       duration: Duration(seconds: 3),
     ));
   }

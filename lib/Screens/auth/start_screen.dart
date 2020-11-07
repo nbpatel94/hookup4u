@@ -32,7 +32,7 @@ class StartScreen extends StatelessWidget {
                   margin: EdgeInsets.symmetric(horizontal: 15,vertical: 7),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
-                    color: ColorRes.lightButton,
+                    color: ColorRes.redButton,
                   ),
                   child: Center(
                       child: Text("SIGN UP NOW",

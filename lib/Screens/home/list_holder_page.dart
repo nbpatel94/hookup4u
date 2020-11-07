@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:hookup4u/Screens/Chat/messages_page.dart';
 import 'package:hookup4u/Screens/Profile/EditProfile.dart';
 import 'package:hookup4u/Screens/Profile/settings.dart';
+import 'package:hookup4u/Screens/my_matches.dart';
 import 'package:hookup4u/app.dart';
 import '../cardpage/card_pictures.dart';
 import 'package:hookup4u/util/color.dart';
@@ -103,7 +104,10 @@ class ListHolderPageState extends State<ListHolderPage> {
                           ),
                           ListTile(
                             onTap: () {
-                              // Navigator.of(context).pushNamed('/Pages', arguments: 3);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => MyMatchesPage()));
                             },
                             leading: Icon(
                               Icons.favorite_outlined,
@@ -180,7 +184,7 @@ class ListHolderPageState extends State<ListHolderPage> {
   showSnack(String text) {
     final snackBar = SnackBar(
       content: Text('$text ',style: TextStyle(color: ColorRes.white),textAlign: TextAlign.center,),
-      backgroundColor: ColorRes.lightButton,
+      backgroundColor: ColorRes.redButton,
       duration: Duration(seconds: 3),
     );
     _scaffoldKey.currentState.showSnackBar(snackBar);

@@ -31,7 +31,7 @@ class _GenderState extends State<Gender> {
   snackbar(String text) {
     final snackBar = SnackBar(
       content: Text('$text ',style: TextStyle(color: ColorRes.white),textAlign: TextAlign.center,),
-      backgroundColor: ColorRes.lightButton,
+      backgroundColor: ColorRes.redButton,
       duration: Duration(milliseconds: 1500),
     );
     _scaffoldKey.currentState.showSnackBar(snackBar);
@@ -69,7 +69,7 @@ class _GenderState extends State<Gender> {
                 decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.circular(25),
-                    color: ColorRes.lightButton),
+                    color: ColorRes.redButton),
                 height: MediaQuery.of(context).size.height * .065,
                 margin: EdgeInsets.symmetric(horizontal: 50,vertical: 5),
                 child: Center(
@@ -277,7 +277,7 @@ class _GenderState extends State<Gender> {
                     borderSide: BorderSide(
                         width: 1,
                         style: BorderStyle.solid,
-                        color: man ? ColorRes.lightButton : ColorRes.darkButton),
+                        color: man ? ColorRes.redButton : ColorRes.darkButton),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(25)),
                     onPressed: () {
@@ -301,7 +301,7 @@ class _GenderState extends State<Gender> {
                                     fontWeight: FontWeight.bold))),
                       ),
                       borderSide: BorderSide(
-                        color: woman ? ColorRes.lightButton : ColorRes.darkButton,
+                        color: woman ? ColorRes.redButton : ColorRes.darkButton,
                         width: 1,
                         style: BorderStyle.solid,
                       ),

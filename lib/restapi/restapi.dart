@@ -191,7 +191,7 @@ class RestApi {
   }
 
   static Future<List<ActivityModel>> getActivity() async {
-    String url = App.baseUrlV2 + App.users;
+    String url = App.baseUrlSA + App.userList;
 
     var headerData = {
       "Authorization" : "Bearer ${appState.accessToken}"
@@ -267,10 +267,42 @@ class RestApi {
   }
 
   static Future<String> updateUserDetails(Map bodyData) async {
-    String url = App.baseUrlV1 + App.user;
+    String url = App.baseUrlSA + App.user;
 
     var headerData = {
       "Authorization" : "Bearer ${appState.accessToken}"
+    };
+
+    print(url);
+    print(bodyData);
+    print(headerData);
+
+    try {
+      Response response = await http.post(url,headers: headerData, body: bodyData);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        print(response.body);
+        return 'success';
+      } else {
+        print(response.body);
+        return jsonDecode(response.body)['message'];
+      }
+    } catch (e) {
+      print(e);
+      return 'Something went wrong! Please try later';
+    }
+  }
+
+  static Future<String> likeButtonPress(String targetId,int status) async {
+    String url = App.baseUrlSA + App.i_like_you;
+
+    var headerData = {
+      "Authorization" : "Bearer ${appState.accessToken}"
+    };
+
+    var bodyData = {
+      "target_id" : targetId.toString(),
+      "status" : status.toString()
     };
 
     print(url);

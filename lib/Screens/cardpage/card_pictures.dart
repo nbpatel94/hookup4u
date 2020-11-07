@@ -4,12 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:hookup4u/Screens/Information.dart';
 import 'package:hookup4u/Screens/cardpage/card_picture_view_Model.dart';
+import 'package:hookup4u/models/activitymodel.dart';
 import 'package:hookup4u/models/data_model.dart';
 import 'package:hookup4u/util/color.dart';
+import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:swipe_stack/swipe_stack.dart';
 
 GlobalKey<SwipeStackState> swipeKey = GlobalKey<SwipeStackState>();
+
+List<ActivityModel> list2;
 
 class CardPictures extends StatefulWidget {
   @override
@@ -44,11 +48,19 @@ class CardPicturesState extends State<CardPictures>
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: CircleAvatar(
-                            backgroundColor: secondryColor,
-                            radius: 40,
+                        GestureDetector(
+                          onLongPress: (){
+                            setState(() {
+                              onEnd = false;
+                            });
+                            model.getUsers();
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: CircleAvatar(
+                              backgroundColor: secondryColor,
+                              radius: 40,
+                            ),
                           ),
                         ),
                         Text(
@@ -66,8 +78,7 @@ class CardPicturesState extends State<CardPictures>
                     height: MediaQuery.of(context).size.height / 1.8,
                     child: SwipeStack(
                       key: swipeKey,
-                      children: model.list.reversed.map((index) {
-                        // User user;
+                      children: model.list.map((index) {
                         return SwiperItem(builder:
                             (SwiperPosition position, double progress) {
                           return Material(
@@ -95,7 +106,7 @@ class CardPicturesState extends State<CardPictures>
                                           width:
                                               MediaQuery.of(context).size.width,
                                           child: Image.network(
-                                            'https://freepngimg.com/thumb/light/2-2-light-free-download-png.png',
+                                            'https://image.freepik.com/free-photo/beautiful-girl-stands-near-walll-with-leaves_8353-5378.jpg',
                                             fit: BoxFit.cover,
                                           ),
                                         );
@@ -168,32 +179,32 @@ class CardPicturesState extends State<CardPictures>
                                               )
                                             : Container(),
                                   ),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.only(bottom: 10),
-                                  //   child: Align(
-                                  //       alignment: Alignment.bottomLeft,
-                                  //       child: ListTile(
-                                  //           onTap: () => showDialog(
-                                  //               barrierDismissible: false,
-                                  //               context: context,
-                                  //               builder: (context) {
-                                  //                 return Info(index);
-                                  //               }),
-                                  //           title: Text(
-                                  //             "${index.name}  ${index.age}",
-                                  //             style: TextStyle(
-                                  //                 color: Colors.white,
-                                  //                 fontSize: 25,
-                                  //                 fontWeight: FontWeight.bold),
-                                  //           ),
-                                  //           subtitle: Text(
-                                  //             "${index.address}",
-                                  //             style: TextStyle(
-                                  //               color: Colors.white,
-                                  //               fontSize: 20,
-                                  //             ),
-                                  //           ))),
-                                  // ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 10),
+                                    child: Align(
+                                        alignment: Alignment.bottomLeft,
+                                        child: ListTile(
+                                            onTap: () => showDialog(
+                                                barrierDismissible: false,
+                                                context: context,
+                                                builder: (context) {
+                                                  return Container();
+                                                }),
+                                            title: Text(
+                                              "${index.data.displayName}  ${ageCount('12-02-1999')}",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 25,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                            subtitle: Text(
+                                              "${index.livingIn}",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20,
+                                              ),
+                                            ))),
+                                  ),
                                 ],
                               ));
                         });
@@ -235,16 +246,23 @@ class CardPicturesState extends State<CardPictures>
                           GestureDetector(
                             onTap: () {
                               if (model.list.length > 0) {
+                                print(list2[swipeKey.currentState.currentIndex].data.displayName);
+                                model.queue.add(() => model.giveDislike(list2[swipeKey.currentState.currentIndex].data.id));
                                 swipeKey.currentState.swipeLeft();
                               }
                             },
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(80),
+                            child: Container(
+                              height: 70,
+                              width: 70,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(80),
+                                color: ColorRes.darkButton,
+                              ),
+                              padding: EdgeInsets.all(18),
                               child: Image.asset(
-                                'asset/userPictures/otherUsers/bunny1.jpeg',
-                                height: 70,
-                                width: 70,
+                                'asset/Icon/close.png',
                                 fit: BoxFit.cover,
+                                color: Colors.white,
                               ),
                             ),
                           ),
@@ -254,16 +272,23 @@ class CardPicturesState extends State<CardPictures>
                           GestureDetector(
                             onTap: () {
                               if (model.list.length > 0) {
+                                print(list2[swipeKey.currentState.currentIndex].data.displayName);
+                                model.queue.add(() => model.giveLike(list2[swipeKey.currentState.currentIndex].data.id));
                                 swipeKey.currentState.swipeRight();
                               }
                             },
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(80),
+                            child: Container(
+                              height: 70,
+                              width: 70,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(80),
+                                color: ColorRes.redButton,
+                              ),
+                              padding: EdgeInsets.all(18),
                               child: Image.asset(
-                                'asset/userPictures/otherUsers/bunny1.jpeg',
-                                height: 70,
-                                width: 70,
+                                'asset/Icon/like.png',
                                 fit: BoxFit.cover,
+                                color: Colors.white,
                               ),
                             ),
                           ),
@@ -276,5 +301,9 @@ class CardPicturesState extends State<CardPictures>
         ),
       ),
     );
+  }
+
+  int ageCount(String date){
+    return DateTime.now().difference(DateFormat("dd-MM-yyyy").parse(date)).inDays~/365;
   }
 }

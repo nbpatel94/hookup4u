@@ -91,4 +91,14 @@ class Meta {
     "relation": relation,
     "living_in": livingIn,
   };
+
+  Map<String, dynamic> toFirstJson() => {
+    "id" : appState.currentUserData.data.id.toString(),
+    "about": about,
+    "date_of_birth": dateOfBirth.replaceAll('/', '-'),
+    "sexual_orientation": sexualOrientation,
+    "job_title": jobTitle,
+    "relation": relation,
+    "living_in": livingIn,
+  };
 }

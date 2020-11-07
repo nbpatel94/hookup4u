@@ -31,7 +31,7 @@ class _WelcomeState extends State<Welcome> {
                 decoration: BoxDecoration(
                     shape: BoxShape.rectangle,
                     borderRadius: BorderRadius.circular(25),
-                    color: ColorRes.lightButton),
+                    color: ColorRes.redButton),
                 height: MediaQuery.of(context).size.height * .065,
                 margin: EdgeInsets.symmetric(horizontal: 50,vertical: 5),
                 child: Center(

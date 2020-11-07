@@ -146,7 +146,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
                           width: MediaQuery.of(context).size.width / 3,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
-                            color: ColorRes.lightButton,
+                            color: ColorRes.redButton,
                           ),
                           child: Center(
                               child: isLoading ? Padding(child: CircularProgressIndicator(backgroundColor: ColorRes.primaryColor,),padding: EdgeInsets.all(5),):Text("RESET",
@@ -278,7 +278,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
                               width: MediaQuery.of(context).size.width / 3,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
-                                color: ColorRes.lightButton,
+                                color: ColorRes.redButton,
                               ),
                               child: Center(
                                   child: isLoading ? Padding(child: CircularProgressIndicator(backgroundColor: ColorRes.primaryColor,),padding: EdgeInsets.all(5),): Text(isCodeSend ? "VERIFY" :"SEND",
@@ -349,7 +349,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
         message,
         textAlign: TextAlign.center,
       ),
-      backgroundColor: isError ? ColorRes.lightButton: ColorRes.darkButton,
+      backgroundColor: isError ? ColorRes.redButton: ColorRes.darkButton,
       duration: Duration(seconds: 3),
     ));
   }

@@ -89,7 +89,7 @@ class Meta {
     "job_title": jobTitle,
     "relation": relation,
     "living_in": livingIn,
-    "children": children,
+    "children": children ?? '-',
   };
 
   Map<String, dynamic> toFirstJson() => {
@@ -97,8 +97,9 @@ class Meta {
     "about": about,
     "date_of_birth": dateOfBirth.replaceAll('/', '-'),
     "job_title": jobTitle,
+    "gender": gender,
     "relation": relation,
     "living_in": livingIn,
-    "children": children,
+    "children": children ?? '-',
   };
 }

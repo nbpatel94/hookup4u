@@ -26,6 +26,7 @@ class LoginViewModel{
         appState.livingIn = userDetailsModel.meta.livingIn;
         appState.jobTitle = userDetailsModel.meta.jobTitle;
         appState.about = userDetailsModel.meta.about;
+        print(userDetailsModel.meta.toJson());
         if(sharedPreferences.containsKey(Preferences.mediaData)){
           print("media contain");
           List<MediaModel> mediaList = mediaListFromJson(sharedPreferences.getString(Preferences.mediaData));
@@ -51,6 +52,7 @@ class LoginViewModel{
           appState.livingIn = userDetailsModel.meta.livingIn;
           appState.jobTitle = userDetailsModel.meta.jobTitle;
           appState.about = userDetailsModel.meta.about;
+          print(userDetailsModel.meta.toJson());
           await sharedPreferences.setString(Preferences.metaData, jsonEncode(userDetailsModel.toJson()));
           final medialList = await RestApi.getSingleUserMedia();
           if(medialList!=null){

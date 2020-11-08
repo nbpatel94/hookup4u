@@ -54,22 +54,9 @@ class _SexualOrientationState extends State<SexualOrientation> {
   List selectedRelationship = [];
   List selectedChildren = [];
 
-  bool isOrientation = false;
-  bool isStatus = false;
-
   bool isRelation = false;
   bool isChild = false;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    if (widget.isStatus) {
-      setState(() {
-        isOrientation = true;
-      });
-    }
-  }
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +86,10 @@ class _SexualOrientationState extends State<SexualOrientation> {
                 height: MediaQuery.of(context).size.height * .065,
                 margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
                 child: Center(
-                    child: Text(
+                    child: isLoading ?
+                    Padding(child: CircularProgressIndicator(backgroundColor: ColorRes.primaryColor,),padding: EdgeInsets.all(5),)
+                        :
+                    Text(
                   "CONTINUE",
                   style: TextStyle(
                       fontSize: 15,
@@ -179,6 +169,9 @@ class _SexualOrientationState extends State<SexualOrientation> {
                   } else if (DateTime.now().year - currentYear < 16) {
                     snackbar('Must require 16+');
                   } else {
+                    setState(() {
+                      isLoading = true;
+                    });
                     appState.dateOfBirth = dateOfBirth;
                     appState.userDetailsModel.meta.dateOfBirth =
                         appState.dateOfBirth;

@@ -13,10 +13,10 @@ class SignUpPageState extends State<SignUpPage> {
 
   SignUpViewModel model;
 
-  TextEditingController emailCont = TextEditingController(text: 'test@yopmail.com');
-  TextEditingController passwordCont = TextEditingController(text: 'test');
-  TextEditingController userIdCont = TextEditingController(text: 'test');
-  TextEditingController userNameCont = TextEditingController(text: 'test');
+  TextEditingController emailCont = TextEditingController(text: '@yopmail.com');
+  TextEditingController passwordCont = TextEditingController(text: '@123');
+  TextEditingController userIdCont = TextEditingController(text: '');
+  TextEditingController userNameCont = TextEditingController(text: '');
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 

@@ -12,6 +12,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 
 class RestApi {
+
   static Future<String> signUpApi(String loginId, String name, String email, String password) async {
     String url = App.baseUrl + App.signUp;
 
@@ -23,7 +24,7 @@ class RestApi {
     };
 
     var headerData = {
-      "Authorization" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZG9vci5paGVhcnRtdXNsaW1zLmNvbSIsImlhdCI6MTYwNDAzMjkxMiwibmJmIjoxNjA0MDMyOTEyLCJleHAiOjE2MDQ2Mzc3MTIsImRhdGEiOnsidXNlciI6eyJpZCI6OX19fQ.ZcZuPd1EQtZnlwWlJ4fpEiuSU-R113pTaNqQAQFYHOg"
+      "Authorization" : "Bearer "+App.adminToken
     };
 
     print(url);
@@ -82,7 +83,7 @@ class RestApi {
     var bodyData = {"email": email};
 
     var headerData = {
-      "Authorization" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZG9vci5paGVhcnRtdXNsaW1zLmNvbSIsImlhdCI6MTYwMzg2NTg0NSwibmJmIjoxNjAzODY1ODQ1LCJleHAiOjE2MDQ0NzA2NDUsImRhdGEiOnsidXNlciI6eyJpZCI6NH19fQ.sc9EMD37nM1SLakLt_gOtgjGH8ejLuRe5_jxEbwtaZo"
+      "Authorization" : "Bearer "+App.adminToken
     };
 
     print(url);
@@ -107,7 +108,7 @@ class RestApi {
     var bodyData = {"email": email, "code": code};
 
     var headerData = {
-      "Authorization" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZG9vci5paGVhcnRtdXNsaW1zLmNvbSIsImlhdCI6MTYwMzg2NTg0NSwibmJmIjoxNjAzODY1ODQ1LCJleHAiOjE2MDQ0NzA2NDUsImRhdGEiOnsidXNlciI6eyJpZCI6NH19fQ.sc9EMD37nM1SLakLt_gOtgjGH8ejLuRe5_jxEbwtaZo"
+      "Authorization" : "Bearer "+App.adminToken
     };
 
     print(url);
@@ -132,7 +133,7 @@ class RestApi {
     var bodyData = {"email": email, "password": password, "code": code};
 
     var headerData = {
-      "Authorization" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZG9vci5paGVhcnRtdXNsaW1zLmNvbSIsImlhdCI6MTYwNDAzMjkxMiwibmJmIjoxNjA0MDMyOTEyLCJleHAiOjE2MDQ2Mzc3MTIsImRhdGEiOnsidXNlciI6eyJpZCI6OX19fQ.ZcZuPd1EQtZnlwWlJ4fpEiuSU-R113pTaNqQAQFYHOg"
+      "Authorization" : "Bearer "+App.adminToken
     };
 
     print(url);

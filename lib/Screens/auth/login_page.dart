@@ -207,8 +207,8 @@ class LoginPageState extends State<LoginPage> {
                 child: GestureDetector(
                   onTap: (){
                     if(!isLoading){
-                      // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignUpPage()));
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Welcome()));
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignUpPage()));
+                      // Navigator.push(context, MaterialPageRoute(builder: (context) => Welcome()));
                     }
                   },
                   child: Container(

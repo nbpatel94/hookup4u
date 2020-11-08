@@ -37,7 +37,7 @@ class ListHolderPageState extends State<ListHolderPage> {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(80),
-                            child: appState.medialList!=null ? Image.network(
+                            child: appState.medialList!=null &&  appState.medialList.isNotEmpty? Image.network(
                               appState.medialList[0].sourceUrl,
                               height: 120,
                               width: 120,
@@ -53,12 +53,15 @@ class ListHolderPageState extends State<ListHolderPage> {
                           Text(appState.currentUserData.data.displayName,style: TextStyle(fontSize: 28,color: ColorRes.textColor)),
                           SizedBox(height: 2,),
                           GestureDetector(
-                              onTap: (){
+                              onTap: () async {
                                 Navigator.pop(context);
-                                Navigator.push(
+                                await Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => EditProfile()));
+                                setState(() {
+
+                                });
                               },
                               child: Text("EDIT PROFILE",style: TextStyle(fontSize: 12,color: Colors.white,fontWeight: FontWeight.bold)))
                         ],

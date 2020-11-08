@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hookup4u/Screens/auth/start_screen.dart';
+import 'package:hookup4u/util/color.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -12,7 +13,7 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 2), () {
+    Future.delayed(Duration(seconds: 3), () {
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => StartScreen()));
     });
@@ -21,7 +22,7 @@ class _SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: ColorRes.primaryColor,
         body: Center(
           child: Container(
               height: 120,

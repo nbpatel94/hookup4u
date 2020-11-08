@@ -29,5 +29,3 @@ class AppState {
   String dateOfBirth = '';
 
 }
-
-final appState = AppState();

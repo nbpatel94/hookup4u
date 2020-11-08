@@ -27,6 +27,9 @@ class EditProfileViewModel{
     MediaModel model = await RestApi.uploadUserMedia(state.image);
     if(model!=null){
       state.setState(() {
+        if(appState.medialList==null){
+          appState.medialList = List();
+        }
         appState.medialList.add(model);
       });
       await sharedPreferences.setString(Preferences.mediaData, mediaListToJson(appState.medialList));

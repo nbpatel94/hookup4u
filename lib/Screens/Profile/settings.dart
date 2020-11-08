@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hookup4u/Screens/auth/start_screen.dart';
+import 'package:hookup4u/app.dart';
+import 'package:hookup4u/app_state.dart';
 import 'package:hookup4u/util/color.dart';
 import 'UpdateNumber.dart';
 
@@ -308,7 +310,9 @@ class _SettingsState extends State<Settings> {
               ),
             ),
             GestureDetector(
-              onTap: (){
+              onTap: () async {
+                await sharedPreferences.clear();
+                appState = AppState();
                 Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => StartScreen()),(Route<dynamic> route) => false);
               },
               child: Padding(

@@ -23,10 +23,8 @@ class EditProfile extends StatefulWidget {
 }
 
 class EditProfileState extends State<EditProfile> {
-  TextEditingController livingCont =
-      TextEditingController(text: appState.livingIn);
-  TextEditingController jobTitleCont =
-      TextEditingController(text: appState.jobTitle);
+  TextEditingController livingCont = TextEditingController(text: appState.livingIn);
+  TextEditingController jobTitleCont = TextEditingController(text: appState.jobTitle);
   TextEditingController aboutCont = TextEditingController(text: appState.about);
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -174,7 +172,7 @@ class EditProfileState extends State<EditProfile> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Container(
-                          decoration: appState.medialList.length > index
+                          decoration: appState.medialList!=null && appState.medialList.length > index
                               ? BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   image: DecorationImage(
@@ -197,11 +195,11 @@ class EditProfileState extends State<EditProfile> {
                                 // height: 16,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: appState.medialList.length > index
+                                  color: appState.medialList!=null && appState.medialList.length > index
                                       ? Colors.white
                                       : primaryColor,
                                 ),
-                                child: appState.medialList.length > index
+                                child: appState.medialList!=null && appState.medialList.length > index
                                     ? InkWell(
                                         child: Icon(
                                           Icons.cancel,

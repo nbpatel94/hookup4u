@@ -78,35 +78,33 @@ class CardPicturesState extends State<CardPictures>
                     height: MediaQuery.of(context).size.height / 1.8,
                     child: SwipeStack(
                       key: swipeKey,
-                      children: model.list.map((index) {
+                      children: model.list.map((userModel) {
                         return SwiperItem(builder:
                             (SwiperPosition position, double progress) {
                           return Material(
                               elevation: 5,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(30)),
+                              borderRadius: BorderRadius.all(Radius.circular(30)),
                               child: Stack(
                                 children: <Widget>[
                                   ClipRRect(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(30)),
+                                    borderRadius: BorderRadius.all(Radius.circular(30)),
                                     child: Swiper(
                                       customLayoutOption: CustomLayoutOption(
                                         startIndex: 0,
                                       ),
                                       key: UniqueKey(),
                                       physics: NeverScrollableScrollPhysics(),
-                                      itemBuilder:
-                                          (BuildContext context, int index2) {
+                                      itemBuilder: (BuildContext context, int index2) {
                                         return Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height /
-                                              2,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          child: Image.network(
-                                            'https://image.freepik.com/free-photo/beautiful-girl-stands-near-walll-with-leaves_8353-5378.jpg',
+                                          height: MediaQuery.of(context).size.height / 2,
+                                          width: MediaQuery.of(context).size.width,
+                                          child: userModel.media!=null &&  userModel.media.isNotEmpty?Image.network(
+                                            userModel.media[0],
+                                            fit: BoxFit.cover,
+                                          ) : Image.asset(
+                                            'asset/userPictures/otherUsers/bunny1.jpeg',
+                                            height: MediaQuery.of(context).size.height / 2,
+                                            width: MediaQuery.of(context).size.width,
                                             fit: BoxFit.cover,
                                           ),
                                         );
@@ -191,14 +189,14 @@ class CardPicturesState extends State<CardPictures>
                                                   return Container();
                                                 }),
                                             title: Text(
-                                              "${index.data.displayName}  ${ageCount('12-02-1999')}",
+                                              "${userModel.data.displayName}  ${ageCount('12-02-1999')}",
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 25,
                                                   fontWeight: FontWeight.bold),
                                             ),
                                             subtitle: Text(
-                                              "${index.livingIn}",
+                                              "${userModel.livingIn}",
                                               style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 20,

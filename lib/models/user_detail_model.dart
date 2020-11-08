@@ -58,47 +58,47 @@ class Meta {
   Meta({
     this.about,
     this.dateOfBirth,
-    this.sexualOrientation,
     this.jobTitle,
     this.relation,
     this.livingIn,
     this.gender,
+    this.children,
   });
 
   String about;
   String dateOfBirth;
-  String sexualOrientation;
   String jobTitle;
   String relation;
   String livingIn;
   String gender;
+  String children;
 
   factory Meta.fromJson(Map<String, dynamic> json) => Meta(
     about: json["about"],
     dateOfBirth: json["date_of_birth"],
-    sexualOrientation: json["sexual_orientation"],
     jobTitle: json["job_title"],
     relation: json["relation"],
     livingIn: json["living_in"],
     gender: json["gender"],
+    children: json["children"],
   );
 
   Map<String, dynamic> toJson() => {
     "id" : appState.currentUserData.data.id.toString(),
     "about": about,
-    "sexual_orientation": sexualOrientation,
     "job_title": jobTitle,
     "relation": relation,
     "living_in": livingIn,
+    "children": children,
   };
 
   Map<String, dynamic> toFirstJson() => {
     "id" : appState.currentUserData.data.id.toString(),
     "about": about,
     "date_of_birth": dateOfBirth.replaceAll('/', '-'),
-    "sexual_orientation": sexualOrientation,
     "job_title": jobTitle,
     "relation": relation,
     "living_in": livingIn,
+    "children": children,
   };
 }

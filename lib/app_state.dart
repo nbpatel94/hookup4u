@@ -20,8 +20,9 @@ class AppState {
   String accessToken ='';
   String name = '';
   String iAm = '';
-  String sexualOrientation = '';
-  String status = '';
+  // String sexualOrientation = '';
+  String relation = '';
+  String children = '';
   String livingIn = '';
   String jobTitle = '';
   String about = '';

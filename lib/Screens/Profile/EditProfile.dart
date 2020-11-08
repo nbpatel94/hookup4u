@@ -87,9 +87,8 @@ class EditProfileState extends State<EditProfile> {
           appState.userDetailsModel.meta.about = aboutCont.text.trim();
           appState.livingIn = livingCont.text.trim();
           appState.userDetailsModel.meta.livingIn = livingCont.text.trim();
-          appState.userDetailsModel.meta.sexualOrientation =
-              appState.sexualOrientation;
-          appState.userDetailsModel.meta.relation = appState.status;
+          appState.userDetailsModel.meta.children = appState.children;
+          appState.userDetailsModel.meta.relation = appState.relation;
 
           print(appState.userDetailsModel.meta.toJson());
 
@@ -135,9 +134,8 @@ class EditProfileState extends State<EditProfile> {
                   appState.livingIn = livingCont.text.trim();
                   appState.userDetailsModel.meta.livingIn =
                       livingCont.text.trim();
-                  appState.userDetailsModel.meta.sexualOrientation =
-                      appState.sexualOrientation;
-                  appState.userDetailsModel.meta.relation = appState.status;
+                  appState.userDetailsModel.meta.children = appState.children;
+                  appState.userDetailsModel.meta.relation = appState.relation;
 
                   print(appState.userDetailsModel.meta.toJson());
 
@@ -303,55 +301,58 @@ class EditProfileState extends State<EditProfile> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  Text("${appState.status}"),
+                                  Text("${appState.relation}"),
                                   Icon(
                                     Icons.arrow_forward_ios,
                                     size: 16,
                                   )
                                 ],
                               ),
-                              onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SexualOrientation(
-                                            isStatus: true,
-                                            generated: true,
-                                          ))),
+                              onTap: () async {
+                                await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SexualOrientation(
+                                          isStatus: true,
+                                          generated: true,
+                                        )));
+                                setState(() {});
+                              },
                             ),
                           ),
                         )),
-                    ListTile(
-                        title: Text(
-                          "Sexual Orientation",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              color: ColorRes.textColor),
-                        ),
-                        subtitle: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: InkWell(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text("${appState.sexualOrientation}"),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 16,
-                                  )
-                                ],
-                              ),
-                              onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SexualOrientation(
-                                            generated: true,
-                                          ))),
-                            ),
-                          ),
-                        )),
+                    // ListTile(
+                    //     title: Text(
+                    //       "Sexual Orientation",
+                    //       style: TextStyle(
+                    //           fontWeight: FontWeight.w500,
+                    //           fontSize: 16,
+                    //           color: ColorRes.textColor),
+                    //     ),
+                    //     subtitle: Card(
+                    //       child: Padding(
+                    //         padding: const EdgeInsets.all(15.0),
+                    //         child: InkWell(
+                    //           child: Row(
+                    //             mainAxisAlignment:
+                    //                 MainAxisAlignment.spaceBetween,
+                    //             children: <Widget>[
+                    //               Text("${appState.sexualOrientation}"),
+                    //               Icon(
+                    //                 Icons.arrow_forward_ios,
+                    //                 size: 16,
+                    //               )
+                    //             ],
+                    //           ),
+                    //           onTap: () => Navigator.push(
+                    //               context,
+                    //               MaterialPageRoute(
+                    //                   builder: (context) => SexualOrientation(
+                    //                         generated: true,
+                    //                       ))),
+                    //         ),
+                    //       ),
+                    //     )),
                     // ListTile(
                     //     title: Text(
                     //       "Control your profile",

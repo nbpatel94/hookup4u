@@ -21,8 +21,8 @@ class LoginViewModel{
         print("meta contain");
         UserDetailsModel userDetailsModel = userDetailsModelFromJson(sharedPreferences.getString(Preferences.metaData));
         appState.userDetailsModel = userDetailsModel;
-        appState.sexualOrientation = userDetailsModel.meta.sexualOrientation;
-        appState.status = userDetailsModel.meta.relation;
+        appState.children = userDetailsModel.meta.children;
+        appState.relation = userDetailsModel.meta.relation;
         appState.livingIn = userDetailsModel.meta.livingIn;
         appState.jobTitle = userDetailsModel.meta.jobTitle;
         appState.about = userDetailsModel.meta.about;
@@ -46,8 +46,8 @@ class LoginViewModel{
         UserDetailsModel userDetailsModel = await RestApi.getSingleUserDetails(appState.id);
         if(userDetailsModel!=null && userDetailsModel.meta.about!=""){
           appState.userDetailsModel = userDetailsModel;
-          appState.sexualOrientation = userDetailsModel.meta.sexualOrientation;
-          appState.status = userDetailsModel.meta.relation;
+          appState.children = userDetailsModel.meta.children;
+          appState.relation = userDetailsModel.meta.relation;
           appState.livingIn = userDetailsModel.meta.livingIn;
           appState.jobTitle = userDetailsModel.meta.jobTitle;
           appState.about = userDetailsModel.meta.about;

@@ -36,7 +36,7 @@ class _SexualOrientationState extends State<SexualOrientation> {
     _scaffoldKey.currentState.showSnackBar(snackBar);
   }
 
-  List<Map<String, dynamic>> orientationlist = [
+  List<Map<String, dynamic>> relationshiplist = [
     {'name': 'Single', 'ontap': false},
     {'name': 'Relationship', 'ontap': false},
     {'name': 'Complected', 'ontap': false},
@@ -47,15 +47,18 @@ class _SexualOrientationState extends State<SexualOrientation> {
     {'name': 'LiveIn', 'ontap': false},
   ];
 
-  List<Map<String, dynamic>> statuslist = [
+  List<Map<String, dynamic>> childrenlist = [
     {'name': 'No Children', 'ontap': false},
     {'name': 'Have Children', 'ontap': false},
   ];
-  List selectedOrientation = [];
-  List selectedStatus = [];
+  List selectedRelationship = [];
+  List selectedChildren = [];
 
   bool isOrientation = false;
   bool isStatus = false;
+
+  bool isRelation = false;
+  bool isChild = false;
 
   @override
   void initState() {
@@ -74,9 +77,9 @@ class _SexualOrientationState extends State<SexualOrientation> {
 
     return WillPopScope(
       onWillPop: () async {
-        if (isOrientation && !widget.isStatus) {
+        if (isRelation && !widget.isStatus) {
           setState(() {
-            isOrientation = false;
+            isRelation = false;
           });
         } else {
           Navigator.pop(context);
@@ -105,70 +108,94 @@ class _SexualOrientationState extends State<SexualOrientation> {
                 ))),
             onTap: () async {
               if (widget.generated) {
-                if (widget.isStatus) {
-                  if (selectedStatus.isNotEmpty) {
-                    appState.status = selectedStatus[0].toString();
-                    Navigator.pop(context);
-                  } else {
-                    snackbar('Select relationship status');
+                if(!isRelation){
+                  if (selectedRelationship.isNotEmpty) {
+                    appState.relation = selectedRelationship[0].toString();
+                    appState.userDetailsModel.meta.relation = appState.relation;
+                    setState(() {
+                      if(appState.relation=='Married' ||
+                          appState.relation=='Currently Married' ||
+                          appState.relation=='Divorced' ||
+                          appState.relation=='Widowed' ) {
+                        isRelation = true;
+                        isChild = false;
+                      }else{
+                        Navigator.pop(context);
+                      }
+                    });
                   }
-                } else {
-                  if (selectedOrientation.isNotEmpty) {
-                    appState.sexualOrientation =
-                        selectedOrientation[0].toString();
-                    Navigator.pop(context);
-                  } else {
-                    snackbar('Select sexual orientation');
+                  else {
+                    snackbar('Select relationship');
                   }
                 }
-              } else {
-                if (isOrientation) {
-                  if (isStatus) {
-                    if (dateOfBirth == 'Date of birth') {
-                      snackbar('Select date of birth');
-                    } else if (DateTime.now().year - currentYear < 16) {
-                      snackbar('Must require 16+');
-                    } else {
-                      appState.dateOfBirth = dateOfBirth;
-                      appState.userDetailsModel.meta.dateOfBirth =
-                          appState.dateOfBirth;
-
-                      // print(jsonEncode(appState.userDetailsModel.meta.toJson()));
-                      String check = await RestApi.updateUserDetails(
-                          appState.userDetailsModel.meta.toFirstJson());
-                      if (check == 'success') {
-                        Navigator.pushAndRemoveUntil(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ListHolderPage()),
-                            (Route<dynamic> route) => false);
-                      } else {
-                        snackbar(
-                            'Something went wrong! Try to update after sometime');
-                      }
-                    }
-                  } else {
-                    if (selectedStatus.isNotEmpty) {
-                      appState.status = selectedStatus[0].toString();
-                      appState.userDetailsModel.meta.relation = appState.status;
-                      setState(() {
-                        isStatus = true;
-                      });
-                    } else {
-                      snackbar('Select relationship status');
-                    }
-                  }
-                } else {
-                  if (selectedOrientation.isNotEmpty) {
-                    appState.sexualOrientation =
-                        selectedOrientation[0].toString();
-                    appState.userDetailsModel.meta.sexualOrientation =
-                        appState.sexualOrientation;
+                else if(!isChild){
+                  if (selectedChildren.isNotEmpty) {
+                    appState.children = selectedChildren[0].toString();
+                    appState.userDetailsModel.meta.children = appState.children;
                     setState(() {
-                      isOrientation = true;
+                        isChild = true;
+                    });
+                    Navigator.pop(context);
+                  } else {
+                    snackbar('Select relationship');
+                  }
+                }
+              }
+              else {
+                if(!isRelation){
+                  if (selectedRelationship.isNotEmpty) {
+                    appState.relation = selectedRelationship[0].toString();
+                    appState.userDetailsModel.meta.relation = appState.relation;
+                    setState(() {
+                      if(appState.relation=='Married' ||
+                          appState.relation=='Currently Married' ||
+                          appState.relation=='Divorced' ||
+                          appState.relation=='Widowed' ) {
+                        isRelation = true;
+                        isChild = false;
+                      }else{
+                        isRelation = true;
+                        isChild = true;
+                      }
                     });
                   } else {
-                    snackbar('Select sexual orientation');
+                    snackbar('Select relationship');
+                  }
+                }
+                else if(!isChild){
+                  if (selectedChildren.isNotEmpty) {
+                    appState.children = selectedChildren[0].toString();
+                    appState.userDetailsModel.meta.children = appState.children;
+                    setState(() {
+                      isChild = true;
+                    });
+                  } else {
+                    snackbar('Select relationship');
+                  }
+                }
+                else{
+                  if (dateOfBirth == 'Date of birth') {
+                    snackbar('Select date of birth');
+                  } else if (DateTime.now().year - currentYear < 16) {
+                    snackbar('Must require 16+');
+                  } else {
+                    appState.dateOfBirth = dateOfBirth;
+                    appState.userDetailsModel.meta.dateOfBirth =
+                        appState.dateOfBirth;
+
+                    // print(jsonEncode(appState.userDetailsModel.meta.toJson()));
+                    String check = await RestApi.updateUserDetails(
+                        appState.userDetailsModel.meta.toFirstJson());
+                    if (check == 'success') {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ListHolderPage()),
+                              (Route<dynamic> route) => false);
+                    } else {
+                      snackbar(
+                          'Something went wrong! Try to update after sometime');
+                    }
                   }
                 }
               }
@@ -184,25 +211,22 @@ class _SexualOrientationState extends State<SexualOrientation> {
               children: <Widget>[
                 Padding(
                   child: Text(
-                    isStatus
-                        ? "Your Birth-Date"
-                        :  isOrientation
-                                ? "My relationship\nstatus is"
-                                : "My sexual\norientation is",
+                    !isRelation
+                        ? "My relationship\nstatus is"
+                        : !isChild
+                            ? "Children"
+                            : "My Birth Date",
                     style: TextStyle(fontSize: 30, color: ColorRes.white),
                   ),
                   padding: EdgeInsets.only(left: 70, top: 80),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 70),
-                  child: isStatus
-                      ? dateOfBirthDropDown()
-                      : ListView.builder(
+                  child: !isRelation
+                      ? ListView.builder(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
-                          itemCount: isOrientation
-                              ? statuslist.length
-                              : orientationlist.length,
+                          itemCount: relationshiplist.length,
                           itemBuilder: (BuildContext context, index) {
                             return Padding(
                               padding: const EdgeInsets.all(4.0),
@@ -215,7 +239,7 @@ class _SexualOrientationState extends State<SexualOrientation> {
                                       MediaQuery.of(context).size.width * .65,
                                   child: Center(
                                       child: Text(
-                                          "${isOrientation ? statuslist[index]["name"] : orientationlist[index]["name"]}",
+                                          "${relationshiplist[index]["name"]}",
                                           style: TextStyle(
                                               fontSize: 20,
                                               color: ColorRes.textColor,
@@ -224,44 +248,77 @@ class _SexualOrientationState extends State<SexualOrientation> {
                                 borderSide: BorderSide(
                                     width: 1,
                                     style: BorderStyle.solid,
-                                    color: isOrientation
-                                        ? statuslist[index]["ontap"]
-                                            ? ColorRes.redButton
-                                            : ColorRes.darkButton
-                                        : orientationlist[index]["ontap"]
-                                            ? ColorRes.redButton
-                                            : ColorRes.darkButton),
+                                    color: relationshiplist[index]["ontap"]
+                                        ? ColorRes.redButton
+                                        : ColorRes.darkButton),
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(25)),
                                 onPressed: () {
                                   setState(() {
-                                    if (isOrientation) {
-                                      for (int i = 0;
-                                          i < statuslist.length;
-                                          i++) {
-                                        statuslist[i]["ontap"] = false;
-                                      }
-                                      statuslist[index]["ontap"] = true;
-                                      selectedStatus.clear();
-                                      selectedStatus
-                                          .add(statuslist[index]["name"]);
-                                    } else {
-                                      for (int i = 0;
-                                          i < orientationlist.length;
-                                          i++) {
-                                        orientationlist[i]["ontap"] = false;
-                                      }
-                                      orientationlist[index]["ontap"] = true;
-                                      selectedOrientation.clear();
-                                      selectedOrientation
-                                          .add(orientationlist[index]["name"]);
+                                    for (int i = 0;
+                                        i < relationshiplist.length;
+                                        i++) {
+                                      relationshiplist[i]["ontap"] = false;
                                     }
+                                    relationshiplist[index]["ontap"] = true;
+                                    selectedRelationship.clear();
+                                    selectedRelationship
+                                        .add(relationshiplist[index]["name"]);
                                   });
                                 },
                               ),
                             );
                           },
-                        ),
+                        )
+                      : !isChild
+                          ? ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: childrenlist.length,
+                              itemBuilder: (BuildContext context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(4.0),
+                                  child: OutlineButton(
+                                    highlightedBorderColor: primaryColor,
+                                    child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              .055,
+                                      width: MediaQuery.of(context).size.width *
+                                          .65,
+                                      child: Center(
+                                          child: Text(
+                                              "${childrenlist[index]["name"]}",
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  color: ColorRes.textColor,
+                                                  fontWeight:
+                                                      FontWeight.bold))),
+                                    ),
+                                    borderSide: BorderSide(
+                                        width: 1,
+                                        style: BorderStyle.solid,
+                                        color: childrenlist[index]["ontap"]
+                                            ? ColorRes.redButton
+                                            : ColorRes.darkButton),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(25)),
+                                    onPressed: () {
+                                      setState(() {
+                                        for (int i = 0; i < childrenlist.length; i++) {
+                                          childrenlist[i]["ontap"] = false;
+                                        }
+                                        childrenlist[index]["ontap"] = true;
+                                        selectedChildren.clear();
+                                        selectedChildren.add(childrenlist[index]["name"]);
+                                      });
+                                    },
+                                  ),
+                                );
+                              },
+                            )
+                          : dateOfBirthDropDown(),
                 ),
                 SizedBox(
                   height: 30,

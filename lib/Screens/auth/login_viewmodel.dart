@@ -18,6 +18,7 @@ class LoginViewModel{
     String confirm = await RestApi.logInApi(state.usernameCont.text.trim(), state.passwordCont.text.trim());
     if (confirm == 'success') {
       if(sharedPreferences.containsKey(Preferences.metaData)){
+        print("meta contain");
         UserDetailsModel userDetailsModel = userDetailsModelFromJson(sharedPreferences.getString(Preferences.metaData));
         appState.userDetailsModel = userDetailsModel;
         appState.sexualOrientation = userDetailsModel.meta.sexualOrientation;
@@ -26,10 +27,13 @@ class LoginViewModel{
         appState.jobTitle = userDetailsModel.meta.jobTitle;
         appState.about = userDetailsModel.meta.about;
         if(sharedPreferences.containsKey(Preferences.mediaData)){
+          print("media contain");
           List<MediaModel> mediaList = mediaListFromJson(sharedPreferences.getString(Preferences.mediaData));
           appState.medialList = mediaList;
           Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => ListHolderPage()),(Route<dynamic> route) => false);
-        }else{
+        }
+        else{
+          print("media !contain");
           final medialList = await RestApi.getSingleUserMedia();
           if(medialList!=null){
             appState.medialList = medialList;
@@ -37,8 +41,8 @@ class LoginViewModel{
             Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => ListHolderPage()),(Route<dynamic> route) => false);
           }
         }
-        Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => ListHolderPage()),(Route<dynamic> route) => false);
       }else{
+        print("meta !contain");
         UserDetailsModel userDetailsModel = await RestApi.getSingleUserDetails(appState.id);
         if(userDetailsModel!=null && userDetailsModel.meta.about!=""){
           appState.userDetailsModel = userDetailsModel;

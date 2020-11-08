@@ -62,6 +62,7 @@ flutter:
   assets:
    - asset/userPictures/otherUsers/
    - asset/Icon/
+   - asset/
    - asset/userPictures/currentUser/
 
   #  - images/a_dot_ham.jpeg

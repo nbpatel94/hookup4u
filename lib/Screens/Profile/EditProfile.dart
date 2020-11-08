@@ -426,6 +426,7 @@ class EditProfileState extends State<EditProfile> {
                   if (_image != null) {
                     image = _image;
                     print("Image ${image.absolute.path}");
+                    model.uploadUseMedia();
                     Navigator.pop(context);
                   }
                 },

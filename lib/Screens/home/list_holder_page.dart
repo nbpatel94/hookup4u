@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:hookup4u/Screens/Chat/messages_page.dart';
 import 'package:hookup4u/Screens/Profile/EditProfile.dart';
 import 'package:hookup4u/Screens/Profile/settings.dart';
-import 'package:hookup4u/Screens/my_matches.dart';
 import 'package:hookup4u/app.dart';
+import 'package:hookup4u/my_matches.dart';
 import '../cardpage/card_pictures.dart';
 import 'package:hookup4u/util/color.dart';
 
@@ -37,7 +37,12 @@ class ListHolderPageState extends State<ListHolderPage> {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(80),
-                            child: Image.asset(
+                            child: appState.medialList!=null ? Image.network(
+                              appState.medialList[0].sourceUrl,
+                              height: 120,
+                              width: 120,
+                              fit: BoxFit.cover,
+                            ) : Image.asset(
                               'asset/userPictures/otherUsers/bunny1.jpeg',
                               height: 120,
                               width: 120,

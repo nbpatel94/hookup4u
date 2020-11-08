@@ -29,6 +29,7 @@ class EditProfileViewModel{
       state.setState(() {
         appState.medialList.add(model);
       });
+      await sharedPreferences.setString(Preferences.mediaData, mediaListToJson(appState.medialList));
     }else{
       state.snackbar('Server issue! Try later');
     }

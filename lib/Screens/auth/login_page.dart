@@ -16,8 +16,8 @@ class LoginPageState extends State<LoginPage> {
 
   LoginViewModel model;
 
-  TextEditingController usernameCont = TextEditingController(text: 'test1');
-  TextEditingController passwordCont = TextEditingController(text: 'test');
+  TextEditingController usernameCont = TextEditingController();
+  TextEditingController passwordCont = TextEditingController();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 

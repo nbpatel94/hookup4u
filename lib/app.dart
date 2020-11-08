@@ -13,6 +13,8 @@ class App{
   static const String users = 'users/';
   static const String userList = 'userlist';
   static const String media = 'media';
+  static const String match = 'match';
+  static const String match_reject = 'match_reject';
   static const String user = 'user';
   static const String set_password = 'set-password';
   static const String i_like_you = 'i_like_you';

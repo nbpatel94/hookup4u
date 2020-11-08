@@ -129,6 +129,7 @@ class _GenderState extends State<Gender> {
                     }else{
                       appState.iAm = 'woman';
                     }
+                    appState.userDetailsModel = UserDetailsModel();
                     appState.userDetailsModel.meta = Meta();
                     appState.userDetailsModel.meta.gender = appState.iAm;
                     setState(() {

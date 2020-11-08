@@ -312,7 +312,9 @@ class _SettingsState extends State<Settings> {
             GestureDetector(
               onTap: () async {
                 await sharedPreferences.clear();
-                appState = AppState();
+                appState.medialList.clear();
+                appState.userDetailsModel = null;
+                appState.currentUserData = null;
                 Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => StartScreen()),(Route<dynamic> route) => false);
               },
               child: Padding(

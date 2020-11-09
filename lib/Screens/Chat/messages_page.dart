@@ -2,19 +2,24 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:hookup4u/Screens/Chat/chat_screen.dart';
+import 'package:hookup4u/Screens/Chat/messages_page_viewmodel.dart';
 import 'package:hookup4u/Screens/Profile/EditProfile.dart';
 import 'package:hookup4u/Screens/Profile/settings.dart';
+import 'package:hookup4u/Screens/match/my_matches.dart';
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/models/data_model.dart';
-import 'file:///E:/Priyesh/hookup4u/lib/Screens/match/my_matches.dart';
 import 'package:hookup4u/util/color.dart';
+import 'package:lottie/lottie.dart';
 
 class MessagesScreen extends StatefulWidget {
   @override
-  _MessagesScreenState createState() => _MessagesScreenState();
+  MessagesScreenState createState() => MessagesScreenState();
 }
 
-class _MessagesScreenState extends State<MessagesScreen> {
+class MessagesScreenState extends State<MessagesScreen> {
+
+  MessagesPageViewModel model;
+  bool isLoading = true;
 
   get drawerWidget => SafeArea(
     child: Drawer(
@@ -187,6 +192,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    model ?? (model = MessagesPageViewModel(this));
     return Scaffold(
       backgroundColor: ColorRes.primaryColor,
       key: _scaffoldKey,
@@ -203,7 +209,17 @@ class _MessagesScreenState extends State<MessagesScreen> {
             },
             child: Icon(Icons.menu)),
       ),
-      body: SingleChildScrollView(
+      body: isLoading
+          ? Center(
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 50),
+          child: Lottie.asset('asset/Icon/main_loader.json',
+              height: MediaQuery.of(context).size.width / 2,
+              width: MediaQuery.of(context).size.width / 2),
+        ),
+      )
+          : model.matchList.isNotEmpty ?
+      SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
@@ -218,7 +234,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
               ),
               child: ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: chats.length,
+                itemCount: model.matchList.length,
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
                   final Message chat = chats[index];
@@ -229,12 +245,19 @@ class _MessagesScreenState extends State<MessagesScreen> {
                         indent: 20,
                         color: Colors.grey,
                       ),
-                      GestureDetector(
+                      InkWell(
                         onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (_) => ChatScreen(
-                              sender: chat.sender,
+                              sender: model.matchList[index].senderId != appState.id.toString() ?
+                              model.matchList[index].senderMeta :
+                              model.matchList[index].targetMeta,
+                              userId: model.matchList[index].senderId != appState.id.toString() ?
+                              model.matchList[index].senderId :
+                              model.matchList[index].taregtId,
+                              threadId: model.matchList[index].threadId,
+                              matchId: model.matchList[index].matchId,
                             ),
                           ),
                         ),
@@ -249,10 +272,36 @@ class _MessagesScreenState extends State<MessagesScreen> {
                                   Stack(
                                     alignment: Alignment.bottomCenter,
                                     children: [
-                                      CircleAvatar(
-                                        radius: 32.0,
-                                        backgroundColor: secondryColor,
-                                        backgroundImage: AssetImage(chat.sender.imageUrl[0]),
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(80),
+                                        child: model.matchList[index].senderId != appState.id.toString() ?
+                                        model.matchList[index].senderMeta.media.isNotEmpty
+                                            ?
+                                        Image.network(
+                                          model.matchList[index].senderMeta.media[0],
+                                          height: 60,
+                                          width: 60,
+                                          fit: BoxFit.cover,
+                                        ) : Image.asset(
+                                          'asset/userPictures/otherUsers/bunny1.jpeg',
+                                          height: 60,
+                                          width: 60,
+                                          fit: BoxFit.cover,
+                                        )
+                                            :
+                                        model.matchList[index].targetMeta.media.isNotEmpty
+                                            ?
+                                        Image.network(
+                                          model.matchList[index].targetMeta.media[0],
+                                          height: 60,
+                                          width: 60,
+                                          fit: BoxFit.cover,
+                                        ) : Image.asset(
+                                          'asset/userPictures/otherUsers/bunny1.jpeg',
+                                          height: 60,
+                                          width: 60,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                       Container(
                                         decoration: BoxDecoration(
@@ -271,7 +320,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
                                       Row(
                                         children: [
                                           Text(
-                                            chat.sender.name,
+                                            model.matchList[index].senderId != appState.id.toString() ?
+                                            model.matchList[index].senderMeta.name :
+                                            model.matchList[index].targetMeta.name,
                                             style: TextStyle(
                                               color: ColorRes.white,
                                               fontSize: 18,
@@ -339,7 +390,11 @@ class _MessagesScreenState extends State<MessagesScreen> {
             ),
           ],
         ),
-      ),
+      ) : Center(
+      child: Text(
+      "No Matches",
+      style: TextStyle(color: secondryColor, fontSize: 16),
+    ),),
       drawer: drawerWidget,
     );
   }

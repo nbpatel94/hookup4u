@@ -216,7 +216,10 @@ class ListHolderPageState extends State<ListHolderPage> {
           actions: [
             GestureDetector(
                 onTap: (){
-                  _scaffoldKey.currentState.openDrawer();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => MessagesScreen()));
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(right: 10),

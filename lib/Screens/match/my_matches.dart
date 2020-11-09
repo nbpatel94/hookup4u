@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hookup4u/Screens/Chat/chat_screen.dart';
 import 'package:hookup4u/Screens/Information.dart';
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/models/data_model.dart';
@@ -89,7 +90,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 30, vertical: 3),
                                         child: Text(
-                                          "You and ${model.matchList[index].senderId != appState.id.toString() ? model.matchList[index].senderMeta.name : model.matchList[index].targetMeta.name} liked each other,\nYou can send him a message",
+                                          "You and ${model.matchList[index].senderId != appState.id.toString() ? model.matchList[index].senderMeta.name : model.matchList[index].targetMeta.name} liked each other,\nYou can send a message",
                                           textAlign: TextAlign.center,
                                           style: TextStyle(fontSize: 16),
                                         ),
@@ -156,21 +157,38 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                 mainAxisAlignment:
                                 MainAxisAlignment.spaceEvenly,
                                 children: [
-                                  Container(
-                                    height: MediaQuery.of(context).size.height * .055,
-                                    width: MediaQuery.of(context).size.width / 3,
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.circular(10),
-                                      color: ColorRes.redButton,
+                                  InkWell(
+                                    onTap: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => ChatScreen(
+                                          sender: model.matchList[index].senderId != appState.id.toString() ?
+                                          model.matchList[index].senderMeta :
+                                          model.matchList[index].targetMeta,
+                                          userId: model.matchList[index].senderId != appState.id.toString() ?
+                                          model.matchList[index].senderId :
+                                          model.matchList[index].taregtId,
+                                          threadId: model.matchList[index].threadId,
+                                          matchId: model.matchList[index].matchId,
+                                        ),
+                                      ),
                                     ),
-                                    child: Center(
-                                        child:Text("SEND A MESSAGE",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight
-                                                    .bold))),
+                                    child: Container(
+                                      height: MediaQuery.of(context).size.height * .055,
+                                      width: MediaQuery.of(context).size.width / 3,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.circular(10),
+                                        color: ColorRes.redButton,
+                                      ),
+                                      child: Center(
+                                          child:Text("SEND A MESSAGE",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 12,
+                                                  fontWeight: FontWeight
+                                                      .bold))),
+                                    ),
                                   ),
                                   Container(
                                     height: MediaQuery.of(context).size.height * .055,

@@ -175,29 +175,29 @@ List<Message> chats = [
 ];
 
 // EXAMPLE MESSAGES IN CHAT SCREEN
-List<Message> messages = [
-  Message(
-    sender: luv,
-    time: '2:45 PM',
-    text: 'How\'s the bunny? What are u doing And how was your day, I heard that you are getting new job, congratulations?',
-    unread: true,
-  ),
-  Message(
-    sender: luv,
-    time: '2:15 PM',
-    text: 'What are u doing ?',
-    unread: true,
-  ),
-  Message(
-    sender: currentUser,
-    time: '1:30 PM',
-    text: 'I am fine.',
-    unread: false,
-  ),
-  Message(
-    sender: luv,
-    time: '1:00 PM',
-    text: 'Hey How are you?.',
-    unread: true,
-  ),
-];
+// List<Message> messages = [
+//   Message(
+//     sender: luv,
+//     time: '2:45 PM',
+//     text: 'How\'s the bunny? What are u doing And how was your day, I heard that you are getting new job, congratulations?',
+//     unread: true,
+//   ),
+//   Message(
+//     sender: luv,
+//     time: '2:15 PM',
+//     text: 'What are u doing ?',
+//     unread: true,
+//   ),
+//   Message(
+//     sender: currentUser,
+//     time: '1:30 PM',
+//     text: 'I am fine.',
+//     unread: false,
+//   ),
+//   Message(
+//     sender: luv,
+//     time: '1:00 PM',
+//     text: 'Hey How are you?.',
+//     unread: true,
+//   ),
+// ];

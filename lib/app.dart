@@ -11,6 +11,7 @@ class App{
   static const String adminToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZG9vci5paGVhcnRtdXNsaW1zLmNvbSIsImlhdCI6MTYwNDgzODU5MywibmJmIjoxNjA0ODM4NTkzLCJleHAiOjQ3NTg0Mzg1OTMsImRhdGEiOnsidXNlciI6eyJpZCI6NH19fQ.SW23tR-JgteoMmKaM-wzrRxRfI5AG8IDIjxvTTlciPw';
 
   static const String signUp = 'signup';
+  static const String messages = 'messages';
   static const String activity = 'activity';
   static const String users = 'users/';
   static const String userList = 'userlist';

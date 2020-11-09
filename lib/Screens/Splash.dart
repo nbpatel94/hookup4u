@@ -37,11 +37,13 @@ class _SplashState extends State<Splash> {
         appState.livingIn = userDetailsModel.meta.livingIn;
         appState.jobTitle = userDetailsModel.meta.jobTitle;
         appState.about = userDetailsModel.meta.about;
+        appState.id = userDetailsModel.id;
         // print(userDetailsModel.meta.toJson());
         if(sharedPreferences.containsKey(Preferences.mediaData)){
           print("media contain");
           List<MediaModel> mediaList = mediaListFromJson(sharedPreferences.getString(Preferences.mediaData));
           appState.medialList = mediaList;
+          print('Current User : ${appState.id}');
           Future.delayed(Duration(seconds: 3), () {
             Navigator.push(context, MaterialPageRoute(builder: (context) => ListHolderPage()));
           });

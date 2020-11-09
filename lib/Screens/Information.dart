@@ -10,6 +10,7 @@ import 'cardpage/card_pictures.dart';
 
 class Info extends StatelessWidget {
   final User user;
+
   Info(this.user);
 
   @override
@@ -186,18 +187,23 @@ class Info extends StatelessWidget {
                     : Padding(
                         padding: const EdgeInsets.all(18.0),
                         child: Align(
-                            alignment: Alignment.bottomRight,
-                            child: FloatingActionButton(
-                                backgroundColor: Colors.white,
-                                child: Icon(
-                                  Icons.message,
-                                  color: primaryColor,
-                                ),
-                                onPressed: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            ChatScreen(sender: user))))),
+                          alignment: Alignment.bottomRight,
+                          child: FloatingActionButton(
+                            backgroundColor: Colors.white,
+                            child: Icon(
+                              Icons.message,
+                              color: primaryColor,
+                            ),
+                            onPressed: () {
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) => ChatScreen(sender: user),
+                              //   ),
+                              // );
+                            },
+                          ),
+                        ),
                       )
           ],
         ),

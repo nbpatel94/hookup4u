@@ -6,6 +6,7 @@ import 'package:hookup4u/models/activitymodel.dart';
 import 'package:hookup4u/models/match_model.dart';
 import 'package:hookup4u/models/mediamodel.dart';
 import 'package:hookup4u/models/profile_detail.dart';
+import 'package:hookup4u/models/thread_model.dart';
 import 'package:hookup4u/models/user_detail_model.dart';
 import 'package:hookup4u/prefrences.dart';
 import 'package:http/http.dart' as http;
@@ -99,6 +100,104 @@ class RestApi {
     } else {
       print(response.body);
       return userDetail.message;
+    }
+  }
+
+  static Future<MessageElement> getThreadMessages(String threadId) async {
+    String url = App.baseUrl + App.messages + '/$threadId';
+
+    var headerData = {
+      "Authorization" : "Bearer "+appState.accessToken
+    };
+
+    print(url);
+    print(headerData);
+
+    Response response = await http.get(url,headers: headerData);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      List<MessageElement> list = threadModelFromJson(response.body);
+      return list[0];
+    } else {
+      return null;
+    }
+  }
+
+  static Future<String> createThreadMessage(String senderId, String message,String matchId) async {
+    String url = App.baseUrl + App.messages;
+
+    var bodyData = {"message": message,"recipients": senderId};
+
+    var headerData = {
+      "Authorization" : "Bearer "+appState.accessToken
+    };
+
+    print(url);
+    print(bodyData);
+    print(headerData);
+
+    Response response = await http.post(url, body: bodyData,headers: headerData);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      print(response.body);
+      await setThreadId(matchId, jsonDecode(response.body)['id']);
+    } else {
+      return null;
+    }
+  }
+
+  static Future<String> setThreadId(String matchId, String threadId) async {
+    String url = App.baseUrlSA + App.match;
+
+    var headerData = {
+      "Authorization" : "Bearer ${appState.accessToken}"
+    };
+
+    var bodyData = {
+      "match_id" : matchId,
+      "thread_id" : threadId
+    };
+
+    print(url);
+    print(bodyData);
+    print(headerData);
+
+    try {
+      Response response = await http.post(url,headers: headerData, body: bodyData);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        print(response.body);
+        return 'success';
+      } else {
+        print(response.body);
+        return jsonDecode(response.body)['message'];
+      }
+    } catch (e) {
+      print(e);
+      return 'Something went wrong! Please try later';
+    }
+  }
+
+  static Future<String> sendThreadMessage(String senderId, String message,String threadId) async {
+    String url = App.baseUrl + App.messages;
+
+    var bodyData = {"message": message,"recipients": senderId,"id": threadId};
+
+    var headerData = {
+      "Authorization" : "Bearer "+appState.accessToken
+    };
+
+    print(url);
+    print(bodyData);
+    print(headerData);
+
+    Response response = await http.post(url, body: bodyData,headers: headerData);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      return 'success';
+    } else {
+      print(response.body);
+      return null;
     }
   }
 

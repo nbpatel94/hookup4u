@@ -15,6 +15,7 @@ class MatchModel {
     this.name,
     this.senderId,
     this.taregtId,
+    this.threadId,
     this.mutualMatch,
     this.targetMeta,
     this.senderMeta,
@@ -25,6 +26,7 @@ class MatchModel {
   String name;
   String senderId;
   String taregtId;
+  String threadId;
   String mutualMatch;
   Meta targetMeta;
   Meta senderMeta;
@@ -35,6 +37,7 @@ class MatchModel {
     name: json["name"],
     senderId: json["sender_id"],
     taregtId: json["taregt_id"],
+    threadId: json["thread_id"],
     mutualMatch: json["mutual_match"],
     targetMeta: Meta.fromJson(json["target_meta"]),
     senderMeta: Meta.fromJson(json["sender_meta"]),
@@ -46,6 +49,7 @@ class MatchModel {
     "name": name,
     "sender_id": senderId,
     "taregt_id": taregtId,
+    "thread_id": threadId,
     "mutual_match": mutualMatch,
     "target_meta": targetMeta.toJson(),
     "sender_meta": senderMeta.toJson(),
@@ -61,6 +65,7 @@ class Meta {
     this.relation,
     this.livingIn,
     this.gender,
+    this.children,
     this.media,
   });
 
@@ -71,6 +76,7 @@ class Meta {
   String relation;
   String livingIn;
   String gender;
+  String children;
   List<String> media;
 
   factory Meta.fromJson(Map<String, dynamic> json) => Meta(
@@ -81,6 +87,7 @@ class Meta {
     relation: json["relation"],
     livingIn: json["living_in"],
     gender: json["gender"],
+    children: json["children"],
     media: List<String>.from(json["media"].map((x) => x)),
   );
 
@@ -92,6 +99,7 @@ class Meta {
     "relation": relation,
     "living_in": livingIn,
     "gender": gender,
+    "children": children,
     "media": List<dynamic>.from(media.map((x) => x)),
   };
 }

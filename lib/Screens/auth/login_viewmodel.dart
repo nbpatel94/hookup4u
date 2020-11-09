@@ -17,54 +17,27 @@ class LoginViewModel{
   login() async {
     String confirm = await RestApi.logInApi(state.usernameCont.text.trim(), state.passwordCont.text.trim());
     if (confirm == 'success') {
-      if(sharedPreferences.containsKey(Preferences.metaData)){
-        print("meta contain");
-        UserDetailsModel userDetailsModel = userDetailsModelFromJson(sharedPreferences.getString(Preferences.metaData));
+      print("meta !contain");
+      UserDetailsModel userDetailsModel = await RestApi.getSingleUserDetails(appState.id);
+      if(userDetailsModel!=null && userDetailsModel.meta.about!=""){
         appState.userDetailsModel = userDetailsModel;
         appState.children = userDetailsModel.meta.children;
+        appState.gender = userDetailsModel.meta.gender;
         appState.relation = userDetailsModel.meta.relation;
         appState.livingIn = userDetailsModel.meta.livingIn;
         appState.jobTitle = userDetailsModel.meta.jobTitle;
         appState.about = userDetailsModel.meta.about;
-        print(userDetailsModel.meta.toJson());
-        if(sharedPreferences.containsKey(Preferences.mediaData)){
-          print("media contain");
-          List<MediaModel> mediaList = mediaListFromJson(sharedPreferences.getString(Preferences.mediaData));
-          appState.medialList = mediaList;
+        print(userDetailsModel.meta.toFirstJson());
+        await sharedPreferences.setString(Preferences.metaData, jsonEncode(userDetailsModel.toJson()));
+        final medialList = await RestApi.getSingleUserMedia();
+        if(medialList!=null){
+          appState.medialList = medialList;
+          await sharedPreferences.setString(Preferences.mediaData, mediaListToJson(medialList));
           Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => ListHolderPage()),(Route<dynamic> route) => false);
         }
-        else{
-          print("media !contain");
-          final medialList = await RestApi.getSingleUserMedia();
-          if(medialList!=null){
-            appState.medialList = medialList;
-            await sharedPreferences.setString(Preferences.mediaData, mediaListToJson(medialList));
-            Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => ListHolderPage()),(Route<dynamic> route) => false);
-          }
-        }
       }else{
-        print("meta !contain");
-        UserDetailsModel userDetailsModel = await RestApi.getSingleUserDetails(appState.id);
-        if(userDetailsModel!=null && userDetailsModel.meta.about!=""){
-          appState.userDetailsModel = userDetailsModel;
-          appState.children = userDetailsModel.meta.children;
-          appState.relation = userDetailsModel.meta.relation;
-          appState.livingIn = userDetailsModel.meta.livingIn;
-          appState.jobTitle = userDetailsModel.meta.jobTitle;
-          appState.about = userDetailsModel.meta.about;
-          print(userDetailsModel.meta.toJson());
-          await sharedPreferences.setString(Preferences.metaData, jsonEncode(userDetailsModel.toJson()));
-          final medialList = await RestApi.getSingleUserMedia();
-          if(medialList!=null){
-            appState.medialList = medialList;
-            await sharedPreferences.setString(Preferences.mediaData, mediaListToJson(medialList));
-            Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => ListHolderPage()),(Route<dynamic> route) => false);
-          }
-        }else{
-          Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => Welcome()),(Route<dynamic> route) => false);
-        }
+        Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => Welcome()),(Route<dynamic> route) => false);
       }
-
     }else{
       state.showSnackBar(confirm);
       state.setState(() {

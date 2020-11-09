@@ -6,7 +6,7 @@ import 'package:hookup4u/Screens/Profile/EditProfile.dart';
 import 'package:hookup4u/Screens/Profile/settings.dart';
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/models/data_model.dart';
-import 'package:hookup4u/my_matches.dart';
+import 'file:///E:/Priyesh/hookup4u/lib/Screens/match/my_matches.dart';
 import 'package:hookup4u/util/color.dart';
 
 class MessagesScreen extends StatefulWidget {

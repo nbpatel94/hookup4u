@@ -84,9 +84,9 @@ class _GenderState extends State<Gender> {
               if(widget.generated){
                 if(man || woman) {
                   if(man){
-                    appState.iAm = 'Man';
+                    appState.gender = 'Man';
                   }else{
-                    appState.iAm = 'Woman';
+                    appState.gender = 'Woman';
                   }
                   Navigator.pop(context);
                 }else{
@@ -125,13 +125,13 @@ class _GenderState extends State<Gender> {
                 } else {
                   if(man || woman) {
                     if(man){
-                      appState.iAm = 'man';
+                      appState.gender = 'man';
                     }else{
-                      appState.iAm = 'woman';
+                      appState.gender = 'woman';
                     }
                     appState.userDetailsModel = UserDetailsModel();
                     appState.userDetailsModel.meta = Meta();
-                    appState.userDetailsModel.meta.gender = appState.iAm;
+                    appState.userDetailsModel.meta.gender = appState.gender;
                     setState(() {
                       isIm = true;
                     });

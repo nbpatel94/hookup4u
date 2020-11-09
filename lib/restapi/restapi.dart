@@ -59,7 +59,7 @@ class RestApi {
     print(response.statusCode);
     if (response.statusCode == 200) {
       print(response.body);
-      var userDetail = userDetailFromJson(response.body);
+      var userDetail = profileDetailFromJson(response.body);
       if (userDetail.statusCode == 200) {
         appState.currentUserData = userDetail;
         appState.accessToken = userDetail.data.token;
@@ -92,7 +92,7 @@ class RestApi {
 
     Response response = await http.post(url, body: bodyData,headers: headerData);
     print(response.statusCode);
-    var userDetail = userDetailFromJson(response.body);
+    var userDetail = profileDetailFromJson(response.body);
     if (response.statusCode == 200) {
       print(response.body);
       return 'success';
@@ -117,7 +117,7 @@ class RestApi {
 
     Response response = await http.post(url, body: bodyData,headers: headerData);
     print(response.statusCode);
-    var userDetail = userDetailFromJson(response.body);
+    var userDetail = profileDetailFromJson(response.body);
     if (response.statusCode == 200) {
       print(response.body);
       return 'success';
@@ -142,7 +142,7 @@ class RestApi {
 
     Response response = await http.post(url, body: bodyData,headers: headerData);
     print(response.statusCode);
-    var userDetail = userDetailFromJson(response.body);
+    var userDetail = profileDetailFromJson(response.body);
     if (response.statusCode == 200) {
       print(response.body);
       return 'success';

@@ -19,7 +19,7 @@ class AppState {
   int id;
   String accessToken ='';
   String name = '';
-  String iAm = '';
+  String gender = '';
   // String sexualOrientation = '';
   String relation = '';
   String children = '';

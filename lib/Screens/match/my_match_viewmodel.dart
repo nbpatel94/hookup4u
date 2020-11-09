@@ -1,7 +1,7 @@
 import 'package:hookup4u/models/match_model.dart';
 import 'package:hookup4u/restapi/restapi.dart';
 
-import '../../my_matches.dart';
+import 'my_matches.dart';
 
 class MyMatchViewModel {
   MyMatchesPageState state;
@@ -23,12 +23,10 @@ class MyMatchViewModel {
   }
 
   sendMatch(int index, String matchId) async {
+    state.setState(() {
+      matchList[index].mutualMatch = "true";
+    });
     String check = await RestApi.sendMatch(matchId);
-    if(check=='success'){
-      state.setState(() {
-        matchList[index].mutualMatch = "true";
-      });
-    }
   }
   deleteMatch(int index, String matchId) async {
     state.setState(() {

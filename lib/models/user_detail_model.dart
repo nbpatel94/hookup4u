@@ -50,7 +50,7 @@ class UserDetailsModel {
     "link": link,
     "slug": slug,
     "avatar_urls": Map.from(avatarUrls).map((k, v) => MapEntry<String, dynamic>(k, v)),
-    "meta": meta.toJson(),
+    "meta": meta.toFirstJson(),
   };
 }
 

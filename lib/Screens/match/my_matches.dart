@@ -6,7 +6,7 @@ import 'package:hookup4u/models/data_model.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:lottie/lottie.dart';
 
-import 'Screens/match/my_match_viewmodel.dart';
+import 'my_match_viewmodel.dart';
 
 class MyMatchesPage extends StatefulWidget {
   @override
@@ -20,18 +20,22 @@ class MyMatchesPageState extends State<MyMatchesPage> {
 
   @override
   Widget build(BuildContext context) {
+    print("Current page --> $runtimeType");
     model ?? (model = MyMatchViewModel(this));
 
     return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: Text(
-            'Notifications',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.0,
+          title: Center(
+            child: Text(
+              'My Matches',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 1.0,
+              ),
             ),
           ),
           elevation: 0,
@@ -51,7 +55,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                     shrinkWrap: true,
                     itemCount: model.matchList.length,
                     itemBuilder: (BuildContext context, index) {
-                      return int.parse(model.matchList[index].senderId) == appState.id && model.matchList[index].mutualMatch=='true'
+                      return model.matchList[index].mutualMatch=='true'
                           ? Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Column(
@@ -85,7 +89,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 30, vertical: 3),
                                         child: Text(
-                                          "You and ${model.matchList[index].targetMeta.name} liked each other,\nYou can send him a message",
+                                          "You and ${model.matchList[index].senderId != appState.id.toString() ? model.matchList[index].senderMeta.name : model.matchList[index].targetMeta.name} liked each other,\nYou can send him a message",
                                           textAlign: TextAlign.center,
                                           style: TextStyle(fontSize: 16),
                                         ),
@@ -98,7 +102,24 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                   children: [
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(80),
-                                      child: model.matchList[index].targetMeta.media.isNotEmpty ? Image.network(
+                                      child: model.matchList[index].senderId != appState.id.toString() ?
+                                      model.matchList[index].senderMeta.media.isNotEmpty
+                                          ?
+                                      Image.network(
+                                        model.matchList[index].senderMeta.media[0],
+                                        height: 60,
+                                        width: 60,
+                                        fit: BoxFit.cover,
+                                      ) : Image.asset(
+                                        'asset/userPictures/otherUsers/bunny1.jpeg',
+                                        height: 60,
+                                        width: 60,
+                                        fit: BoxFit.cover,
+                                      )
+                                          :
+                                      model.matchList[index].targetMeta.media.isNotEmpty
+                                          ?
+                                      Image.network(
                                         model.matchList[index].targetMeta.media[0],
                                         height: 60,
                                         width: 60,
@@ -110,9 +131,6 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                         fit: BoxFit.cover,
                                       ),
                                     ),
-                                    // SizedBox(
-                                    //   width: 3,
-                                    // ),
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(80),
                                       child: appState.medialList.isNotEmpty ? Image.network(
@@ -176,7 +194,8 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                           ],
                         ),
                       )
-                          : Padding(
+                          : model.matchList[index].senderId != appState.id.toString() ?
+                      Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Column(
                                 children: [
@@ -193,6 +212,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                           children: [
                                             SizedBox(
                                               height: 5,
+
                                             ),
                                             Image.asset(
                                               'asset/Icon/like.png',
@@ -205,7 +225,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                               padding: const EdgeInsets.symmetric(
                                                   horizontal: 30,vertical: 3),
                                               child: Text(
-                                                "${model.matchList[index].senderMeta.name} liked you!",
+                                                "${model.matchList[index].senderId != appState.id.toString() ? model.matchList[index].senderMeta.name : model.matchList[index].targetMeta.name} liked you!",
                                                 style: TextStyle(fontSize: 24),
                                                 textAlign: TextAlign.center,
                                               ),
@@ -214,7 +234,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                               padding: const EdgeInsets.symmetric(
                                                   horizontal: 30, vertical: 3),
                                               child: Text(
-                                                "${model.matchList[index].senderMeta.name} send you a like",
+                                                "${model.matchList[index].senderId != appState.id.toString() ? model.matchList[index].senderMeta.name : model.matchList[index].targetMeta.name} send you a like",
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(fontSize: 16),
                                               ),
@@ -228,7 +248,24 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                           padding: const EdgeInsets.only(left: 10),
                                           child: ClipRRect(
                                             borderRadius: BorderRadius.circular(80),
-                                            child: model.matchList[index].targetMeta.media.isNotEmpty ? Image.network(
+                                            child: model.matchList[index].senderId != appState.id.toString() ?
+                                            model.matchList[index].senderMeta.media.isNotEmpty
+                                                ?
+                                            Image.network(
+                                              model.matchList[index].senderMeta.media[0],
+                                              height: 60,
+                                              width: 60,
+                                              fit: BoxFit.cover,
+                                            ) : Image.asset(
+                                              'asset/userPictures/otherUsers/bunny1.jpeg',
+                                              height: 60,
+                                              width: 60,
+                                              fit: BoxFit.cover,
+                                            )
+                                                :
+                                            model.matchList[index].targetMeta.media.isNotEmpty
+                                                ?
+                                            Image.network(
                                               model.matchList[index].targetMeta.media[0],
                                               height: 60,
                                               width: 60,
@@ -297,11 +334,15 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                   )
                                 ],
                               ),
-                            );
+                            ) : Center(
+                          child: Text(
+                            "No Matches",
+                            style: TextStyle(color: secondryColor, fontSize: 16),
+                          ));
                     })
                 : Center(
                     child: Text(
-                    "No Notification",
+                    "No Matches",
                     style: TextStyle(color: secondryColor, fontSize: 16),
                   )));
   }

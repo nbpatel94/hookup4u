@@ -225,6 +225,15 @@ class CardPicturesState extends State<CardPictures>
                         if (index + 1 < model.list.length) {
                           model.list.removeAt(index + 1);
                         }
+                        if(position==SwiperPosition.Right){
+                          print(index);
+                          print(list2[index].data.displayName);
+                          model.queue.add(() => model.giveLike(list2[index].data.id));
+                        }else if(position==SwiperPosition.Left){
+                          print(index);
+                          print(list2[index].data.displayName);
+                          model.queue.add(() => model.giveDislike(list2[index].data.id));
+                        }
 
                         debugPrint("onSwipe $index $position");
                       },

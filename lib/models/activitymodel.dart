@@ -18,6 +18,7 @@ class ActivityModel {
     this.relation,
     this.livingIn,
     this.gender,
+    this.children,
   });
 
   Data data;
@@ -28,6 +29,7 @@ class ActivityModel {
   String relation;
   String livingIn;
   String gender;
+  String children;
 
   factory ActivityModel.fromJson(Map<String, dynamic> json) => ActivityModel(
     data: Data.fromJson(json["data"]),
@@ -38,6 +40,7 @@ class ActivityModel {
     relation: json["relation"],
     livingIn: json["living_in"],
     gender: json["gender"],
+    children: json["children"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -49,6 +52,7 @@ class ActivityModel {
     "relation": relation,
     "living_in": livingIn,
     "gender": gender,
+    "children": children,
   };
 }
 

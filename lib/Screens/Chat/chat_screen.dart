@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hookup4u/Screens/Chat/chat_screeb_viewmodel.dart';
@@ -76,12 +77,17 @@ class ChatScreenState extends State<ChatScreen> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(80),
             child: widget.sender.media.isNotEmpty
-                ? Image.network(
-                    widget.sender.media[0],
+                ? CachedNetworkImage(
+                    imageUrl: widget.sender.media[0],
+                    placeholder: (context, url) => Image.asset(
+                          'asset/userPictures/otherUsers/bunny1.jpeg',
+                          height: 40,
+                          width: 40,
+                          fit: BoxFit.cover,
+                        ),
                     height: 40,
                     width: 40,
-                    fit: BoxFit.cover,
-                  )
+                    fit: BoxFit.cover)
                 : Image.asset(
                     'asset/userPictures/otherUsers/bunny1.jpeg',
                     height: 40,
@@ -160,8 +166,8 @@ class ChatScreenState extends State<ChatScreen> {
     model ?? (model = ChatScreenViewModel(this));
 
     return WillPopScope(
-      onWillPop: () async{
-        Navigator.pop(context,'No');
+      onWillPop: () async {
+        Navigator.pop(context, 'No');
         return false;
       },
       child: Scaffold(
@@ -175,7 +181,7 @@ class ChatScreenState extends State<ChatScreen> {
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios),
               color: Colors.white,
-              onPressed: () => Navigator.pop(context,'No'),
+              onPressed: () => Navigator.pop(context, 'No'),
             ),
             backgroundColor: primaryColor,
             actions: <Widget>[
@@ -183,13 +189,13 @@ class ChatScreenState extends State<ChatScreen> {
                   color: ColorRes.darkButton,
                   onSelected: (index) async {
                     var res = await source();
-                    if(res!=null){
+                    if (res != null) {
                       setState(() {
                         isLoading = true;
                       });
-                      String check  = await RestApi.matchReject(widget.matchId);
-                      if(check=='success'){
-                        Navigator.pop(context,'Yes');
+                      String check = await RestApi.matchReject(widget.matchId);
+                      if (check == 'success') {
+                        Navigator.pop(context, 'Yes');
                       }
                     }
                   },
@@ -261,13 +267,13 @@ class ChatScreenState extends State<ChatScreen> {
         builder: (BuildContext context) {
           return CupertinoAlertDialog(
             title: Text(
-              "Once you will block ${widget.sender.name} then you will unable to see ${widget.sender.gender=='man' ? 'him' : 'her'} in your matches \nAre you sure want to block?",
+              "Once you will block ${widget.sender.name} then you will unable to see ${widget.sender.gender == 'man' ? 'him' : 'her'} in your matches \nAre you sure want to block?",
             ),
             insetAnimationCurve: Curves.decelerate,
             actions: <Widget>[
               GestureDetector(
                 onTap: () async {
-                  Navigator.pop(context,"Delete");
+                  Navigator.pop(context, "Delete");
                 },
                 child: Container(
                   padding: const EdgeInsets.all(20.0),

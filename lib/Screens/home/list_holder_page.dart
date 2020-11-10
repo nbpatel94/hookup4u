@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -37,11 +38,18 @@ class ListHolderPageState extends State<ListHolderPage> {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(80),
-                            child: appState.medialList!=null &&  appState.medialList.isNotEmpty? Image.network(
-                              appState.medialList[0].sourceUrl,
-                              height: 120,
-                              width: 120,
-                              fit: BoxFit.cover,
+                            child: appState.medialList!=null &&  appState.medialList.isNotEmpty?
+                            CachedNetworkImage(
+                                imageUrl: appState.medialList[0].sourceUrl,
+                                placeholder: (context, url) => Image.asset(
+                                  'asset/userPictures/otherUsers/bunny1.jpeg',
+                                  height: 120,
+                                  width: 120,
+                                  fit: BoxFit.cover,
+                                ),
+                                height: 120,
+                                width: 120,
+                                fit: BoxFit.cover
                             ) : Image.asset(
                               'asset/userPictures/otherUsers/bunny1.jpeg',
                               height: 120,
@@ -72,23 +80,6 @@ class ListHolderPageState extends State<ListHolderPage> {
                       padding: EdgeInsets.symmetric(horizontal: 12),
                       child: Column(
                         children: [
-                          ListTile(
-                            onTap: () {
-                              // Navigator.of(context).pushNamed('/Pages', arguments: 2);
-                            },
-                            leading: Icon(
-                              Icons.group_rounded,
-                              color: ColorRes.textColor,
-                              size: 25,
-                            ),
-                            title: Text(
-                              'Browse',
-                              style: TextStyle(
-                                  color: ColorRes.textColor,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
                           ListTile(
                             onTap: () {
                               Navigator.pop(context);

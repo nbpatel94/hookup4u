@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hookup4u/Screens/Chat/chat_screen.dart';
@@ -101,45 +102,72 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   children: [
+                                    GestureDetector(
+                                      onTap: () => showDialog(
+                                          barrierDismissible: false,
+                                          context: context,
+                                          builder: (context) {
+                                            return InfoMatch(model.matchList[index]);
+                                          }),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(80),
+                                        child: model.matchList[index].senderId != appState.id.toString() ?
+                                        model.matchList[index].senderMeta.media.isNotEmpty
+                                            ?
+                                        CachedNetworkImage(
+                                          imageUrl:  model.matchList[index].senderMeta.media[0],
+                                          placeholder: (context, url) => Image.asset(
+                                            'asset/userPictures/otherUsers/bunny1.jpeg',
+                                            height: 60,
+                                            width: 60,
+                                            fit: BoxFit.cover,
+                                          ),
+                                          height: 60,
+                                          width: 60,
+                                          fit: BoxFit.cover
+                                        ) : Image.asset(
+                                          'asset/userPictures/otherUsers/bunny1.jpeg',
+                                          height: 60,
+                                          width: 60,
+                                          fit: BoxFit.cover,
+                                        )
+                                            :
+                                        model.matchList[index].targetMeta.media.isNotEmpty
+                                            ?
+                                        CachedNetworkImage(
+                                            imageUrl:  model.matchList[index].targetMeta.media[0],
+                                            placeholder: (context, url) => Image.asset(
+                                              'asset/userPictures/otherUsers/bunny1.jpeg',
+                                              height: 60,
+                                              width: 60,
+                                              fit: BoxFit.cover,
+                                            ),
+                                            height: 60,
+                                            width: 60,
+                                            fit: BoxFit.cover
+                                        ) : Image.asset(
+                                          'asset/userPictures/otherUsers/bunny1.jpeg',
+                                          height: 60,
+                                          width: 60,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
                                     ClipRRect(
                                       borderRadius: BorderRadius.circular(80),
-                                      child: model.matchList[index].senderId != appState.id.toString() ?
-                                      model.matchList[index].senderMeta.media.isNotEmpty
-                                          ?
-                                      Image.network(
-                                        model.matchList[index].senderMeta.media[0],
-                                        height: 60,
-                                        width: 60,
-                                        fit: BoxFit.cover,
-                                      ) : Image.asset(
-                                        'asset/userPictures/otherUsers/bunny1.jpeg',
-                                        height: 60,
-                                        width: 60,
-                                        fit: BoxFit.cover,
-                                      )
-                                          :
-                                      model.matchList[index].targetMeta.media.isNotEmpty
-                                          ?
-                                      Image.network(
-                                        model.matchList[index].targetMeta.media[0],
-                                        height: 60,
-                                        width: 60,
-                                        fit: BoxFit.cover,
-                                      ) : Image.asset(
+                                      child: appState.medialList.isNotEmpty ?
+                                    CachedNetworkImage(
+                                      imageUrl:  appState.medialList[0].sourceUrl,
+                                      placeholder: (context, url) => Image.asset(
                                         'asset/userPictures/otherUsers/bunny1.jpeg',
                                         height: 60,
                                         width: 60,
                                         fit: BoxFit.cover,
                                       ),
-                                    ),
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(80),
-                                      child: appState.medialList.isNotEmpty ? Image.network(
-                                        appState.medialList[0].sourceUrl,
-                                        height: 60,
-                                        width: 60,
-                                        fit: BoxFit.cover,
-                                      ) : Image.asset(
+                                      height: 60,
+                                      width: 60,
+                                      fit: BoxFit.cover
+                                    ) : Image.asset(
                                         'asset/userPictures/otherUsers/bunny1.jpeg',
                                         height: 60,
                                         width: 60,
@@ -278,11 +306,17 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                             child: model.matchList[index].senderId != appState.id.toString() ?
                                             model.matchList[index].senderMeta.media.isNotEmpty
                                                 ?
-                                            Image.network(
-                                              model.matchList[index].senderMeta.media[0],
-                                              height: 60,
-                                              width: 60,
-                                              fit: BoxFit.cover,
+                                            CachedNetworkImage(
+                                                imageUrl:  model.matchList[index].senderMeta.media[0],
+                                                placeholder: (context, url) => Image.asset(
+                                                  'asset/userPictures/otherUsers/bunny1.jpeg',
+                                                  height: 60,
+                                                  width: 60,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                height: 60,
+                                                width: 60,
+                                                fit: BoxFit.cover
                                             ) : Image.asset(
                                               'asset/userPictures/otherUsers/bunny1.jpeg',
                                               height: 60,
@@ -292,11 +326,17 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                                 :
                                             model.matchList[index].targetMeta.media.isNotEmpty
                                                 ?
-                                            Image.network(
-                                              model.matchList[index].targetMeta.media[0],
-                                              height: 60,
-                                              width: 60,
-                                              fit: BoxFit.cover,
+                                            CachedNetworkImage(
+                                                imageUrl:  model.matchList[index].targetMeta.media[0],
+                                                placeholder: (context, url) => Image.asset(
+                                                  'asset/userPictures/otherUsers/bunny1.jpeg',
+                                                  height: 60,
+                                                  width: 60,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                                height: 60,
+                                                width: 60,
+                                                fit: BoxFit.cover
                                             ) : Image.asset(
                                               'asset/userPictures/otherUsers/bunny1.jpeg',
                                               height: 60,

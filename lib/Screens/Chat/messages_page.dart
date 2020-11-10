@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -5,6 +6,7 @@ import 'package:hookup4u/Screens/Chat/chat_screen.dart';
 import 'package:hookup4u/Screens/Chat/messages_page_viewmodel.dart';
 import 'package:hookup4u/Screens/Profile/EditProfile.dart';
 import 'package:hookup4u/Screens/Profile/settings.dart';
+import 'package:hookup4u/Screens/home/list_holder_page.dart';
 import 'package:hookup4u/Screens/match/my_matches.dart';
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/models/data_model.dart';
@@ -37,12 +39,20 @@ class MessagesScreenState extends State<MessagesScreen> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(80),
-                        child: appState.medialList!=null ? Image.network(
-                          appState.medialList[0].sourceUrl,
-                          height: 120,
-                          width: 120,
-                          fit: BoxFit.cover,
-                        ) : Image.asset(
+                        child: appState.medialList!=null ?
+                        CachedNetworkImage(
+                            imageUrl: appState.medialList[0].sourceUrl,
+                            placeholder: (context, url) => Image.asset(
+                              'asset/userPictures/otherUsers/bunny1.jpeg',
+                              height: 120,
+                              width: 120,
+                              fit: BoxFit.cover,
+                            ),
+                            height: 120,
+                            width: 120,
+                            fit: BoxFit.cover
+                        )
+                         : Image.asset(
                           'asset/userPictures/otherUsers/bunny1.jpeg',
                           height: 120,
                           width: 120,
@@ -71,7 +81,7 @@ class MessagesScreenState extends State<MessagesScreen> {
                     children: [
                       ListTile(
                         onTap: () {
-                          // Navigator.of(context).pushNamed('/Pages', arguments: 2);
+                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => ListHolderPage()),(Route<dynamic> route) => false);
                         },
                         leading: Icon(
                           Icons.group_rounded,
@@ -286,12 +296,19 @@ class MessagesScreenState extends State<MessagesScreen> {
                                         child: model.matchList[index].senderId != appState.id.toString() ?
                                         model.matchList[index].senderMeta.media.isNotEmpty
                                             ?
-                                        Image.network(
-                                          model.matchList[index].senderMeta.media[0],
+                                        CachedNetworkImage(
+                                          imageUrl:  model.matchList[index].senderMeta.media[0],
+                                          placeholder: (context, url) => Image.asset(
+                                              'asset/userPictures/otherUsers/bunny1.jpeg',
+                                               height: 60,
+                                               width: 60,
+                                           fit: BoxFit.cover,
+                                          ),
                                           height: 60,
                                           width: 60,
-                                          fit: BoxFit.cover,
-                                        ) : Image.asset(
+                                          fit: BoxFit.cover
+                                        )
+                                         : Image.asset(
                                           'asset/userPictures/otherUsers/bunny1.jpeg',
                                           height: 60,
                                           width: 60,
@@ -300,12 +317,19 @@ class MessagesScreenState extends State<MessagesScreen> {
                                             :
                                         model.matchList[index].targetMeta.media.isNotEmpty
                                             ?
-                                        Image.network(
-                                          model.matchList[index].targetMeta.media[0],
-                                          height: 60,
-                                          width: 60,
-                                          fit: BoxFit.cover,
-                                        ) : Image.asset(
+                                        CachedNetworkImage(
+                                            imageUrl:  model.matchList[index].targetMeta.media[0],
+                                            placeholder: (context, url) => Image.asset(
+                                              'asset/userPictures/otherUsers/bunny1.jpeg',
+                                              height: 60,
+                                              width: 60,
+                                              fit: BoxFit.cover,
+                                            ),
+                                            height: 60,
+                                            width: 60,
+                                            fit: BoxFit.cover
+                                        )
+                                            : Image.asset(
                                           'asset/userPictures/otherUsers/bunny1.jpeg',
                                           height: 60,
                                           width: 60,

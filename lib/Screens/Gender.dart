@@ -177,7 +177,7 @@ class _GenderState extends State<Gender> {
                       controller: jobTitleCont,
                       
                       decoration: InputDecoration(
-                        hintText: "Engineer",
+                        hintText: "Student / Engineer / MBA / ...",
                         hintStyle: TextStyle(
                             color: ColorRes.textColor, fontSize: 16),
                         focusColor: ColorRes.textColor,

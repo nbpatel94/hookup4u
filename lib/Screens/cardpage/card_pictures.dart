@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -95,21 +96,52 @@ class CardPicturesState extends State<CardPictures>
                                       key: UniqueKey(),
                                       physics: NeverScrollableScrollPhysics(),
                                       itemBuilder: (BuildContext context, int index2) {
-                                        return Container(
-                                          height: MediaQuery.of(context).size.height / 2,
-                                          width: MediaQuery.of(context).size.width,
-                                          child: userModel.media!=null &&  userModel.media.isNotEmpty?Image.network(
-                                            userModel.media[0],
-                                            fit: BoxFit.cover,
-                                          ) : Image.asset(
-                                            'asset/userPictures/otherUsers/bunny1.jpeg',
-                                            height: MediaQuery.of(context).size.height / 2,
-                                            width: MediaQuery.of(context).size.width,
-                                            fit: BoxFit.cover,
-                                          ),
+                                        return Stack(
+                                          children: [
+                                            Container(
+                                              height: MediaQuery.of(context).size.height / 2,
+                                              width: MediaQuery.of(context).size.width,
+                                              child: userModel.media!=null &&  userModel.media.isNotEmpty?
+                                              CachedNetworkImage(
+                                                imageUrl: userModel.media[index2],
+                                                  placeholder: (context, url) => Image.asset(
+                                                    'asset/userPictures/otherUsers/bunny1.jpeg',
+                                                    height: MediaQuery.of(context).size.height / 2,
+                                                    width: MediaQuery.of(context).size.width,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                  fit: BoxFit.cover
+                                              )
+                                               : Image.asset(
+                                                'asset/userPictures/otherUsers/bunny1.jpeg',
+                                                height: MediaQuery.of(context).size.height / 2,
+                                                width: MediaQuery.of(context).size.width,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                            // Align(
+                                            //   alignment : Alignment.centerRight,
+                                            //   child: GestureDetector(
+                                            //     onTap :() {
+                                            //
+                                            //     },
+                                            //     child: Container(
+                                            //       width: 60,
+                                            //       color: Colors.grey.withOpacity(0.5),),
+                                            //   ),
+                                            // ),
+                                            // Align(
+                                            //   alignment : Alignment.centerLeft,
+                                            //   child: GestureDetector(
+                                            //     child: Container(
+                                            //       width: 60,
+                                            //       color: Colors.grey.withOpacity(0.5),),
+                                            //   ),
+                                            // )
+                                          ],
                                         );
                                       },
-                                      itemCount: 1,
+                                      itemCount: userModel.media!=null &&  userModel.media.isNotEmpty? userModel.media.length: 1,
                                       pagination: new SwiperPagination(
                                           alignment: Alignment.bottomCenter,
                                           builder: DotSwiperPaginationBuilder(
@@ -117,6 +149,10 @@ class CardPicturesState extends State<CardPictures>
                                               color: secondryColor,
                                               activeColor: primaryColor)),
                                       loop: false,
+                                      control: new SwiperControl(
+                                        color: primaryColor,
+                                        disableColor: secondryColor,
+                                      ),
                                     ),
                                   ),
                                   Padding(
@@ -186,10 +222,10 @@ class CardPicturesState extends State<CardPictures>
                                                 barrierDismissible: false,
                                                 context: context,
                                                 builder: (context) {
-                                                  return Container();
+                                                  return Info(userModel);
                                                 }),
                                             title: Text(
-                                              "${userModel.data.displayName}  ${ageCount('12-02-1999')}",
+                                              "${userModel.data.displayName}  ${ageCount(userModel.dateOfBirth.replaceAll('/', '-'))}",
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 25,
@@ -209,7 +245,7 @@ class CardPicturesState extends State<CardPictures>
                       }).toList(growable: true),
                       threshold: 30,
                       maxAngle: 100,
-                      //animationDuration: Duration(milliseconds: 400),
+                      animationDuration: Duration(milliseconds: 600),
                       visibleCount: 3,
                       historyCount: 1,
                       stackFrom: StackFrom.Right,

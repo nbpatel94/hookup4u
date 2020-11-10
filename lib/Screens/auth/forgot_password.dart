@@ -46,7 +46,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
                       margin: EdgeInsets.only(bottom: 15),
                       child: Text(
                         "Forgot password",
-                        style: TextStyle(fontSize: 36, color: Colors.white),
+                        style: TextStyle(fontSize: 36,fontFamily: 'NeueFrutigerWorld',fontWeight: FontWeight.w100, color: Colors.white),
                       ),
                     ),
                     Container(
@@ -56,7 +56,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
                         "Enter your new password and do not share this password with anyone",
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                            fontSize: 14, color: ColorRes.textColor),
+                            fontSize: 14, fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor),
                       ),
                     ),
                     Padding(
@@ -69,7 +69,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
                             "PASSWORD",
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                                fontSize: 16, color: Colors.grey[200]),
+                                fontSize: 16,fontFamily: 'NeueFrutigerWorld', color: Colors.grey[200]),
                           ),
                           TextFormField(
                             style: TextStyle(
@@ -103,7 +103,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
                             "CONFIRM PASSWORD",
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                                fontSize: 16, color: Colors.grey[200]),
+                                fontSize: 16,fontFamily: 'NeueFrutigerWorld', color: Colors.grey[200]),
                           ),
                           TextFormField(
                             style: TextStyle(
@@ -153,7 +153,8 @@ class ForgotPasswordState extends State<ForgotPassword> {
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontSize: 16,
-                                      fontWeight: FontWeight.bold))),
+                                      fontFamily: 'NeueFrutigerWorld',
+                                      fontWeight: FontWeight.w700))),
                         ),
                       ),
                     ),
@@ -169,7 +170,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
                       margin: EdgeInsets.only(bottom: 15),
                       child: Text(
                         "Forgot password",
-                        style: TextStyle(fontSize: 36, color: Colors.white),
+                        style: TextStyle(fontSize: 36, fontFamily: 'NeueFrutigerWorld',fontWeight: FontWeight.w100,color: Colors.white),
                       ),
                     ),
                     Container(
@@ -179,7 +180,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
                         "Enter your email address, we'll send you the verification code",
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                            fontSize: 14, color: ColorRes.textColor),
+                            fontSize: 14, fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor),
                       ),
                     ),
                     Padding(
@@ -192,7 +193,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
                             "EMAIL ADDRESS",
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                                fontSize: 16, color: Colors.grey[200]),
+                                fontSize: 16, fontFamily: 'NeueFrutigerWorld',color: Colors.grey[200]),
                           ),
                           TextFormField(
                             keyboardType: TextInputType.emailAddress,
@@ -226,7 +227,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
                             "VERIFICATION CODE",
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                                fontSize: 16, color: Colors.grey[200]),
+                                fontSize: 16, fontFamily: 'NeueFrutigerWorld',color: Colors.grey[200]),
                           ),
                           TextFormField(
                             keyboardType: TextInputType.number,
@@ -285,7 +286,8 @@ class ForgotPasswordState extends State<ForgotPassword> {
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 16,
-                                          fontWeight: FontWeight.bold))),
+                                          fontFamily: 'NeueFrutigerWorld',
+                                          fontWeight: FontWeight.w700))),
                             ),
                           ),
                         ),
@@ -315,7 +317,8 @@ class ForgotPasswordState extends State<ForgotPassword> {
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 16,
-                                          fontWeight: FontWeight.bold))),
+                                          fontFamily: 'NeueFrutigerWorld',
+                                          fontWeight: FontWeight.w700))),
                             ),
                           ),
                         )

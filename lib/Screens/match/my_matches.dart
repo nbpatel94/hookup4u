@@ -35,7 +35,8 @@ class MyMatchesPageState extends State<MyMatchesPage> {
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18.0,
-                fontWeight: FontWeight.bold,
+                fontFamily: 'NeueFrutigerWorld',
+                fontWeight: FontWeight.w700,
                 letterSpacing: 1.0,
               ),
             ),
@@ -82,7 +83,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                       ),
                                       Text(
                                         "It's a match!",
-                                        style: TextStyle(fontSize: 24),
+                                        style: TextStyle(fontSize: 24,fontFamily: 'NeueFrutigerWorld',),
                                       ),
                                       SizedBox(
                                         height: 7,
@@ -93,7 +94,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                         child: Text(
                                           "You and ${model.matchList[index].senderId != appState.id.toString() ? model.matchList[index].senderMeta.name : model.matchList[index].targetMeta.name} liked each other,\nYou can send a message",
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 16),
+                                          style: TextStyle(fontFamily: 'NeueFrutigerWorld',fontSize: 16,height: 1.1),
                                         ),
                                       )
                                     ],
@@ -223,8 +224,9 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 12,
+                                                  fontFamily: 'NeueFrutigerWorld',
                                                   fontWeight: FontWeight
-                                                      .bold))),
+                                                      .w700))),
                                     ),
                                   ),
                                   Container(
@@ -240,8 +242,9 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                             style: TextStyle(
                                                 color: Colors.white,
                                                 fontSize: 12,
+                                                fontFamily: 'NeueFrutigerWorld',
                                                 fontWeight: FontWeight
-                                                    .bold))),
+                                                    .w700))),
                                   ),
                                 ],
                               ),
@@ -267,7 +270,6 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                           children: [
                                             SizedBox(
                                               height: 5,
-
                                             ),
                                             Image.asset(
                                               'asset/Icon/like.png',
@@ -281,7 +283,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                                   horizontal: 30,vertical: 3),
                                               child: Text(
                                                 "${model.matchList[index].senderId != appState.id.toString() ? model.matchList[index].senderMeta.name : model.matchList[index].targetMeta.name} liked you!",
-                                                style: TextStyle(fontSize: 24),
+                                                style: TextStyle(fontFamily: 'NeueFrutigerWorld',fontSize: 24),
                                                 textAlign: TextAlign.center,
                                               ),
                                             ),
@@ -291,7 +293,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                               child: Text(
                                                 "${model.matchList[index].senderId != appState.id.toString() ? model.matchList[index].senderMeta.name : model.matchList[index].targetMeta.name} send you a like",
                                                 textAlign: TextAlign.center,
-                                                style: TextStyle(fontSize: 16),
+                                                style: TextStyle(fontFamily: 'NeueFrutigerWorld',fontSize: 16,height: 1.1),
                                               ),
                                             )
                                           ],
@@ -371,8 +373,9 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                                         style: TextStyle(
                                                             color: Colors.white,
                                                             fontSize: 12,
+                                                            fontFamily: 'NeueFrutigerWorld',
                                                             fontWeight: FontWeight
-                                                                .bold))),
+                                                                .w700))),
                                           ),
                                         ),
                                         InkWell(
@@ -392,8 +395,9 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                                     style: TextStyle(
                                                         color: Colors.white,
                                                         fontSize: 12,
+                                                        fontFamily: 'NeueFrutigerWorld',
                                                         fontWeight: FontWeight
-                                                            .bold))),
+                                                            .w700))),
                                           ),
                                         ),
                                       ],
@@ -410,7 +414,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                 : Center(
                     child: Text(
                     "No Matches",
-                    style: TextStyle(color: secondryColor, fontSize: 16),
+                    style: TextStyle(fontFamily: 'NeueFrutigerWorld',color: secondryColor, fontSize: 16),
                   )));
   }
 }

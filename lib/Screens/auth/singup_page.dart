@@ -10,13 +10,12 @@ class SignUpPage extends StatefulWidget {
 }
 
 class SignUpPageState extends State<SignUpPage> {
-
   SignUpViewModel model;
 
-  TextEditingController emailCont = TextEditingController(text: '@yopmail.com');
-  TextEditingController passwordCont = TextEditingController(text: '@123');
-  TextEditingController userIdCont = TextEditingController(text: '');
-  TextEditingController userNameCont = TextEditingController(text: '');
+  TextEditingController emailCont = TextEditingController();
+  TextEditingController passwordCont = TextEditingController();
+  TextEditingController userIdCont = TextEditingController();
+  TextEditingController userNameCont = TextEditingController();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
@@ -29,7 +28,7 @@ class SignUpPageState extends State<SignUpPage> {
 
     return WillPopScope(
       onWillPop: () async {
-        if(!isLoading){
+        if (!isLoading) {
           Navigator.pop(context);
         }
         return false;
@@ -39,250 +38,266 @@ class SignUpPageState extends State<SignUpPage> {
         key: _scaffoldKey,
         body: SafeArea(
           child: Stack(
-                  children: [
-                    Center(
-                      child: SingleChildScrollView(
+            children: [
+              Center(
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(bottom: 20, left: 50),
+                        child: Text(
+                          "Signup",
+                          style: TextStyle(
+                              fontSize: 34,
+                              color: Colors.white,
+                              fontFamily: 'NeueFrutigerWorld',
+                              fontWeight: FontWeight.w100),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 50),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(bottom: 20, left: 50),
-                              child: Text(
-                                "Signup",
-                                style:
-                                    TextStyle(fontSize: 34, color: Colors.white),
-                              ),
+                          children: [
+                            Text(
+                              "USERNAME",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'NeueFrutigerWorld',
+                                  color: Colors.grey[200]),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 50),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "USERNAME",
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.grey[200]),
-                                  ),
-                                  TextFormField(
-                                    keyboardType: TextInputType.emailAddress,
-                                    style: TextStyle(
-                                        fontSize: 16, color: ColorRes.textColor),
-                                    cursorColor: ColorRes.textColor,
-                                    controller: userIdCont,
-                                    decoration: InputDecoration(
-                                      hintText: "iLoveDate1",
-                                      hintStyle: TextStyle(
-                                          color: ColorRes.textColor,
-                                          fontSize: 16),
-                                      focusColor: ColorRes.textColor,
-                                      focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: ColorRes.textColor)),
-                                      enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: ColorRes.textColor)),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 50),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "NAME",
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.grey[200]),
-                                  ),
-                                  TextFormField(
-                                    style: TextStyle(
-                                        fontSize: 16, color: ColorRes.textColor),
-                                    cursorColor: ColorRes.textColor,
-                                    controller: userNameCont,
-                                    decoration: InputDecoration(
-                                      hintText: "ILove Date",
-                                      hintStyle: TextStyle(
-                                          color: ColorRes.textColor,
-                                          fontSize: 16),
-                                      focusColor: ColorRes.textColor,
-                                      focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: ColorRes.textColor)),
-                                      enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: ColorRes.textColor)),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 50),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "EMAIL ADDRESS",
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.grey[200]),
-                                  ),
-                                  TextFormField(
-                                    keyboardType: TextInputType.emailAddress,
-                                    style: TextStyle(
-                                        fontSize: 16, color: ColorRes.textColor),
-                                    cursorColor: ColorRes.textColor,
-                                    controller: emailCont,
-                                    decoration: InputDecoration(
-                                      hintText: "example@example.com",
-                                      hintStyle: TextStyle(
-                                          color: ColorRes.textColor,
-                                          fontSize: 16),
-                                      focusColor: ColorRes.textColor,
-                                      focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: ColorRes.textColor)),
-                                      enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: ColorRes.textColor)),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 20, horizontal: 50),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "PASSWORD",
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.grey[200]),
-                                  ),
-                                  TextFormField(
-                                    style: TextStyle(
-                                        fontSize: 16, color: ColorRes.textColor),
-                                    cursorColor: ColorRes.textColor,
-                                    controller: passwordCont,
-                                    obscureText: true,
-                                    decoration: InputDecoration(
-                                      hintText: "••••••",
-                                      hintStyle: TextStyle(
-                                          color: ColorRes.textColor,
-                                          fontSize: 16),
-                                      focusColor: ColorRes.textColor,
-                                      focusedBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: ColorRes.textColor)),
-                                      enabledBorder: UnderlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: ColorRes.textColor)),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 10, horizontal: 50),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      if(!isLoading){
-                                        if(model.validate()){
-                                          setState(() {
-                                            isLoading = true;
-                                          });
-                                          model.signUp();
-                                        }
-                                      }
-                                    },
-                                    child: Container(
-                                      height: MediaQuery.of(context).size.height *
-                                          .075,
-                                      width:
-                                          MediaQuery.of(context).size.width / 3.5,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        color: ColorRes.redButton,
-                                      ),
-                                      child: Center(
-                                          child: isLoading ? Padding(child: CircularProgressIndicator(backgroundColor: ColorRes.primaryColor,),padding: EdgeInsets.all(5),):Text("SIGNUP",
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold))),
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      if(!isLoading){
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => LoginPage()));
-                                      }
-                                    },
-                                    child: Text(
-                                      "Already a member? Login",
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: ColorRes.textColor),
-                                    ),
-                                  ),
-                                ],
+                            TextFormField(
+                              keyboardType: TextInputType.emailAddress,
+                              style: TextStyle(
+                                  fontSize: 16, color: ColorRes.textColor),
+                              cursorColor: ColorRes.textColor,
+                              controller: userIdCont,
+                              decoration: InputDecoration(
+                                hintText: "iLoveDate1",
+                                hintStyle: TextStyle(
+                                    color: ColorRes.textColor, fontSize: 16),
+                                focusColor: ColorRes.textColor,
+                                focusedBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: ColorRes.textColor)),
+                                enabledBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: ColorRes.textColor)),
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.symmetric(vertical: 7, horizontal: 20),
-                      child: IconButton(
-                          onPressed: () {
-                            if(!isLoading){
-                              Navigator.pop(context);
-                            }
-                          },
-                          icon: Icon(
-                            Icons.arrow_back,
-                            color: Colors.white,
-                          ),
-                          iconSize: 30),
-                    )
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 50),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "NAME",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'NeueFrutigerWorld',
+                                  color: Colors.grey[200]),
+                            ),
+                            TextFormField(
+                              style: TextStyle(
+                                  fontSize: 16, color: ColorRes.textColor),
+                              cursorColor: ColorRes.textColor,
+                              controller: userNameCont,
+                              decoration: InputDecoration(
+                                hintText: "ILove Date",
+                                hintStyle: TextStyle(
+                                    color: ColorRes.textColor, fontSize: 16),
+                                focusColor: ColorRes.textColor,
+                                focusedBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: ColorRes.textColor)),
+                                enabledBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: ColorRes.textColor)),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 50),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "EMAIL ADDRESS",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'NeueFrutigerWorld',
+                                  color: Colors.grey[200]),
+                            ),
+                            TextFormField(
+                              keyboardType: TextInputType.emailAddress,
+                              style: TextStyle(
+                                  fontSize: 16, color: ColorRes.textColor),
+                              cursorColor: ColorRes.textColor,
+                              controller: emailCont,
+                              decoration: InputDecoration(
+                                hintText: "example@example.com",
+                                hintStyle: TextStyle(
+                                    color: ColorRes.textColor, fontSize: 16),
+                                focusColor: ColorRes.textColor,
+                                focusedBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: ColorRes.textColor)),
+                                enabledBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: ColorRes.textColor)),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 50),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "PASSWORD",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontFamily: 'NeueFrutigerWorld',
+                                  color: Colors.grey[200]),
+                            ),
+                            TextFormField(
+                              style: TextStyle(
+                                  fontSize: 16, color: ColorRes.textColor),
+                              cursorColor: ColorRes.textColor,
+                              controller: passwordCont,
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                hintText: "••••••",
+                                hintStyle: TextStyle(
+                                    color: ColorRes.textColor, fontSize: 16),
+                                focusColor: ColorRes.textColor,
+                                focusedBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: ColorRes.textColor)),
+                                enabledBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        BorderSide(color: ColorRes.textColor)),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 50),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                if (!isLoading) {
+                                  if (model.validate()) {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                    model.signUp();
+                                  }
+                                }
+                              },
+                              child: Container(
+                                height:
+                                    MediaQuery.of(context).size.height * .075,
+                                width: MediaQuery.of(context).size.width / 3.5,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: ColorRes.redButton,
+                                ),
+                                child: Center(
+                                    child: isLoading
+                                        ? Padding(
+                                            child: CircularProgressIndicator(
+                                              backgroundColor:
+                                                  ColorRes.primaryColor,
+                                            ),
+                                            padding: EdgeInsets.all(5),
+                                          )
+                                        : Text("SIGNUP",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontFamily: 'NeueFrutigerWorld',
+                                                fontWeight: FontWeight.w700))),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                if (!isLoading) {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => LoginPage()));
+                                }
+                              },
+                              child: Text(
+                                "Already a member? Login",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    fontFamily: 'NeueFrutigerWorld',
+                                    color: ColorRes.textColor),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+              ),
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 7, horizontal: 20),
+                child: IconButton(
+                    onPressed: () {
+                      if (!isLoading) {
+                        Navigator.pop(context);
+                      }
+                    },
+                    icon: Icon(
+                      Icons.arrow_back,
+                      color: Colors.white,
+                    ),
+                    iconSize: 30),
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 
-  showSnackBar(String message,{bool isError = false}){
+  showSnackBar(String message, {bool isError = false}) {
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
       content: new Text(
         message,
         textAlign: TextAlign.center,
       ),
-      backgroundColor: isError ? ColorRes.redButton: ColorRes.darkButton,
+      backgroundColor: isError ? ColorRes.redButton : ColorRes.darkButton,
       duration: Duration(seconds: 3),
     ));
   }

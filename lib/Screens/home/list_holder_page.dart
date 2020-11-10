@@ -58,7 +58,7 @@ class ListHolderPageState extends State<ListHolderPage> {
                             ),
                           ),
                           SizedBox(height: 10,),
-                          Text(appState.currentUserData.data.displayName,style: TextStyle(fontSize: 28,color: ColorRes.textColor)),
+                          Text(appState.currentUserData.data.displayName,style: TextStyle(fontSize: 28,fontFamily: 'NeueFrutigerWorld',fontWeight: FontWeight.w100,color: ColorRes.textColor)),
                           SizedBox(height: 2,),
                           GestureDetector(
                               onTap: () async {
@@ -71,7 +71,7 @@ class ListHolderPageState extends State<ListHolderPage> {
 
                                 });
                               },
-                              child: Text("EDIT PROFILE",style: TextStyle(fontSize: 12,color: Colors.white,fontWeight: FontWeight.bold)))
+                              child: Text("EDIT PROFILE",style: TextStyle(fontSize: 12,fontFamily: 'NeueFrutigerWorld',color: Colors.white,fontWeight: FontWeight.w700)))
                         ],
                       ),
                     ),
@@ -98,6 +98,7 @@ class ListHolderPageState extends State<ListHolderPage> {
                               style: TextStyle(
                                   color: ColorRes.textColor,
                                   fontSize: 18,
+                                  fontFamily: 'NeueFrutigerWorld',
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
@@ -118,6 +119,7 @@ class ListHolderPageState extends State<ListHolderPage> {
                               style: TextStyle(
                                   color: ColorRes.textColor,
                                   fontSize: 18,
+                                  fontFamily: 'NeueFrutigerWorld',
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
@@ -135,6 +137,7 @@ class ListHolderPageState extends State<ListHolderPage> {
                               style: TextStyle(
                                   color: ColorRes.textColor,
                                   fontSize: 18,
+                                  fontFamily: 'NeueFrutigerWorld',
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
@@ -156,6 +159,7 @@ class ListHolderPageState extends State<ListHolderPage> {
                               style: TextStyle(
                                   color: ColorRes.textColor,
                                   fontSize: 18,
+                                  fontFamily: 'NeueFrutigerWorld',
                                   fontWeight: FontWeight.w500),
                             ),
                           ),

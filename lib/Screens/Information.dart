@@ -79,12 +79,13 @@ class Info extends StatelessWidget {
                             height: 10,
                           ),
                           ListTile(
-                            subtitle: Text("${user.livingIn}\n\n${user.about}"),
+                            subtitle: Text("${user.livingIn}\n\n${user.about}",style: TextStyle(fontFamily: 'NeueFrutigerWorld',),),
                             title: Text(
                               "${user.data.displayName}  ${ageCount(user.dateOfBirth.replaceAll('/', '-'))}",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 25,
+                                  fontFamily: 'NeueFrutigerWorld',
                                   fontWeight: FontWeight.bold),
                             ),
                             trailing: FloatingActionButton(
@@ -105,6 +106,7 @@ class Info extends StatelessWidget {
                               style: TextStyle(
                                   color: secondryColor,
                                   fontSize: 16,
+                                  fontFamily: 'NeueFrutigerWorld',
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
@@ -121,6 +123,7 @@ class Info extends StatelessWidget {
                               style: TextStyle(
                                   color: secondryColor,
                                   fontSize: 16,
+                                  fontFamily: 'NeueFrutigerWorld',
                                   fontWeight: FontWeight.w500),
                             ),
                           ),

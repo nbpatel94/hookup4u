@@ -70,6 +70,7 @@ class CardPicturesState extends State<CardPictures>
                           style: TextStyle(
                               color: secondryColor,
                               decoration: TextDecoration.none,
+                              fontFamily: 'NeueFrutigerWorld',
                               fontSize: 18),
                         ),
                       ],

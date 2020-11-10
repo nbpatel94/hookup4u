@@ -93,6 +93,7 @@ class _SexualOrientationState extends State<SexualOrientation> {
                   "CONTINUE",
                   style: TextStyle(
                       fontSize: 15,
+                      fontFamily: 'NeueFrutigerWorld',
                       color: textColor,
                       fontWeight: FontWeight.bold),
                 ))),
@@ -209,7 +210,7 @@ class _SexualOrientationState extends State<SexualOrientation> {
                         : !isChild
                             ? "Children"
                             : "My Birth Date",
-                    style: TextStyle(fontSize: 30, color: ColorRes.white),
+                    style: TextStyle(fontSize: 30,fontFamily: 'NeueFrutigerWorld',fontWeight: FontWeight.w100, color: ColorRes.white),
                   ),
                   padding: EdgeInsets.only(left: 70, top: 80),
                 ),
@@ -235,6 +236,7 @@ class _SexualOrientationState extends State<SexualOrientation> {
                                           "${relationshiplist[index]["name"]}",
                                           style: TextStyle(
                                               fontSize: 20,
+                                              fontFamily: 'NeueFrutigerWorld',
                                               color: ColorRes.textColor,
                                               fontWeight: FontWeight.bold))),
                                 ),
@@ -285,6 +287,7 @@ class _SexualOrientationState extends State<SexualOrientation> {
                                               style: TextStyle(
                                                   fontSize: 20,
                                                   color: ColorRes.textColor,
+                                                  fontFamily: 'NeueFrutigerWorld',
                                                   fontWeight:
                                                       FontWeight.bold))),
                                     ),
@@ -344,6 +347,7 @@ class _SexualOrientationState extends State<SexualOrientation> {
                 backgroundColor: ColorRes.primaryColor,
                 itemStyle: TextStyle(
                     color: ColorRes.textColor,
+                    fontFamily: 'NeueFrutigerWorld',
                     fontWeight: FontWeight.bold,
                     fontSize: 18),
                 cancelStyle: TextStyle(color: ColorRes.textColor, fontSize: 16),
@@ -375,7 +379,7 @@ class _SexualOrientationState extends State<SexualOrientation> {
             Container(
               child: Text(
                 dateOfBirth,
-                style: TextStyle(color: ColorRes.textColor, fontSize: 18),
+                style: TextStyle(fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor, fontSize: 18),
               ),
             ),
             Container(

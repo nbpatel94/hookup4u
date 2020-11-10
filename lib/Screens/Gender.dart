@@ -77,8 +77,9 @@ class _GenderState extends State<Gender> {
                       "CONTINUE",
                       style: TextStyle(
                           fontSize: 15,
+                          fontFamily: 'NeueFrutigerWorld',
                           color: textColor,
-                          fontWeight: FontWeight.bold),
+                          fontWeight: FontWeight.w700),
                     ))),
             onTap: () {
               if(widget.generated){
@@ -151,7 +152,7 @@ class _GenderState extends State<Gender> {
                 isIm ?
                 isLiving ?
                 isJobTitle ? "Job title" : "Living in": "About me" : "I am",
-                style: TextStyle(fontSize: 30,color: ColorRes.white),
+                style: TextStyle(fontSize: 30,fontFamily: 'NeueFrutigerWorld',fontWeight: FontWeight.w100,color: ColorRes.white),
               ),
               padding: EdgeInsets.only(bottom: 50),
             ),
@@ -168,18 +169,18 @@ class _GenderState extends State<Gender> {
                       "JOB TITLE",
                       textAlign: TextAlign.start,
                       style: TextStyle(
-                          fontSize: 16, color: Colors.grey[200]),
+                          fontSize: 16,fontFamily: 'NeueFrutigerWorld', color: Colors.grey[200]),
                     ),
                     TextFormField(
                       style: TextStyle(
-                          fontSize: 16, color: ColorRes.textColor),
+                          fontSize: 16, fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor),
                       cursorColor: ColorRes.textColor,
                       controller: jobTitleCont,
                       
                       decoration: InputDecoration(
                         hintText: "Student / Engineer / MBA / ...",
                         hintStyle: TextStyle(
-                            color: ColorRes.textColor, fontSize: 16),
+                            color: ColorRes.textColor,fontFamily: 'NeueFrutigerWorld', fontSize: 16),
                         focusColor: ColorRes.textColor,
                         focusedBorder: UnderlineInputBorder(
                             borderSide:
@@ -201,18 +202,18 @@ class _GenderState extends State<Gender> {
                       "LIVING",
                       textAlign: TextAlign.start,
                       style: TextStyle(
-                          fontSize: 16, color: Colors.grey[200]),
+                          fontSize: 16,fontFamily: 'NeueFrutigerWorld', color: Colors.grey[200]),
                     ),
                     TextFormField(
                       style: TextStyle(
-                          fontSize: 16, color: ColorRes.textColor),
+                          fontSize: 16, fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor),
                       cursorColor: ColorRes.textColor,
                       controller: livingCont,
                       
                       decoration: InputDecoration(
                         hintText: "NewYork, America",
                         hintStyle: TextStyle(
-                            color: ColorRes.textColor, fontSize: 16),
+                            color: ColorRes.textColor,fontFamily: 'NeueFrutigerWorld', fontSize: 16),
                         focusColor: ColorRes.textColor,
                         focusedBorder: UnderlineInputBorder(
                             borderSide:
@@ -234,18 +235,18 @@ class _GenderState extends State<Gender> {
                       "ABOUT",
                       textAlign: TextAlign.start,
                       style: TextStyle(
-                          fontSize: 16, color: Colors.grey[200]),
+                          fontSize: 16,fontFamily: 'NeueFrutigerWorld', color: Colors.grey[200]),
                     ),
                     TextFormField(
                       style: TextStyle(
-                          fontSize: 16, color: ColorRes.textColor),
+                          fontSize: 16, fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor),
                       cursorColor: ColorRes.textColor,
                       controller: aboutCont,
                       maxLines: 6,
                       decoration: InputDecoration(
                         hintText: "I'm foody and ...\nI love travelling...",
                         hintStyle: TextStyle(
-                            color: ColorRes.textColor, fontSize: 16),
+                            color: ColorRes.textColor, fontFamily: 'NeueFrutigerWorld',fontSize: 16),
                         focusColor: ColorRes.textColor,
                         focusedBorder: UnderlineInputBorder(
                             borderSide:
@@ -271,8 +272,8 @@ class _GenderState extends State<Gender> {
                           child: Text("MAN",
                               style: TextStyle(
                                   fontSize: 20,
-                                  color:
-                                  ColorRes.textColor,
+                                  color: ColorRes.textColor,
+                                  fontFamily: 'NeueFrutigerWorld',
                                   fontWeight: FontWeight.bold))),
                     ),
                     borderSide: BorderSide(
@@ -298,6 +299,7 @@ class _GenderState extends State<Gender> {
                             child: Text("WOMAN",
                                 style: TextStyle(
                                     fontSize: 20,
+                                    fontFamily: 'NeueFrutigerWorld',
                                     color: ColorRes.textColor,
                                     fontWeight: FontWeight.bold))),
                       ),

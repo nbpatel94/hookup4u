@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hookup4u/Screens/Gender.dart';
 import 'package:hookup4u/Screens/Profile/edit_profile_viewmodel.dart';
-import 'package:hookup4u/Screens/Profile/profile.dart';
 import 'package:hookup4u/Screens/SexualOrientation.dart';
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/models/data_model.dart';
@@ -110,7 +109,7 @@ class EditProfileState extends State<EditProfile> {
             elevation: 0,
             title: Text(
               "Edit Profile",
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white,fontFamily: 'NeueFrutigerWorld',fontWeight: FontWeight.w700),
             ),
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios),
@@ -242,6 +241,7 @@ class EditProfileState extends State<EditProfile> {
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 16,
+                            fontFamily: 'NeueFrutigerWorld',
                             color: ColorRes.textColor),
                       ),
                       subtitle: CupertinoTextField(
@@ -259,6 +259,7 @@ class EditProfileState extends State<EditProfile> {
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 16,
+                            fontFamily: 'NeueFrutigerWorld',
                             color: ColorRes.textColor),
                       ),
                       subtitle: CupertinoTextField(
@@ -274,6 +275,7 @@ class EditProfileState extends State<EditProfile> {
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 16,
+                            fontFamily: 'NeueFrutigerWorld',
                             color: ColorRes.textColor),
                       ),
                       subtitle: CupertinoTextField(
@@ -289,6 +291,7 @@ class EditProfileState extends State<EditProfile> {
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
+                              fontFamily: 'NeueFrutigerWorld',
                               color: ColorRes.textColor),
                         ),
                         subtitle: Card(

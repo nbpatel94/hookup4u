@@ -57,7 +57,8 @@ class ChatScreenState extends State<ChatScreen> {
                   message.message.raw,
                   style: TextStyle(
                     color: ColorRes.textColor,
-                    fontSize: 16.0,
+                    fontSize: 16.0,height: 1.1,
+                    fontFamily: 'NeueFrutigerWorld',
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -118,10 +119,10 @@ class ChatScreenState extends State<ChatScreen> {
                 onChanged: (value) {},
                 maxLines: 500,
                 minLines: 1,
-                style: TextStyle(color: ColorRes.textColor),
+                style: TextStyle(color: ColorRes.textColor,fontFamily: 'NeueFrutigerWorld',),
                 decoration: InputDecoration(
                   border: InputBorder.none,
-                  hintStyle: TextStyle(color: ColorRes.textColor),
+                  hintStyle: TextStyle(color: ColorRes.textColor,fontFamily: 'NeueFrutigerWorld',),
                   hintText: 'Type a message...',
                 ),
               ),
@@ -176,7 +177,7 @@ class ChatScreenState extends State<ChatScreen> {
             elevation: 0,
             title: Text(
               "${widget.sender.name}",
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.white,fontFamily: 'NeueFrutigerWorld',fontWeight: FontWeight.w700),
             ),
             leading: IconButton(
               icon: Icon(Icons.arrow_back_ios),
@@ -206,7 +207,7 @@ class ChatScreenState extends State<ChatScreen> {
                         value: 1,
                         child: Text(
                           "Block user",
-                          style: TextStyle(color: ColorRes.white),
+                          style: TextStyle(color: ColorRes.white,fontFamily: 'NeueFrutigerWorld',),
                         ),
                       )
                     ];

@@ -24,7 +24,7 @@ class _SettingsState extends State<Settings> {
       appBar: AppBar(
           title: Text(
             "Settings",
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white,fontWeight: FontWeight.w700,fontFamily: 'NeueFrutigerWorld',),
           ),
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
@@ -42,7 +42,7 @@ class _SettingsState extends State<Settings> {
               padding: const EdgeInsets.all(12.0),
               child: Text(
                 "Account settings",
-                style: TextStyle(color: ColorRes.white,fontSize: 18, fontWeight: FontWeight.w500),
+                style: TextStyle(color: ColorRes.white,fontSize: 18, fontFamily: 'NeueFrutigerWorld',fontWeight: FontWeight.w500),
               ),
             ),
             ListTile(
@@ -54,14 +54,14 @@ class _SettingsState extends State<Settings> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text("Phone Number",style: TextStyle(color: ColorRes.textColor,),),
+                      Text("Phone Number",style: TextStyle(color: ColorRes.textColor,fontFamily: 'NeueFrutigerWorld',),),
                       Padding(
                         padding: const EdgeInsets.only(
                           left: 80,
                         ),
                         child: Text(
                           "1234567890",
-                          style: TextStyle(color: ColorRes.textColor),
+                          style: TextStyle(color: ColorRes.textColor,fontFamily: 'NeueFrutigerWorld',),
                         ),
                       ),
                       Icon(
@@ -78,13 +78,13 @@ class _SettingsState extends State<Settings> {
                 ),
               )),
               subtitle:
-                  Text("Verify a phone number to secure your account",style: TextStyle(color: ColorRes.textColor,),),
+                  Text("Verify a phone number to secure your account",style: TextStyle(fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor,),),
             ),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(
                 "Discovery settings",
-                style: TextStyle(color: ColorRes.white,fontSize: 18, fontWeight: FontWeight.w500),
+                style: TextStyle(color: ColorRes.white,fontSize: 18,fontFamily: 'NeueFrutigerWorld', fontWeight: FontWeight.w500),
               ),
             ),
             Padding(
@@ -93,13 +93,14 @@ class _SettingsState extends State<Settings> {
                 color: ColorRes.darkButton,
                 child: ExpansionTile(
                   key: UniqueKey(),
-                  leading: Text("Location",style: TextStyle(color: ColorRes.textColor,),),
+                  leading: Text("Location",style: TextStyle(fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor,),),
                   trailing: Text(
                     "Current location",
                     style: TextStyle(
                       color: Colors.blue,
                       fontSize: 14,
-                      fontWeight: FontWeight.bold,
+                      fontFamily: 'NeueFrutigerWorld',
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                   title: Text(""),
@@ -120,7 +121,8 @@ class _SettingsState extends State<Settings> {
                             style: TextStyle(
                               color: Colors.blue,
                               fontSize: 16,
-                              fontWeight: FontWeight.bold,
+                              fontFamily: 'NeueFrutigerWorld',
+                              fontWeight: FontWeight.w700,
                             ),
                           ),
                         ],
@@ -139,7 +141,7 @@ class _SettingsState extends State<Settings> {
               ),
               child: Text(
                 "Change your location to see members in other city",
-                style: TextStyle(color: ColorRes.textColor,),
+                style: TextStyle(fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor,),
               ),
             ),
             Padding(
@@ -156,6 +158,7 @@ class _SettingsState extends State<Settings> {
                         style: TextStyle(
                             fontSize: 18,
                             color: ColorRes.textColor,
+                            fontFamily: 'NeueFrutigerWorld',
                             fontWeight: FontWeight.w500),
                       ),
                       ListTile(
@@ -165,13 +168,13 @@ class _SettingsState extends State<Settings> {
                           isExpanded: true,
                           items: [
                             DropdownMenuItem(
-                              child: Text("Men",style: TextStyle(color: ColorRes.textColor,),),
+                              child: Text("Men",style: TextStyle(fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor,),),
                               value: "1",
                             ),
                             DropdownMenuItem(
-                                child: Text("Women",style: TextStyle(color: ColorRes.textColor,)), value: "2"),
+                                child: Text("Women",style: TextStyle(fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor,)), value: "2"),
                             DropdownMenuItem(
-                                child: Text("Everyone",style: TextStyle(color: ColorRes.textColor,)), value: "3"),
+                                child: Text("Everyone",style: TextStyle(fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor,)), value: "3"),
                           ],
                           onChanged: (val) {
                             setState(() {
@@ -197,12 +200,13 @@ class _SettingsState extends State<Settings> {
                       "Maximum distance",
                       style: TextStyle(
                           fontSize: 18,
+                          fontFamily: 'NeueFrutigerWorld',
                           color: ColorRes.textColor,
                           fontWeight: FontWeight.w500),
                     ),
                     trailing: Text(
                       "$distance Km.",
-                      style: TextStyle(fontSize: 16,color: ColorRes.textColor,),
+                      style: TextStyle(fontSize: 16,fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor,),
                     ),
                     subtitle: Slider(
                         value: distance.toDouble(),
@@ -230,12 +234,13 @@ class _SettingsState extends State<Settings> {
                       "Age range",
                       style: TextStyle(
                           fontSize: 18,
+                          fontFamily: 'NeueFrutigerWorld',
                           color: ColorRes.textColor,
                           fontWeight: FontWeight.w500),
                     ),
                     trailing: Text(
                       "${ageRange.start.round()}-${ageRange.end.round()}",
-                      style: TextStyle(fontSize: 16,color: ColorRes.textColor,),
+                      style: TextStyle(fontSize: 16,fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor,),
                     ),
                     subtitle: RangeSlider(
                         inactiveColor: ColorRes.white,

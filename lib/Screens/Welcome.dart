@@ -39,6 +39,7 @@ class _WelcomeState extends State<Welcome> {
                       "GOT IT",
                       style: TextStyle(
                           fontSize: 15,
+                          fontFamily: 'NeueFrutigerWorld',
                           color: textColor,
                           fontWeight: FontWeight.bold),
                     ))),
@@ -62,27 +63,29 @@ class _WelcomeState extends State<Welcome> {
                       textAlign: TextAlign.start,
                       style: TextStyle(
                           fontSize: 35,
+                          fontFamily: 'NeueFrutigerWorld',
                           color: ColorRes.white,
-                          fontWeight: FontWeight.bold,
-                          fontStyle: FontStyle.normal),
+                          fontWeight: FontWeight.w100,
+                         ),
                     ),
                   ),
                   ListTile(
                     title: Text(
                       "Welcome to IHeartMuslims.\nPlease follow these House Rules.",
                       style: TextStyle(
-                          fontSize: 18, color: ColorRes.white,fontWeight: FontWeight.w700),
+                          fontSize: 18,fontFamily: 'NeueFrutigerWorld',height: 1.1, color: ColorRes.white,fontWeight: FontWeight.w700),
                     ),
                   ),
                   ListTile(
                     title: Text(
                       "Be yourself.",
                       style: TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold, color: ColorRes.white),
+                          fontSize: 18,fontFamily: 'NeueFrutigerWorld',height: 1.1, color: ColorRes.white,fontWeight: FontWeight.w700),
                     ),
                     subtitle: Text(
                       "Make sure your photos, age, and bio are true to who you are.",
                       style: TextStyle(
+                          fontFamily: 'NeueFrutigerWorld',
                         fontSize: 19, color: ColorRes.textColor
                       ),
                     ),
@@ -91,12 +94,13 @@ class _WelcomeState extends State<Welcome> {
                     title: Text(
                       "Play it cool.",
                       style: TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold, color: ColorRes.white),
+                          fontSize: 18,fontFamily: 'NeueFrutigerWorld',height: 1.1, color: ColorRes.white,fontWeight: FontWeight.w700),
                     ),
                     subtitle: Text(
                       "Respect other and treat them as you would like to be treated",
                       style: TextStyle(
                         fontSize: 17,
+                          fontFamily: 'NeueFrutigerWorld',
                           color: ColorRes.textColor
                       ),
                     ),
@@ -105,11 +109,12 @@ class _WelcomeState extends State<Welcome> {
                     title: Text(
                       "Stay safe.",
                       style: TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold, color: ColorRes.white),
+                          fontSize: 18,fontFamily: 'NeueFrutigerWorld',height: 1.1, color: ColorRes.white,fontWeight: FontWeight.w700),
                     ),
                     subtitle: Text(
                       "Don't be too quick to give out personal information.",
                       style: TextStyle(
+                          fontFamily: 'NeueFrutigerWorld',
                         fontSize: 17, color: ColorRes.textColor
                       ),
                     ),
@@ -118,11 +123,12 @@ class _WelcomeState extends State<Welcome> {
                     title: Text(
                       "Be proactive.",
                       style: TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold, color: ColorRes.white),
+                          fontSize: 18,fontFamily: 'NeueFrutigerWorld',height: 1.1, color: ColorRes.white,fontWeight: FontWeight.w700),
                     ),
                     subtitle: Text(
                       "Always report bad behavior.",
                       style: TextStyle(
+                          fontFamily: 'NeueFrutigerWorld',
                         fontSize: 17, color: ColorRes.textColor
                       ),
                     ),

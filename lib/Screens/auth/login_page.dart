@@ -13,7 +13,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class LoginPageState extends State<LoginPage> {
-
   LoginViewModel model;
 
   TextEditingController usernameCont = TextEditingController();
@@ -30,7 +29,7 @@ class LoginPageState extends State<LoginPage> {
 
     return WillPopScope(
       onWillPop: () async {
-        if(!isLoading){
+        if (!isLoading) {
           Navigator.pop(context);
         }
         return false;
@@ -52,7 +51,11 @@ class LoginPageState extends State<LoginPage> {
                         margin: EdgeInsets.only(bottom: 30, left: 50),
                         child: Text(
                           "Login",
-                          style: TextStyle(fontSize: 34, color: Colors.white),
+                          style: TextStyle(
+                              fontSize: 34,
+                              fontFamily: 'NeueFrutigerWorld',
+                              fontWeight: FontWeight.w100,
+                              color: Colors.white),
                         ),
                       ),
                       Padding(
@@ -65,7 +68,9 @@ class LoginPageState extends State<LoginPage> {
                               "USERNAME",
                               textAlign: TextAlign.start,
                               style: TextStyle(
-                                  fontSize: 16, color: Colors.grey[200]),
+                                  fontSize: 16,
+                                  fontFamily: 'NeueFrutigerWorld',
+                                  color: Colors.grey[200]),
                             ),
                             TextFormField(
                               style: TextStyle(
@@ -73,7 +78,7 @@ class LoginPageState extends State<LoginPage> {
                               cursorColor: ColorRes.textColor,
                               controller: usernameCont,
                               decoration: InputDecoration(
-                                hintText: "iLoveDate",
+                                hintText: "iLoveDate1",
                                 hintStyle: TextStyle(
                                     color: ColorRes.textColor, fontSize: 16),
                                 focusColor: ColorRes.textColor,
@@ -98,7 +103,9 @@ class LoginPageState extends State<LoginPage> {
                               "PASSWORD",
                               textAlign: TextAlign.start,
                               style: TextStyle(
-                                  fontSize: 16, color: Colors.grey[200]),
+                                  fontSize: 16,
+                                  fontFamily: 'NeueFrutigerWorld',
+                                  color: Colors.grey[200]),
                             ),
                             TextFormField(
                               style: TextStyle(
@@ -133,33 +140,43 @@ class LoginPageState extends State<LoginPage> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                               if(!isLoading){
-                                 if(model.validate()){
-                                   setState(() {
-                                     isLoading = true;
-                                   });
-                                   model.login();
-                                 }
-                               }
+                                if (!isLoading) {
+                                  if (model.validate()) {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
+                                    model.login();
+                                  }
+                                }
                               },
                               child: Container(
-                                height: MediaQuery.of(context).size.height * .075,
+                                height:
+                                    MediaQuery.of(context).size.height * .075,
                                 width: MediaQuery.of(context).size.width / 3,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   color: ColorRes.redButton,
                                 ),
                                 child: Center(
-                                    child: isLoading ? Padding(child: CircularProgressIndicator(backgroundColor: ColorRes.primaryColor,),padding: EdgeInsets.all(5),):Text("LOGIN",
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold))),
+                                    child: isLoading
+                                        ? Padding(
+                                            child: CircularProgressIndicator(
+                                              backgroundColor:
+                                                  ColorRes.primaryColor,
+                                            ),
+                                            padding: EdgeInsets.all(5),
+                                          )
+                                        : Text("LOGIN",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontFamily: 'NeueFrutigerWorld',
+                                                fontWeight: FontWeight.w700))),
                               ),
                             ),
                             GestureDetector(
                               onTap: () {
-                                if(!isLoading){
+                                if (!isLoading) {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -171,7 +188,9 @@ class LoginPageState extends State<LoginPage> {
                                 "Forgot password?",
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                    fontSize: 15, color: ColorRes.textColor),
+                                    fontSize: 15,
+                                    fontFamily: 'NeueFrutigerWorld',
+                                    color: ColorRes.textColor),
                               ),
                             ),
                           ],
@@ -188,13 +207,14 @@ class LoginPageState extends State<LoginPage> {
                 top: 0,
                 left: 0,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
                   child: IconButton(
-                    onPressed: (){
-                      if(!isLoading){
-                        Navigator.pop(context);
-                      }
-                    },
+                      onPressed: () {
+                        if (!isLoading) {
+                          Navigator.pop(context);
+                        }
+                      },
                       icon: Icon(
                         Icons.arrow_back,
                         color: Colors.white,
@@ -205,9 +225,12 @@ class LoginPageState extends State<LoginPage> {
               Positioned(
                 bottom: 0,
                 child: GestureDetector(
-                  onTap: (){
-                    if(!isLoading){
-                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => SignUpPage()));
+                  onTap: () {
+                    if (!isLoading) {
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SignUpPage()));
                       // Navigator.push(context, MaterialPageRoute(builder: (context) => Welcome()));
                     }
                   },
@@ -216,7 +239,14 @@ class LoginPageState extends State<LoginPage> {
                       alignment: Alignment.center,
                       width: MediaQuery.of(context).size.width,
                       height: 50,
-                      child: Text("Don't have account? Sign up",textAlign: TextAlign.center,style: TextStyle(color: ColorRes.textColor,fontSize: 15),)),
+                      child: Text(
+                        "Don't have account? Sign up",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: ColorRes.textColor,
+                            fontFamily: 'NeueFrutigerWorld',
+                            fontSize: 15),
+                      )),
                 ),
               )
             ],
@@ -226,13 +256,13 @@ class LoginPageState extends State<LoginPage> {
     );
   }
 
-  showSnackBar(String message,{bool isError = false}){
+  showSnackBar(String message, {bool isError = false}) {
     _scaffoldKey.currentState.showSnackBar(new SnackBar(
       content: new Text(
         message,
         textAlign: TextAlign.center,
       ),
-      backgroundColor: isError ? ColorRes.redButton: ColorRes.darkButton,
+      backgroundColor: isError ? ColorRes.redButton : ColorRes.darkButton,
       duration: Duration(seconds: 3),
     ));
   }

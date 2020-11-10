@@ -60,7 +60,7 @@ class MessagesScreenState extends State<MessagesScreen> {
                         ),
                       ),
                       SizedBox(height: 10,),
-                      Text(appState.currentUserData.data.displayName,style: TextStyle(fontSize: 28,color: ColorRes.textColor)),
+                      Text(appState.currentUserData.data.displayName,style: TextStyle(fontSize: 28,fontFamily: 'NeueFrutigerWorld',fontWeight: FontWeight.w100,color: ColorRes.textColor)),
                       SizedBox(height: 2,),
                       GestureDetector(
                           onTap: (){
@@ -70,7 +70,7 @@ class MessagesScreenState extends State<MessagesScreen> {
                                 MaterialPageRoute(
                                     builder: (context) => EditProfile()));
                           },
-                          child: Text("EDIT PROFILE",style: TextStyle(fontSize: 12,color: Colors.white,fontWeight: FontWeight.bold)))
+                          child: Text("EDIT PROFILE",style: TextStyle(fontSize: 12,fontFamily: 'NeueFrutigerWorld',color: Colors.white,fontWeight: FontWeight.w700)))
                     ],
                   ),
                 ),
@@ -93,27 +93,7 @@ class MessagesScreenState extends State<MessagesScreen> {
                           style: TextStyle(
                               color: ColorRes.textColor,
                               fontSize: 18,
-                              fontWeight: FontWeight.w500),
-                        ),
-                      ),
-                      ListTile(
-                        onTap: () {
-                          Navigator.pop(context);
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MessagesScreen()));
-                        },
-                        leading: Icon(
-                          Icons.message,
-                          color: ColorRes.textColor,
-                          size: 25,
-                        ),
-                        title: Text(
-                          'Message',
-                          style: TextStyle(
-                              color: ColorRes.textColor,
-                              fontSize: 18,
+                              fontFamily: 'NeueFrutigerWorld',
                               fontWeight: FontWeight.w500),
                         ),
                       ),
@@ -136,6 +116,7 @@ class MessagesScreenState extends State<MessagesScreen> {
                           style: TextStyle(
                               color: ColorRes.textColor,
                               fontSize: 18,
+                              fontFamily: 'NeueFrutigerWorld',
                               fontWeight: FontWeight.w500),
                         ),
                       ),
@@ -153,6 +134,7 @@ class MessagesScreenState extends State<MessagesScreen> {
                           style: TextStyle(
                               color: ColorRes.textColor,
                               fontSize: 18,
+                              fontFamily: 'NeueFrutigerWorld',
                               fontWeight: FontWeight.w500),
                         ),
                       ),
@@ -174,6 +156,7 @@ class MessagesScreenState extends State<MessagesScreen> {
                           style: TextStyle(
                               color: ColorRes.textColor,
                               fontSize: 18,
+                              fontFamily: 'NeueFrutigerWorld',
                               fontWeight: FontWeight.w500),
                         ),
                       ),
@@ -211,7 +194,7 @@ class MessagesScreenState extends State<MessagesScreen> {
         title: Container(
           // margin: EdgeInsets.only(right: MediaQuery.of(context).size.width/6),
           margin: EdgeInsets.only(right: 40),
-            alignment:Alignment.center,child: Text("Messages",)),
+            alignment:Alignment.center,child: Text("Messages",style: TextStyle(fontFamily: 'NeueFrutigerWorld',fontWeight: FontWeight.w700),)),
         backgroundColor: ColorRes.darkButton,
         leading: GestureDetector(
             onTap: (){
@@ -359,7 +342,8 @@ class MessagesScreenState extends State<MessagesScreen> {
                                             style: TextStyle(
                                               color: ColorRes.white,
                                               fontSize: 18,
-                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'NeueFrutigerWorld',
+                                              fontWeight: FontWeight.w700,
                                             ),
                                           ),
                                           SizedBox(

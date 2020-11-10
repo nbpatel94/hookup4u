@@ -39,7 +39,8 @@ class StartScreen extends StatelessWidget {
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
-                              fontWeight: FontWeight.bold))),
+                              fontFamily: 'NeueFrutigerWorld',
+                              fontWeight: FontWeight.w700))),
                 ),
               ),
               GestureDetector(
@@ -59,7 +60,8 @@ class StartScreen extends StatelessWidget {
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
-                              fontWeight: FontWeight.bold))),
+                              fontFamily: 'NeueFrutigerWorld',
+                              fontWeight: FontWeight.w700))),
                 ),
               ),
                   SizedBox(

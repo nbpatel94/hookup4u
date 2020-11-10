@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hookup4u/Screens/Chat/chat_screeb_viewmodel.dart';
 import 'package:hookup4u/app.dart';
@@ -5,6 +6,7 @@ import 'package:hookup4u/models/data_model.dart';
 import 'package:hookup4u/models/match_model.dart';
 import 'package:hookup4u/models/thread_model.dart';
 import 'package:hookup4u/models/user_model.dart';
+import 'package:hookup4u/restapi/restapi.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:lottie/lottie.dart';
 
@@ -96,49 +98,57 @@ class ChatScreenState extends State<ChatScreen> {
   _buildMessageComposer() {
     return Container(
       // padding: EdgeInsets.symmetric(horizontal: 8.0),
-      height: 70.0,
-      color: Colors.white,
+      height: 60.0,
+      color: ColorRes.darkButton,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          IconButton(
-            icon: Icon(Icons.photo),
-            iconSize: 25.0,
-            color: secondryColor,
-            onPressed: () {},
-          ),
           Expanded(
-            child: TextField(
-              controller: _saveMsg,
-              textCapitalization: TextCapitalization.sentences,
-              onChanged: (value) {},
-              maxLines: 500,
-              minLines: 1,
-              decoration: InputDecoration(
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(20)),
-                hintText: 'Type a message...',
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: TextField(
+                controller: _saveMsg,
+                textCapitalization: TextCapitalization.sentences,
+                onChanged: (value) {},
+                maxLines: 500,
+                minLines: 1,
+                style: TextStyle(color: ColorRes.textColor),
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintStyle: TextStyle(color: ColorRes.textColor),
+                  hintText: 'Type a message...',
+                ),
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(2.0),
-            child: FloatingActionButton(
-              backgroundColor: Colors.white,
+          InkWell(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Image.asset(
+                'asset/Icon/photo.png',
+                height: 25,
+                color: ColorRes.textColor,
+              ),
+            ),
+            onTap: () {},
+          ),
+          InkWell(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
               child: Icon(
                 Icons.send,
-                color: primaryColor,
+                color: ColorRes.textColor,
                 size: 25,
               ),
-              onPressed: () async {
-                if (_saveMsg.text.isEmpty) return;
-                FocusScope.of(context).unfocus();
-                setState(() {
-                  model.sendMessage(_saveMsg.text.trim());
-                });
-                _saveMsg.clear();
-              },
             ),
+            onTap: () async {
+              if (_saveMsg.text.isEmpty) return;
+              FocusScope.of(context).unfocus();
+              setState(() {
+                model.sendMessage(_saveMsg.text.trim());
+              });
+              _saveMsg.clear();
+            },
           ),
         ],
       ),
@@ -149,74 +159,150 @@ class ChatScreenState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     model ?? (model = ChatScreenViewModel(this));
 
-    return Scaffold(
-        backgroundColor: primaryColor,
-        appBar: AppBar(
-          elevation: 0,
-          title: Text(
-            "${widget.sender.name}",
-            style: TextStyle(color: Colors.white),
-          ),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
-            color: Colors.white,
-            onPressed: () => Navigator.pop(context),
-          ),
+    return WillPopScope(
+      onWillPop: () async{
+        Navigator.pop(context,'No');
+        return false;
+      },
+      child: Scaffold(
           backgroundColor: primaryColor,
-          actions: <Widget>[
-            PopupMenuButton(itemBuilder: (context) {
-              return [
-                PopupMenuItem(
-                  height: 20,
-                  value: 1,
-                  child: Text("Block user"),
-                )
-              ];
-            }),
-          ],
-        ),
-        body: isLoading
-            ? Center(
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 50),
-            child: Lottie.asset('asset/Icon/getting_message.json',
-                height: MediaQuery.of(context).size.width / 3,
-                width: MediaQuery.of(context).size.width / 3),
-          ),
-        )
-            : GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Column(
-            children: <Widget>[
-              model.messageElement != null
-                  ? Expanded(
-                      child: ListView.builder(
-                        reverse: true,
-                        padding: EdgeInsets.only(top: 15.0),
-                        itemCount: model.messageElement.messages.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final ThreadModel message =
-                              model.messageElement.messages[index];
-                          final bool isMe = message.senderId == appState.id;
-                          // final bool isUnread = message.unread;
-                          return _buildMessage(
-                            message,
-                            isMe,
-                          );
-                        },
-                      ),
-                    )
-                  : Expanded(
-                      child: Center(
+          appBar: AppBar(
+            elevation: 0,
+            title: Text(
+              "${widget.sender.name}",
+              style: TextStyle(color: Colors.white),
+            ),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back_ios),
+              color: Colors.white,
+              onPressed: () => Navigator.pop(context,'No'),
+            ),
+            backgroundColor: primaryColor,
+            actions: <Widget>[
+              PopupMenuButton(
+                  color: ColorRes.darkButton,
+                  onSelected: (index) async {
+                    var res = await source();
+                    if(res!=null){
+                      setState(() {
+                        isLoading = true;
+                      });
+                      String check  = await RestApi.matchReject(widget.matchId);
+                      if(check=='success'){
+                        Navigator.pop(context,'Yes');
+                      }
+                    }
+                  },
+                  itemBuilder: (context) {
+                    return [
+                      PopupMenuItem(
+                        height: 20,
+                        value: 1,
                         child: Text(
-                          "No Matches",
-                          style: TextStyle(color: secondryColor, fontSize: 16),
+                          "Block user",
+                          style: TextStyle(color: ColorRes.white),
                         ),
-                      ),
-                    ),
-              _buildMessageComposer(),
+                      )
+                    ];
+                  }),
             ],
           ),
-        ));
+          body: isLoading
+              ? Center(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 50),
+                    child: Lottie.asset('asset/Icon/getting_message.json',
+                        height: MediaQuery.of(context).size.width / 3,
+                        width: MediaQuery.of(context).size.width / 3),
+                  ),
+                )
+              : GestureDetector(
+                  onTap: () => FocusScope.of(context).unfocus(),
+                  child: Column(
+                    children: <Widget>[
+                      model.messageElement != null
+                          ? Expanded(
+                              child: ListView.builder(
+                                reverse: true,
+                                padding: EdgeInsets.only(top: 15.0),
+                                itemCount: model.messageElement.messages.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  final ThreadModel message =
+                                      model.messageElement.messages[index];
+                                  final bool isMe =
+                                      message.senderId == appState.id;
+                                  // final bool isUnread = message.unread;
+                                  return _buildMessage(
+                                    message,
+                                    isMe,
+                                  );
+                                },
+                              ),
+                            )
+                          : Expanded(
+                              child: Center(
+                                child: Text(
+                                  "No Matches",
+                                  style: TextStyle(
+                                      color: secondryColor, fontSize: 16),
+                                ),
+                              ),
+                            ),
+                      _buildMessageComposer(),
+                    ],
+                  ),
+                )),
+    );
+  }
+
+  source() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            title: Text(
+              "Once you will block ${widget.sender.name} then you will unable to see ${widget.sender.gender=='man' ? 'him' : 'her'} in your matches \nAre you sure want to block?",
+            ),
+            insetAnimationCurve: Curves.decelerate,
+            actions: <Widget>[
+              GestureDetector(
+                onTap: () async {
+                  Navigator.pop(context,"Delete");
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(20.0),
+                  color: ColorRes.redButton,
+                  child: Text(
+                    "YES",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: ColorRes.white,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.none),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () async {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(20.0),
+                  color: ColorRes.darkButton,
+                  child: Text(
+                    "NO",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: ColorRes.white,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.none),
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
   }
 }

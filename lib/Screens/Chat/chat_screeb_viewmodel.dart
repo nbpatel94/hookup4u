@@ -20,7 +20,23 @@ class ChatScreenViewModel{
 
   getChatDetails() async {
     if(state.widget.threadId!=null){
-      messageElement = await RestApi.getThreadMessages(state.widget.threadId);
+      List temp = await databaseHelper.checkThreadDatabase(int.parse(state.widget.threadId));
+      print('--- ${temp.length} ---');
+      if( temp.isNotEmpty){
+        print("Contain Messages");
+        messageElement = MessageElement();
+        messageElement.messages = List();
+       messageElement.messages = await databaseHelper.getSingleUserMessages(int.parse(state.widget.threadId));
+       await Future.delayed(Duration(seconds: 1));
+      }else{
+        print("Not Contain Messages");
+        messageElement = await RestApi.getThreadMessages(state.widget.threadId);
+
+        for(int i = 0; i<messageElement.messages.length ; i++){
+          await databaseHelper.insert(messageElement.messages[i]);
+        }
+      }
+
       messageElement.messages = messageElement.messages.reversed.toList();
       state.setState(() {
         state.isLoading = false;
@@ -29,14 +45,17 @@ class ChatScreenViewModel{
   }
 
   sendMessage(String message) async {
+    ThreadModel temp = ThreadModel(senderId: appState.id,message: MessageMessage(raw: message),dateSent: DateTime.now());
     if(state.widget.threadId!=null){
       state.setState(() {
-        messageElement.messages.insert(0,ThreadModel(senderId: appState.id,message: MessageMessage(raw: message),dateSent: DateTime.now()));
+        messageElement.messages.insert(0,temp);
+        databaseHelper.insert(temp);
       });
       await RestApi.sendThreadMessage(state.widget.userId, message,state.widget.threadId);
     }else{
       state.setState(() {
-        messageElement.messages.insert(0,ThreadModel(senderId: appState.id,message: MessageMessage(raw: message),dateSent: DateTime.now()));
+        messageElement.messages.insert(0,temp);
+        databaseHelper.insert(temp);
       });
       await RestApi.createThreadMessage(state.widget.userId, message,state.widget.matchId);
     }

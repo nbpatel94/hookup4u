@@ -1,4 +1,5 @@
 import 'package:hookup4u/app_state.dart';
+import 'package:hookup4u/database/database_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class App{
@@ -28,3 +29,4 @@ class App{
 
 SharedPreferences sharedPreferences;
 AppState appState = AppState();
+DatabaseHelper databaseHelper = DatabaseHelper();

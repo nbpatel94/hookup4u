@@ -158,21 +158,30 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                 MainAxisAlignment.spaceEvenly,
                                 children: [
                                   InkWell(
-                                    onTap: () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) => ChatScreen(
-                                          sender: model.matchList[index].senderId != appState.id.toString() ?
-                                          model.matchList[index].senderMeta :
-                                          model.matchList[index].targetMeta,
-                                          userId: model.matchList[index].senderId != appState.id.toString() ?
-                                          model.matchList[index].senderId :
-                                          model.matchList[index].taregtId,
-                                          threadId: model.matchList[index].threadId,
-                                          matchId: model.matchList[index].matchId,
+                                    onTap: () async {
+                                      var res = await Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => ChatScreen(
+                                            sender: model.matchList[index].senderId != appState.id.toString() ?
+                                            model.matchList[index].senderMeta :
+                                            model.matchList[index].targetMeta,
+                                            userId: model.matchList[index].senderId != appState.id.toString() ?
+                                            model.matchList[index].senderId :
+                                            model.matchList[index].taregtId,
+                                            threadId: model.matchList[index].threadId,
+                                            matchId: model.matchList[index].matchId,
+                                          ),
                                         ),
-                                      ),
-                                    ),
+                                      );
+
+                                      if(res=='Yes'){
+                                        setState(() {
+                                          isLoading = true;
+                                        });
+                                        model.getMyMatch();
+                                      }
+                                    },
                                     child: Container(
                                       height: MediaQuery.of(context).size.height * .055,
                                       width: MediaQuery.of(context).size.width / 3,

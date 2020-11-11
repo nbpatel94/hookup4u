@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hookup4u/Screens/Chat/chat_screen.dart';
 import 'package:hookup4u/Screens/Information.dart';
+import 'package:hookup4u/Screens/home/list_holder_page.dart';
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:lottie/lottie.dart';
@@ -25,7 +26,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
 
     return Scaffold(
         appBar: AppBar(
-          automaticallyImplyLeading: false,
+          automaticallyImplyLeading: true,
           title: Center(
             child: Text(
               'My Matches',
@@ -227,22 +228,27 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                                       .w700))),
                                     ),
                                   ),
-                                  Container(
-                                    height: MediaQuery.of(context).size.height * .055,
-                                    width: MediaQuery.of(context).size.width / 3,
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                      BorderRadius.circular(10),
-                                      color: ColorRes.darkButton,
+                                  InkWell(
+                                    onTap: (){
+                                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => ListHolderPage()),(Route<dynamic> route) => false);
+                                    },
+                                    child: Container(
+                                      height: MediaQuery.of(context).size.height * .055,
+                                      width: MediaQuery.of(context).size.width / 3,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.circular(10),
+                                        color: ColorRes.darkButton,
+                                      ),
+                                      child: Center(
+                                          child: Text("KEEP BROWSING",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 12,
+                                                  fontFamily: 'NeueFrutigerWorld',
+                                                  fontWeight: FontWeight
+                                                      .w700))),
                                     ),
-                                    child: Center(
-                                        child: Text("KEEP BROWSING",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12,
-                                                fontFamily: 'NeueFrutigerWorld',
-                                                fontWeight: FontWeight
-                                                    .w700))),
                                   ),
                                 ],
                               ),

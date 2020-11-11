@@ -22,6 +22,28 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+    <key>NSAppleMusicUsageDescription</key>
+    <string>This app requires music access to function properly.</string>
+    <key>NSBluetoothPeripheralUsageDescription</key>
+    <string>Required to track your walking with external devices</string>
+    <key>NSCalendarsUsageDescription</key>
+    <string>This app requires calendar access to function properly.</string>
+    <key>NSCameraUsageDescription</key>
+    <string>I use the camera for app walk</string>
+    <key>NSContactsUsageDescription</key>
+    <string>This app requires contact access to function properly.</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>This app requires speech access to function properly.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>This app requires location access to function properly.</string>
+    <key>NSMotionUsageDescription</key>
+    <string>This app requires motion access to function properly.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Used to demonstrate image picker plugin</string>
+    <key>NSSpeechRecognitionUsageDescription</key>
+    <string>This app requires speech access to function properly.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>This app requires speech access to function properly.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

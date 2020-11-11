@@ -7,7 +7,7 @@ class UpdateNumber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primaryColor,
+      backgroundColor: ColorRes.primaryColor,
       appBar: AppBar(
         title: Text(
           "Phone number settings",
@@ -18,7 +18,7 @@ class UpdateNumber extends StatelessWidget {
           color: Colors.white,
           onPressed: () => Navigator.pop(context),
         ),
-        backgroundColor: primaryColor,
+        backgroundColor: ColorRes.primaryColor,
         elevation: 0,
       ),
       body: Container(
@@ -40,7 +40,7 @@ class UpdateNumber extends StatelessWidget {
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400)),
               trailing: Icon(
                 Icons.done,
-                color: primaryColor,
+                color: ColorRes.primaryColor,
               ),
             )),
             Padding(
@@ -49,7 +49,7 @@ class UpdateNumber extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 13,
                       fontWeight: FontWeight.w400,
-                      color: secondryColor)),
+                      color: ColorRes.secondaryColor)),
             ),
             Padding(
               padding: const EdgeInsets.all(18.0),
@@ -62,7 +62,7 @@ class UpdateNumber extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
-                              color: primaryColor)),
+                              color: ColorRes.primaryColor)),
                     ),
                   ),
                   onTap: () => Navigator.push(

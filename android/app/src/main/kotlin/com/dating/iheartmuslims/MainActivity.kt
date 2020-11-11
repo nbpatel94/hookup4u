@@ -1,4 +1,4 @@
-package com.halalguide.iloverelationship
+package com.dating.iheartmuslims
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

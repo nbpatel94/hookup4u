@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hookup4u/Screens/auth/login_page.dart';
-import 'package:hookup4u/Screens/auth/login_viewmodel.dart';
 import 'package:hookup4u/Screens/auth/signup_viewmodel.dart';
 import 'package:hookup4u/util/color.dart';
 
@@ -77,7 +76,7 @@ class SignUpPageState extends State<SignUpPage> {
                               cursorColor: ColorRes.textColor,
                               controller: userIdCont,
                               decoration: InputDecoration(
-                                hintText: "iLoveDate1",
+                                hintText: "iHeartMuslims1",
                                 hintStyle: TextStyle(
                                     color: ColorRes.textColor, fontSize: 16),
                                 focusColor: ColorRes.textColor,
@@ -112,7 +111,7 @@ class SignUpPageState extends State<SignUpPage> {
                               cursorColor: ColorRes.textColor,
                               controller: userNameCont,
                               decoration: InputDecoration(
-                                hintText: "ILove Date",
+                                hintText: "IHeart Muslims",
                                 hintStyle: TextStyle(
                                     color: ColorRes.textColor, fontSize: 16),
                                 focusColor: ColorRes.textColor,

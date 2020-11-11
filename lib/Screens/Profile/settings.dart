@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hookup4u/Screens/auth/start_screen.dart';
 import 'package:hookup4u/app.dart';
-import 'package:hookup4u/app_state.dart';
 import 'package:hookup4u/util/color.dart';
 import 'UpdateNumber.dart';
 
@@ -20,7 +19,7 @@ class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primaryColor,
+      backgroundColor: ColorRes.primaryColor,
       appBar: AppBar(
           title: Text(
             "Settings",
@@ -32,234 +31,234 @@ class _SettingsState extends State<Settings> {
             onPressed: () => Navigator.pop(context),
           ),
           elevation: 0,
-          backgroundColor: primaryColor),
+          backgroundColor: ColorRes.primaryColor),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Text(
-                "Account settings",
-                style: TextStyle(color: ColorRes.white,fontSize: 18, fontFamily: 'NeueFrutigerWorld',fontWeight: FontWeight.w500),
-              ),
-            ),
-            ListTile(
-              title: Card(
-                  color: ColorRes.darkButton,
-                  child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: InkWell(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Text("Phone Number",style: TextStyle(color: ColorRes.textColor,fontFamily: 'NeueFrutigerWorld',),),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 80,
-                        ),
-                        child: Text(
-                          "1234567890",
-                          style: TextStyle(color: ColorRes.textColor,fontFamily: 'NeueFrutigerWorld',),
-                        ),
-                      ),
-                      Icon(
-                        Icons.arrow_forward_ios,
-                        color: ColorRes.textColor,
-                        size: 15,
-                      ),
-                    ],
-                  ),
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => UpdateNumber())),
-                ),
-              )),
-              subtitle:
-                  Text("Verify a phone number to secure your account",style: TextStyle(fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor,),),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Text(
-                "Discovery settings",
-                style: TextStyle(color: ColorRes.white,fontSize: 18,fontFamily: 'NeueFrutigerWorld', fontWeight: FontWeight.w500),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 15),
-              child: Card(
-                color: ColorRes.darkButton,
-                child: ExpansionTile(
-                  key: UniqueKey(),
-                  leading: Text("Location",style: TextStyle(fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor,),),
-                  trailing: Text(
-                    "Current location",
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontSize: 14,
-                      fontFamily: 'NeueFrutigerWorld',
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  title: Text(""),
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.location_on,
-                            color: Colors.blue,
-                            size: 25,
-                          ),
-                          Text(
-                            "Add new location",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.blue,
-                              fontSize: 16,
-                              fontFamily: 'NeueFrutigerWorld',
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 15,
-              ),
-              child: Text(
-                "Change your location to see members in other city",
-                style: TextStyle(fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor,),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Card(
-                color: ColorRes.darkButton,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Show me",
-                        style: TextStyle(
-                            fontSize: 18,
-                            color: ColorRes.textColor,
-                            fontFamily: 'NeueFrutigerWorld',
-                            fontWeight: FontWeight.w500),
-                      ),
-                      ListTile(
-                        title: DropdownButton(
-                          iconEnabledColor: ColorRes.textColor,
-                          iconDisabledColor: secondryColor,
-                          isExpanded: true,
-                          items: [
-                            DropdownMenuItem(
-                              child: Text("Men",style: TextStyle(fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor,),),
-                              value: "1",
-                            ),
-                            DropdownMenuItem(
-                                child: Text("Women",style: TextStyle(fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor,)), value: "2"),
-                            DropdownMenuItem(
-                                child: Text("Everyone",style: TextStyle(fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor,)), value: "3"),
-                          ],
-                          onChanged: (val) {
-                            setState(() {
-                              _showMe = val;
-                            });
-                          },
-                          value: _showMe,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Card(
-                color: ColorRes.darkButton,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListTile(
-                    title: Text(
-                      "Maximum distance",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: 'NeueFrutigerWorld',
-                          color: ColorRes.textColor,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    trailing: Text(
-                      "$distance Km.",
-                      style: TextStyle(fontSize: 16,fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor,),
-                    ),
-                    subtitle: Slider(
-                        value: distance.toDouble(),
-                        inactiveColor: ColorRes.white,
-                        min: 1.0,
-                        max: 100.0,
-                        activeColor: primaryColor,
-                        onChanged: (val) {
-                          setState(() {
-                            distance = val.round();
-                          });
-                        }),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Card(
-                color: ColorRes.darkButton,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListTile(
-                    title: Text(
-                      "Age range",
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: 'NeueFrutigerWorld',
-                          color: ColorRes.textColor,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    trailing: Text(
-                      "${ageRange.start.round()}-${ageRange.end.round()}",
-                      style: TextStyle(fontSize: 16,fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor,),
-                    ),
-                    subtitle: RangeSlider(
-                        inactiveColor: ColorRes.white,
-                        values: ageRange,
-                        min: 18.0,
-                        max: 100.0,
-                        divisions: 25,
-                        activeColor: primaryColor,
-                        labels: RangeLabels('${ageRange.start.round()}',
-                            '${ageRange.end.round()}'),
-                        onChanged: (val) {
-                          setState(() {
-                            ageRange = val;
-                          });
-                        }),
-                  ),
-                ),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(12.0),
+            //   child: Text(
+            //     "Account settings",
+            //     style: TextStyle(color: ColorRes.white,fontSize: 18, fontFamily: 'NeueFrutigerWorld',fontWeight: FontWeight.w500),
+            //   ),
+            // ),
+            // ListTile(
+            //   title: Card(
+            //       color: ColorRes.darkButton,
+            //       child: Padding(
+            //     padding: const EdgeInsets.all(20.0),
+            //     child: InkWell(
+            //       child: Row(
+            //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //         children: <Widget>[
+            //           Text("Phone Number",style: TextStyle(color: ColorRes.textColor,fontFamily: 'NeueFrutigerWorld',),),
+            //           Padding(
+            //             padding: const EdgeInsets.only(
+            //               left: 80,
+            //             ),
+            //             child: Text(
+            //               "1234567890",
+            //               style: TextStyle(color: ColorRes.textColor,fontFamily: 'NeueFrutigerWorld',),
+            //             ),
+            //           ),
+            //           Icon(
+            //             Icons.arrow_forward_ios,
+            //             color: ColorRes.textColor,
+            //             size: 15,
+            //           ),
+            //         ],
+            //       ),
+            //       // onTap: () => Navigator.push(
+            //       //     context,
+            //       //     MaterialPageRoute(
+            //       //         builder: (context) => UpdateNumber())),
+            //     ),
+            //   )),
+            //   subtitle:
+            //       Text("Verify a phone number to secure your account",style: TextStyle(fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor,),),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.all(10.0),
+            //   child: Text(
+            //     "Discovery settings",
+            //     style: TextStyle(color: ColorRes.white,fontSize: 18,fontFamily: 'NeueFrutigerWorld', fontWeight: FontWeight.w500),
+            //   ),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 15),
+            //   child: Card(
+            //     color: ColorRes.darkButton,
+            //     child: ExpansionTile(
+            //       key: UniqueKey(),
+            //       leading: Text("Location",style: TextStyle(fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor,),),
+            //       trailing: Text(
+            //         "Current location",
+            //         style: TextStyle(
+            //           color: Colors.blue,
+            //           fontSize: 14,
+            //           fontFamily: 'NeueFrutigerWorld',
+            //           fontWeight: FontWeight.w700,
+            //         ),
+            //       ),
+            //       title: Text(""),
+            //       children: <Widget>[
+            //         Padding(
+            //           padding: const EdgeInsets.all(8.0),
+            //           child: Row(
+            //             mainAxisAlignment: MainAxisAlignment.center,
+            //             children: <Widget>[
+            //               Icon(
+            //                 Icons.location_on,
+            //                 color: Colors.blue,
+            //                 size: 25,
+            //               ),
+            //               Text(
+            //                 "Add new location",
+            //                 textAlign: TextAlign.center,
+            //                 style: TextStyle(
+            //                   color: Colors.blue,
+            //                   fontSize: 16,
+            //                   fontFamily: 'NeueFrutigerWorld',
+            //                   fontWeight: FontWeight.w700,
+            //                 ),
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //         SizedBox(
+            //           height: 20,
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.only(
+            //     left: 15,
+            //   ),
+            //   child: Text(
+            //     "Change your location to see members in other city",
+            //     style: TextStyle(fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor,),
+            //   ),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.all(10.0),
+            //   child: Card(
+            //     color: ColorRes.darkButton,
+            //     child: Padding(
+            //       padding: const EdgeInsets.all(8.0),
+            //       child: Column(
+            //         crossAxisAlignment: CrossAxisAlignment.start,
+            //         children: <Widget>[
+            //           Text(
+            //             "Show me",
+            //             style: TextStyle(
+            //                 fontSize: 18,
+            //                 color: ColorRes.textColor,
+            //                 fontFamily: 'NeueFrutigerWorld',
+            //                 fontWeight: FontWeight.w500),
+            //           ),
+            //           ListTile(
+            //             title: DropdownButton(
+            //               iconEnabledColor: ColorRes.textColor,
+            //               iconDisabledColor: ColorRes.secondaryColor,
+            //               isExpanded: true,
+            //               items: [
+            //                 DropdownMenuItem(
+            //                   child: Text("Men",style: TextStyle(fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor,),),
+            //                   value: "1",
+            //                 ),
+            //                 DropdownMenuItem(
+            //                     child: Text("Women",style: TextStyle(fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor,)), value: "2"),
+            //                 DropdownMenuItem(
+            //                     child: Text("Everyone",style: TextStyle(fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor,)), value: "3"),
+            //               ],
+            //               onChanged: (val) {
+            //                 setState(() {
+            //                   _showMe = val;
+            //                 });
+            //               },
+            //               value: _showMe,
+            //             ),
+            //           ),
+            //         ],
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.all(10.0),
+            //   child: Card(
+            //     color: ColorRes.darkButton,
+            //     child: Padding(
+            //       padding: const EdgeInsets.all(8.0),
+            //       child: ListTile(
+            //         title: Text(
+            //           "Maximum distance",
+            //           style: TextStyle(
+            //               fontSize: 18,
+            //               fontFamily: 'NeueFrutigerWorld',
+            //               color: ColorRes.textColor,
+            //               fontWeight: FontWeight.w500),
+            //         ),
+            //         trailing: Text(
+            //           "$distance Km.",
+            //           style: TextStyle(fontSize: 16,fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor,),
+            //         ),
+            //         subtitle: Slider(
+            //             value: distance.toDouble(),
+            //             inactiveColor: ColorRes.white,
+            //             min: 1.0,
+            //             max: 100.0,
+            //             activeColor: ColorRes.primaryColor,
+            //             onChanged: (val) {
+            //               setState(() {
+            //                 distance = val.round();
+            //               });
+            //             }),
+            //       ),
+            //     ),
+            //   ),
+            // ),
+            // Padding(
+            //   padding: const EdgeInsets.all(10.0),
+            //   child: Card(
+            //     color: ColorRes.darkButton,
+            //     child: Padding(
+            //       padding: const EdgeInsets.all(8.0),
+            //       child: ListTile(
+            //         title: Text(
+            //           "Age range",
+            //           style: TextStyle(
+            //               fontSize: 18,
+            //               fontFamily: 'NeueFrutigerWorld',
+            //               color: ColorRes.textColor,
+            //               fontWeight: FontWeight.w500),
+            //         ),
+            //         trailing: Text(
+            //           "${ageRange.start.round()}-${ageRange.end.round()}",
+            //           style: TextStyle(fontSize: 16,fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor,),
+            //         ),
+            //         subtitle: RangeSlider(
+            //             inactiveColor: ColorRes.white,
+            //             values: ageRange,
+            //             min: 18.0,
+            //             max: 100.0,
+            //             divisions: 25,
+            //             activeColor: ColorRes.primaryColor,
+            //             labels: RangeLabels('${ageRange.start.round()}',
+            //                 '${ageRange.end.round()}'),
+            //             onChanged: (val) {
+            //               setState(() {
+            //                 ageRange = val;
+            //               });
+            //             }),
+            //       ),
+            //     ),
+            //   ),
+            // ),
             // ListTile(
             //   title: Text(
             //     "App settings",
@@ -364,7 +363,7 @@ class _SettingsState extends State<Settings> {
                       height: 50,
                       width: 100,
                       child: SvgPicture.asset(
-                        "asset/hookup4u-Logo-BP.svg",
+                        "asset/ihr-mus-clear-bg.svg",
                         fit: BoxFit.contain,
                       )),
                 )),

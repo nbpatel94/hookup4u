@@ -2,16 +2,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
-import 'package:hookup4u/Screens/Chat/chat_screen.dart';
-import 'package:hookup4u/Screens/Profile/EditProfile.dart';
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/models/activitymodel.dart';
 import 'package:hookup4u/models/match_model.dart';
-import 'package:hookup4u/models/data_model.dart';
-import 'package:hookup4u/models/user_model.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:intl/intl.dart';
-import 'cardpage/card_pictures.dart';
 
 class Info extends StatelessWidget {
   final ActivityModel user;
@@ -43,13 +38,13 @@ class Info extends StatelessWidget {
                         CachedNetworkImage(
                             imageUrl: user.media[index2],
                             placeholder: (context, url) => Image.asset(
-                              'asset/userPictures/otherUsers/bunny1.jpeg',
+                              'asset/Icon/placeholder.png',
                               fit: BoxFit.cover,
                             ),
                             fit: BoxFit.cover
                         )
                         : Image.asset(
-                          'asset/userPictures/otherUsers/bunny1.jpeg',
+                          'asset/Icon/placeholder.png',
                           height: MediaQuery.of(context).size.height / 2,
                           width: MediaQuery.of(context).size.width,
                           fit: BoxFit.cover,
@@ -60,11 +55,11 @@ class Info extends StatelessWidget {
                           alignment: Alignment.bottomCenter,
                           builder: DotSwiperPaginationBuilder(
                               activeSize: 13,
-                              color: secondryColor,
-                              activeColor: primaryColor)),
+                              color: ColorRes.secondaryColor,
+                              activeColor: ColorRes.primaryColor)),
                       control: new SwiperControl(
-                        color: primaryColor,
-                        disableColor: secondryColor,
+                        color: ColorRes.primaryColor,
+                        disableColor: ColorRes.secondaryColor,
                       ),
                       loop: false,
                     ),
@@ -95,16 +90,16 @@ class Info extends StatelessWidget {
                                 },
                                 child: Icon(
                                   Icons.arrow_downward,
-                                  color: primaryColor,
+                                  color: ColorRes.primaryColor,
                                 )),
                           ),
                           ListTile(
                             dense: true,
-                            leading: Icon(Icons.book, color: primaryColor),
+                            leading: Icon(Icons.book, color: ColorRes.primaryColor),
                             title: Text(
                               "${user.jobTitle}",
                               style: TextStyle(
-                                  color: secondryColor,
+                                  color: ColorRes.secondaryColor,
                                   fontSize: 16,
                                   fontFamily: 'NeueFrutigerWorld',
                                   fontWeight: FontWeight.w500),
@@ -112,7 +107,7 @@ class Info extends StatelessWidget {
                           ),
                           ListTile(
                             dense: true,
-                            leading: Icon(Icons.favorite_rounded, color: primaryColor),
+                            leading: Icon(Icons.favorite_rounded, color: ColorRes.primaryColor),
                             title: Text(
                               "${user.relation} ${
                                   user.relation=='Married' ||
@@ -121,7 +116,7 @@ class Info extends StatelessWidget {
                                       user.relation=='Widowed' ? user.children : ""
                               }",
                               style: TextStyle(
-                                  color: secondryColor,
+                                  color: ColorRes.secondaryColor,
                                   fontSize: 16,
                                   fontFamily: 'NeueFrutigerWorld',
                                   fontWeight: FontWeight.w500),
@@ -176,13 +171,13 @@ class InfoMatch extends StatelessWidget {
                         CachedNetworkImage(
                             imageUrl: user.senderMeta.media[index2],
                             placeholder: (context, url) => Image.asset(
-                              'asset/userPictures/otherUsers/bunny1.jpeg',
+                              'asset/Icon/placeholder.png',
                               fit: BoxFit.cover,
                             ),
                             fit: BoxFit.cover
                         )
                          : Image.asset(
-                          'asset/userPictures/otherUsers/bunny1.jpeg',
+                          'asset/Icon/placeholder.png',
                           height: MediaQuery.of(context).size.height / 2,
                           width: MediaQuery.of(context).size.width,
                           fit: BoxFit.cover,
@@ -190,13 +185,13 @@ class InfoMatch extends StatelessWidget {
                         CachedNetworkImage(
                             imageUrl:  user.targetMeta.media[index2],
                             placeholder: (context, url) => Image.asset(
-                              'asset/userPictures/otherUsers/bunny1.jpeg',
+                              'asset/Icon/placeholder.png',
                               fit: BoxFit.cover,
                             ),
                             fit: BoxFit.cover
                         )
                          : Image.asset(
-                          'asset/userPictures/otherUsers/bunny1.jpeg',
+                          'asset/Icon/placeholder.png',
                           height: MediaQuery.of(context).size.height / 2,
                           width: MediaQuery.of(context).size.width,
                           fit: BoxFit.cover,
@@ -207,11 +202,11 @@ class InfoMatch extends StatelessWidget {
                           alignment: Alignment.bottomCenter,
                           builder: DotSwiperPaginationBuilder(
                               activeSize: 13,
-                              color: secondryColor,
-                              activeColor: primaryColor)),
+                              color: ColorRes.secondaryColor,
+                              activeColor: ColorRes.primaryColor)),
                       control: new SwiperControl(
-                        color: primaryColor,
-                        disableColor: secondryColor,
+                        color: ColorRes.primaryColor,
+                        disableColor: ColorRes.secondaryColor,
                       ),
                       loop: false,
                     ),
@@ -243,23 +238,23 @@ class InfoMatch extends StatelessWidget {
                                 },
                                 child: Icon(
                                   Icons.arrow_downward,
-                                  color: primaryColor,
+                                  color: ColorRes.primaryColor,
                                 )),
                           ),
                           ListTile(
                             dense: true,
-                            leading: Icon(Icons.book, color: primaryColor),
+                            leading: Icon(Icons.book, color: ColorRes.primaryColor),
                             title: Text(
                               "${user.senderId != appState.id.toString() ? user.senderMeta.jobTitle : user.targetMeta.jobTitle}",
                               style: TextStyle(
-                                  color: secondryColor,
+                                  color: ColorRes.secondaryColor,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
                           ListTile(
                             dense: true,
-                            leading: Icon(Icons.favorite_rounded, color: primaryColor),
+                            leading: Icon(Icons.favorite_rounded, color: ColorRes.primaryColor),
                             title: Text(
                               "${
                                   user.senderId != appState.id.toString() ? user.senderMeta.relation : user.targetMeta.relation
@@ -276,7 +271,7 @@ class InfoMatch extends StatelessWidget {
 
                               }",
                               style: TextStyle(
-                                  color: secondryColor,
+                                  color: ColorRes.secondaryColor,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w500),
                             ),

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -94,7 +92,7 @@ class _SexualOrientationState extends State<SexualOrientation> {
                   style: TextStyle(
                       fontSize: 15,
                       fontFamily: 'NeueFrutigerWorld',
-                      color: textColor,
+                      color: ColorRes.textColor,
                       fontWeight: FontWeight.bold),
                 ))),
             onTap: () async {
@@ -225,7 +223,7 @@ class _SexualOrientationState extends State<SexualOrientation> {
                             return Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: OutlineButton(
-                                highlightedBorderColor: primaryColor,
+                                highlightedBorderColor: ColorRes.primaryColor,
                                 child: Container(
                                   height:
                                       MediaQuery.of(context).size.height * .055,
@@ -274,7 +272,7 @@ class _SexualOrientationState extends State<SexualOrientation> {
                                 return Padding(
                                   padding: const EdgeInsets.all(4.0),
                                   child: OutlineButton(
-                                    highlightedBorderColor: primaryColor,
+                                    highlightedBorderColor: ColorRes.primaryColor,
                                     child: Container(
                                       height:
                                           MediaQuery.of(context).size.height *

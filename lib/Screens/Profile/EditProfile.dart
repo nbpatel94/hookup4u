@@ -1,17 +1,11 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:hookup4u/Screens/Gender.dart';
 import 'package:hookup4u/Screens/Profile/edit_profile_viewmodel.dart';
 import 'package:hookup4u/Screens/SexualOrientation.dart';
 import 'package:hookup4u/app.dart';
-import 'package:hookup4u/models/data_model.dart';
-import 'package:hookup4u/models/mediamodel.dart';
-import 'package:hookup4u/models/user_detail_model.dart';
-import 'package:hookup4u/prefrences.dart';
 import 'package:hookup4u/restapi/restapi.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:image_picker/image_picker.dart';
@@ -103,7 +97,7 @@ class EditProfileState extends State<EditProfile> {
         return false;
       },
       child: Scaffold(
-        backgroundColor: primaryColor,
+        backgroundColor: ColorRes.primaryColor,
         key: _scaffoldKey,
         appBar: AppBar(
             elevation: 0,
@@ -196,13 +190,13 @@ class EditProfileState extends State<EditProfile> {
                                   shape: BoxShape.circle,
                                   color: appState.medialList!=null && appState.medialList.length > index
                                       ? Colors.white
-                                      : primaryColor,
+                                      : ColorRes.primaryColor,
                                 ),
                                 child: appState.medialList!=null && appState.medialList.length > index
                                     ? InkWell(
                                         child: Icon(
                                           Icons.cancel,
-                                          color: primaryColor,
+                                          color: ColorRes.primaryColor,
                                           size: 22,
                                         ),
                                         onTap: () async {
@@ -245,7 +239,7 @@ class EditProfileState extends State<EditProfile> {
                             color: ColorRes.textColor),
                       ),
                       subtitle: CupertinoTextField(
-                        cursorColor: primaryColor,
+                        cursorColor: ColorRes.primaryColor,
                         controller: aboutCont,
                         maxLines: 10,
                         minLines: 3,
@@ -263,7 +257,7 @@ class EditProfileState extends State<EditProfile> {
                             color: ColorRes.textColor),
                       ),
                       subtitle: CupertinoTextField(
-                        cursorColor: primaryColor,
+                        cursorColor: ColorRes.primaryColor,
                         controller: jobTitleCont,
                         placeholder: "${appState.jobTitle}",
                         padding: EdgeInsets.all(10),
@@ -279,7 +273,7 @@ class EditProfileState extends State<EditProfile> {
                             color: ColorRes.textColor),
                       ),
                       subtitle: CupertinoTextField(
-                        cursorColor: primaryColor,
+                        cursorColor: ColorRes.primaryColor,
                         controller: livingCont,
                         placeholder: "${appState.livingIn}",
                         padding: EdgeInsets.all(10),

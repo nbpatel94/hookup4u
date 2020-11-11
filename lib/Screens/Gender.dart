@@ -78,7 +78,7 @@ class _GenderState extends State<Gender> {
                       style: TextStyle(
                           fontSize: 15,
                           fontFamily: 'NeueFrutigerWorld',
-                          color: textColor,
+                          color: ColorRes.textColor,
                           fontWeight: FontWeight.w700),
                     ))),
             onTap: () {
@@ -264,7 +264,7 @@ class _GenderState extends State<Gender> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   OutlineButton(
-                    highlightedBorderColor: primaryColor,
+                    highlightedBorderColor: ColorRes.primaryColor,
                     child: Container(
                       height: MediaQuery.of(context).size.height * .065,
                       width: MediaQuery.of(context).size.width * .75,

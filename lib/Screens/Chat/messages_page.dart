@@ -9,7 +9,6 @@ import 'package:hookup4u/Screens/Profile/settings.dart';
 import 'package:hookup4u/Screens/home/list_holder_page.dart';
 import 'package:hookup4u/Screens/match/my_matches.dart';
 import 'package:hookup4u/app.dart';
-import 'package:hookup4u/models/data_model.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:lottie/lottie.dart';
 
@@ -43,7 +42,7 @@ class MessagesScreenState extends State<MessagesScreen> {
                         CachedNetworkImage(
                             imageUrl: appState.medialList[0].sourceUrl,
                             placeholder: (context, url) => Image.asset(
-                              'asset/userPictures/otherUsers/bunny1.jpeg',
+                              'asset/Icon/placeholder.png',
                               height: 120,
                               width: 120,
                               fit: BoxFit.cover,
@@ -53,7 +52,7 @@ class MessagesScreenState extends State<MessagesScreen> {
                             fit: BoxFit.cover
                         )
                          : Image.asset(
-                          'asset/userPictures/otherUsers/bunny1.jpeg',
+                          'asset/Icon/placeholder.png',
                           height: 120,
                           width: 120,
                           fit: BoxFit.cover,
@@ -165,15 +164,26 @@ class MessagesScreenState extends State<MessagesScreen> {
                 )
               ],
             ),
-            Positioned(
-              top: 30,
-              right: 15,
-              child: GestureDetector(
-                onTap: (){
-                  Navigator.pop(context);
-                },
-                child: Icon(Icons.arrow_back,size: 30,color: ColorRes.textColor,),
-              ),
+            // Positioned(
+            //   top: 30,
+            //   right: 15,
+            //   child: GestureDetector(
+            //     onTap: (){
+            //       Navigator.pop(context);
+            //     },
+            //     child: Icon(Icons.arrow_back,size: 30,color: ColorRes.textColor,),
+            //   ),
+            // ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Divider(color: ColorRes.darkButton,height: 2,thickness: 2,),
+                Image.asset(
+                  'asset/Icon/placeholder.png',
+                  height: 80,
+                  fit: BoxFit.cover,
+                ),
+              ],
             )
           ],
         ),
@@ -230,7 +240,6 @@ class MessagesScreenState extends State<MessagesScreen> {
                 itemCount: model.matchList.length,
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
-                  final Message chat = chats[index];
                   return Column(
                     children: [
                       index ==0 ? SizedBox(height: 20,): Divider(
@@ -282,7 +291,7 @@ class MessagesScreenState extends State<MessagesScreen> {
                                         CachedNetworkImage(
                                           imageUrl:  model.matchList[index].senderMeta.media[0],
                                           placeholder: (context, url) => Image.asset(
-                                              'asset/userPictures/otherUsers/bunny1.jpeg',
+                                              'asset/Icon/placeholder.png',
                                                height: 60,
                                                width: 60,
                                            fit: BoxFit.cover,
@@ -292,7 +301,7 @@ class MessagesScreenState extends State<MessagesScreen> {
                                           fit: BoxFit.cover
                                         )
                                          : Image.asset(
-                                          'asset/userPictures/otherUsers/bunny1.jpeg',
+                                          'asset/Icon/placeholder.png',
                                           height: 60,
                                           width: 60,
                                           fit: BoxFit.cover,
@@ -303,7 +312,7 @@ class MessagesScreenState extends State<MessagesScreen> {
                                         CachedNetworkImage(
                                             imageUrl:  model.matchList[index].targetMeta.media[0],
                                             placeholder: (context, url) => Image.asset(
-                                              'asset/userPictures/otherUsers/bunny1.jpeg',
+                                              'asset/Icon/placeholder.png',
                                               height: 60,
                                               width: 60,
                                               fit: BoxFit.cover,
@@ -313,7 +322,7 @@ class MessagesScreenState extends State<MessagesScreen> {
                                             fit: BoxFit.cover
                                         )
                                             : Image.asset(
-                                          'asset/userPictures/otherUsers/bunny1.jpeg',
+                                          'asset/Icon/placeholder.png',
                                           height: 60,
                                           width: 60,
                                           fit: BoxFit.cover,
@@ -349,47 +358,27 @@ class MessagesScreenState extends State<MessagesScreen> {
                                           SizedBox(
                                             width: 7,
                                           ),
-                                          chat.unread
-                                              ? Container(
-                                            // width: 40.0,
-                                            // height: 20.0,
-                                            padding: EdgeInsets.symmetric(horizontal: 7),
-                                            decoration: BoxDecoration(
-                                              color: Colors.redAccent,
-                                              borderRadius: BorderRadius.circular(30.0),
-                                            ),
-                                            alignment: Alignment.center,
-                                            child: Text(
-                                              '7',
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12.0,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                          )
-                                              : Text(''),
                                         ],
                                       ),
                                       SizedBox(height: 5.0),
-                                      Container(
-                                        width: MediaQuery.of(context).size.width * 0.4,
-                                        child: Text(
-                                          chat.text,
-                                          style: TextStyle(
-                                            color: Colors.blueGrey,
-                                            fontSize: 15.0,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
+                                      // Container(
+                                      //   width: MediaQuery.of(context).size.width * 0.4,
+                                      //   child: Text(
+                                      //     "Hello",
+                                      //     style: TextStyle(
+                                      //       color: Colors.blueGrey,
+                                      //       fontSize: 15.0,
+                                      //       fontWeight: FontWeight.w600,
+                                      //     ),
+                                      //     overflow: TextOverflow.ellipsis,
+                                      //   ),
+                                      // ),
                                     ],
                                   ),
                                 ],
                               ),
                               Text(
-                                chat.time,
+                                '${DateTime.now().hour}:${DateTime.now().minute}',
                                 style: TextStyle(
                                   color: Colors.blueGrey,
                                   fontSize: 12,
@@ -410,7 +399,7 @@ class MessagesScreenState extends State<MessagesScreen> {
       ) : Center(
       child: Text(
       "No Matches",
-      style: TextStyle(color: secondryColor, fontSize: 16),
+      style: TextStyle(color: ColorRes.secondaryColor, fontSize: 16),
     ),),
       drawer: drawerWidget,
     );

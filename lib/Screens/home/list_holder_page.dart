@@ -5,9 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:hookup4u/Screens/Chat/messages_page.dart';
 import 'package:hookup4u/Screens/Profile/EditProfile.dart';
 import 'package:hookup4u/Screens/Profile/settings.dart';
+import 'package:hookup4u/Screens/cardpage/card_pictures.dart';
+import 'package:hookup4u/Screens/match/my_matches.dart';
 import 'package:hookup4u/app.dart';
-import 'file:///E:/Priyesh/hookup4u/lib/Screens/match/my_matches.dart';
-import '../cardpage/card_pictures.dart';
 import 'package:hookup4u/util/color.dart';
 
 class ListHolderPage extends StatefulWidget {
@@ -42,7 +42,7 @@ class ListHolderPageState extends State<ListHolderPage> {
                             CachedNetworkImage(
                                 imageUrl: appState.medialList[0].sourceUrl,
                                 placeholder: (context, url) => Image.asset(
-                                  'asset/userPictures/otherUsers/bunny1.jpeg',
+                                  'asset/Icon/placeholder.png',
                                   height: 120,
                                   width: 120,
                                   fit: BoxFit.cover,
@@ -51,7 +51,7 @@ class ListHolderPageState extends State<ListHolderPage> {
                                 width: 120,
                                 fit: BoxFit.cover
                             ) : Image.asset(
-                              'asset/userPictures/otherUsers/bunny1.jpeg',
+                              'asset/Icon/placeholder.png',
                               height: 120,
                               width: 120,
                               fit: BoxFit.cover,
@@ -168,15 +168,26 @@ class ListHolderPageState extends State<ListHolderPage> {
                     )
                   ],
                 ),
-                Positioned(
-                  top: 30,
-                  right: 15,
-                  child: GestureDetector(
-                    onTap: (){
-                      Navigator.pop(context);
-                    },
-                    child: Icon(Icons.arrow_back,size: 30,color: ColorRes.textColor,),
-                  ),
+                // Positioned(
+                //   top: 30,
+                //   right: 15,
+                //   child: GestureDetector(
+                //     onTap: (){
+                //       Navigator.pop(context);
+                //     },
+                //     child: Icon(Icons.arrow_back,size: 30,color: ColorRes.textColor,),
+                //   ),
+                // ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Divider(color: ColorRes.darkButton,height: 2,thickness: 2,),
+                    Image.asset(
+                      'asset/Icon/placeholder.png',
+                      height: 80,
+                      fit: BoxFit.cover,
+                    ),
+                  ],
                 )
               ],
             ),

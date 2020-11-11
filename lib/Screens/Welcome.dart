@@ -40,7 +40,7 @@ class _WelcomeState extends State<Welcome> {
                       style: TextStyle(
                           fontSize: 15,
                           fontFamily: 'NeueFrutigerWorld',
-                          color: textColor,
+                          color: ColorRes.textColor,
                           fontWeight: FontWeight.bold),
                     ))),
             onTap: () {

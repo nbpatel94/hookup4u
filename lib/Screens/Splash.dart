@@ -1,4 +1,6 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,12 +9,14 @@ import 'package:hookup4u/Screens/Welcome.dart';
 import 'package:hookup4u/Screens/auth/start_screen.dart';
 import 'package:hookup4u/Screens/home/list_holder_page.dart';
 import 'package:hookup4u/app.dart';
+import 'package:hookup4u/consumableStore.dart';
 import 'package:hookup4u/models/mediamodel.dart';
 import 'package:hookup4u/models/profile_detail.dart';
 import 'package:hookup4u/models/user_detail_model.dart';
 import 'package:hookup4u/prefrences.dart';
 import 'package:hookup4u/restapi/restapi.dart';
 import 'package:hookup4u/util/color.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -20,8 +24,6 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
-
-
 
   getSharedDetails() async {
     if(sharedPreferences.containsKey(Preferences.accessToken)){
@@ -81,7 +83,7 @@ class _SplashState extends State<Splash> {
         }
       }
     }else{
-      Future.delayed(Duration(seconds: 2), () {
+      Future.delayed(Duration(seconds: 4), () {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => StartScreen()));
       });
@@ -97,7 +99,7 @@ class _SplashState extends State<Splash> {
               height: 120,
               width: 200,
               child: SvgPicture.asset(
-                "asset/hookup4u-Logo-BP.svg",
+                "asset/ihr-mus-clear-bg.svg",
                 fit: BoxFit.contain,
               )),
         ));
@@ -107,5 +109,193 @@ class _SplashState extends State<Splash> {
   void initState() {
     super.initState();
     getSharedDetails();
+
+    /// inAppPurchase initialization
+
+    Stream purchaseUpdated = InAppPurchaseConnection.instance.purchaseUpdatedStream;
+    _subscription = purchaseUpdated.listen((purchaseDetailsList) {
+      _listenToPurchaseUpdated(purchaseDetailsList);
+    }, onDone: () {
+      _subscription.cancel();
+    }, onError: (error) {
+      print("inAppPurchase error: $error");
+    });
+    initStoreInfo();
+  }
+
+  /// inAppPurchase
+
+  final InAppPurchaseConnection _connection = InAppPurchaseConnection.instance;
+  StreamSubscription<List<PurchaseDetails>> _subscription;
+  List<String> _notFoundIds = [];
+  List<ProductDetails> _products = [];
+  List<PurchaseDetails> _purchases = [];
+  List<String> _consumables = [];
+  bool _isAvailable = false;
+  bool _purchasePending = false;
+  bool _loading = true;
+  String _queryProductError;
+
+  bool _kAutoConsume = true;
+
+  String _kConsumableId = 'consumable';
+  List<String> _kProductIds = <String>[
+    'consumable',
+    'upgrade',
+    'subscription'
+  ];
+
+  Future<void> initStoreInfo() async {
+    final bool isAvailable = await _connection.isAvailable();
+    print("inAppPurchase avail $_isAvailable");
+    if (!isAvailable) {
+      setState(() {
+        _isAvailable = isAvailable;
+        _products = [];
+        _purchases = [];
+        _notFoundIds = [];
+        _consumables = [];
+        _purchasePending = false;
+        _loading = false;
+      });
+      return;
+    }
+
+    ProductDetailsResponse productDetailResponse = await _connection.queryProductDetails(_kProductIds.toSet());
+    print("inAppPurchase productDetailResponse ${productDetailResponse.productDetails.asMap()}");
+    if (productDetailResponse.error != null) {
+      setState(() {
+        _queryProductError = productDetailResponse.error.message;
+        _isAvailable = isAvailable;
+        _products = productDetailResponse.productDetails;
+        _purchases = [];
+        _notFoundIds = productDetailResponse.notFoundIDs;
+        _consumables = [];
+        _purchasePending = false;
+        _loading = false;
+      });
+      return;
+    }
+
+    if (productDetailResponse.productDetails.isEmpty) {
+      print("inAppPurchase productDetails ${productDetailResponse.productDetails}");
+      setState(() {
+        _queryProductError = null;
+        _isAvailable = isAvailable;
+        _products = productDetailResponse.productDetails;
+        _purchases = [];
+        _notFoundIds = productDetailResponse.notFoundIDs;
+        _consumables = [];
+        _purchasePending = false;
+        _loading = false;
+      });
+      return;
+    }
+
+    final QueryPurchaseDetailsResponse purchaseResponse = await _connection.queryPastPurchases();
+    if (purchaseResponse.error != null) {
+      print("inAppPurchase purchaseResponse error ${purchaseResponse.error}");
+    }
+    final List<PurchaseDetails> verifiedPurchases = [];
+    for (PurchaseDetails purchase in purchaseResponse.pastPurchases) {
+      if (await _verifyPurchase(purchase)) {
+        verifiedPurchases.add(purchase);
+      }
+    }
+    List<String> consumables = await ConsumableStore.load();
+    print("inAppPurchase consumables $consumables");
+    setState(() {
+      _isAvailable = isAvailable;
+      _products = productDetailResponse.productDetails;
+      _purchases = verifiedPurchases;
+      _notFoundIds = productDetailResponse.notFoundIDs;
+      _consumables = consumables;
+      _purchasePending = false;
+      _loading = false;
+    });
+  }
+
+  Future<void> consume(String id) async {
+    await ConsumableStore.consume(id);
+    final List<String> consumables = await ConsumableStore.load();
+    print("inAppPurchase consumables $consumables");
+    setState(() {
+      _consumables = consumables;
+    });
+  }
+
+  void showPendingUI() {
+    setState(() {
+      _purchasePending = true;
+    });
+  }
+
+  void deliverProduct(PurchaseDetails purchaseDetails) async {
+    // IMPORTANT!! Always verify a purchase purchase details before delivering the product.
+    if (purchaseDetails.productID == _kConsumableId) {
+      await ConsumableStore.save(purchaseDetails.purchaseID);
+      List<String> consumables = await ConsumableStore.load();
+      print("inAppPurchase consumables $consumables");
+      setState(() {
+        _purchasePending = false;
+        _consumables = consumables;
+      });
+    } else {
+      setState(() {
+        _purchases.add(purchaseDetails);
+        _purchasePending = false;
+      });
+    }
+  }
+
+  void handleError(IAPError error) {
+    print("inAppPurchase IAPError $error");
+    setState(() {
+      _purchasePending = false;
+    });
+  }
+
+  Future<bool> _verifyPurchase(PurchaseDetails purchaseDetails) {
+    // IMPORTANT!! Always verify a purchase before delivering the product.
+    // For the purpose of an example, we directly return true.
+    print("inAppPurchase purchaseDetails ${purchaseDetails.purchaseID}");
+    print("inAppPurchase purchaseDetails ${purchaseDetails.productID}");
+    return Future<bool>.value(true);
+  }
+
+  void _handleInvalidPurchase(PurchaseDetails purchaseDetails) {
+    // handle invalid purchase here if  _verifyPurchase` failed.
+    print("inAppPurchase purchaseDetails error ${purchaseDetails.error}");
+  }
+
+  void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
+    purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
+      if (purchaseDetails.status == PurchaseStatus.pending) {
+        print("inAppPurchase purchaseDetails.status ${purchaseDetails.status}");
+        showPendingUI();
+      } else {
+        if (purchaseDetails.status == PurchaseStatus.error) {
+          print("inAppPurchase purchaseDetails.status ${purchaseDetails.status}");
+          handleError(purchaseDetails.error);
+        } else if (purchaseDetails.status == PurchaseStatus.purchased) {
+          print("inAppPurchase purchaseDetails.status ${purchaseDetails.status}");
+          bool valid = await _verifyPurchase(purchaseDetails);
+          if (valid) {
+            deliverProduct(purchaseDetails);
+          } else {
+            _handleInvalidPurchase(purchaseDetails);
+            return;
+          }
+        }
+        if (Platform.isAndroid) {
+          if (!_kAutoConsume && purchaseDetails.productID == _kConsumableId) {
+            await InAppPurchaseConnection.instance.consumePurchase(purchaseDetails);
+          }
+        }
+        if (purchaseDetails.pendingCompletePurchase) {
+          await InAppPurchaseConnection.instance.completePurchase(purchaseDetails);
+        }
+      }
+    });
   }
 }

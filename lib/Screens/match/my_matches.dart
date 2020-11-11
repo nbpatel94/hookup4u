@@ -4,10 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:hookup4u/Screens/Chat/chat_screen.dart';
 import 'package:hookup4u/Screens/Information.dart';
 import 'package:hookup4u/app.dart';
-import 'package:hookup4u/models/data_model.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:lottie/lottie.dart';
-
 import 'my_match_viewmodel.dart';
 
 class MyMatchesPage extends StatefulWidget {
@@ -43,7 +41,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
           ),
           elevation: 0,
         ),
-        backgroundColor: primaryColor,
+        backgroundColor: ColorRes.primaryColor,
         body: isLoading
             ? Center(
                 child: Padding(
@@ -118,7 +116,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                         CachedNetworkImage(
                                           imageUrl:  model.matchList[index].senderMeta.media[0],
                                           placeholder: (context, url) => Image.asset(
-                                            'asset/userPictures/otherUsers/bunny1.jpeg',
+                                            'asset/Icon/placeholder.png',
                                             height: 60,
                                             width: 60,
                                             fit: BoxFit.cover,
@@ -127,7 +125,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                           width: 60,
                                           fit: BoxFit.cover
                                         ) : Image.asset(
-                                          'asset/userPictures/otherUsers/bunny1.jpeg',
+                                          'asset/Icon/placeholder.png',
                                           height: 60,
                                           width: 60,
                                           fit: BoxFit.cover,
@@ -138,7 +136,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                         CachedNetworkImage(
                                             imageUrl:  model.matchList[index].targetMeta.media[0],
                                             placeholder: (context, url) => Image.asset(
-                                              'asset/userPictures/otherUsers/bunny1.jpeg',
+                                              'asset/Icon/placeholder.png',
                                               height: 60,
                                               width: 60,
                                               fit: BoxFit.cover,
@@ -147,7 +145,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                             width: 60,
                                             fit: BoxFit.cover
                                         ) : Image.asset(
-                                          'asset/userPictures/otherUsers/bunny1.jpeg',
+                                          'asset/Icon/placeholder.png',
                                           height: 60,
                                           width: 60,
                                           fit: BoxFit.cover,
@@ -160,7 +158,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                     CachedNetworkImage(
                                       imageUrl:  appState.medialList[0].sourceUrl,
                                       placeholder: (context, url) => Image.asset(
-                                        'asset/userPictures/otherUsers/bunny1.jpeg',
+                                        'asset/Icon/placeholder.png',
                                         height: 60,
                                         width: 60,
                                         fit: BoxFit.cover,
@@ -169,7 +167,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                       width: 60,
                                       fit: BoxFit.cover
                                     ) : Image.asset(
-                                        'asset/userPictures/otherUsers/bunny1.jpeg',
+                                        'asset/Icon/placeholder.png',
                                         height: 60,
                                         width: 60,
                                         fit: BoxFit.cover,
@@ -311,7 +309,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                             CachedNetworkImage(
                                                 imageUrl:  model.matchList[index].senderMeta.media[0],
                                                 placeholder: (context, url) => Image.asset(
-                                                  'asset/userPictures/otherUsers/bunny1.jpeg',
+                                                  'asset/Icon/placeholder.png',
                                                   height: 60,
                                                   width: 60,
                                                   fit: BoxFit.cover,
@@ -320,7 +318,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                                 width: 60,
                                                 fit: BoxFit.cover
                                             ) : Image.asset(
-                                              'asset/userPictures/otherUsers/bunny1.jpeg',
+                                              'asset/Icon/placeholder.png',
                                               height: 60,
                                               width: 60,
                                               fit: BoxFit.cover,
@@ -331,7 +329,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                             CachedNetworkImage(
                                                 imageUrl:  model.matchList[index].targetMeta.media[0],
                                                 placeholder: (context, url) => Image.asset(
-                                                  'asset/userPictures/otherUsers/bunny1.jpeg',
+                                                  'asset/Icon/placeholder.png',
                                                   height: 60,
                                                   width: 60,
                                                   fit: BoxFit.cover,
@@ -340,7 +338,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                                 width: 60,
                                                 fit: BoxFit.cover
                                             ) : Image.asset(
-                                              'asset/userPictures/otherUsers/bunny1.jpeg',
+                                              'asset/Icon/placeholder.png',
                                               height: 60,
                                               width: 60,
                                               fit: BoxFit.cover,
@@ -408,13 +406,13 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                             ) : Center(
                           child: Text(
                             "No Matches",
-                            style: TextStyle(color: secondryColor, fontSize: 16),
+                            style: TextStyle(color: ColorRes.secondaryColor, fontSize: 16),
                           ));
                     })
                 : Center(
                     child: Text(
                     "No Matches",
-                    style: TextStyle(fontFamily: 'NeueFrutigerWorld',color: secondryColor, fontSize: 16),
+                    style: TextStyle(fontFamily: 'NeueFrutigerWorld',color: ColorRes.secondaryColor, fontSize: 16),
                   )));
   }
 }

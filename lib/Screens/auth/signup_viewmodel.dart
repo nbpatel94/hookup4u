@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hookup4u/Screens/Welcome.dart';
 import 'package:hookup4u/Screens/auth/login_page.dart';
 import 'package:hookup4u/Screens/auth/singup_page.dart';
 import 'package:hookup4u/app.dart';

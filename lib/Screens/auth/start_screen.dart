@@ -1,11 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:hookup4u/Screens/Welcome.dart';
 import 'package:hookup4u/Screens/auth/login_page.dart';
 import 'package:hookup4u/Screens/auth/singup_page.dart';
-import 'package:hookup4u/Screens/home/list_holder_page.dart';
 import 'package:hookup4u/util/color.dart';
 
 class StartScreen extends StatelessWidget {
@@ -15,7 +12,7 @@ class StartScreen extends StatelessWidget {
 
     return WillPopScope(
       child: Scaffold(
-        backgroundColor: primaryColor,
+        backgroundColor: ColorRes.primaryColor,
         body: SafeArea(
           child: Container(
             width: MediaQuery.of(context).size.width,

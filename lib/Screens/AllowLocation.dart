@@ -18,7 +18,7 @@ class AllowLocation extends StatelessWidget {
       //     child: FloatingActionButton(
       //       elevation: 10,
       //       child: IconButton(
-      //         color: secondryColor,
+      //         color: ColorRes.secondaryColor,
       //         icon: Icon(Icons.arrow_back_ios),
       //         onPressed: () {
       //           Navigator.pop(context);
@@ -42,7 +42,7 @@ class AllowLocation extends StatelessWidget {
               children: <Widget>[
                 Center(
                   child: CircleAvatar(
-                    backgroundColor: secondryColor.withOpacity(.2),
+                    backgroundColor: ColorRes.secondaryColor.withOpacity(.2),
                     radius: 110,
                     child: Icon(
                       Icons.location_on,
@@ -65,7 +65,7 @@ in order to use application.
                               """,
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  color: secondryColor,
+                                  color: ColorRes.secondaryColor,
                                   textBaseline: TextBaseline.alphabetic,
                                   fontSize: 18)),
                         ],
@@ -94,10 +94,10 @@ in order to use application.
                               begin: Alignment.topRight,
                               end: Alignment.bottomLeft,
                               colors: [
-                                primaryColor.withOpacity(.5),
-                                primaryColor.withOpacity(.8),
-                                primaryColor,
-                                primaryColor
+                                ColorRes.primaryColor.withOpacity(.5),
+                                ColorRes.primaryColor.withOpacity(.8),
+                                ColorRes.primaryColor,
+                                ColorRes.primaryColor
                               ])),
                       height: MediaQuery.of(context).size.height * .065,
                       width: MediaQuery.of(context).size.width * .75,
@@ -106,7 +106,7 @@ in order to use application.
                         "ALLOW LOCATION",
                         style: TextStyle(
                             fontSize: 15,
-                            color: textColor,
+                            color: ColorRes.textColor,
                             fontWeight: FontWeight.bold),
                       ))),
                   onTap: () {

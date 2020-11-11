@@ -6,7 +6,6 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:hookup4u/Screens/Information.dart';
 import 'package:hookup4u/Screens/cardpage/card_picture_view_Model.dart';
 import 'package:hookup4u/models/activitymodel.dart';
-import 'package:hookup4u/models/data_model.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
@@ -58,17 +57,18 @@ class CardPicturesState extends State<CardPictures>
                           },
                           child: Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: CircleAvatar(
-                              backgroundColor: secondryColor,
-                              radius: 40,
-                            ),
+                            child: Image.asset(
+                                'asset/Icon/placeholder.png',
+                                height: 60,
+                                width: 60,
+                                fit: BoxFit.cover,),
                           ),
                         ),
                         Text(
                           "There's no one new around you.",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              color: secondryColor,
+                              color: ColorRes.textColor,
                               decoration: TextDecoration.none,
                               fontFamily: 'NeueFrutigerWorld',
                               fontSize: 18),
@@ -106,7 +106,7 @@ class CardPicturesState extends State<CardPictures>
                                               CachedNetworkImage(
                                                 imageUrl: userModel.media[index2],
                                                   placeholder: (context, url) => Image.asset(
-                                                    'asset/userPictures/otherUsers/bunny1.jpeg',
+                                                    'asset/Icon/placeholder.png',
                                                     height: MediaQuery.of(context).size.height / 2,
                                                     width: MediaQuery.of(context).size.width,
                                                     fit: BoxFit.cover,
@@ -114,7 +114,7 @@ class CardPicturesState extends State<CardPictures>
                                                   fit: BoxFit.cover
                                               )
                                                : Image.asset(
-                                                'asset/userPictures/otherUsers/bunny1.jpeg',
+                                                'asset/Icon/placeholder.png',
                                                 height: MediaQuery.of(context).size.height / 2,
                                                 width: MediaQuery.of(context).size.width,
                                                 fit: BoxFit.cover,
@@ -147,12 +147,12 @@ class CardPicturesState extends State<CardPictures>
                                           alignment: Alignment.bottomCenter,
                                           builder: DotSwiperPaginationBuilder(
                                               activeSize: 13,
-                                              color: secondryColor,
-                                              activeColor: primaryColor)),
+                                              color: ColorRes.secondaryColor,
+                                              activeColor: ColorRes.primaryColor)),
                                       loop: false,
                                       control: new SwiperControl(
-                                        color: primaryColor,
-                                        disableColor: secondryColor,
+                                        color: ColorRes.primaryColor,
+                                        disableColor: ColorRes.secondaryColor,
                                       ),
                                     ),
                                   ),

@@ -3,10 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hookup4u/Screens/Chat/chat_screeb_viewmodel.dart';
 import 'package:hookup4u/app.dart';
-import 'package:hookup4u/models/data_model.dart';
 import 'package:hookup4u/models/match_model.dart';
 import 'package:hookup4u/models/thread_model.dart';
-import 'package:hookup4u/models/user_model.dart';
 import 'package:hookup4u/restapi/restapi.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:lottie/lottie.dart';
@@ -81,7 +79,7 @@ class ChatScreenState extends State<ChatScreen> {
                 ? CachedNetworkImage(
                     imageUrl: widget.sender.media[0],
                     placeholder: (context, url) => Image.asset(
-                          'asset/userPictures/otherUsers/bunny1.jpeg',
+                          'asset/Icon/placeholder.png',
                           height: 40,
                           width: 40,
                           fit: BoxFit.cover,
@@ -90,7 +88,7 @@ class ChatScreenState extends State<ChatScreen> {
                     width: 40,
                     fit: BoxFit.cover)
                 : Image.asset(
-                    'asset/userPictures/otherUsers/bunny1.jpeg',
+                    'asset/Icon/placeholder.png',
                     height: 40,
                     width: 40,
                     fit: BoxFit.cover,
@@ -172,7 +170,7 @@ class ChatScreenState extends State<ChatScreen> {
         return false;
       },
       child: Scaffold(
-          backgroundColor: primaryColor,
+          backgroundColor: ColorRes.primaryColor,
           appBar: AppBar(
             elevation: 0,
             title: Text(
@@ -184,7 +182,7 @@ class ChatScreenState extends State<ChatScreen> {
               color: Colors.white,
               onPressed: () => Navigator.pop(context, 'No'),
             ),
-            backgroundColor: primaryColor,
+            backgroundColor: ColorRes.primaryColor,
             actions: <Widget>[
               PopupMenuButton(
                   color: ColorRes.darkButton,
@@ -251,7 +249,7 @@ class ChatScreenState extends State<ChatScreen> {
                                 child: Text(
                                   "No Matches",
                                   style: TextStyle(
-                                      color: secondryColor, fontSize: 16),
+                                      color: ColorRes.secondaryColor, fontSize: 16),
                                 ),
                               ),
                             ),

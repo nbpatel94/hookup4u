@@ -1,7 +1,5 @@
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hookup4u/Screens/Welcome.dart';
 import 'package:hookup4u/Screens/auth/forgot_password.dart';
 import 'package:hookup4u/Screens/auth/login_viewmodel.dart';
 import 'package:hookup4u/Screens/auth/singup_page.dart';
@@ -78,7 +76,7 @@ class LoginPageState extends State<LoginPage> {
                               cursorColor: ColorRes.textColor,
                               controller: usernameCont,
                               decoration: InputDecoration(
-                                hintText: "iLoveDate1",
+                                hintText: "iHeartMuslims1",
                                 hintStyle: TextStyle(
                                     color: ColorRes.textColor, fontSize: 16),
                                 focusColor: ColorRes.textColor,

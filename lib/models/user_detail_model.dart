@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final loginModel = loginModelFromJson(jsonString);
-
 import 'dart:convert';
 
 import 'package:hookup4u/app.dart';
@@ -63,6 +59,8 @@ class Meta {
     this.livingIn,
     this.gender,
     this.children,
+    this.subscriptionDate,
+    this.subscriptionName,
   });
 
   String about;
@@ -72,6 +70,8 @@ class Meta {
   String livingIn;
   String gender;
   String children;
+  String subscriptionName;
+  String subscriptionDate;
 
   factory Meta.fromJson(Map<String, dynamic> json) => Meta(
     about: json["about"],
@@ -81,6 +81,8 @@ class Meta {
     livingIn: json["living_in"],
     gender: json["gender"],
     children: json["children"],
+    subscriptionName: json["subscription_name"],
+    subscriptionDate: json["subscription_date"],
   );
 
   Map<String, dynamic> toJson() => {

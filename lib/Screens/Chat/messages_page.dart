@@ -399,7 +399,7 @@ class MessagesScreenState extends State<MessagesScreen> {
       ) : Center(
       child: Text(
       "No Matches",
-      style: TextStyle(color: ColorRes.secondaryColor, fontSize: 16),
+      style: TextStyle(color: ColorRes.textColor, fontSize: 16),
     ),),
       drawer: drawerWidget,
     );

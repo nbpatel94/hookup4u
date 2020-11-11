@@ -315,11 +315,7 @@ class _SettingsState extends State<Settings> {
             ),
             GestureDetector(
               onTap: () async {
-                await sharedPreferences.clear();
-                appState.medialList.clear();
-                appState.userDetailsModel = null;
-                appState.currentUserData = null;
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => StartScreen()),(Route<dynamic> route) => false);
+                source();
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -371,5 +367,60 @@ class _SettingsState extends State<Settings> {
         ),
       ),
     );
+  }
+
+  source() {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            title: Text(
+              "Are you sure you want to logout?",
+            ),
+            insetAnimationCurve: Curves.decelerate,
+            actions: <Widget>[
+              GestureDetector(
+                onTap: () async {
+                  await sharedPreferences.clear();
+                  appState.medialList.clear();
+                  appState.userDetailsModel = null;
+                  appState.currentUserData = null;
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => StartScreen()),(Route<dynamic> route) => false);
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(20.0),
+                  color: ColorRes.redButton,
+                  child: Text(
+                    "YES",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: ColorRes.white,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.none),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () async {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(20.0),
+                  color: ColorRes.darkButton,
+                  child: Text(
+                    "NO",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: ColorRes.white,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.none),
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
   }
 }

@@ -409,11 +409,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                   )
                                 ],
                               ),
-                            ) : Center(
-                          child: Text(
-                            "No Matches",
-                            style: TextStyle(color: ColorRes.secondaryColor, fontSize: 16),
-                          ));
+                            ) : Container();
                     })
                 : Center(
                     child: Text(

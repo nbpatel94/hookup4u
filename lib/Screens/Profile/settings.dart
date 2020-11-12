@@ -356,10 +356,10 @@ class _SettingsState extends State<Settings> {
                 padding: const EdgeInsets.all(20.0),
                 child: Center(
                   child: Container(
-                      height: 50,
-                      width: 100,
-                      child: SvgPicture.asset(
-                        "asset/ihr-mus-clear-bg.svg",
+                      height: 80,
+                      // width: 100,
+                      child: Image.asset(
+                        "asset/Icon/icon_dark.png",
                         fit: BoxFit.contain,
                       )),
                 )),

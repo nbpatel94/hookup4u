@@ -106,7 +106,7 @@ class CardPicturesState extends State<CardPictures>
                                               CachedNetworkImage(
                                                 imageUrl: userModel.media[index2],
                                                   placeholder: (context, url) => Image.asset(
-                                                    'asset/Icon/placeholder.png',
+                                                    'asset/Icon/icon_dark.png',
                                                     height: MediaQuery.of(context).size.height / 2,
                                                     width: MediaQuery.of(context).size.width,
                                                     fit: BoxFit.cover,
@@ -114,7 +114,7 @@ class CardPicturesState extends State<CardPictures>
                                                   fit: BoxFit.cover
                                               )
                                                : Image.asset(
-                                                'asset/Icon/placeholder.png',
+                                                'asset/Icon/icon_dark.png',
                                                 height: MediaQuery.of(context).size.height / 2,
                                                 width: MediaQuery.of(context).size.width,
                                                 fit: BoxFit.cover,

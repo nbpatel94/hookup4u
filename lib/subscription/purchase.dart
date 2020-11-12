@@ -133,7 +133,7 @@ class MarketScreenState extends State<MarketScreen> {
 
   /// Get all products available for sale
   Future<void> _getProducts() async {
-    Set<String> ids = Set.from([testID, 'test_a']);
+    Set<String> ids = Set.from(['gold_pack', 'plus_pack', 'premium_pack']);
     ProductDetailsResponse response = await _iap.queryProductDetails(ids);
 
     setState(() {

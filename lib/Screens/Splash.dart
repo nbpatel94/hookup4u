@@ -112,20 +112,12 @@ class _SplashState extends State<Splash> {
 
     /// inAppPurchase initialization
 
-    Stream purchaseUpdated = InAppPurchaseConnection.instance.purchaseUpdatedStream;
-    _subscription = purchaseUpdated.listen((purchaseDetailsList) {
-      _listenToPurchaseUpdated(purchaseDetailsList);
-    }, onDone: () {
-      _subscription.cancel();
-    }, onError: (error) {
-      print("inAppPurchase error: $error");
-    });
     initStoreInfo();
   }
 
   /// inAppPurchase
 
-  final InAppPurchaseConnection _connection = InAppPurchaseConnection.instance;
+  InAppPurchaseConnection _connection ;
   StreamSubscription<List<PurchaseDetails>> _subscription;
   List<String> _notFoundIds = [];
   List<ProductDetails> _products = [];
@@ -146,6 +138,16 @@ class _SplashState extends State<Splash> {
   ];
 
   Future<void> initStoreInfo() async {
+    _connection = InAppPurchaseConnection.instance;
+    Stream purchaseUpdated = _connection.purchaseUpdatedStream;
+    purchaseUpdated.listen((purchaseDetailsList) {
+
+    }, onDone: () {
+      _subscription.cancel();
+    }, onError: (error) {
+      print("inAppPurchase error: $error");
+    });
+
     final bool isAvailable = await _connection.isAvailable();
     print("inAppPurchase avail $_isAvailable");
     if (!isAvailable) {

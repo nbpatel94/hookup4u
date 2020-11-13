@@ -361,18 +361,18 @@ class MessagesScreenState extends State<MessagesScreen> {
                                         ],
                                       ),
                                       SizedBox(height: 5.0),
-                                      // Container(
-                                      //   width: MediaQuery.of(context).size.width * 0.4,
-                                      //   child: Text(
-                                      //     "Hello",
-                                      //     style: TextStyle(
-                                      //       color: Colors.blueGrey,
-                                      //       fontSize: 15.0,
-                                      //       fontWeight: FontWeight.w600,
-                                      //     ),
-                                      //     overflow: TextOverflow.ellipsis,
-                                      //   ),
-                                      // ),
+                                      model.matchList[index].threadId !=null ? Container(
+                                        width: MediaQuery.of(context).size.width * 0.4,
+                                        child: Text(
+                                          "${model.matchList[index].lastMessage}",
+                                          style: TextStyle(
+                                            color: Colors.blueGrey,
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.w600,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ) : Container(),
                                     ],
                                   ),
                                 ],

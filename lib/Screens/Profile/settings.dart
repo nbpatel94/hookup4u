@@ -382,6 +382,7 @@ class _SettingsState extends State<Settings> {
               GestureDetector(
                 onTap: () async {
                   await sharedPreferences.clear();
+                  await databaseHelper.clearMessageDatabase();
                   appState.medialList.clear();
                   appState.userDetailsModel = null;
                   appState.currentUserData = null;

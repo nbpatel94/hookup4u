@@ -1,4 +1,5 @@
 import 'package:hookup4u/Screens/Chat/messages_page.dart';
+import 'package:hookup4u/app.dart';
 import 'package:hookup4u/models/match_model.dart';
 import 'package:hookup4u/restapi/restapi.dart';
 
@@ -17,12 +18,23 @@ class MessagesPageViewModel{
       tempList.removeWhere((element) => element.mutualMatch!='true');
     }
 
+    for(int i=0;i<tempList.length;i++){
+      if(tempList[i].taregtId!=null){
+        tempList[i].lastMessage = await lastMessage(int.parse(tempList[i].threadId));
+      }
+    }
+
     matchList = tempList;
     print(matchList.length);
 
     state.setState(() {
       state.isLoading = false;
     });
+  }
+
+  lastMessage(int th) async  {
+    var las = await databaseHelper.getLastMessage(th);
+    return las.isEmpty ? "": las[0].message.raw;
   }
 
 }

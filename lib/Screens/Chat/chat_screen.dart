@@ -247,9 +247,9 @@ class ChatScreenState extends State<ChatScreen> {
                           : Expanded(
                               child: Center(
                                 child: Text(
-                                  "No Matches",
+                                  "Send message to ${widget.sender.name}",
                                   style: TextStyle(
-                                      color: ColorRes.secondaryColor, fontSize: 16),
+                                      color: ColorRes.textColor, fontSize: 16),
                                 ),
                               ),
                             ),

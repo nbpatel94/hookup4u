@@ -23,6 +23,7 @@ class MatchModel {
   String senderId;
   String taregtId;
   String threadId;
+  String lastMessage;
   String mutualMatch;
   Meta targetMeta;
   Meta senderMeta;

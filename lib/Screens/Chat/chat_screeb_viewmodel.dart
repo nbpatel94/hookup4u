@@ -13,9 +13,9 @@ class ChatScreenViewModel{
   }
 
   printUserData(){
-    print(state.widget.userId);
-    print(state.widget.threadId);
-    print(state.widget.sender.name);
+    print("User Id: ${state.widget.userId}");
+    print("Thread Id: ${state.widget.threadId}");
+    print("Sender: ${state.widget.sender.name}");
   }
 
   getChatDetails() async {
@@ -28,16 +28,39 @@ class ChatScreenViewModel{
         messageElement.messages = List();
        messageElement.messages = await databaseHelper.getSingleUserMessages(int.parse(state.widget.threadId));
        await Future.delayed(Duration(seconds: 1));
-      }else{
-        print("Not Contain Messages");
+
+        messageElement.messages = messageElement.messages.reversed.toList();
+        state.setState(() {
+          state.isLoading = false;
+        });
+
         messageElement = await RestApi.getThreadMessages(state.widget.threadId);
+
+        await databaseHelper.clearThreadMessageDatabase(int.parse(state.widget.threadId));
 
         for(int i = 0; i<messageElement.messages.length ; i++){
           await databaseHelper.insert(messageElement.messages[i]);
         }
-      }
 
-      messageElement.messages = messageElement.messages.reversed.toList();
+        messageElement.messages = messageElement.messages.reversed.toList();
+        state.setState(() {});
+
+      }else{
+        print("Not Contain Messages");
+        messageElement = await RestApi.getThreadMessages(state.widget.threadId);
+
+        await databaseHelper.clearThreadMessageDatabase(int.parse(state.widget.threadId));
+
+        for(int i = 0; i<messageElement.messages.length ; i++){
+          await databaseHelper.insert(messageElement.messages[i]);
+        }
+
+        messageElement.messages = messageElement.messages.reversed.toList();
+        state.setState(() {
+          state.isLoading = false;
+        });
+      }
+    }else{
       state.setState(() {
         state.isLoading = false;
       });

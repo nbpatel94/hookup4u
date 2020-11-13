@@ -41,17 +41,31 @@ class MyMatchesPageState extends State<MyMatchesPage> {
             ),
           ),
           elevation: 0,
+          centerTitle: true,
         ),
         backgroundColor: ColorRes.primaryColor,
         body: isLoading
-            ? Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 50),
-                  child: Lottie.asset('asset/Icon/main_loader.json',
-                      height: MediaQuery.of(context).size.width / 2,
-                      width: MediaQuery.of(context).size.width / 2),
-                ),
-              )
+            ? Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // SizedBox(
+                //   height: 3,
+                //   width: MediaQuery.of(context).size.width-40,
+                //   child: LinearProgressIndicator(
+                //     backgroundColor: ColorRes.darkButton,
+                //     valueColor: AlwaysStoppedAnimation<Color>(ColorRes.textColor),
+                //   ),
+                // ),
+                Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 50),
+                      child: Lottie.asset('asset/Icon/main_loader.json',
+                          height: MediaQuery.of(context).size.width / 2,
+                          width: MediaQuery.of(context).size.width / 2),
+                    ),
+                  ),
+              ],
+            )
             : model.matchList.isNotEmpty
                 ? ListView.builder(
                     shrinkWrap: true,

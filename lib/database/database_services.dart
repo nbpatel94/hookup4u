@@ -70,6 +70,7 @@ class DatabaseHelper{
 
   Future<List<ThreadModel>> getSingleUserMessages(int threadId) async {
     Database db = await this.database;
+    print("Thread ID: $threadId");
     List<Map<String, dynamic>> list = await db.rawQuery('SELECT * FROM $messages WHERE $columnThreadId = ?',[threadId]);
     List<ThreadModel> messagesList = list.map((model) => ThreadModel.fromMapObject(model)).toList();
     print("Database List -> ${messagesList.length}");
@@ -78,7 +79,9 @@ class DatabaseHelper{
 
   Future<List<ThreadModel>> getLastMessage(int threadId) async {
     Database db = await this.database;
+    print("Thread ID: $threadId");
     List<Map<String,dynamic>> list = await db.rawQuery('SELECT * FROM $messages WHERE $columnThreadId = ? ORDER BY $columnSentTime DESC LIMIT 1',[threadId]);
+    print("Database List -> $list");
     List<ThreadModel> messagesList = list.map((model) => ThreadModel.fromMapObject(model)).toList();
     print("Database List -> ${messagesList.length}");
     return messagesList;
@@ -91,7 +94,8 @@ class DatabaseHelper{
 
   Future clearThreadMessageDatabase(int threadId) async {
     Database db = await this.database;
-    return await db.execute('''DELETE FROM $messages WHERE $columnThreadId = ?''');
+    print("Thread ID: $threadId");
+    return await db.execute('''DELETE FROM $messages WHERE $columnThreadId = $threadId''');
   }
 
   Future checkThreadDatabase(int threadId) async {

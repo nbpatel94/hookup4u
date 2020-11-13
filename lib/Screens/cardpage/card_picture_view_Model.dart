@@ -28,7 +28,6 @@ class CardPictureViewModel{
         state.onEnd = true;
       });
     }else{
-      print("My gender : ${appState.gender}");
       if(appState.gender=='man'){
         list.removeWhere((element) => element.gender=='man');
       }else if(appState.gender=='woman'){
@@ -41,10 +40,9 @@ class CardPictureViewModel{
       }else{
         list2 = list;
         queue = Queue(parallel: list2.length);
-        print(list.length);
+        print("List length :${list.length}");
       }
     }
-
     state.setState(() {
       state.isLoading = false;
     });
@@ -52,16 +50,10 @@ class CardPictureViewModel{
   Queue queue;
 
   giveLike(String targetId) async {
-    String check = await RestApi.likeButtonPress(targetId, 1);
-    if(check=='success'){
-      print("Liked");
-    }
+    await RestApi.likeButtonPress(targetId, 1);
   }
 
   giveDislike(String targetId) async {
-    String check = await RestApi.likeButtonPress(targetId, 2);
-    if(check=='success'){
-      print("Disliked");
-    }
+    await RestApi.likeButtonPress(targetId, 2);
   }
 }

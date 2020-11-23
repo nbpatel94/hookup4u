@@ -8,4 +8,7 @@ class ColorRes{
   static Color redButton = Color(0xffEE2722);
   static Color textColor = Color(0xff9AA3AB);
   static Color white = Color(0xffffffff);
+  static Color gold = Color(0xffFFD700);
+  static Color platinum = Color(0xffE5E4E2);
+  static Color plus = Color(0xff00a86b);
 }

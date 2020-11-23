@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hookup4u/Screens/auth/start_screen.dart';
 import 'package:hookup4u/app.dart';
+import 'package:hookup4u/consumableStore.dart';
 import 'package:hookup4u/util/color.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'UpdateNumber.dart';
 
 int distance = 10;
@@ -351,6 +353,79 @@ class _SettingsState extends State<Settings> {
                   ),
                 ),
               ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                GestureDetector(
+                  onTap: () async {
+                    final PurchaseParam purchaseParam = PurchaseParam(productDetails: appState.products.where((element) => element.id==appState.productIds[0]).first);
+                    print(purchaseParam.productDetails.title);
+                    // InAppPurchaseConnection.instance.buyConsumable(purchaseParam: purchaseParam);
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      color: ColorRes.gold,
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(18.0),
+                          child: Text(
+                            "Gold\n${appState.products.where((element) => element.id==appState.productIds[0]).first.price}",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w700, color: ColorRes.white,),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    print("This plan is ${appState.products.where((element) => element.id==appState.productIds[1]).first.title}");
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      color: ColorRes.platinum,
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(18.0),
+                          child: Text(
+                            "Platinum\n${appState.products.where((element) => element.id==appState.productIds[1]).first.price}",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w700, color: ColorRes.white,),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    print("This plan is ${appState.products.where((element) => element.id==appState.productIds[2]).first.title}");
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card(
+                      color: ColorRes.plus,
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(18.0),
+                          child: Text(
+                            "Plus+\n${appState.products.where((element) => element.id==appState.productIds[2]).first.price}",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 15, fontWeight: FontWeight.w700, color: ColorRes.white,),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             Padding(
                 padding: const EdgeInsets.all(20.0),

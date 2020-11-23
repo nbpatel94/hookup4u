@@ -17,7 +17,7 @@ class AppState {
   UserDetailsModel userDetailsModel = UserDetailsModel();
   List<MediaModel> medialList;
   List<ProductDetails> products = [];
-  List<String> productIds = <String>['gold_sub', 'plus_sub', 'premium_sub'];
+  List<String> productIds = <String>['gold_sub', 'premium_sub', 'plus_sub'];
 
   int id;
   String accessToken = '';

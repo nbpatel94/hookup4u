@@ -26,6 +26,7 @@ class Splash extends StatefulWidget {
 class _SplashState extends State<Splash> {
 
   getSharedDetails() async {
+    await initStoreInfo();
     if(sharedPreferences.containsKey(Preferences.accessToken)){
       appState.accessToken = sharedPreferences.getString(Preferences.accessToken);
       appState.currentUserData = profileDetailFromJson(sharedPreferences.getString(Preferences.profile));
@@ -84,8 +85,7 @@ class _SplashState extends State<Splash> {
       }
     }else{
       Future.delayed(Duration(seconds: 4), () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => StartScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => StartScreen()));
       });
     }
   }
@@ -109,15 +109,12 @@ class _SplashState extends State<Splash> {
   void initState() {
     super.initState();
     getSharedDetails();
-
-    /// inAppPurchase initialization
-
-    initStoreInfo();
   }
 
   /// inAppPurchase
 
-  InAppPurchaseConnection _connection ;
+  InAppPurchaseConnection _connection;
+
   StreamSubscription<List<PurchaseDetails>> _subscription;
   List<String> _notFoundIds = [];
   List<ProductDetails> _products = [];
@@ -131,29 +128,17 @@ class _SplashState extends State<Splash> {
   bool _kAutoConsume = true;
 
   String _kConsumableId = 'consumable';
-  List<String> _kProductIds = <String>[
-    'consumable',
-    'upgrade',
-    'subscription'
-  ];
 
   Future<void> initStoreInfo() async {
     _connection = InAppPurchaseConnection.instance;
-    Stream purchaseUpdated = _connection.purchaseUpdatedStream;
-    purchaseUpdated.listen((purchaseDetailsList) {
-
-    }, onDone: () {
-      _subscription.cancel();
-    }, onError: (error) {
-      print("inAppPurchase error: $error");
-    });
 
     final bool isAvailable = await _connection.isAvailable();
-    print("inAppPurchase avail $_isAvailable");
+    print("inAppPurchase avail $isAvailable");
     if (!isAvailable) {
       setState(() {
         _isAvailable = isAvailable;
         _products = [];
+        appState.products = [];
         _purchases = [];
         _notFoundIds = [];
         _consumables = [];
@@ -163,13 +148,26 @@ class _SplashState extends State<Splash> {
       return;
     }
 
-    ProductDetailsResponse productDetailResponse = await _connection.queryProductDetails(_kProductIds.toSet());
-    print("inAppPurchase productDetailResponse ${productDetailResponse.productDetails.asMap()}");
+    Stream purchaseUpdated = _connection.purchaseUpdatedStream;
+    purchaseUpdated.listen((purchaseDetailsList) {
+      _listenToPurchaseUpdated(purchaseDetailsList);
+    }, onDone: () {
+      _subscription.cancel();
+    }, onError: (error) {
+      print("inAppPurchase error: $error");
+    });
+
+    ProductDetailsResponse productDetailResponse =
+        await _connection.queryProductDetails(appState.productIds.toSet());
+    productDetailResponse.productDetails.forEach((element) {
+      print("inAppPurchase ${element.title} -- ${element.price}");
+    });
     if (productDetailResponse.error != null) {
       setState(() {
         _queryProductError = productDetailResponse.error.message;
         _isAvailable = isAvailable;
         _products = productDetailResponse.productDetails;
+        appState.products = productDetailResponse.productDetails;
         _purchases = [];
         _notFoundIds = productDetailResponse.notFoundIDs;
         _consumables = [];
@@ -180,11 +178,11 @@ class _SplashState extends State<Splash> {
     }
 
     if (productDetailResponse.productDetails.isEmpty) {
-      print("inAppPurchase productDetails ${productDetailResponse.productDetails}");
       setState(() {
         _queryProductError = null;
         _isAvailable = isAvailable;
         _products = productDetailResponse.productDetails;
+        appState.products = productDetailResponse.productDetails;
         _purchases = [];
         _notFoundIds = productDetailResponse.notFoundIDs;
         _consumables = [];
@@ -194,7 +192,8 @@ class _SplashState extends State<Splash> {
       return;
     }
 
-    final QueryPurchaseDetailsResponse purchaseResponse = await _connection.queryPastPurchases();
+    final QueryPurchaseDetailsResponse purchaseResponse =
+        await _connection.queryPastPurchases();
     if (purchaseResponse.error != null) {
       print("inAppPurchase purchaseResponse error ${purchaseResponse.error}");
     }
@@ -209,6 +208,7 @@ class _SplashState extends State<Splash> {
     setState(() {
       _isAvailable = isAvailable;
       _products = productDetailResponse.productDetails;
+      appState.products = productDetailResponse.productDetails;
       _purchases = verifiedPurchases;
       _notFoundIds = productDetailResponse.notFoundIDs;
       _consumables = consumables;
@@ -233,7 +233,7 @@ class _SplashState extends State<Splash> {
   }
 
   void deliverProduct(PurchaseDetails purchaseDetails) async {
-    // IMPORTANT!! Always verify a purchase purchase details before delivering the product.
+    /// IMPORTANT!! Always verify a purchase purchase details before delivering the product.
     if (purchaseDetails.productID == _kConsumableId) {
       await ConsumableStore.save(purchaseDetails.purchaseID);
       List<String> consumables = await ConsumableStore.load();
@@ -271,16 +271,19 @@ class _SplashState extends State<Splash> {
   }
 
   void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
+    print("Listening");
     purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
       if (purchaseDetails.status == PurchaseStatus.pending) {
         print("inAppPurchase purchaseDetails.status ${purchaseDetails.status}");
         showPendingUI();
       } else {
         if (purchaseDetails.status == PurchaseStatus.error) {
-          print("inAppPurchase purchaseDetails.status ${purchaseDetails.status}");
+          print(
+              "inAppPurchase purchaseDetails.status ${purchaseDetails.status}");
           handleError(purchaseDetails.error);
         } else if (purchaseDetails.status == PurchaseStatus.purchased) {
-          print("inAppPurchase purchaseDetails.status ${purchaseDetails.status}");
+          print(
+              "inAppPurchase purchaseDetails.status ${purchaseDetails.status}");
           bool valid = await _verifyPurchase(purchaseDetails);
           if (valid) {
             deliverProduct(purchaseDetails);
@@ -291,11 +294,13 @@ class _SplashState extends State<Splash> {
         }
         if (Platform.isAndroid) {
           if (!_kAutoConsume && purchaseDetails.productID == _kConsumableId) {
-            await InAppPurchaseConnection.instance.consumePurchase(purchaseDetails);
+            await InAppPurchaseConnection.instance
+                .consumePurchase(purchaseDetails);
           }
         }
         if (purchaseDetails.pendingCompletePurchase) {
-          await InAppPurchaseConnection.instance.completePurchase(purchaseDetails);
+          await InAppPurchaseConnection.instance
+              .completePurchase(purchaseDetails);
         }
       }
     });

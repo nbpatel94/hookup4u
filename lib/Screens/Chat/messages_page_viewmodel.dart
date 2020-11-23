@@ -19,7 +19,7 @@ class MessagesPageViewModel{
     }
 
     for(int i=0;i<tempList.length;i++){
-      if(tempList[i].taregtId!=null){
+      if(tempList[i].threadId!=null){
         tempList[i].lastMessage = await lastMessage(int.parse(tempList[i].threadId));
       }
     }

@@ -104,6 +104,7 @@ class ListHolderPageState extends State<ListHolderPage> {
                           ),
                           ListTile(
                             onTap: () {
+                              Navigator.pop(context);
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(

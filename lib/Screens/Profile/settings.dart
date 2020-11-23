@@ -361,7 +361,7 @@ class _SettingsState extends State<Settings> {
                   onTap: () async {
                     final PurchaseParam purchaseParam = PurchaseParam(productDetails: appState.products.where((element) => element.id==appState.productIds[0]).first);
                     print(purchaseParam.productDetails.title);
-                    // InAppPurchaseConnection.instance.buyConsumable(purchaseParam: purchaseParam);
+                    InAppPurchaseConnection.instance.buyConsumable(purchaseParam: purchaseParam);
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -383,7 +383,9 @@ class _SettingsState extends State<Settings> {
                 ),
                 GestureDetector(
                   onTap: () async {
-                    print("This plan is ${appState.products.where((element) => element.id==appState.productIds[1]).first.title}");
+                    final PurchaseParam purchaseParam = PurchaseParam(productDetails: appState.products.where((element) => element.id==appState.productIds[1]).first);
+                    print(purchaseParam.productDetails.title);
+                    InAppPurchaseConnection.instance.buyConsumable(purchaseParam: purchaseParam);
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -405,7 +407,9 @@ class _SettingsState extends State<Settings> {
                 ),
                 GestureDetector(
                   onTap: () async {
-                    print("This plan is ${appState.products.where((element) => element.id==appState.productIds[2]).first.title}");
+                    final PurchaseParam purchaseParam = PurchaseParam(productDetails: appState.products.where((element) => element.id==appState.productIds[2]).first);
+                    print(purchaseParam.productDetails.title);
+                    InAppPurchaseConnection.instance.buyConsumable(purchaseParam: purchaseParam);
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),

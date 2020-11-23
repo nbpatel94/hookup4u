@@ -24,7 +24,7 @@ class AppState {
   String name = '';
   String gender = '';
 
-  // String sexualOrientation = '';
+  // USER META
   String relation = '';
   String children = '';
   String livingIn = '';

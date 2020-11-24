@@ -18,11 +18,11 @@ class MessagesPageViewModel{
       tempList.removeWhere((element) => element.mutualMatch!='true');
     }
 
-    for(int i=0;i<tempList.length;i++){
-      if(tempList[i].threadId!=null){
-        tempList[i].lastMessage = await lastMessage(int.parse(tempList[i].threadId));
-      }
-    }
+    // for(int i=0;i<tempList.length;i++){
+    //   if(tempList[i].threadId!=null){
+    //     tempList[i].lastMessage = await lastMessage(int.parse(tempList[i].threadId));
+    //   }
+    // }
 
     matchList = tempList;
     print(matchList.length);

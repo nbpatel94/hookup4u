@@ -15,6 +15,7 @@ class ChatScreenViewModel{
   printUserData(){
     print("User Id: ${state.widget.userId}");
     print("Thread Id: ${state.widget.threadId}");
+    print("Match Id: ${state.widget.matchId}");
     print("Sender: ${state.widget.sender.name}");
   }
 
@@ -72,15 +73,22 @@ class ChatScreenViewModel{
     if(state.widget.threadId!=null){
       state.setState(() {
         messageElement.messages.insert(0,temp);
-        databaseHelper.insert(temp);
       });
+      temp.threadId = int.parse(state.widget.threadId);
+      await databaseHelper.insert(temp);
+      print("Sending Message");
       await RestApi.sendThreadMessage(state.widget.userId, message,state.widget.threadId);
     }else{
       state.setState(() {
+        messageElement = MessageElement();
+        messageElement.messages = List();
         messageElement.messages.insert(0,temp);
-        databaseHelper.insert(temp);
       });
-      await RestApi.createThreadMessage(state.widget.userId, message,state.widget.matchId);
+      print("Sending First Message");
+      String threadId = await RestApi.createThreadMessage(state.widget.userId, message,state.widget.matchId);
+      state.widget.threadId = threadId;
+      temp.threadId = int.parse(state.widget.threadId);
+      await databaseHelper.insert(temp);
     }
   }
 }

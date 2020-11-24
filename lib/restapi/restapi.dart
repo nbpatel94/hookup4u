@@ -140,13 +140,13 @@ class RestApi {
     print(response.statusCode);
     if (response.statusCode == 200) {
       print(response.body);
-      await setThreadId(matchId, jsonDecode(response.body)['id']);
+      return await setThreadId(matchId, jsonDecode(response.body)[0]['id']);
     } else {
-      return null;
+      return '';
     }
   }
 
-  static Future<String> setThreadId(String matchId, String threadId) async {
+  static Future<String> setThreadId(String matchId, int threadId) async {
     String url = App.baseUrlSA + App.match;
 
     var headerData = {
@@ -155,7 +155,7 @@ class RestApi {
 
     var bodyData = {
       "match_id" : matchId,
-      "thread_id" : threadId
+      "thread_id" : '$threadId'
     };
 
     print(url);
@@ -167,14 +167,14 @@ class RestApi {
       print(response.statusCode);
       if (response.statusCode == 200) {
         print(response.body);
-        return 'success';
+        return "$threadId";
       } else {
         print(response.body);
-        return jsonDecode(response.body)['message'];
+        return null;
       }
     } catch (e) {
       print(e);
-      return 'Something went wrong! Please try later';
+      return null;
     }
   }
 

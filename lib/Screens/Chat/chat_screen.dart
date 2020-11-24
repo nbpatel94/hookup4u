@@ -14,7 +14,7 @@ class ChatScreen extends StatefulWidget {
   final Meta sender;
   final String userId;
   final String matchId;
-  final String threadId;
+  String threadId;
 
   ChatScreen({this.sender, this.userId, this.threadId, this.matchId});
 

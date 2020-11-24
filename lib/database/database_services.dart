@@ -58,7 +58,9 @@ class DatabaseHelper{
 
   Future<int> insert(ThreadModel message) async {
     Database db = await this.database;
-    return await db.insert(messages, message.toMap());
+    int val = await db.insert(messages, message.toMap());
+    print(val);
+    return val;
   }
 
   Future<List<ThreadModel>> getAllMessages() async {

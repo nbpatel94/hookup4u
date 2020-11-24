@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module external.linked.project.id=":in_app_purchase" external.linked.project.path="$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android" external.root.project.path="$MODULE_DIR$/../../.." external.system.id="GRADLE" type="JAVA_MODULE" version="4">
+<module external.linked.project.id=":in_app_purchase" external.linked.project.path="$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android" external.root.project.path="$MODULE_DIR$/../../.." external.system.id="GRADLE" type="JAVA_MODULE" version="4">
   <component name="FacetManager">
     <facet type="android-gradle" name="Android-Gradle">
       <configuration>
@@ -19,8 +19,8 @@
         <option name="ALLOW_USER_CONFIGURATION" value="false" />
         <option name="MANIFEST_FILE_RELATIVE_PATH" value="/src/main/AndroidManifest.xml" />
         <option name="RES_FOLDER_RELATIVE_PATH" value="/src/main/res" />
-        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/main/res;file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/debug/res;file://$MODULE_DIR$/../../../../build/in_app_purchase/generated/res/rs/debug;file://$MODULE_DIR$/../../../../build/in_app_purchase/generated/res/resValues/debug" />
-        <option name="TEST_RES_FOLDERS_RELATIVE_PATH" value="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTest/res;file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/test/res;file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTestDebug/res;file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/testDebug/res;file://$MODULE_DIR$/../../../../build/in_app_purchase/generated/res/rs/androidTest/debug;file://$MODULE_DIR$/../../../../build/in_app_purchase/generated/res/resValues/androidTest/debug" />
+        <option name="RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/main/res;file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/debug/res;file://$MODULE_DIR$/../../../../build/in_app_purchase/generated/res/rs/debug;file://$MODULE_DIR$/../../../../build/in_app_purchase/generated/res/resValues/debug" />
+        <option name="TEST_RES_FOLDERS_RELATIVE_PATH" value="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTest/res;file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/test/res;file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTestDebug/res;file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/testDebug/res;file://$MODULE_DIR$/../../../../build/in_app_purchase/generated/res/rs/androidTest/debug;file://$MODULE_DIR$/../../../../build/in_app_purchase/generated/res/resValues/androidTest/debug" />
         <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/src/main/assets" />
         <option name="PROJECT_TYPE" value="1" />
       </configuration>
@@ -30,50 +30,6 @@
     <output url="file://$MODULE_DIR$/../../../../build/in_app_purchase/intermediates/javac/debug/classes" />
     <output-test url="file://$MODULE_DIR$/../../../../build/in_app_purchase/intermediates/javac/debugUnitTest/classes" />
     <exclude-output />
-    <content url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android">
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/debug/res" type="java-resource" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/debug/resources" type="java-resource" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/debug/assets" type="java-resource" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/debug/aidl" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/debug/java" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/debug/rs" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/debug/shaders" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTestDebug/res" type="java-test-resource" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTestDebug/resources" type="java-test-resource" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTestDebug/assets" type="java-test-resource" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTestDebug/aidl" isTestSource="true" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTestDebug/java" isTestSource="true" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTestDebug/rs" isTestSource="true" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTestDebug/shaders" isTestSource="true" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/testDebug/res" type="java-test-resource" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/testDebug/resources" type="java-test-resource" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/testDebug/assets" type="java-test-resource" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/testDebug/aidl" isTestSource="true" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/testDebug/java" isTestSource="true" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/testDebug/rs" isTestSource="true" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/testDebug/shaders" isTestSource="true" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/main/res" type="java-resource" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/main/resources" type="java-resource" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/main/assets" type="java-resource" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/main/aidl" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/main/java" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/main/rs" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/main/shaders" isTestSource="false" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTest/res" type="java-test-resource" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTest/resources" type="java-test-resource" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTest/assets" type="java-test-resource" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTest/aidl" isTestSource="true" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTest/java" isTestSource="true" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTest/rs" isTestSource="true" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTest/shaders" isTestSource="true" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/test/res" type="java-test-resource" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/test/resources" type="java-test-resource" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/test/assets" type="java-test-resource" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/test/aidl" isTestSource="true" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/test/java" isTestSource="true" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/test/rs" isTestSource="true" />
-      <sourceFolder url="file://$USER_HOME$/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/test/shaders" isTestSource="true" />
-    </content>
     <content url="file://$MODULE_DIR$/../../../../build/in_app_purchase/generated/aidl_source_output_dir/debug/compileDebugAidl/out">
       <sourceFolder url="file://$MODULE_DIR$/../../../../build/in_app_purchase/generated/aidl_source_output_dir/debug/compileDebugAidl/out" isTestSource="false" generated="true" />
     </content>
@@ -113,6 +69,50 @@
     <content url="file://$MODULE_DIR$/../../../../build/in_app_purchase/generated/source/buildConfig/debug">
       <sourceFolder url="file://$MODULE_DIR$/../../../../build/in_app_purchase/generated/source/buildConfig/debug" isTestSource="false" generated="true" />
     </content>
+    <content url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android">
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/debug/res" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/debug/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/debug/assets" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/debug/aidl" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/debug/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/debug/rs" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/debug/shaders" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTestDebug/res" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTestDebug/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTestDebug/assets" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTestDebug/aidl" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTestDebug/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTestDebug/rs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTestDebug/shaders" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/testDebug/res" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/testDebug/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/testDebug/assets" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/testDebug/aidl" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/testDebug/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/testDebug/rs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/testDebug/shaders" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/main/res" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/main/assets" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/main/aidl" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/main/rs" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/main/shaders" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTest/res" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTest/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTest/assets" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTest/aidl" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTest/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTest/rs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/androidTest/shaders" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/test/res" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/test/resources" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/test/assets" type="java-test-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/test/aidl" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/test/rs" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../../../flutter/.pub-cache/hosted/pub.dartlang.org/in_app_purchase-0.3.4+16/android/src/test/shaders" isTestSource="true" />
+    </content>
     <orderEntry type="jdk" jdkName="Android API 29 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="TEST" name="Gradle: junit:junit:4.12@jar" level="project" />
@@ -131,7 +131,7 @@
     <orderEntry type="library" scope="TEST" name="Gradle: net.bytebuddy:byte-buddy:1.8.0@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: net.bytebuddy:byte-buddy-agent:1.8.0@jar" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.objenesis:objenesis:2.6@jar" level="project" />
-    <orderEntry type="library" name="Gradle: io.flutter:flutter_embedding_debug:1.0.0-64e65999102560dde9482d4550a7e33a00280666@jar" level="project" />
+    <orderEntry type="library" name="Gradle: io.flutter:flutter_embedding_debug:1.0.0-23a8e027dbbe40009c1d12e9c55011914bfd8303@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-common-java8:2.2.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.lifecycle:lifecycle-common:2.2.0@jar" level="project" />
     <orderEntry type="library" name="Gradle: androidx.arch.core:core-common:2.1.0@jar" level="project" />

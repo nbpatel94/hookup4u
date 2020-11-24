@@ -3,20 +3,20 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/android.iml" filepath="$PROJECT_DIR$/android.iml" group="android" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-347689906/android-flutter_plugin_android_lifecycle.iml" filepath="$PROJECT_DIR$/.idea/modules/-347689906/android-flutter_plugin_android_lifecycle.iml" group="android/flutter_plugin_android_lifecycle" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1634955905/android-image_picker.iml" filepath="$PROJECT_DIR$/.idea/modules/-1634955905/android-image_picker.iml" group="android/image_picker" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/136688338/android-in_app_purchase.iml" filepath="$PROJECT_DIR$/.idea/modules/136688338/android-in_app_purchase.iml" group="android/in_app_purchase" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1294539550/android-path_provider.iml" filepath="$PROJECT_DIR$/.idea/modules/-1294539550/android-path_provider.iml" group="android/path_provider" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/2084623014/android-path_provider_linux.iml" filepath="$PROJECT_DIR$/.idea/modules/2084623014/android-path_provider_linux.iml" group="android/path_provider_linux" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1450972012/android-path_provider_macos.iml" filepath="$PROJECT_DIR$/.idea/modules/1450972012/android-path_provider_macos.iml" group="android/path_provider_macos" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1238562631/android-path_provider_windows.iml" filepath="$PROJECT_DIR$/.idea/modules/-1238562631/android-path_provider_windows.iml" group="android/path_provider_windows" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1253015111/android-shared_preferences.iml" filepath="$PROJECT_DIR$/.idea/modules/1253015111/android-shared_preferences.iml" group="android/shared_preferences" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1973617554/android-shared_preferences_linux.iml" filepath="$PROJECT_DIR$/.idea/modules/-1973617554/android-shared_preferences_linux.iml" group="android/shared_preferences_linux" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1596951064/android-shared_preferences_macos.iml" filepath="$PROJECT_DIR$/.idea/modules/-1596951064/android-shared_preferences_macos.iml" group="android/shared_preferences_macos" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-385000366/android-shared_preferences_web.iml" filepath="$PROJECT_DIR$/.idea/modules/-385000366/android-shared_preferences_web.iml" group="android/shared_preferences_web" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-689218501/android-shared_preferences_windows.iml" filepath="$PROJECT_DIR$/.idea/modules/-689218501/android-shared_preferences_windows.iml" group="android/shared_preferences_windows" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2014007136/android-sqflite.iml" filepath="$PROJECT_DIR$/.idea/modules/-2014007136/android-sqflite.iml" group="android/sqflite" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="android/app" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1189562626/flutter_plugin_android_lifecycle.iml" filepath="$PROJECT_DIR$/.idea/modules/1189562626/flutter_plugin_android_lifecycle.iml" group="android/flutter_plugin_android_lifecycle" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-105000655/image_picker.iml" filepath="$PROJECT_DIR$/.idea/modules/-105000655/image_picker.iml" group="android/image_picker" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1098761374/in_app_purchase.iml" filepath="$PROJECT_DIR$/.idea/modules/1098761374/in_app_purchase.iml" group="android/in_app_purchase" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/993508526/path_provider.iml" filepath="$PROJECT_DIR$/.idea/modules/993508526/path_provider.iml" group="android/path_provider" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1409295014/path_provider_linux.iml" filepath="$PROJECT_DIR$/.idea/modules/-1409295014/path_provider_linux.iml" group="android/path_provider_linux" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-2042946016/path_provider_macos.iml" filepath="$PROJECT_DIR$/.idea/modules/-2042946016/path_provider_macos.iml" group="android/path_provider_macos" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-229362067/path_provider_windows.iml" filepath="$PROJECT_DIR$/.idea/modules/-229362067/path_provider_windows.iml" group="android/path_provider_windows" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/2054064379/shared_preferences.iml" filepath="$PROJECT_DIR$/.idea/modules/2054064379/shared_preferences.iml" group="android/shared_preferences" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1650687430/shared_preferences_linux.iml" filepath="$PROJECT_DIR$/.idea/modules/-1650687430/shared_preferences_linux.iml" group="android/shared_preferences_linux" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-176051812/shared_preferences_macos.iml" filepath="$PROJECT_DIR$/.idea/modules/-176051812/shared_preferences_macos.iml" group="android/shared_preferences_macos" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/835446046/shared_preferences_web.iml" filepath="$PROJECT_DIR$/.idea/modules/835446046/shared_preferences_web.iml" group="android/shared_preferences_web" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/408985351/shared_preferences_windows.iml" filepath="$PROJECT_DIR$/.idea/modules/408985351/shared_preferences_windows.iml" group="android/shared_preferences_windows" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1669802324/sqflite.iml" filepath="$PROJECT_DIR$/.idea/modules/1669802324/sqflite.iml" group="android/sqflite" />
       <module fileurl="file://$USER_HOME$/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/tinder_card-0.1.1/android/tinder_card.iml" filepath="$USER_HOME$/Documents/flutter/.pub-cache/hosted/pub.dartlang.org/tinder_card-0.1.1/android/tinder_card.iml" />
     </modules>
   </component>

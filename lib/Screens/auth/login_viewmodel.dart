@@ -11,7 +11,6 @@ import 'package:hookup4u/models/mediamodel.dart';
 
 class LoginViewModel{
   LoginPageState state;
-
   LoginViewModel(this.state);
 
   login() async {
@@ -28,6 +27,8 @@ class LoginViewModel{
         appState.jobTitle = userDetailsModel.meta.jobTitle;
         appState.about = userDetailsModel.meta.about;
         print(userDetailsModel.meta.toFirstJson());
+        print(sharedPreferences.getString("token"));
+        await RestApi.updateUserDetails(appState.userDetailsModel.meta.toFirstJson());
         await sharedPreferences.setString(Preferences.metaData, jsonEncode(userDetailsModel.toJson()));
         final medialList = await RestApi.getSingleUserMedia();
         if(medialList!=null){
@@ -35,7 +36,8 @@ class LoginViewModel{
           await sharedPreferences.setString(Preferences.mediaData, mediaListToJson(medialList));
           Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => ListHolderPage()),(Route<dynamic> route) => false);
         }
-      }else{
+      }
+      else{
         Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => Welcome()),(Route<dynamic> route) => false);
       }
     }else{

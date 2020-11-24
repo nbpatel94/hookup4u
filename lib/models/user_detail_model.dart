@@ -58,6 +58,7 @@ class Meta {
     this.relation,
     this.livingIn,
     this.gender,
+    this.deviceToken,
     this.children,
     this.subscriptionDate,
     this.subscriptionName,
@@ -70,6 +71,7 @@ class Meta {
   String livingIn;
   String gender;
   String children;
+  String deviceToken;
   String subscriptionName;
   String subscriptionDate;
 
@@ -80,6 +82,7 @@ class Meta {
     relation: json["relation"],
     livingIn: json["living_in"],
     gender: json["gender"],
+    deviceToken: json["device_token"],
     children: json["children"],
     subscriptionName: json["subscription_name"],
     subscriptionDate: json["subscription_date"],
@@ -102,6 +105,7 @@ class Meta {
     "gender": gender,
     "relation": relation,
     "living_in": livingIn,
+    'device_token' : sharedPreferences.getString("token"),
     "children": children ?? '-',
   };
 }

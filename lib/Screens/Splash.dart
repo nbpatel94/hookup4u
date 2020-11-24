@@ -30,6 +30,7 @@ class _SplashState extends State<Splash> {
   getSharedDetails() async {
     await initStoreInfo();
     if(sharedPreferences.containsKey(Preferences.accessToken)){
+      print("FCM --> ${sharedPreferences.getString("token")}");
       appState.accessToken = sharedPreferences.getString(Preferences.accessToken);
       appState.currentUserData = profileDetailFromJson(sharedPreferences.getString(Preferences.profile));
       if(sharedPreferences.containsKey(Preferences.metaData)){

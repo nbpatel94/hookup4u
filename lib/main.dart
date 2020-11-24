@@ -6,11 +6,12 @@ import 'package:hookup4u/subscription/purchase.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:firebase_core/firebase_core.dart';
 import 'app.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   InAppPurchaseConnection.enablePendingPurchases();
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitDown,

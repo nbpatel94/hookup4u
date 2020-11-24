@@ -14,6 +14,7 @@ if (flutterRoot == null) {
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 30
@@ -31,8 +32,8 @@ android {
         applicationId "com.dating.iheartmuslims"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 2
-        versionName '1.0.1'
+        versionCode 3
+        versionName '1.0.2'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "807663810025",
+    "firebase_url": "https://iheartmusims.firebaseio.com",
+    "project_id": "iheartmusims",
+    "storage_bucket": "iheartmusims.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:807663810025:android:5003b31a1e5f4e266e8778",
+        "android_client_info": {
+          "package_name": "com.dating.iheartmuslims"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "807663810025-b0oj0aisffraripsrvm71spncor14jnl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA-SHmL5a1urz8jOlRbx_-gCrfEkR4IKsU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "807663810025-b0oj0aisffraripsrvm71spncor14jnl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

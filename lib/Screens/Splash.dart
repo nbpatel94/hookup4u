@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -17,6 +18,7 @@ import 'package:hookup4u/prefrences.dart';
 import 'package:hookup4u/restapi/restapi.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Splash extends StatefulWidget {
   @override
@@ -90,6 +92,43 @@ class _SplashState extends State<Splash> {
     }
   }
 
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  SharedPreferences sp;
+
+  void firebaseTokenListening() async {
+    sp = await SharedPreferences.getInstance();
+    if (!sp.containsKey("token")) {
+      if (Platform.isIOS) iOS_Permission();
+
+      _firebaseMessaging.getToken().then((token) {
+        print(token);
+        sp.setString('token', token);
+        // RestApi.addFCMToken(token);
+      });
+    }
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print('on message $message');
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('on resume $message');
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('on launch $message');
+      },
+    );
+  }
+
+  void iOS_Permission() {
+    _firebaseMessaging.requestNotificationPermissions(
+        IosNotificationSettings(sound: true, badge: true, alert: true));
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -108,6 +147,7 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
+    firebaseTokenListening();
     getSharedDetails();
   }
 
@@ -235,6 +275,7 @@ class _SplashState extends State<Splash> {
       _purchasePending = false;
     });
 
+    // USER META UPDATE IN API
     String check = await RestApi.updateUserDetails({
       'subscription_name' : purchaseDetails.productID,
       'subscription_date' : DateTime.now().toIso8601String()

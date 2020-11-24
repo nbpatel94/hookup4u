@@ -21,7 +21,7 @@ class CardPictureViewModel{
     });
     list = await RestApi.getActivity();
 
-    list.removeWhere((element) => element.about=='');
+    list.removeWhere((element) => element.about=='' || element.dateOfBirth=='');
 
     if(list.isEmpty){
       state.setState(() {

@@ -28,7 +28,13 @@ class Splash extends StatefulWidget {
 class _SplashState extends State<Splash> {
 
   getSharedDetails() async {
-    await initStoreInfo();
+    if(Platform.isAndroid){
+      print("Getting information from PlayStore");
+      await initStoreInfo();
+    }else if(Platform.isIOS){
+      print("Getting information from AppStore");
+      await initStoreInfo();
+    }
     if(sharedPreferences.containsKey(Preferences.accessToken)){
       print("FCM --> ${sharedPreferences.getString("token")}");
       appState.accessToken = sharedPreferences.getString(Preferences.accessToken);

@@ -359,9 +359,7 @@ class _SettingsState extends State<Settings> {
               children: [
                 GestureDetector(
                   onTap: () async {
-                    final PurchaseParam purchaseParam = PurchaseParam(productDetails: appState.products.where((element) => element.id==appState.productIds[0]).first);
-                    print(purchaseParam.productDetails.title);
-                    InAppPurchaseConnection.instance.buyConsumable(purchaseParam: purchaseParam);
+                    planDialogue("Gold", 7.99);
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -371,7 +369,7 @@ class _SettingsState extends State<Settings> {
                         child: Padding(
                           padding: const EdgeInsets.all(18.0),
                           child: Text(
-                            "Gold\n${appState.products.where((element) => element.id==appState.productIds[0]).first.price}",
+                            "Gold\n\$7.99",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 15, fontWeight: FontWeight.w700, color: ColorRes.white,),
@@ -383,9 +381,7 @@ class _SettingsState extends State<Settings> {
                 ),
                 GestureDetector(
                   onTap: () async {
-                    final PurchaseParam purchaseParam = PurchaseParam(productDetails: appState.products.where((element) => element.id==appState.productIds[1]).first);
-                    print(purchaseParam.productDetails.title);
-                    InAppPurchaseConnection.instance.buyConsumable(purchaseParam: purchaseParam);
+                    planDialogue("Platinum", 19.99);
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -395,7 +391,7 @@ class _SettingsState extends State<Settings> {
                         child: Padding(
                           padding: const EdgeInsets.all(18.0),
                           child: Text(
-                            "Platinum\n${appState.products.where((element) => element.id==appState.productIds[1]).first.price}",
+                            "Platinum\n\$19.99",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 15, fontWeight: FontWeight.w700, color: ColorRes.white,),
@@ -407,9 +403,7 @@ class _SettingsState extends State<Settings> {
                 ),
                 GestureDetector(
                   onTap: () async {
-                    final PurchaseParam purchaseParam = PurchaseParam(productDetails: appState.products.where((element) => element.id==appState.productIds[2]).first);
-                    print(purchaseParam.productDetails.title);
-                    InAppPurchaseConnection.instance.buyConsumable(purchaseParam: purchaseParam);
+                    planDialogue("Plus+", 49.99);
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -419,7 +413,7 @@ class _SettingsState extends State<Settings> {
                         child: Padding(
                           padding: const EdgeInsets.all(18.0),
                           child: Text(
-                            "Plus+\n${appState.products.where((element) => element.id==appState.productIds[2]).first.price}",
+                            "Plus+\n\$49.99",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 15, fontWeight: FontWeight.w700, color: ColorRes.white,),
@@ -490,6 +484,102 @@ class _SettingsState extends State<Settings> {
                   color: ColorRes.darkButton,
                   child: Text(
                     "NO",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: ColorRes.white,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.none),
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
+  }
+
+  planDialogue(String plan, double price) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            title: Column(
+              children: [
+                Text("${plan.toUpperCase()}",style: TextStyle(fontSize: 28),),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("\$$price",style: TextStyle(fontSize: 18),),
+                    Text(" / month",style: TextStyle(fontSize: 12),),
+                  ],
+                ),
+              ],
+            ),
+            insetAnimationCurve: Curves.decelerate,
+            content: plan == 'Gold' ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 7,
+                ),
+                Text("- Unlimited Likes"),
+                Text("- Rewind"),
+                Text("- 5 Super Likes a day"),
+                Text("- 1 Boost a month "),
+                Text("- No ads"),
+              ],
+            ) : plan == 'Premium' ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 7,
+                ),
+                Text("- See who Likes You"),
+                Text("- New Top Picks every day"),
+                Text("- Unlimited Likes"),
+                Text("- Rewind"),
+                Text("- 5 Super Likes a day"),
+                Text("- 1 Boost a month "),
+                Text("- No ads"),
+              ],
+            ): Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 7,
+                ),
+                Text("- See the Likes you’ve sent"),
+                Text("- Have your Like prioritized"),
+                Text("- See who Likes You"),
+                Text("- Unlimited Likes"),
+                Text("- Rewind"),
+                Text("- 7 Super Likes a day"),
+                Text("- 1 Boost a month "),
+                Text("- No ads"),
+              ],
+            ),
+            actions: <Widget>[
+              GestureDetector(
+                onTap: () async {
+                  if(plan == 'Gold'){
+                    // final PurchaseParam purchaseParam = PurchaseParam(productDetails: appState.products.where((element) => element.id==appState.productIds[0]).first);
+                    // print(purchaseParam.productDetails.title);
+                    // InAppPurchaseConnection.instance.buyConsumable(purchaseParam: purchaseParam);
+                  }else if(plan == 'Premium'){
+                    final PurchaseParam purchaseParam = PurchaseParam(productDetails: appState.products.where((element) => element.id==appState.productIds[1]).first);
+                    print(purchaseParam.productDetails.title);
+                    InAppPurchaseConnection.instance.buyConsumable(purchaseParam: purchaseParam);
+                  }else{
+                    final PurchaseParam purchaseParam = PurchaseParam(productDetails: appState.products.where((element) => element.id==appState.productIds[2]).first);
+                    print(purchaseParam.productDetails.title);
+                    InAppPurchaseConnection.instance.buyConsumable(purchaseParam: purchaseParam);
+                  }
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(20.0),
+                  color: ColorRes.darkButton,
+                  child: Text(
+                    "SUBSCRIBE",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 18,

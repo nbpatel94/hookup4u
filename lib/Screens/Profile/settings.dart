@@ -381,7 +381,7 @@ class _SettingsState extends State<Settings> {
                 ),
                 GestureDetector(
                   onTap: () async {
-                    planDialogue("Platinum", 19.99);
+                    planDialogue("Premium", 19.99);
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -391,7 +391,7 @@ class _SettingsState extends State<Settings> {
                         child: Padding(
                           padding: const EdgeInsets.all(18.0),
                           child: Text(
-                            "Platinum\n\$19.99",
+                            "Premium\n\$19.99",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 15, fontWeight: FontWeight.w700, color: ColorRes.white,),
@@ -549,7 +549,8 @@ class _SettingsState extends State<Settings> {
                   height: 7,
                 ),
                 Text("- See the Likes you’ve sent"),
-                Text("- Have your Like prioritized"),
+                Text("- Have your Like prioritised"),
+                Text("- New Top Picks every day"),
                 Text("- See who Likes You"),
                 Text("- Unlimited Likes"),
                 Text("- Rewind"),

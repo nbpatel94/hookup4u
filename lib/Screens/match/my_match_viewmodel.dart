@@ -2,6 +2,7 @@ import 'package:hookup4u/models/match_model.dart';
 import 'package:hookup4u/restapi/restapi.dart';
 
 import 'my_matches.dart';
+import 'package:hookup4u/app.dart';
 
 class MyMatchViewModel {
   MyMatchesPageState state;
@@ -16,6 +17,8 @@ class MyMatchViewModel {
     List<MatchModel> tempList = await RestApi.myMatchApi();
 
     matchList = tempList;
+
+    print("Match length -> ${matchList.length}");
 
     state.setState(() {
       state.isLoading = false;

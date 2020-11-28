@@ -12,6 +12,7 @@ class MatchModel {
     this.senderId,
     this.taregtId,
     this.threadId,
+    this.superLike,
     this.mutualMatch,
     this.targetMeta,
     this.senderMeta,
@@ -25,6 +26,7 @@ class MatchModel {
   String threadId;
   String lastMessage;
   String mutualMatch;
+  int superLike;
   Meta targetMeta;
   Meta senderMeta;
 
@@ -35,6 +37,7 @@ class MatchModel {
     senderId: json["sender_id"],
     taregtId: json["taregt_id"],
     threadId: json["thread_id"],
+    superLike: int.parse(json["superlike"]),
     mutualMatch: json["mutual_match"],
     targetMeta: Meta.fromJson(json["target_meta"]),
     senderMeta: Meta.fromJson(json["sender_meta"]),

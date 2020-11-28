@@ -16,7 +16,6 @@ class LoginViewModel{
   login() async {
     String confirm = await RestApi.logInApi(state.usernameCont.text.trim(), state.passwordCont.text.trim());
     if (confirm == 'success') {
-      print("meta !contain");
       UserDetailsModel userDetailsModel = await RestApi.getSingleUserDetails(appState.id);
       if(userDetailsModel!=null && userDetailsModel.meta.about!=""){
         appState.userDetailsModel = userDetailsModel;
@@ -26,9 +25,35 @@ class LoginViewModel{
         appState.livingIn = userDetailsModel.meta.livingIn;
         appState.jobTitle = userDetailsModel.meta.jobTitle;
         appState.about = userDetailsModel.meta.about;
+
+        appState.superLikeCount = userDetailsModel.meta.superLike;
+        appState.likeCount = userDetailsModel.meta.likeCount;
+        if(userDetailsModel.meta.likeTime!=""){
+          appState.likeTime = DateTime.parse(userDetailsModel.meta.likeTime);
+        }else{
+          appState.likeTime = DateTime.fromMillisecondsSinceEpoch(DateTime.now().millisecond - 3600000);
+        }
+        if(userDetailsModel.meta.likeTime!=""){
+          appState.superLikeTime = DateTime.parse(userDetailsModel.meta.superLikeTime);
+        }else{
+          appState.superLikeTime = DateTime.fromMillisecondsSinceEpoch(DateTime.now().millisecond - 3600000);
+        }
+
+        print("Superlike Count -> ${appState.superLikeCount} Superlike time -> ${appState.superLikeTime}");
+        print("Like Count -> ${appState.likeCount} Like time -> ${appState.likeTime}");
+
+        await sharedPreferences.setString(Preferences.superLikeTime, appState.superLikeTime.toString());
+        await sharedPreferences.setInt(Preferences.superLikeCount, appState.superLikeCount);
+        await sharedPreferences.setString(Preferences.likeTime, appState.likeTime.toString());
+        await sharedPreferences.setInt(Preferences.likeCount, appState.likeCount);
+
+        appState.subscriptionName = userDetailsModel.meta.subscriptionName;
+        appState.subscriptionDate = userDetailsModel.meta.subscriptionDate;
+
         print(userDetailsModel.meta.toFirstJson());
         print(sharedPreferences.getString("token"));
-        await RestApi.updateUserDetails(appState.userDetailsModel.meta.toFirstJson());
+
+        // await RestApi.updateUserDetails(appState.userDetailsModel.meta.toFirstJson());
         await sharedPreferences.setString(Preferences.metaData, jsonEncode(userDetailsModel.toJson()));
         final medialList = await RestApi.getSingleUserMedia();
         if(medialList!=null){
@@ -46,15 +71,6 @@ class LoginViewModel{
         state.isLoading = false;
       });
     }
-
-    // String confirm = await RestApi.logInApi(state.usernameCont.text.trim(), state.passwordCont.text.trim());
-    // if (confirm == 'success') {
-    //     Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => ListHolderPage()),(Route<dynamic> route) => false);
-    // }else{
-    //   state.showSnackBar(confirm);
-    // }
-
-    // successfullySignUp();
   }
 
   bool validate() {

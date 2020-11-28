@@ -50,10 +50,14 @@ class CardPictureViewModel{
   Queue queue;
 
   giveLike(String targetId) async {
-    await RestApi.likeButtonPress(targetId, 1);
+    await RestApi.likeButtonPress(targetId, 1,0);
   }
 
   giveDislike(String targetId) async {
-    await RestApi.likeButtonPress(targetId, 2);
+    await RestApi.likeButtonPress(targetId, 2,0);
+  }
+
+  giveSuperLike(String targetId) async {
+    await RestApi.likeButtonPress(targetId, 1,1);
   }
 }

@@ -31,4 +31,15 @@ class AppState {
   String jobTitle = '';
   String about = '';
   String dateOfBirth = '';
+
+  // USER SUBSCRIPTION
+  String subscriptionName;
+  DateTime subscriptionDate ;
+
+  // SUPERLIKE & LIKE
+  int superLikeCount;
+  DateTime superLikeTime;
+  int likeCount;
+  DateTime likeTime;
+
 }

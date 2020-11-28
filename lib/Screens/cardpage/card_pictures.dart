@@ -10,6 +10,9 @@ import 'package:hookup4u/util/color.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'package:swipe_stack/swipe_stack.dart';
+import 'package:hookup4u/app.dart';
+import 'package:hookup4u/prefrences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 GlobalKey<SwipeStackState> swipeKey = GlobalKey<SwipeStackState>();
 
@@ -27,6 +30,8 @@ class CardPicturesState extends State<CardPictures>
   bool isLoading = true;
 
   bool get wantKeepAlive => true;
+
+  int currentPosition;
 
   @override
   Widget build(BuildContext context) {
@@ -247,7 +252,7 @@ class CardPicturesState extends State<CardPictures>
                       threshold: 30,
                       maxAngle: 100,
                       animationDuration: Duration(milliseconds: 600),
-                      visibleCount: 3,
+                      visibleCount: 2,
                       historyCount: 1,
                       stackFrom: StackFrom.Right,
                       translationInterval: 5,
@@ -258,21 +263,45 @@ class CardPicturesState extends State<CardPictures>
                         });
                         model.list.removeLast();
                       },
-                      onSwipe: (int index, SwiperPosition position) {
-                        if (index + 1 < model.list.length) {
-                          model.list.removeAt(index + 1);
-                        }
-                        if(position==SwiperPosition.Right){
-                          print(index);
-                          print(list2[index].data.displayName);
-                          model.queue.add(() => model.giveLike(list2[index].data.id));
-                        }else if(position==SwiperPosition.Left){
-                          print(index);
-                          print(list2[index].data.displayName);
-                          model.queue.add(() => model.giveDislike(list2[index].data.id));
-                        }
+                      onSwipe: (int index, SwiperPosition position) async {
+                        if(currentPosition!=index){
+                          if (index + 1 < model.list.length) {
+                            model.list.removeAt(index + 1);
+                          }
+                          if(position==SwiperPosition.Right){
+                            print("----------");
+                            print("Like Time-> ${DateTime.now().difference(appState.likeTime).inMinutes}");
+                            if(appState.subscriptionDate!=null && DateTime.now().difference(appState.subscriptionDate).inDays>=30) {
+                              appState.likeCount = 30;
+                            }else{
+                              if(DateTime.now().difference(appState.likeTime).inMinutes>=1 && appState.likeCount==0){
+                                appState.likeCount = 2;
+                              }
+                            }
+                            if (model.list.length > 0 && appState.likeCount!=0) {
+                              print("Giving Like");
+                              print(swipeKey.currentState.currentIndex);
+                              print(list2[swipeKey.currentState.currentIndex].data.displayName);
+                              appState.likeCount--;
+                              appState.likeTime = DateTime.now();
+                              await sharedPreferences.setString(Preferences.likeTime, DateTime.now().toString());
+                              await sharedPreferences.setInt(Preferences.likeCount, appState.likeCount);
 
-                        debugPrint("onSwipe $index $position");
+                              print("Superlike Count -> ${appState.superLikeCount} Superlike time -> ${appState.superLikeTime}");
+                              print("Like Count -> ${appState.likeCount} Like time -> ${appState.likeTime}");
+
+                              // model.queue.add(() => model.giveLike(list2[swipeKey.currentState.currentIndex].data.id));
+                              swipeKey.currentState.swipeRight();
+                            }else{
+                              print("You are out of likes");
+                            }
+                            print("----------");
+                          }else if(position==SwiperPosition.Left){
+                            print(index);
+                            print(list2[index].data.displayName);
+                            model.queue.add(() => model.giveDislike(list2[index].data.id));
+                          }
+                        }
                       },
                       onRewind: (int index, SwiperPosition position) =>
                           debugPrint("onRewind $index $position"),
@@ -288,8 +317,58 @@ class CardPicturesState extends State<CardPictures>
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: <Widget>[
                           GestureDetector(
+                            onTap: () async{
+                              print("----------");
+                              print("SuperLike Time-> ${DateTime.now().difference(appState.superLikeTime).inMinutes}");
+                              if(DateTime.now().difference(appState.superLikeTime).inMinutes>=1440 && appState.superLikeCount==0){
+                                if(appState.subscriptionDate!=null && DateTime.now().difference(appState.subscriptionDate).inDays>=30) {
+                                  appState.superLikeCount = 5;
+                                }else{
+                                  appState.superLikeCount = 1;
+                                }
+                              }
+                              if (model.list.length > 0 && appState.superLikeCount!=0) {
+                                currentPosition = swipeKey.currentState.currentIndex;
+                                print("Giving SuperLike");
+                                print(swipeKey.currentState.currentIndex);
+                                print(list2[swipeKey.currentState.currentIndex].data.displayName);
+                                appState.superLikeCount--;
+                                appState.superLikeTime = DateTime.now();
+                                await sharedPreferences.setString(Preferences.superLikeTime, DateTime.now().toString());
+                                await sharedPreferences.setInt(Preferences.superLikeCount, appState.superLikeCount);
+
+                                print("Superlike Count -> ${appState.superLikeCount} Superlike time -> ${appState.superLikeTime}");
+                                print("Like Count -> ${appState.likeCount} Like time -> ${appState.likeTime}");
+
+                                model.queue.add(() => model.giveSuperLike(list2[swipeKey.currentState.currentIndex].data.id));
+                                swipeKey.currentState.swipeRight();
+                              }else{
+                                print("You are out of supelikes");
+                              }
+                              print("----------");
+                            },
+                            child: Container(
+                              height: 70,
+                              width: 70,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(80),
+                                color: ColorRes.superLike,
+                              ),
+                              padding: EdgeInsets.all(18),
+                              child: Image.asset(
+                                'asset/Icon/star.png',
+                                fit: BoxFit.cover,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          GestureDetector(
                             onTap: () {
                               if (model.list.length > 0) {
+                                currentPosition = swipeKey.currentState.currentIndex;
                                 print(list2[swipeKey.currentState.currentIndex].data.displayName);
                                 model.queue.add(() => model.giveDislike(list2[swipeKey.currentState.currentIndex].data.id));
                                 swipeKey.currentState.swipeLeft();
@@ -314,12 +393,35 @@ class CardPicturesState extends State<CardPictures>
                             width: 20,
                           ),
                           GestureDetector(
-                            onTap: () {
-                              if (model.list.length > 0) {
+                            onTap: () async {
+                              print("----------");
+                              print("Like Time-> ${DateTime.now().difference(appState.likeTime).inMinutes}");
+                              if(appState.subscriptionDate!=null && DateTime.now().difference(appState.subscriptionDate).inDays>=30) {
+                                  appState.likeCount = 30;
+                              }else{
+                                if(DateTime.now().difference(appState.likeTime).inMinutes>=1440 && appState.likeCount==0){
+                                  appState.likeCount = 2;
+                                }
+                              }
+                              if (model.list.length > 0 && appState.likeCount!=0) {
+                                print("Giving Like");
+                                print(swipeKey.currentState.currentIndex);
+                                currentPosition = swipeKey.currentState.currentIndex;
                                 print(list2[swipeKey.currentState.currentIndex].data.displayName);
+                                appState.likeCount--;
+                                appState.likeTime = DateTime.now();
+                                await sharedPreferences.setString(Preferences.likeTime, DateTime.now().toString());
+                                await sharedPreferences.setInt(Preferences.likeCount, appState.likeCount);
+
+                                print("Superlike Count -> ${appState.superLikeCount} Superlike time -> ${appState.superLikeTime}");
+                                print("Like Count -> ${appState.likeCount} Like time -> ${appState.likeTime}");
+
                                 model.queue.add(() => model.giveLike(list2[swipeKey.currentState.currentIndex].data.id));
                                 swipeKey.currentState.swipeRight();
+                              }else{
+                                print("You are out of likes");
                               }
+                              print("----------");
                             },
                             child: Container(
                               height: 70,

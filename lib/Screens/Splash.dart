@@ -41,7 +41,38 @@ class _SplashState extends State<Splash> {
       appState.currentUserData = profileDetailFromJson(sharedPreferences.getString(Preferences.profile));
       if(sharedPreferences.containsKey(Preferences.metaData)){
         print("meta contain");
+
         UserDetailsModel userDetailsModel = userDetailsModelFromJson(sharedPreferences.getString(Preferences.metaData));
+
+        appState.superLikeTime = DateTime.parse(sharedPreferences.getString(Preferences.superLikeTime));
+        appState.superLikeCount = sharedPreferences.getInt(Preferences.superLikeCount);
+        appState.likeCount = sharedPreferences.getInt(Preferences.likeCount);
+        appState.likeTime = DateTime.parse(sharedPreferences.getString(Preferences.likeTime));
+
+        print("Superlike Count -> ${appState.superLikeCount} Superlike time -> ${appState.superLikeTime}");
+        print("Like Count -> ${appState.likeCount} Like time -> ${appState.likeTime}");
+        print("SuperLike -> ${DateTime.now().difference(appState.superLikeTime).inMinutes} Like -> ${DateTime.now().difference(appState.likeTime).inMinutes}");
+
+        appState.subscriptionName = userDetailsModel.meta.subscriptionName;
+        appState.subscriptionDate = userDetailsModel.meta.subscriptionDate;
+
+        // if(DateTime.now().difference(appState.superLikeTime).inMinutes>=10 && appState.superLikeCount==0){
+        //   if(appState.subscriptionDate!=null && appState.subscriptionDate.month==0) {
+        //     appState.superLikeCount = 5;
+        //   }else{
+        //     appState.superLikeCount = 1;
+        //   }
+        // }
+        // if(DateTime.now().difference(appState.likeTime).inMinutes>=10 && appState.likeCount==0){
+        //   appState.likeCount = 30;
+        // }
+
+        appState.subscriptionName = userDetailsModel.meta.subscriptionName;
+        appState.subscriptionDate = userDetailsModel.meta.subscriptionDate;
+
+        print("Subscription Name: ${appState.subscriptionName}");
+        print("Subscription Date: ${appState.subscriptionDate}");
+
         appState.userDetailsModel = userDetailsModel;
         appState.children = userDetailsModel.meta.children;
         appState.gender = userDetailsModel.meta.gender;
@@ -50,7 +81,8 @@ class _SplashState extends State<Splash> {
         appState.jobTitle = userDetailsModel.meta.jobTitle;
         appState.about = userDetailsModel.meta.about;
         appState.id = userDetailsModel.id;
-        // print(userDetailsModel.meta.toJson());
+
+        print(userDetailsModel.meta.toFirstJson());
         if(sharedPreferences.containsKey(Preferences.mediaData)){
           print("media contain");
           List<MediaModel> mediaList = mediaListFromJson(sharedPreferences.getString(Preferences.mediaData));
@@ -72,25 +104,9 @@ class _SplashState extends State<Splash> {
       }
       else{
         print("meta !contain");
-        UserDetailsModel userDetailsModel = await RestApi.getSingleUserDetails(appState.id);
-        if(userDetailsModel!=null && userDetailsModel.meta.about!=""){
-          appState.userDetailsModel = userDetailsModel;
-          appState.children = userDetailsModel.meta.children;
-          appState.relation = userDetailsModel.meta.relation;
-          appState.livingIn = userDetailsModel.meta.livingIn;
-          appState.jobTitle = userDetailsModel.meta.jobTitle;
-          appState.about = userDetailsModel.meta.about;
-          print(userDetailsModel.meta.toJson());
-          await sharedPreferences.setString(Preferences.metaData, jsonEncode(userDetailsModel.toJson()));
-          final medialList = await RestApi.getSingleUserMedia();
-          if(medialList!=null){
-            appState.medialList = medialList;
-            await sharedPreferences.setString(Preferences.mediaData, mediaListToJson(medialList));
-            Navigator.push(context, MaterialPageRoute(builder: (context) => ListHolderPage()));
-          }
-        }else{
-          Navigator.push(context, MaterialPageRoute(builder: (context) => Welcome()));
-        }
+        Future.delayed(Duration(seconds: 4), () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => StartScreen()));
+        });
       }
     }else{
       Future.delayed(Duration(seconds: 4), () {
@@ -285,7 +301,7 @@ class _SplashState extends State<Splash> {
     // USER META UPDATE IN API
     String check = await RestApi.updateUserDetails({
       'subscription_name' : purchaseDetails.productID,
-      'subscription_date' : DateTime.now().toIso8601String()
+      'subscription_date' : DateTime.now().toString()
     });
     if (check == 'success') {
       Navigator.pop(context);

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:hookup4u/app.dart';
 import 'package:hookup4u/restapi/restapi.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:hookup4u/prefrences.dart';
 
 class EditProfile extends StatefulWidget {
   @override
@@ -82,6 +84,7 @@ class EditProfileState extends State<EditProfile> {
           appState.userDetailsModel.meta.relation = appState.relation;
 
           print(appState.userDetailsModel.meta.toJson());
+          await sharedPreferences.setString(Preferences.metaData, jsonEncode(appState.userDetailsModel.meta.toJson()));
 
           String check = await RestApi.updateUserDetails(
               appState.userDetailsModel.meta.toJson());
@@ -129,6 +132,7 @@ class EditProfileState extends State<EditProfile> {
                   appState.userDetailsModel.meta.relation = appState.relation;
 
                   print(appState.userDetailsModel.meta.toJson());
+                  await sharedPreferences.setString(Preferences.metaData, jsonEncode(appState.userDetailsModel.meta.toJson()));
 
                   String check = await RestApi.updateUserDetails(
                       appState.userDetailsModel.meta.toJson());

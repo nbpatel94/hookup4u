@@ -57,8 +57,12 @@ class Meta {
     this.jobTitle,
     this.relation,
     this.livingIn,
+    this.superLike,
+    this.likeCount,
     this.gender,
     this.deviceToken,
+    this.superLikeTime,
+    this.likeTime,
     this.children,
     this.subscriptionDate,
     this.subscriptionName,
@@ -69,11 +73,15 @@ class Meta {
   String jobTitle;
   String relation;
   String livingIn;
+  int superLike;
+  int likeCount;
   String gender;
   String children;
   String deviceToken;
+  String superLikeTime;
+  String likeTime;
   String subscriptionName;
-  String subscriptionDate;
+  DateTime subscriptionDate;
 
   factory Meta.fromJson(Map<String, dynamic> json) => Meta(
     about: json["about"],
@@ -82,10 +90,14 @@ class Meta {
     relation: json["relation"],
     livingIn: json["living_in"],
     gender: json["gender"],
+    superLike: int.parse(json["superlikes"].toString()),
+    likeCount: int.parse(json["likes"].toString()),
     deviceToken: json["device_token"],
     children: json["children"],
+    superLikeTime: json["superLikeTime"],
+    likeTime: json["likeTime"],
     subscriptionName: json["subscription_name"],
-    subscriptionDate: json["subscription_date"],
+    subscriptionDate: json["subscription_date"] !="" ? DateTime.parse(json["subscription_date"]) : null,
   );
 
   Map<String, dynamic> toJson() => {
@@ -95,6 +107,8 @@ class Meta {
     "relation": relation,
     "living_in": livingIn,
     "children": children ?? '-',
+    "subscription_name": subscriptionName ?? '',
+    "subscription_date": subscriptionDate != null ?subscriptionDate.toString() : '',
   };
 
   Map<String, dynamic> toFirstJson() => {
@@ -104,8 +118,12 @@ class Meta {
     "job_title": jobTitle,
     "gender": gender,
     "relation": relation,
+    "superlikes": superLike,
+    "likes": likeCount,
     "living_in": livingIn,
     'device_token' : sharedPreferences.getString("token"),
     "children": children ?? '-',
+    "subscription_name": subscriptionName ?? '',
+    "subscription_date": subscriptionDate != null ? subscriptionDate.toString() : '',
   };
 }

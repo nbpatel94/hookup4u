@@ -491,7 +491,7 @@ class RestApi {
     }
   }
 
-  static Future<String> likeButtonPress(String targetId,int status) async {
+  static Future<String> likeButtonPress(String targetId,int status,int superLike) async {
     String url = App.baseUrlSA + App.i_like_you;
 
     var headerData = {
@@ -500,7 +500,9 @@ class RestApi {
 
     var bodyData = {
       "target_id" : targetId.toString(),
-      "status" : status.toString()
+      "status" : status.toString(),
+      "time" : DateTime.now().toString(),
+      "superLike" : superLike.toString()
     };
 
     print(url);

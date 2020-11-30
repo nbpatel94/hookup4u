@@ -42,4 +42,6 @@ class AppState {
   int likeCount;
   DateTime likeTime;
 
+  BuildContext settingContext;
+
 }

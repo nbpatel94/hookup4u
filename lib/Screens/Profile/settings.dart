@@ -12,16 +12,14 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hookup4u/prefrences.dart';
 import 'dart:convert';
 
-int distance = 10;
-var ageRange = RangeValues(18, 30);
-var _showMe = "2";
-
 class Settings extends StatefulWidget {
   @override
   _SettingsState createState() => _SettingsState();
 }
 
 class _SettingsState extends State<Settings> {
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -333,94 +331,81 @@ class _SettingsState extends State<Settings> {
             actions: <Widget>[
               GestureDetector(
                 onTap: () async {
+                  appState.settingContext = this.context;
+                  int index;
+                  if (plan == 'Gold')
+                    index=0;
+                  else if (plan == 'Premium')
+                    index=1;
+                  else
+                    index=2;
+
+                  EasyLoading.show();
+
+                  final PurchaseParam purchaseParam = PurchaseParam(
+                      productDetails: appState.products
+                          .where((element) =>
+                      element.id == appState.productIds[index])
+                          .first);
+                  print(purchaseParam.productDetails.title);
+                  InAppPurchaseConnection.instance
+                      .buyConsumable(purchaseParam: purchaseParam);
+
                   // if (plan == 'Gold') {
-                  //   final PurchaseParam purchaseParam = PurchaseParam(
-                  //       productDetails: appState.products
-                  //           .where((element) =>
-                  //               element.id == appState.productIds[0])
-                  //           .first);
-                  //   print(purchaseParam.productDetails.title);
-                  //   InAppPurchaseConnection.instance
-                  //       .buyConsumable(purchaseParam: purchaseParam);
+                  //   print("Buying Gold Subscription");
+                  //   EasyLoading.show();
+                  //
+                  //   appState.subscriptionName = appState.productIds[0];
+                  //   appState.subscriptionDate = DateTime.now();
+                  //   appState.userDetailsModel.meta.subscriptionName = appState.subscriptionName;
+                  //   appState.userDetailsModel.meta.subscriptionDate = appState.subscriptionDate;
+                  //
+                  //   print(appState.userDetailsModel.meta.toJson());
+                  //   await sharedPreferences.setString(Preferences.metaData, jsonEncode(appState.userDetailsModel.toJson()));
+                  //
+                  //   await Future.delayed(Duration(seconds: 5));
+                  //   EasyLoading.dismiss();
+                  //   Navigator.pushAndRemoveUntil(
+                  //       this.context,
+                  //       MaterialPageRoute(builder: (context) => Splash()),
+                  //       (Route<dynamic> route) => false);
+                  // } else if (plan == 'Premium') {
+                  //   print("Buying Premium Subscription");
+                  //   EasyLoading.show();
+                  //
+                  //   appState.subscriptionName = appState.productIds[1];
+                  //   appState.subscriptionDate = DateTime.now();
+                  //   appState.userDetailsModel.meta.subscriptionDate = appState.subscriptionDate;
+                  //   appState.userDetailsModel.meta.subscriptionName = appState.subscriptionName;
+                  //
+                  //   print(appState.userDetailsModel.meta.toJson());
+                  //   await sharedPreferences.setString(Preferences.metaData, jsonEncode(appState.userDetailsModel.toJson()));
+                  //
+                  //   await Future.delayed(Duration(seconds: 5));
+                  //   EasyLoading.dismiss();
+                  //   Navigator.pushAndRemoveUntil(
+                  //       this.context,
+                  //       MaterialPageRoute(builder: (context) => Splash()),
+                  //           (Route<dynamic> route) => false);
+                  // } else {
+                  //   print("Buying Plus+ Subscription");
+                  //   EasyLoading.show();
+                  //
+                  //   appState.subscriptionName = appState.productIds[2];
+                  //   appState.subscriptionDate = DateTime.now();
+                  //   appState.userDetailsModel.meta.subscriptionDate = appState.subscriptionDate;
+                  //   appState.userDetailsModel.meta.subscriptionName = appState.subscriptionName;
+                  //
+                  //   print(appState.userDetailsModel.meta.toJson());
+                  //   await sharedPreferences.setString(Preferences.metaData, jsonEncode(appState.userDetailsModel.toJson()));
+                  //
+                  //   await Future.delayed(Duration(seconds: 5));
+                  //   EasyLoading.dismiss();
+                  //   Navigator.pushAndRemoveUntil(
+                  //       this.context,
+                  //       MaterialPageRoute(builder: (context) => Splash()),
+                  //           (Route<dynamic> route) => false);
                   // }
-                  // else if (plan == 'Premium') {
-                  //   final PurchaseParam purchaseParam = PurchaseParam(
-                  //       productDetails: appState.products
-                  //           .where((element) =>
-                  //               element.id == appState.productIds[1])
-                  //           .first);
-                  //   print(purchaseParam.productDetails.title);
-                  //   InAppPurchaseConnection.instance
-                  //       .buyConsumable(purchaseParam: purchaseParam);
-                  // }
-                  // else {
-                  //   final PurchaseParam purchaseParam = PurchaseParam(
-                  //       productDetails: appState.products
-                  //           .where((element) =>
-                  //               element.id == appState.productIds[2])
-                  //           .first);
-                  //   print(purchaseParam.productDetails.title);
-                  //   InAppPurchaseConnection.instance
-                  //       .buyConsumable(purchaseParam: purchaseParam);
-                  // }
-
-                  print(DateTime.now());
-
-                  if (plan == 'Gold') {
-                    print("Buying Gold Subscription");
-                    EasyLoading.show();
-
-                    appState.subscriptionName = appState.productIds[0];
-                    appState.subscriptionDate = DateTime.now();
-                    appState.userDetailsModel.meta.subscriptionName = appState.subscriptionName;
-                    appState.userDetailsModel.meta.subscriptionDate = appState.subscriptionDate;
-
-                    print(appState.userDetailsModel.meta.toJson());
-                    await sharedPreferences.setString(Preferences.metaData, jsonEncode(appState.userDetailsModel.toJson()));
-
-                    await Future.delayed(Duration(seconds: 5));
-                    EasyLoading.dismiss();
-                    Navigator.pushAndRemoveUntil(
-                        this.context,
-                        MaterialPageRoute(builder: (context) => Splash()),
-                        (Route<dynamic> route) => false);
-                  } else if (plan == 'Premium') {
-                    print("Buying Premium Subscription");
-                    EasyLoading.show();
-
-                    appState.subscriptionName = appState.productIds[1];
-                    appState.subscriptionDate = DateTime.now();
-                    appState.userDetailsModel.meta.subscriptionDate = appState.subscriptionDate;
-                    appState.userDetailsModel.meta.subscriptionName = appState.subscriptionName;
-
-                    print(appState.userDetailsModel.meta.toJson());
-                    await sharedPreferences.setString(Preferences.metaData, jsonEncode(appState.userDetailsModel.toJson()));
-
-                    await Future.delayed(Duration(seconds: 5));
-                    EasyLoading.dismiss();
-                    Navigator.pushAndRemoveUntil(
-                        this.context,
-                        MaterialPageRoute(builder: (context) => Splash()),
-                            (Route<dynamic> route) => false);
-                  } else {
-                    print("Buying Plus+ Subscription");
-                    EasyLoading.show();
-
-                    appState.subscriptionName = appState.productIds[2];
-                    appState.subscriptionDate = DateTime.now();
-                    appState.userDetailsModel.meta.subscriptionDate = appState.subscriptionDate;
-                    appState.userDetailsModel.meta.subscriptionName = appState.subscriptionName;
-
-                    print(appState.userDetailsModel.meta.toJson());
-                    await sharedPreferences.setString(Preferences.metaData, jsonEncode(appState.userDetailsModel.toJson()));
-
-                    await Future.delayed(Duration(seconds: 5));
-                    EasyLoading.dismiss();
-                    Navigator.pushAndRemoveUntil(
-                        this.context,
-                        MaterialPageRoute(builder: (context) => Splash()),
-                            (Route<dynamic> route) => false);
-                  }
                 },
                 child: Container(
                   padding: const EdgeInsets.all(20.0),

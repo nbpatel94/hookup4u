@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hookup4u/Screens/Welcome.dart';
 import 'package:hookup4u/Screens/auth/start_screen.dart';
@@ -26,32 +27,34 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> {
-
   getSharedDetails() async {
-    if(Platform.isAndroid){
-      print("Getting information from PlayStore");
-      await initStoreInfo();
-    }else if(Platform.isIOS){
-      print("Getting information from AppStore");
-      await initStoreInfo();
-    }
-    if(sharedPreferences.containsKey(Preferences.accessToken)){
+    await initStoreInfo();
+    if (sharedPreferences.containsKey(Preferences.accessToken)) {
       print("FCM --> ${sharedPreferences.getString("token")}");
-      appState.accessToken = sharedPreferences.getString(Preferences.accessToken);
-      appState.currentUserData = profileDetailFromJson(sharedPreferences.getString(Preferences.profile));
-      if(sharedPreferences.containsKey(Preferences.metaData)){
+      appState.accessToken =
+          sharedPreferences.getString(Preferences.accessToken);
+      appState.currentUserData = profileDetailFromJson(
+          sharedPreferences.getString(Preferences.profile));
+      if (sharedPreferences.containsKey(Preferences.metaData)) {
         print("meta contain");
 
-        UserDetailsModel userDetailsModel = userDetailsModelFromJson(sharedPreferences.getString(Preferences.metaData));
+        UserDetailsModel userDetailsModel = userDetailsModelFromJson(
+            sharedPreferences.getString(Preferences.metaData));
 
-        appState.superLikeTime = DateTime.parse(sharedPreferences.getString(Preferences.superLikeTime));
-        appState.superLikeCount = sharedPreferences.getInt(Preferences.superLikeCount);
+        appState.superLikeTime = DateTime.parse(
+            sharedPreferences.getString(Preferences.superLikeTime));
+        appState.superLikeCount =
+            sharedPreferences.getInt(Preferences.superLikeCount);
         appState.likeCount = sharedPreferences.getInt(Preferences.likeCount);
-        appState.likeTime = DateTime.parse(sharedPreferences.getString(Preferences.likeTime));
+        appState.likeTime =
+            DateTime.parse(sharedPreferences.getString(Preferences.likeTime));
 
-        print("Superlike Count -> ${appState.superLikeCount} Superlike time -> ${appState.superLikeTime}");
-        print("Like Count -> ${appState.likeCount} Like time -> ${appState.likeTime}");
-        print("SuperLike -> ${DateTime.now().difference(appState.superLikeTime).inMinutes} Like -> ${DateTime.now().difference(appState.likeTime).inMinutes}");
+        print(
+            "Superlike Count -> ${appState.superLikeCount} Superlike time -> ${appState.superLikeTime}");
+        print(
+            "Like Count -> ${appState.likeCount} Like time -> ${appState.likeTime}");
+        print(
+            "SuperLike -> ${DateTime.now().difference(appState.superLikeTime).inMinutes} Like -> ${DateTime.now().difference(appState.likeTime).inMinutes}");
 
         appState.subscriptionName = userDetailsModel.meta.subscriptionName;
         appState.subscriptionDate = userDetailsModel.meta.subscriptionDate;
@@ -83,34 +86,38 @@ class _SplashState extends State<Splash> {
         appState.id = userDetailsModel.id;
 
         print(userDetailsModel.meta.toFirstJson());
-        if(sharedPreferences.containsKey(Preferences.mediaData)){
+        if (sharedPreferences.containsKey(Preferences.mediaData)) {
           print("media contain");
-          List<MediaModel> mediaList = mediaListFromJson(sharedPreferences.getString(Preferences.mediaData));
+          List<MediaModel> mediaList = mediaListFromJson(
+              sharedPreferences.getString(Preferences.mediaData));
           appState.medialList = mediaList;
           print('Current User : ${appState.id}');
           Future.delayed(Duration(seconds: 3), () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => ListHolderPage()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ListHolderPage()));
           });
-        }
-        else{
+        } else {
           print("media !contain");
           final medialList = await RestApi.getSingleUserMedia();
-          if(medialList!=null){
+          if (medialList != null) {
             appState.medialList = medialList;
-            await sharedPreferences.setString(Preferences.mediaData, mediaListToJson(medialList));
-            Navigator.push(context, MaterialPageRoute(builder: (context) => ListHolderPage()));
+            await sharedPreferences.setString(
+                Preferences.mediaData, mediaListToJson(medialList));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ListHolderPage()));
           }
         }
-      }
-      else{
+      } else {
         print("meta !contain");
         Future.delayed(Duration(seconds: 4), () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => StartScreen()));
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => StartScreen()));
         });
       }
-    }else{
+    } else {
       Future.delayed(Duration(seconds: 4), () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => StartScreen()));
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => StartScreen()));
       });
     }
   }
@@ -194,23 +201,25 @@ class _SplashState extends State<Splash> {
     final bool isAvailable = await _connection.isAvailable();
     print("inAppPurchase avail $isAvailable");
     if (!isAvailable) {
-      setState(() {
-        _isAvailable = isAvailable;
-        _products = [];
-        appState.products = [];
-        _purchases = [];
-        _notFoundIds = [];
-        _consumables = [];
-        _purchasePending = false;
-        _loading = false;
-      });
+      // setState(() {
+      _isAvailable = isAvailable;
+      _products = [];
+      appState.products = [];
+      _purchases = [];
+      _notFoundIds = [];
+      _consumables = [];
+      _purchasePending = false;
+      _loading = false;
+      // });
       return;
     }
 
     Stream purchaseUpdated = _connection.purchaseUpdatedStream;
     purchaseUpdated.listen((purchaseDetailsList) {
+      print(purchaseDetailsList.length);
       _listenToPurchaseUpdated(purchaseDetailsList);
     }, onDone: () {
+      print("Listening Done");
       _subscription.cancel();
     }, onError: (error) {
       print("inAppPurchase error: $error");
@@ -222,52 +231,44 @@ class _SplashState extends State<Splash> {
       print("inAppPurchase ${element.title} -- ${element.price}");
     });
     if (productDetailResponse.error != null) {
-      setState(() {
-        _queryProductError = productDetailResponse.error.message;
-        _isAvailable = isAvailable;
-        _products = productDetailResponse.productDetails;
-        appState.products = productDetailResponse.productDetails;
-        _purchases = [];
-        _notFoundIds = productDetailResponse.notFoundIDs;
-        _consumables = [];
-        _purchasePending = false;
-        _loading = false;
-      });
+      // setState(() {
+      _queryProductError = productDetailResponse.error.message;
+      _isAvailable = isAvailable;
+      _products = productDetailResponse.productDetails;
+      appState.products = productDetailResponse.productDetails;
+      _purchases = [];
+      _notFoundIds = productDetailResponse.notFoundIDs;
+      _consumables = [];
+      _purchasePending = false;
+      _loading = false;
+      // });
       return;
     }
 
     if (productDetailResponse.productDetails.isEmpty) {
-      setState(() {
-        _queryProductError = null;
-        _isAvailable = isAvailable;
-        _products = productDetailResponse.productDetails;
-        appState.products = productDetailResponse.productDetails;
-        _purchases = [];
-        _notFoundIds = productDetailResponse.notFoundIDs;
-        _consumables = [];
-        _purchasePending = false;
-        _loading = false;
-      });
+      // setState(() {
+      _queryProductError = null;
+      _isAvailable = isAvailable;
+      _products = productDetailResponse.productDetails;
+      appState.products = productDetailResponse.productDetails;
+      _purchases = [];
+      _notFoundIds = productDetailResponse.notFoundIDs;
+      _consumables = [];
+      _purchasePending = false;
+      _loading = false;
+      // });
       return;
     }
 
-    final QueryPurchaseDetailsResponse purchaseResponse = await _connection.queryPastPurchases();
-    if (purchaseResponse.error != null) {
-      print("inAppPurchase purchaseResponse error ${purchaseResponse.error}");
-    }
-    final List<PurchaseDetails> verifiedPurchases = [];
-    for (PurchaseDetails purchase in purchaseResponse.pastPurchases) {
-      if (await _verifyPurchase(purchase)) {
-        verifiedPurchases.add(purchase);
-      }
-    }
+    await subscriptionStatus();
+
+    print("Status Done");
+
     List<String> consumables = await ConsumableStore.load();
-    print("inAppPurchase consumables $consumables");
     setState(() {
       _isAvailable = isAvailable;
       _products = productDetailResponse.productDetails;
       appState.products = productDetailResponse.productDetails;
-      _purchases = verifiedPurchases;
       _notFoundIds = productDetailResponse.notFoundIDs;
       _consumables = consumables;
       _purchasePending = false;
@@ -293,45 +294,99 @@ class _SplashState extends State<Splash> {
   void deliverProduct(PurchaseDetails purchaseDetails) async {
     /// IMPORTANT!! Always verify a purchase purchase details before delivering the product.
     print("Delivering");
-    setState(() {
-      _purchases.add(purchaseDetails);
-      _purchasePending = false;
-    });
+    // setState(() {
+    _purchases.add(purchaseDetails);
+    _purchasePending = false;
+    // });
 
     // USER META UPDATE IN API
     String check = await RestApi.updateUserDetails({
-      'subscription_name' : purchaseDetails.productID,
-      'subscription_date' : DateTime.now().toString()
+      'id': appState.id,
+      'subscription_name': purchaseDetails.productID,
+      'subscription_date': purchaseDetails.transactionDate
     });
     if (check == 'success') {
-      Navigator.pop(context);
+      appState.subscriptionName = purchaseDetails.productID;
+      appState.subscriptionDate = DateTime.fromMillisecondsSinceEpoch(
+          int.parse(purchaseDetails.transactionDate));
+      appState.userDetailsModel.meta.subscriptionDate =
+          appState.subscriptionDate;
+      appState.userDetailsModel.meta.subscriptionName =
+          appState.subscriptionName;
+
+      print(appState.userDetailsModel.meta.toJson());
+      await sharedPreferences.setString(
+          Preferences.metaData, jsonEncode(appState.userDetailsModel.toJson()));
+
+      // EasyLoading.dismiss();
+      getSharedDetails();
     }
   }
 
   void handleError(IAPError error) {
-    print("inAppPurchase IAPError $error");
-    setState(() {
-      _purchasePending = false;
-    });
+    print("inAppPurchase IAPError ${error.message} -- ${error.details}");
+    Navigator.pop(appState.settingContext);
+    source();
+    // setState(() {
+    _purchasePending = false;
+    // });
+  }
+
+  source() {
+    return showDialog(
+        context: appState.settingContext,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            title: Text(
+              "Something went wrong! your purchase is not verified! if you paid then please wait for sometime and check again",
+            ),
+            insetAnimationCurve: Curves.decelerate,
+            actions: <Widget>[
+              GestureDetector(
+                onTap: () async {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  padding: const EdgeInsets.all(20.0),
+                  color: ColorRes.redButton,
+                  child: Text(
+                    "OKAY",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        fontSize: 18,
+                        color: ColorRes.white,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.none),
+                  ),
+                ),
+              ),
+            ],
+          );
+        });
   }
 
   Future<bool> _verifyPurchase(PurchaseDetails purchaseDetails) {
     // IMPORTANT!! Always verify a purchase before delivering the product.
     // For the purpose of an example, we directly return true.
     print("Verifying");
-    print("inAppPurchase purchaseDetails ${purchaseDetails.purchaseID}");
+    print(
+        "inAppPurchase purchaseDetails ${DateTime.fromMillisecondsSinceEpoch(int.parse(purchaseDetails.transactionDate))}");
     print("inAppPurchase purchaseDetails ${purchaseDetails.productID}");
-    if(purchaseDetails!=null && purchaseDetails.purchaseID!=null && purchaseDetails.purchaseID.isNotEmpty){
+    print("inAppPurchase purchaseDetails ${purchaseDetails.status}");
+    if (purchaseDetails != null &&
+        purchaseDetails.purchaseID != null &&
+        purchaseDetails.purchaseID.isNotEmpty &&
+        purchaseDetails.status == PurchaseStatus.purchased) {
       return Future<bool>.value(true);
-    }else{
+    } else {
       return Future<bool>.value(false);
     }
-
   }
 
   void _handleInvalidPurchase(PurchaseDetails purchaseDetails) {
     // handle invalid purchase here if  _verifyPurchase` failed.
-    print("inAppPurchase purchaseDetails error ${purchaseDetails.error}");
+    print(
+        "inAppPurchase purchaseResponse error ${purchaseDetails.error.message} -- ${purchaseDetails.error.code} -- ${purchaseDetails.error.details}");
   }
 
   void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
@@ -341,11 +396,12 @@ class _SplashState extends State<Splash> {
         print("inAppPurchase purchaseDetails.status ${purchaseDetails.status}");
       } else {
         if (purchaseDetails.status == PurchaseStatus.error) {
-          print("inAppPurchase purchaseDetails.status ${purchaseDetails.status}");
+          print(
+              "inAppPurchase purchaseDetails.status ${purchaseDetails.status}");
           handleError(purchaseDetails.error);
-        }
-        else if (purchaseDetails.status == PurchaseStatus.purchased) {
-          print("inAppPurchase purchaseDetails.status ${purchaseDetails.status}");
+        } else if (purchaseDetails.status == PurchaseStatus.purchased) {
+          print(
+              "inAppPurchase purchaseDetails.status ${purchaseDetails.status}");
           bool valid = await _verifyPurchase(purchaseDetails);
           if (valid) {
             deliverProduct(purchaseDetails);
@@ -355,9 +411,78 @@ class _SplashState extends State<Splash> {
           }
         }
         if (purchaseDetails.pendingCompletePurchase) {
-          await InAppPurchaseConnection.instance.completePurchase(purchaseDetails);
+          await InAppPurchaseConnection.instance
+              .completePurchase(purchaseDetails);
         }
       }
     });
+  }
+
+  subscriptionStatus() async {
+    if (Platform.isIOS) {
+      final QueryPurchaseDetailsResponse purchaseResponse =
+          await _connection.queryPastPurchases();
+      if (purchaseResponse.error != null) {
+        print(
+            "inAppPurchase purchaseResponse error ${purchaseResponse.error.message} -- ${purchaseResponse.error.code} -- ${purchaseResponse.error.details}");
+      }
+
+      var history = purchaseResponse.pastPurchases;
+      final List<PurchaseDetails> verifiedPurchases = [];
+
+      for (var purchase in history) {
+        Duration difference = DateTime.now().difference(
+            DateTime.fromMillisecondsSinceEpoch(
+                int.parse(purchase.transactionDate)));
+        if (difference.inMinutes <= (Duration(days: 30)).inMinutes &&
+            purchase.status == PurchaseStatus.purchased) {
+          print("--------");
+          print("inAppPurchase purchaseDetails ${difference.inMinutes}");
+          print("inAppPurchase purchaseDetails ${purchase.productID}");
+          verifiedPurchases.add(purchase);
+        }
+      }
+      _purchases = verifiedPurchases;
+      if (_purchases.isNotEmpty) {
+        appState.subscriptionName = _purchases[0].productID;
+        appState.subscriptionDate = DateTime.fromMillisecondsSinceEpoch(
+            int.parse(_purchases[0].transactionDate));
+        appState.userDetailsModel.meta.subscriptionDate =
+            appState.subscriptionDate;
+        appState.userDetailsModel.meta.subscriptionName =
+            appState.subscriptionName;
+
+        print(appState.userDetailsModel.meta.toJson());
+        await sharedPreferences.setString(Preferences.metaData,
+            jsonEncode(appState.userDetailsModel.toJson()));
+      }
+    } else if (Platform.isAndroid) {
+      final QueryPurchaseDetailsResponse purchaseResponse =
+          await _connection.queryPastPurchases();
+      if (purchaseResponse.error != null) {
+        print(
+            "inAppPurchase purchaseResponse error ${purchaseResponse.error.message} -- ${purchaseResponse.error.code} -- ${purchaseResponse.error.details}");
+      }
+      final List<PurchaseDetails> verifiedPurchases = [];
+      for (PurchaseDetails purchase in purchaseResponse.pastPurchases) {
+        if (await _verifyPurchase(purchase)) {
+          verifiedPurchases.add(purchase);
+        }
+      }
+      _purchases = verifiedPurchases;
+      if (_purchases.isNotEmpty) {
+        appState.subscriptionName = _purchases[0].productID;
+        appState.subscriptionDate = DateTime.fromMillisecondsSinceEpoch(
+            int.parse(_purchases[0].transactionDate));
+        appState.userDetailsModel.meta.subscriptionDate =
+            appState.subscriptionDate;
+        appState.userDetailsModel.meta.subscriptionName =
+            appState.subscriptionName;
+
+        print(appState.userDetailsModel.meta.toJson());
+        await sharedPreferences.setString(Preferences.metaData,
+            jsonEncode(appState.userDetailsModel.toJson()));
+      }
+    }
   }
 }

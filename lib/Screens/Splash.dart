@@ -84,6 +84,7 @@ class _SplashState extends State<Splash> {
         appState.jobTitle = userDetailsModel.meta.jobTitle;
         appState.about = userDetailsModel.meta.about;
         appState.id = userDetailsModel.id;
+        // appState.id = int.parse(userDetailsModel.id);
 
         print(userDetailsModel.meta.toFirstJson());
         if (sharedPreferences.containsKey(Preferences.mediaData)) {

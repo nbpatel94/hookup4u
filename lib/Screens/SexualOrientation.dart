@@ -95,7 +95,14 @@ class _SexualOrientationState extends State<SexualOrientation> {
                       color: ColorRes.textColor,
                       fontWeight: FontWeight.bold),
                 ))),
-            onTap: () async {
+            onTap: ()  async {
+
+          /*    Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ListHolderPage()),
+                      (Route<dynamic> route) => false);*/
+
               if (widget.generated) {
                 if(!isRelation){
                   if (selectedRelationship.isNotEmpty) {
@@ -168,6 +175,7 @@ class _SexualOrientationState extends State<SexualOrientation> {
                   } else if (DateTime.now().year - currentYear < 16) {
                     snackbar('Must require 16+');
                   } else {
+                    print("11");
                     setState(() {
                       isLoading = true;
                     });

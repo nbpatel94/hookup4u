@@ -38,6 +38,11 @@ dependencies:
   in_app_purchase: ^0.3.4+16
   firebase_messaging: ^7.0.3
   firebase_core: ^0.5.0+1
+#  file_picker: ^2.1.4
+  multi_image_picker: ^4.7.14
+#  file_picker: ^2.1.4
+  fluttertoast: ^7.1.6
+  dio: ^3.0.8
 
 
   # The following adds the Cupertino Icons font to your application.

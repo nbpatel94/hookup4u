@@ -7,6 +7,7 @@ import 'package:hookup4u/Screens/Profile/EditProfile.dart';
 import 'package:hookup4u/Screens/Profile/settings.dart';
 import 'package:hookup4u/Screens/cardpage/card_pictures.dart';
 import 'package:hookup4u/Screens/match/my_matches.dart';
+import 'package:hookup4u/Screens/screen_social/main_screen.dart';
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/util/color.dart';
 
@@ -164,6 +165,30 @@ class ListHolderPageState extends State<ListHolderPage> {
                                   fontWeight: FontWeight.w500),
                             ),
                           ),
+
+                          ListTile(
+                            onTap: () {
+                              Navigator.pop(context);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SocialMainPage()));
+                            },
+                            leading: Icon(
+                              Icons.home,
+                              color: ColorRes.textColor,
+                              size: 25,
+                            ),
+                            title: Text(
+                              'Social Home',
+                              style: TextStyle(
+                                  color: ColorRes.textColor,
+                                  fontSize: 18,
+                                  fontFamily: 'NeueFrutigerWorld',
+                                  fontWeight: FontWeight.w500),
+                            ),
+                          ),
+
                         ],
                       ),
                     )

@@ -12,4 +12,12 @@ class ColorRes{
   static Color superLike = Color(0xff1AACD9);
   static Color platinum = Color(0xffE5E4E2);
   static Color plus = Color(0xff00a86b);
+
+  //social login
+  static Color primaryBgColor           =     Color(0xFF242A37);
+  static Color primaryRed               =     Color(0xFFD51635);
+  static Color black                    =     Color(0xFF000000);
+  static Color greyBg                   =     Color(0xff485164);
+
+
 }

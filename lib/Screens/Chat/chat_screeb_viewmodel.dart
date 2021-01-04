@@ -31,6 +31,8 @@ class ChatScreenViewModel{
        await Future.delayed(Duration(seconds: 1));
 
         messageElement.messages = messageElement.messages.reversed.toList();
+        if (!state.mounted) return;
+
         state.setState(() {
           state.isLoading = false;
         });
@@ -44,6 +46,7 @@ class ChatScreenViewModel{
         }
 
         messageElement.messages = messageElement.messages.reversed.toList();
+        if (!state.mounted) return;
         state.setState(() {});
 
       }else{
@@ -62,6 +65,7 @@ class ChatScreenViewModel{
         });
       }
     }else{
+      if (!state.mounted) return;
       state.setState(() {
         state.isLoading = false;
       });
@@ -71,6 +75,7 @@ class ChatScreenViewModel{
   sendMessage(String message) async {
     ThreadModel temp = ThreadModel(senderId: appState.id,message: MessageMessage(raw: message),dateSent: DateTime.now());
     if(state.widget.threadId!=null){
+      if (!state.mounted) return;
       state.setState(() {
         messageElement.messages.insert(0,temp);
       });
@@ -79,6 +84,7 @@ class ChatScreenViewModel{
       print("Sending Message");
       await RestApi.sendThreadMessage(state.widget.userId, message,state.widget.threadId);
     }else{
+      if (!state.mounted) return;
       state.setState(() {
         messageElement = MessageElement();
         messageElement.messages = List();

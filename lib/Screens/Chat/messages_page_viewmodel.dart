@@ -27,6 +27,7 @@ class MessagesPageViewModel{
     matchList = tempList;
     print(matchList.length);
 
+    if (!state.mounted) return;
     state.setState(() {
       state.isLoading = false;
     });

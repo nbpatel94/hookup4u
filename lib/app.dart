@@ -28,6 +28,8 @@ class App{
 
   //social media app
   static const String wallPost = 'wallpost';
+  static const String myWallPost = 'mywallpost';
+  static const String wallComment = 'wallpost/comment';
 }
 
 SharedPreferences sharedPreferences;

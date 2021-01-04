@@ -106,7 +106,8 @@ class ParentPost {
     media = json['media'].cast<String>();
     visibility = json['visibility'];
     // parentPost = json['parent_post'];
-    parentPost = json['parent_post'] != null && json['parent_post'].length != 0
+
+    parentPost = json['parent_post'] != null && json['parent_post'].length != 0 && json['parent_post'] is Map
         ? new ParentPost.fromJson(json['parent_post'])
         : null;
     userName = json['user_name'];

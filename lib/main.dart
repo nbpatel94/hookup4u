@@ -45,6 +45,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         primaryColor: ColorRes.primaryColor,
+        // textTheme: Theme.of(context).textTheme.copyWith(
+        //     body1: Theme.of(context).textTheme.body1.apply(color: Colors.white),
+        //     // body2: Theme.of(context).textTheme.body2.apply(color: Colors.white),
+        //     // display1: Theme.of(context).textTheme.display1.apply(color: Colors.white),
+        //     // display2: Theme.of(context).textTheme.display2.apply(color: Colors.white),
+        //     // ... // and so on
+        // ),
       ),
       home: Splash(),
       debugShowCheckedModeBanner: false,

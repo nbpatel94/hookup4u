@@ -43,6 +43,7 @@ dependencies:
 #  file_picker: ^2.1.4
   fluttertoast: ^7.1.6
   dio: ^3.0.8
+  emojis: ^0.9.3
 
 
   # The following adds the Cupertino Icons font to your application.

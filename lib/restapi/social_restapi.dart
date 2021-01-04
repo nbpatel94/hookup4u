@@ -148,7 +148,6 @@ class SocialRestApi {
 
 
 
-
   static Future<Response> deletePostData(String userId) async {
 
     String url = App.baseUrlSA + App.wallPost + "/$userId";
@@ -180,4 +179,98 @@ class SocialRestApi {
     }
   }
 
+
+  static Future<Response> showMyPostData() async {
+
+    String url = App.baseUrlSA + App.myWallPost;
+    var headerData = {
+      "Authorization": "Bearer ${appState.accessToken}",
+    };
+    print(url + headerData.toString());
+    try {
+      Response response = await http.get(url, headers: headerData);
+      print(response.statusCode);
+      EasyLoading.dismiss();
+      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
+        print(response);
+        return response;
+      } else {
+        print(response.body);
+        var jsonData = jsonDecode(response.body);
+        Utils().showToast(jsonData['message']);
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      EasyLoading.dismiss();
+      Utils().showToast(e);
+      return null;
+    }
+  }
+
+
+  //comment post
+  static Future<Response> commentPostData(Map<String, dynamic> postData) async {
+
+    String url = App.baseUrlSA + App.wallComment;
+
+    var headerData = {
+      "Authorization": "Bearer ${appState.accessToken}",
+      "Content-Type":"application/json"
+    };
+
+    print(url + headerData.toString() + postData.toString());
+    try {
+      Response response = await http.post(url, headers: headerData, body: jsonEncode(postData));
+      print(response.statusCode);
+      EasyLoading.dismiss();
+      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
+        print(response.body);
+        return response;
+      } else {
+        print(response.body);
+        var jsonData = jsonDecode(response.body);
+        Utils().showToast(jsonData['message']);
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      EasyLoading.dismiss();
+      Utils().showToast(e);
+      return null;
+    }
+  }
+
+  //get comment list
+
+  static Future<Response> getCommentList(String id) async {
+
+    String url = App.baseUrlSA + App.wallComment + "?post_id=" + id;
+
+    var headerData = {
+      "Authorization": "Bearer ${appState.accessToken}",
+      "Content-Type":"application/json"
+    };
+
+    print(url + headerData.toString() + id.toString());
+    try {
+      Response response = await http.get(url, headers: headerData);
+      print(response.statusCode);
+      EasyLoading.dismiss();
+      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
+        print(response.body);
+        return response;
+      } else {
+        print(response.body);
+        var jsonData = jsonDecode(response.body);
+        Utils().showToast(jsonData['message']);
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      EasyLoading.dismiss();
+      Utils().showToast(e);
+      return null;
+    }
+  }
 }

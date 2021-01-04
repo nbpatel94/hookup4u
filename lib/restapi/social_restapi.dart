@@ -34,9 +34,11 @@ class SocialRestApi {
       Response response = await http.post(url,headers: headerData, body: file.readAsBytesSync());
       print(response.statusCode);
       EasyLoading.dismiss();
-      if (response.statusCode == 200 || response.statusCode == 201) {
+      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
         print(response.body);
         return mediaModelFromJson(response.body);
+      } else if(response.statusCode == 500) {
+        Utils().showToast("Inernal server error");
       } else {
         print(response.body);
         Utils().showToast("Some Thing wrong");
@@ -66,7 +68,8 @@ class SocialRestApi {
     try {
       Response response = await http.post(url, headers: headerData, body: jsonEncode(postData));
       print(response.statusCode);
-      if (response.statusCode == 200 || response.statusCode == 201) {
+      EasyLoading.dismiss();
+      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
         print(response.body);
         return mediaModelFromJson(response.body);
       } else {
@@ -77,13 +80,42 @@ class SocialRestApi {
       }
     } catch (e) {
       print(e);
+      EasyLoading.dismiss();
       Utils().showToast(e);
       return null;
     }
-
-
   }
 
+
+  static Future<Response> editPostData(Map<String, dynamic> postData, String postId) async {
+
+    String url = App.baseUrlSA + App.wallPost + "/$postId";
+
+    var headerData = {
+      "Authorization": "Bearer ${appState.accessToken}",
+      "Content-Type":"application/json"
+    };
+    print(url + headerData.toString() + postData.toString());
+    try {
+      Response response = await http.post(url, headers: headerData, body: jsonEncode(postData));
+      print(response.statusCode);
+      EasyLoading.dismiss();
+      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
+        print(response.body);
+        return response;
+      } else {
+        print(response.body);
+        var jsonData = jsonDecode(response.body);
+        Utils().showToast(jsonData['message']);
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      EasyLoading.dismiss();
+      Utils().showToast(e);
+      return null;
+    }
+  }
 
   static Future<Response> showPostData() async {
 
@@ -96,7 +128,8 @@ class SocialRestApi {
     try {
       Response response = await http.get(url, headers: headerData);
       print(response.statusCode);
-      if (response.statusCode == 200 || response.statusCode == 201) {
+      EasyLoading.dismiss();
+      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
         print(response);
         return response;
       } else {
@@ -107,6 +140,7 @@ class SocialRestApi {
       }
     } catch (e) {
       print(e);
+      EasyLoading.dismiss();
       Utils().showToast(e);
       return null;
     }
@@ -128,19 +162,20 @@ class SocialRestApi {
     try {
       Response response = await http.delete(url, headers: headerData);
       print(response.statusCode);
-      if (response.statusCode == 200 || response.statusCode == 201) {
+      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
+        EasyLoading.dismiss();
         print(response.body);
         // SocialPostShowModel socialPostShowModel = SocialPostShowModel.fromJson(jsonDecode(response.body));
-
         return response;
       } else {
         print(response.body);
         var jsonData = jsonDecode(response.body);
         Utils().showToast(jsonData['message']);
-        return null;
+        return response;
       }
     } catch (e) {
       print(e);
+      EasyLoading.dismiss();
       return null;
     }
   }

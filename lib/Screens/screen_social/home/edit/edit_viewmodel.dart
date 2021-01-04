@@ -1,28 +1,27 @@
+import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:hookup4u/Screens/screen_social/home/post_data/post_data_screen.dart';
+import 'package:hookup4u/Screens/screen_social/home/edit/edit_screen.dart';
 import 'package:hookup4u/restapi/social_restapi.dart';
 import 'package:hookup4u/util/utils.dart';
-import 'package:multi_image_picker/multi_image_picker.dart';
 
-class PostDataViewModel {
+class EditDataViewModel {
 
   List<String> imagesList = List();
 
-  PostDataScreenState state;
-  PostDataViewModel(this.state) {
-      // imagesList.add("https://door.iheartmuslims.com/wp-content/uploads/2021/01/user_image-14-scaled.jpg");
+
+  EditDataScreenState state;
+  EditDataViewModel(this.state) {
+    // imagesList.add("https://door.iheartmuslims.com/wp-content/uploads/2021/01/user_image-14-scaled.jpg");
   }
 
   Future<Void> imageUpload(File image) async {
 
     EasyLoading.show();
+    FocusScope.of(state.context).requestFocus(new FocusNode());
     SocialRestApi.uploadSocialMediaImage(image).then((value) {
       if(value != null) {
         imagesList.add(value.sourceUrl.toString());
@@ -35,7 +34,7 @@ class PostDataViewModel {
 
   }
 
- /* Future<Void> imageUpload(List<int> imageData, String name) async {
+  /* Future<Void> imageUpload(List<int> imageData, String name) async {
 
     // EasyLoading.show();
 
@@ -50,24 +49,32 @@ class PostDataViewModel {
 
   }*/
 
-  addPostApi(String postId) {
+  editPostApi(String postId) {
 
-  EasyLoading.show();
-
-  String imageJoint = imagesList.join(",");
-    print(postId);
+    EasyLoading.show();
+    String imageJoint = imagesList.join(",");
+    print(imageJoint);
     Map<String, dynamic> postData = {
       "content": state.containController.text,
       "media": imageJoint.toString(),
       "visibility": state.dropdownValue,
-      "parent_post": postId
+      "parent_post": ""
     };
 
     print(postData);
 
-    SocialRestApi.uploadPostData(postData).then((value) {
+    SocialRestApi.editPostData(postData, postId).then((value) {
       print(value);
-      Navigator.pop(state.context, true);
+      Map<String, dynamic> message = jsonDecode(value.body);
+      if(message['code'] == 200 && message['status'] == "success") {
+        Utils().showToast(message['message']);
+        Navigator.pop(state.context, true);
+      } else if(message['status'] == "error"){
+        Utils().showToast(message['message']);
+      } else {
+        Utils().showToast("something wrong");
+      }
+
     });
 
   }

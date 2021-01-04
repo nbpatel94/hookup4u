@@ -56,7 +56,7 @@ class SocialPostShowData {
     content = json['content'];
     media = json['media'].cast<String>();
     visibility = json['visibility'];
-    parentPost = json['parent_post'] != null
+    parentPost = json['parent_post'] != null && json['parent_post'].length != 0
         ? new ParentPost.fromJson(json['parent_post'])
         : null;
     userName = json['user_name'];
@@ -83,7 +83,7 @@ class ParentPost {
   String id;
   String userId;
   String content;
-  String media;
+  List<String> media;
   String visibility;
   ParentPost parentPost;
   String userName;
@@ -103,10 +103,10 @@ class ParentPost {
     id = json['id'];
     userId = json['user_id'];
     content = json['content'];
-    media = json['media'];
+    media = json['media'].cast<String>();
     visibility = json['visibility'];
     // parentPost = json['parent_post'];
-    parentPost = json['parent_post'] != null
+    parentPost = json['parent_post'] != null && json['parent_post'].length != 0
         ? new ParentPost.fromJson(json['parent_post'])
         : null;
     userName = json['user_name'];

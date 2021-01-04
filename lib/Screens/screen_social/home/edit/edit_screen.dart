@@ -3,51 +3,76 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hookup4u/Screens/screen_social/home/post_data/post_data_viewmodel.dart';
-import 'package:hookup4u/restapi/social_restapi.dart';
+import 'package:hookup4u/Screens/screen_social/home/edit/edit_viewmodel.dart';
+import 'package:hookup4u/models/socialPostShowModel.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
-class PostDataScreen extends StatefulWidget {
+class EditDataScreen extends StatefulWidget {
 
-  final bool isShare;
-  final String postId;
-
-  const PostDataScreen({Key key, this.isShare, this.postId}) : super(key: key);
+  final SocialPostShowData socialPostShowData;
+  const EditDataScreen({Key key, this.socialPostShowData}) : super(key: key);
 
   @override
-  PostDataScreenState createState() => PostDataScreenState();
+  EditDataScreenState createState() => EditDataScreenState();
 }
 
-class PostDataScreenState extends State<PostDataScreen> {
+class EditDataScreenState extends State<EditDataScreen> {
 
   File image;
-  PostDataViewModel model;
-
+  EditDataViewModel model;
   String dropdownValue = 'Public';
-
   List<Asset> images = List<Asset>();
-
   TextEditingController containController = TextEditingController();
+  String imageShow = "";
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
+    if(widget.socialPostShowData.content != null) {
+      containController.text = widget.socialPostShowData.content;
+    }
+
+    print(widget.socialPostShowData.media.length);
+    Future.delayed(const Duration(seconds: 1), () {
+      if(widget.socialPostShowData.media != null && widget.socialPostShowData.media.isNotEmpty) {
+        setState(() {
+          model.imagesList.addAll(widget.socialPostShowData.media);
+        });
+      }
+
+      if(widget.socialPostShowData.visibility != null) {
+        dropdownValue = widget.socialPostShowData.visibility;
+        print("hello  $dropdownValue");
+      }
+
+    });
+
+
+
+
+
+
+    print(dropdownValue);
+
+    setState(() {});
+
   }
 
   @override
   Widget build(BuildContext context) {
-    model ?? (model = PostDataViewModel(this));
+    model ?? (model = EditDataViewModel(this));
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.isShare ? "Share post" : "Post upload"),
+          title: Text("Edit upload"),
           actions: [
             IconButton(
                 icon: Icon(Icons.post_add, color: Colors.white), onPressed: () {
               print("tap");
-              model.addPostApi(widget.postId);
+              model.editPostApi(widget.socialPostShowData.id);
             })
           ],
         ),
@@ -56,20 +81,16 @@ class PostDataScreenState extends State<PostDataScreen> {
             children: [
 
               containData(),
+
               visibility(),
-              widget.isShare ? Container() : InkResponse(
+
+              InkResponse(
                 onTap: () {
                   source(context);
                 },
                 child: Container(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width,
-                    height: MediaQuery
-                        .of(context)
-                        .size
-                        .height / 2,
+                    width: MediaQuery.of(context).size.width / 2,
+                    height: MediaQuery.of(context).size.height / 4,
                     margin: EdgeInsets.all(10),
                     padding: EdgeInsets.only(top: 10, bottom: 10),
                     decoration: BoxDecoration(
@@ -84,67 +105,63 @@ class PostDataScreenState extends State<PostDataScreen> {
                     //   height: 300,
                     // )
 
-                  Image(image: AssetImage(image.path))
+                    Image(image: AssetImage(image.path))
                 ),
               ),
 
-              selectedImageShow()
+              Container(
+                height: 150,
+                width: MediaQuery.of(context).size.width,
+                child: ListView.builder(
+                    itemCount: model.imagesList != null && model.imagesList.isNotEmpty ?  model.imagesList.length: 0,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (context, index) {
+                  return Stack(
+                    children: [
+                      Container(
+                        height: 100,
+                        width: 100,
+                        margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+                        decoration: BoxDecoration(
+                            color: Colors.black38,
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                        child: model.imagesList != null && model.imagesList.isNotEmpty
+                            ? CachedNetworkImage(
+                            imageUrl: model.imagesList != null && model.imagesList.isNotEmpty ?  model.imagesList[index] : 0,
+                            placeholder: (context, url) => Image.asset(
+                                'asset/Icon/placeholder.png',
+                                height: 120,
+                                width: 120,
+                                fit: BoxFit.cover),
+                            height: 120,
+                            width: 120,
+                            fit: BoxFit.cover)
+                            : Image.asset(
+                            'asset/Icon/placeholder.png',
+                            height: 120,
+                            width: 120,
+                            fit: BoxFit.cover
+                        ),
+                      ),
+
+
+                      Positioned(
+                          right: 0,
+                          child: IconButton(icon: Icon(Icons.close, color: Colors.black, size: 30), onPressed: () {
+                            model.imagesList.removeAt(index);
+                            setState(() {});
+                          })
+                      ),
+                    ],
+                  );
+                }),
+              )
 
             ],
           ),
         ),
       ),
-    );
-  }
-
-  selectedImageShow() {
-    return Container(
-      height: 150,
-      width: MediaQuery.of(context).size.width,
-      child: ListView.builder(
-          itemCount: model.imagesList != null && model.imagesList.isNotEmpty ?  model.imagesList.length: 0,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) {
-            return Stack(
-              children: [
-                Container(
-                  height: 100,
-                  width: 100,
-                  margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
-                  decoration: BoxDecoration(
-                      color: Colors.black38,
-                      borderRadius: BorderRadius.circular(10)
-                  ),
-                  child: model.imagesList != null && model.imagesList.isNotEmpty
-                      ? CachedNetworkImage(
-                      imageUrl: model.imagesList != null && model.imagesList.isNotEmpty ?  model.imagesList[index] : 0,
-                      placeholder: (context, url) => Image.asset(
-                          'asset/Icon/placeholder.png',
-                          height: 120,
-                          width: 120,
-                          fit: BoxFit.cover),
-                      height: 120,
-                      width: 120,
-                      fit: BoxFit.cover)
-                      : Image.asset(
-                      'asset/Icon/placeholder.png',
-                      height: 120,
-                      width: 120,
-                      fit: BoxFit.cover
-                  ),
-                ),
-
-
-                Positioned(
-                    right: 0,
-                    child: IconButton(icon: Icon(Icons.close, color: Colors.black, size: 30), onPressed: () {
-                      model.imagesList.removeAt(index);
-                      setState(() {});
-                    })
-                ),
-              ],
-            );
-          }),
     );
   }
 
@@ -288,7 +305,7 @@ class PostDataScreenState extends State<PostDataScreen> {
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
         margin: EdgeInsets.all(5),
         decoration:
-            BoxDecoration(border: Border.all(width: 1, color: Colors.black12)),
+        BoxDecoration(border: Border.all(width: 1, color: Colors.black12)),
         child: TextField(
           maxLines: 13,
           controller: containController,
@@ -301,7 +318,7 @@ class PostDataScreenState extends State<PostDataScreen> {
               errorBorder: InputBorder.none,
               disabledBorder: InputBorder.none,
               contentPadding:
-                  EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+              EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
               hintText: "Hint here"),
         ));
   }
@@ -340,7 +357,7 @@ class PostDataScreenState extends State<PostDataScreen> {
   }
 
 
-  /*void getFileList() async {
+/*void getFileList() async {
     listFile.clear();
     for (int i = 0; i < images.length; i++) {
       var path = await images[i].filePath;

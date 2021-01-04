@@ -25,6 +25,9 @@ class App{
   static const String reset_password = 'reset-password';
   static const String validate_code = 'validate-code';
   static const String notifications = 'notifications';
+
+  //social media app
+  static const String wallPost = 'wallpost';
 }
 
 SharedPreferences sharedPreferences;

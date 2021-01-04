@@ -76,7 +76,7 @@ class ListHolderPageState extends State<ListHolderPage> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 70,),
+                    SizedBox(height: 30), //70
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 12),
                       child: Column(
@@ -84,10 +84,7 @@ class ListHolderPageState extends State<ListHolderPage> {
                           ListTile(
                             onTap: () {
                               Navigator.pop(context);
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => MessagesScreen()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => MessagesScreen()));
                             },
                             leading: Icon(
                               Icons.message,
@@ -169,10 +166,7 @@ class ListHolderPageState extends State<ListHolderPage> {
                           ListTile(
                             onTap: () {
                               Navigator.pop(context);
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SocialMainPage()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => SocialMainPage()));
                             },
                             leading: Icon(
                               Icons.home,

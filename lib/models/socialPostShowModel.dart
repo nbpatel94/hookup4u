@@ -39,6 +39,7 @@ class SocialPostShowData {
   ParentPost parentPost;
   String userName;
   String thumb;
+  String postDate;
 
   SocialPostShowData(
       {this.id,
@@ -48,7 +49,9 @@ class SocialPostShowData {
         this.visibility,
         this.parentPost,
         this.userName,
-        this.thumb});
+        this.thumb,
+        this.postDate
+      });
 
   SocialPostShowData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -61,6 +64,7 @@ class SocialPostShowData {
         : null;
     userName = json['user_name'];
     thumb = json['thumb'];
+    postDate = json['post_date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -75,6 +79,7 @@ class SocialPostShowData {
     }
     data['user_name'] = this.userName;
     data['thumb'] = this.thumb;
+    data['post_date'] = this.postDate;
     return data;
   }
 }
@@ -88,6 +93,7 @@ class ParentPost {
   ParentPost parentPost;
   String userName;
   String thumb;
+  String postDate;
 
   ParentPost(
       {this.id,
@@ -97,7 +103,9 @@ class ParentPost {
         this.visibility,
         this.parentPost,
         this.userName,
-        this.thumb});
+        this.thumb,
+        this.postDate
+      });
 
   ParentPost.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -106,12 +114,12 @@ class ParentPost {
     media = json['media'].cast<String>();
     visibility = json['visibility'];
     // parentPost = json['parent_post'];
-
     parentPost = json['parent_post'] != null && json['parent_post'].length != 0 && json['parent_post'] is Map
         ? new ParentPost.fromJson(json['parent_post'])
         : null;
     userName = json['user_name'];
     thumb = json['thumb'];
+    postDate = json['post_date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -127,6 +135,7 @@ class ParentPost {
     }
     data['user_name'] = this.userName;
     data['thumb'] = this.thumb;
+    data['post_date'] = this.postDate;
     return data;
   }
 }

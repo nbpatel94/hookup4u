@@ -2,18 +2,18 @@ class GetPostDataModel {
   int code;
   String message;
   String status;
-  List<CommentData> commentData;
+  List<CommentData> data;
 
-  GetPostDataModel({this.code, this.message, this.status, this.commentData});
+  GetPostDataModel({this.code, this.message, this.status, this.data});
 
   GetPostDataModel.fromJson(Map<String, dynamic> json) {
     code = json['code'];
     message = json['message'];
     status = json['status'];
-    if (json['postData'] != null) {
-      commentData = new List<CommentData>();
-      json['postData'].forEach((v) {
-        commentData.add(new CommentData.fromJson(v));
+    if (json['data'] != null) {
+      data = new List<CommentData>();
+      json['data'].forEach((v) {
+        data.add(new CommentData.fromJson(v));
       });
     }
   }
@@ -23,8 +23,8 @@ class GetPostDataModel {
     data['code'] = this.code;
     data['message'] = this.message;
     data['status'] = this.status;
-    if (this.commentData != null) {
-      data['postData'] = this.commentData.map((v) => v.toJson()).toList();
+    if (this.data != null) {
+      data['postData'] = this.data.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -38,6 +38,7 @@ class CommentData {
   String parentId;
   String commentDate;
   String userName;
+  String thumb;
   List<ChildComment> childComment;
 
   CommentData(
@@ -48,6 +49,7 @@ class CommentData {
         this.parentId,
         this.commentDate,
         this.userName,
+        this.thumb,
         this.childComment});
 
   CommentData.fromJson(Map<String, dynamic> json) {
@@ -58,6 +60,7 @@ class CommentData {
     parentId = json['parent_id'];
     commentDate = json['comment_date'];
     userName = json['user_name'];
+    thumb = json['thumb'];
     if (json['child_comment'] != null) {
       childComment = new List<ChildComment>();
       json['child_comment'].forEach((v) {
@@ -75,6 +78,7 @@ class CommentData {
     data['parent_id'] = this.parentId;
     data['comment_date'] = this.commentDate;
     data['user_name'] = this.userName;
+    data['thumb'] = this.thumb;
     if (this.childComment != null) {
       data['child_comment'] = this.childComment.map((v) => v.toJson()).toList();
     }
@@ -89,6 +93,7 @@ class ChildComment {
   String commentContent;
   String parentId;
   String commentDate;
+  String thumb;
 
   ChildComment(
       {this.commentId,
@@ -96,6 +101,7 @@ class ChildComment {
         this.postId,
         this.commentContent,
         this.parentId,
+        this.thumb,
         this.commentDate});
 
   ChildComment.fromJson(Map<String, dynamic> json) {
@@ -105,6 +111,7 @@ class ChildComment {
     commentContent = json['comment_content'];
     parentId = json['parent_id'];
     commentDate = json['comment_date'];
+    thumb = json['thumb'];
   }
 
   Map<String, dynamic> toJson() {
@@ -115,6 +122,7 @@ class ChildComment {
     data['comment_content'] = this.commentContent;
     data['parent_id'] = this.parentId;
     data['comment_date'] = this.commentDate;
+    data['thumb'] = this.thumb;
     return data;
   }
 }

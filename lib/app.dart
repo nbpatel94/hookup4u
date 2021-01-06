@@ -30,6 +30,7 @@ class App{
   static const String wallPost = 'wallpost';
   static const String myWallPost = 'mywallpost';
   static const String wallComment = 'wallpost/comment';
+  static const String wallLike = 'wallpost/like';
 }
 
 SharedPreferences sharedPreferences;

@@ -2,7 +2,9 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hookup4u/Screens/screen_social/home/comment_view/comment_screen.dart';
+import 'package:hookup4u/Screens/screen_social/home/like_show/like_show_screen.dart';
 import 'package:hookup4u/Screens/screen_social/home/tab1/post_data/post_data_screen.dart';
+import 'package:hookup4u/models/socialPostShowModel.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:hookup4u/util/utils.dart';
 import 'package:intl/intl.dart';
@@ -26,6 +28,7 @@ class SocialHomePageState extends State<SocialHomePage> {
   var refreshKey = GlobalKey<RefreshIndicatorState>();
   TextEditingController commentController = TextEditingController(text: "");
 
+  List<String> emojis = ["👍","❤️","😘","🤣","😡","😥"];
 
   @override
   void initState() {
@@ -43,9 +46,9 @@ class SocialHomePageState extends State<SocialHomePage> {
     refreshKey.currentState?.show(atTop: false);
     await Future.delayed(Duration(seconds: 2));
 
-    setState(() {
-      // model.showCommentApi();
-    });
+    // setState(() {
+    //   // model.showCommentApi();
+    // });
     return null;
   }
 
@@ -166,32 +169,20 @@ class SocialHomePageState extends State<SocialHomePage> {
         shrinkWrap: true,
         physics: NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
-      return showView(index);
+      return showView(index, model.socialPostShowList[index]);
     });
   }
 
-  showView(int index) {
+  showView(int index, SocialPostShowData socialPostShowList) {
     if(model.socialPostShowList[index].parentPost != null) {
-      return sharingViewShow(index);
+      return sharingViewShow(index, socialPostShowList);
     } else {
-      return postView(index);
+      return postView(index, socialPostShowList);
     }
   }
 
 
-  likeCommentShare(String title, int index, String postId) {
-   /* return InkResponse(
-      onTap: () async {
-        if (index == 1) {
-          setState(() {
-            postIdStr = postId;
-          });
-        } else if(index == 2) {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => CommentScreen(postId: postId)));
-        }
-      },
-      child: Text(title, style: TextStyle(color: ColorRes.black)),
-    );*/
+  likeComment(int index, SocialPostShowData socialPostShowList) {
     return Container(
       height: 50,
       child: Row(
@@ -199,22 +190,47 @@ class SocialHomePageState extends State<SocialHomePage> {
         children: [
          Row(
            children: [
-             SizedBox(width: 3),
-             Icon(Icons.favorite, color: Colors.white),
-             SizedBox(width: 3),
-             Text("1125", style: TextStyle(color: Colors.white)),
-             SizedBox(width: 10),
-             InkResponse(
-                 onTap: () {
-                   Navigator.push(context, MaterialPageRoute(builder: (context) => CommentScreen(postId: postId)));
-                 },
-                 child: Icon(Icons.comment, color: Colors.white)),
              SizedBox(width: 10),
              InkWell(
                  onTap: () {
-                   Navigator.push(context, MaterialPageRoute(builder: (context) => CommentScreen(postId: postId)));
+                   model.addLikeApi(socialPostShowList.id, "#like");
                  },
-                 child: Text("348", style: TextStyle(color: Colors.white))),
+                 onLongPress: () {
+                   postIdStr = socialPostShowList.id;
+                   setState(() {});
+                 },
+                 child: Container(
+                     height: 40,
+                     alignment: Alignment.center,
+                     child: Icon(Icons.favorite, color: Colors.white))),
+             SizedBox(width: 10),
+             InkWell(
+                 onTap: () {
+                   Navigator.push(context, MaterialPageRoute(builder: (context) => LikeShowScreen(postId: socialPostShowList.id)));
+                 },
+                 child: Container(
+                     height: 40,
+                     alignment: Alignment.center,
+                     child: Text(socialPostShowList.likeCount.toString() ?? "0", style: TextStyle(color: Colors.white)))),
+             SizedBox(width: 20),
+             InkResponse(
+                 onTap: () {
+                   Navigator.push(context, MaterialPageRoute(builder: (context) => CommentScreen(postId: socialPostShowList.id)));
+                 },
+                 child: Container(
+                     height: 40,
+                     alignment: Alignment.center,
+                     child: Icon(Icons.comment, color: Colors.white))
+             ),
+             SizedBox(width: 10),
+             InkWell(
+                 onTap: () {
+                   Navigator.push(context, MaterialPageRoute(builder: (context) => CommentScreen(postId: socialPostShowList.id)));
+                 },
+                 child: Container(
+                     height: 40,
+                     alignment: Alignment.center,
+                     child: Text(socialPostShowList.commentCount.toString() ?? "0", style: TextStyle(color: Colors.white)))),
            ],
          ),
          Padding(
@@ -228,7 +244,7 @@ class SocialHomePageState extends State<SocialHomePage> {
     );
   }
 
-  postView(int index){
+  postView(int index, SocialPostShowData socialPostShowList){
 
     String currentTime = "";
     DateTime dateTIme = DateTime.parse(model.socialPostShowList[index].postDate);
@@ -255,11 +271,13 @@ class SocialHomePageState extends State<SocialHomePage> {
           width: MediaQuery.of(context).size.width,
           margin: EdgeInsets.all(10),
           decoration: BoxDecoration(
-              border: Border.all(color: Colors.black, width: 1),
-              borderRadius: BorderRadius.circular(5)
+              // border: Border.all(color: Colors.white, width: 1),
+              borderRadius: BorderRadius.circular(5),
+              color: ColorRes.primaryColor,
+              boxShadow: [BoxShadow(color: ColorRes.black, blurRadius: 5.0, offset: Offset(0, 0), spreadRadius: 0.1)]
           ),
           child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
+            // mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
@@ -284,7 +302,9 @@ class SocialHomePageState extends State<SocialHomePage> {
                   Text(model.socialPostShowList[index].content, style: TextStyle(color: ColorRes.white), textAlign: TextAlign.left ) : Container()),
 
               Container(
-                height: MediaQuery.of(context).size.height - 400,
+                height: model.socialPostShowList[index].media != null && model.socialPostShowList[index].media.isNotEmpty ?
+                MediaQuery.of(context).size.height - 400 : 0,
+                // height: double.infinity,
                 width: MediaQuery.of(context).size.width,
                 color: Colors.black,
                 child: PageView.builder(
@@ -306,37 +326,21 @@ class SocialHomePageState extends State<SocialHomePage> {
                           'asset/Icon/placeholder.png',
                           height: 120,
                           width: 120,
-                          fit: BoxFit.cover
-                      );
+                          fit: BoxFit.cover);
                     }),
               ),
 
-              /*Expanded(child: Image(
-                  height: MediaQuery.of(context).size.height - 150,
-                  width: MediaQuery.of(context).size.width,
-                  image: NetworkImage(model.socialPostShowList[index].media[0]))),*/
+              likeComment(1, socialPostShowList),
 
-              likeCommentShare("Like",1, model.socialPostShowList[index].id),
-
-
-              /* Container(height: 50, color: Colors.white,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    // likeCommentShare("Comment",2, model.socialPostShowList[index].id),
-                    // likeCommentShare("Share",3, model.socialPostShowList[index].id),
-                  ],
-                ),
-              )*/
             ],
           ),
         ),
-        likeEmojisView(index)
+        likeEmojisView(index, socialPostShowList)
       ],
     );
   }
 
-  sharingViewShow(int index) {
+  sharingViewShow(int index, SocialPostShowData socialPostShowList) {
 
     String currentTime = "";
     DateTime dateTIme = DateTime.parse(model.socialPostShowList[index].parentPost.postDate);
@@ -364,8 +368,10 @@ class SocialHomePageState extends State<SocialHomePage> {
           width: MediaQuery.of(context).size.width,
           margin: EdgeInsets.all(10),
           decoration: BoxDecoration(
-              border: Border.all(color: Colors.black, width: 1),
-              borderRadius: BorderRadius.circular(5)
+              // border: Border.all(color: Colors.white, width: 1),
+              borderRadius: BorderRadius.circular(5),
+              color: ColorRes.primaryColor,
+              boxShadow: [BoxShadow(color: ColorRes.black, blurRadius: 5.0, offset: Offset(0, 0), spreadRadius: 0.1)]
           ),
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.center,
@@ -438,7 +444,7 @@ class SocialHomePageState extends State<SocialHomePage> {
               ),
 
 
-              likeCommentShare("Like",1, model.socialPostShowList[index].id),
+              likeComment(1, socialPostShowList),
 
               /*Container(height: 50, color: Colors.white,
                 child: Row(
@@ -453,7 +459,7 @@ class SocialHomePageState extends State<SocialHomePage> {
           ),
         ),
 
-        likeEmojisView(index)
+        likeEmojisView(index, socialPostShowList)
 
       ],
     );
@@ -487,21 +493,56 @@ class SocialHomePageState extends State<SocialHomePage> {
   }
 
 
-  likeEmojisView(int index) {
+  likeEmojisView(int index, SocialPostShowData socialPostShowList) {
     return  Positioned(
         bottom: 40,
         child: postIdStr == model.socialPostShowList[index].id ?
         Container(
-            height: 50,
-            width: MediaQuery.of(context).size.width - 100,
-            margin: EdgeInsets.only(left: 10, right: 10, top: 0, bottom: 25),
+            height: 40,
+            width: MediaQuery.of(context).size.width - 150,
+            margin: EdgeInsets.only(left: 15, right: 10, top: 0, bottom: 25),
+            padding: EdgeInsets.only(left: 10, right: 10),
             alignment: Alignment.center,
             decoration: BoxDecoration (
                 color: Colors.white,
                 border: Border.all(color: Colors.black, width: 1),
                 borderRadius: BorderRadius.circular(50)
             ),
-            child: Text("hello")) : Container());
+            child: ListView.builder(
+                itemCount: emojis.length,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+
+                      postIdStr = "-1";
+
+                      if(index == 0) {
+                        model.addLikeApi(socialPostShowList.id, "#like");
+                      } else if(index == 1) {
+                        model.addLikeApi(socialPostShowList.id, "#love");
+                      } else if(index == 2) {
+                        model.addLikeApi(socialPostShowList.id, "#care");
+                      } else if(index == 3) {
+                        model.addLikeApi(socialPostShowList.id, "#haha");
+                      } else if(index == 4) {
+                        model.addLikeApi(socialPostShowList.id, "#angry");
+                      } else if(index == 5) {
+                        model.addLikeApi(socialPostShowList.id, "#sad");
+                      }
+                    },
+
+                    child: Container(
+                        height: 40,
+                        alignment: Alignment.centerLeft,
+                        child: Text(emojis[index].toString(), style: TextStyle(fontSize: 30))),
+                  );
+             /* return Image(
+                  height: 40,
+                  width: 40,
+                  image: AssetImage("asset/Icon/${emojis[index]}.png"))*/;
+            })
+        ) : Container());
   }
 
 

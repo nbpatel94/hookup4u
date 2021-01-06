@@ -40,6 +40,8 @@ class SocialPostShowData {
   String userName;
   String thumb;
   String postDate;
+  int likeCount;
+  int commentCount;
 
   SocialPostShowData(
       {this.id,
@@ -50,7 +52,9 @@ class SocialPostShowData {
         this.parentPost,
         this.userName,
         this.thumb,
-        this.postDate
+        this.postDate,
+        this.likeCount,
+        this.commentCount
       });
 
   SocialPostShowData.fromJson(Map<String, dynamic> json) {
@@ -65,6 +69,8 @@ class SocialPostShowData {
     userName = json['user_name'];
     thumb = json['thumb'];
     postDate = json['post_date'];
+    likeCount = json['like_count'];
+    commentCount = json['comment_count'];
   }
 
   Map<String, dynamic> toJson() {
@@ -80,6 +86,8 @@ class SocialPostShowData {
     data['user_name'] = this.userName;
     data['thumb'] = this.thumb;
     data['post_date'] = this.postDate;
+    data['like_count'] = this.likeCount;
+    data['comment_count'] = this.commentCount;
     return data;
   }
 }

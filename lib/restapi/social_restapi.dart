@@ -90,7 +90,6 @@ class SocialRestApi {
   static Future<Response> editPostData(Map<String, dynamic> postData, String postId) async {
 
     String url = App.baseUrlSA + App.wallPost + "/$postId";
-
     var headerData = {
       "Authorization": "Bearer ${appState.accessToken}",
       "Content-Type":"application/json"
@@ -253,6 +252,67 @@ class SocialRestApi {
     };
 
     print(url + headerData.toString() + id.toString());
+    try {
+      Response response = await http.get(url, headers: headerData);
+      print(response.statusCode);
+      EasyLoading.dismiss();
+      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
+        print(response.body);
+        return response;
+      } else {
+        print(response.body);
+        var jsonData = jsonDecode(response.body);
+        Utils().showToast(jsonData['message']);
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      EasyLoading.dismiss();
+      Utils().showToast(e);
+      return null;
+    }
+  }
+
+
+
+  //add like api
+  static Future<Response> addLikePost(Map<String, dynamic> postData) async {
+
+    String url = App.baseUrlSA + App.wallLike;
+    var headerData = {
+      "Authorization": "Bearer ${appState.accessToken}",
+      "Content-Type":"application/json"
+    };
+    print(url + headerData.toString() + postData.toString());
+    try {
+      Response response = await http.post(url, headers: headerData, body: jsonEncode(postData));
+      print(response.statusCode);
+      EasyLoading.dismiss();
+      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
+        print(response.body);
+        return response;
+      } else {
+        print(response.body);
+        var jsonData = jsonDecode(response.body);
+        Utils().showToast(jsonData['message']);
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      EasyLoading.dismiss();
+      Utils().showToast(e);
+      return null;
+    }
+  }
+
+  static Future<Response> showLikeData(String postId) async {
+
+    String url = App.baseUrlSA + App.wallLike + "?post_id=$postId";
+    var headerData = {
+      "Authorization": "Bearer ${appState.accessToken}",
+      "Content-Type":"application/json"
+    };
+    print(url + headerData.toString());
     try {
       Response response = await http.get(url, headers: headerData);
       print(response.statusCode);

@@ -8,8 +8,7 @@ class SocialMainPage extends StatefulWidget {
   _SocialMainPageState createState() => _SocialMainPageState();
 }
 
-class _SocialMainPageState extends State<SocialMainPage>
-    with SingleTickerProviderStateMixin {
+class _SocialMainPageState extends State<SocialMainPage> with SingleTickerProviderStateMixin {
   TabController _tabController;
 
   @override

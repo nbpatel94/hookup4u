@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hookup4u/util/color.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 
@@ -39,58 +40,61 @@ class PostDataScreenState extends State<PostDataScreen> {
   @override
   Widget build(BuildContext context) {
     model ?? (model = PostDataViewModel(this));
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.isShare ? "Share post" : "Post upload"),
-          actions: [
-            IconButton(
-                icon: Icon(Icons.post_add, color: Colors.white), onPressed: () {
-              print("tap");
-              model.addPostApi(widget.postId);
-            })
-          ],
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-
-              containData(),
-              visibility(),
-              widget.isShare ? Container() : InkResponse(
-                onTap: () {
-                  source(context);
-                },
-                child: Container(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width,
-                    height: MediaQuery
-                        .of(context)
-                        .size
-                        .height / 2,
-                    margin: EdgeInsets.all(10),
-                    padding: EdgeInsets.only(top: 10, bottom: 10),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black12, width: 1),
-                        borderRadius: BorderRadius.circular(5)
-                    ),
-                    child: image == null || image.length == 0 ? Icon(
-                        Icons.image, color: Colors.black) :
-                    // AssetThumb(
-                    //   asset: images[0],
-                    //   width: 300,
-                    //   height: 300,
-                    // )
-
-                  Image(image: AssetImage(image.path))
-                ),
-              ),
-
-              selectedImageShow()
-
+    return Container(
+      color: ColorRes.primaryColor,
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text(widget.isShare ? "Share post" : "Post upload"),
+            actions: [
+              IconButton(
+                  icon: Icon(Icons.post_add, color: Colors.white), onPressed: () {
+                print("tap");
+                model.addPostApi(widget.postId);
+              })
             ],
+          ),
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+
+                containData(),
+                visibility(),
+                widget.isShare ? Container() : InkResponse(
+                  onTap: () {
+                    source(context);
+                  },
+                  child: Container(
+                      width: MediaQuery
+                          .of(context)
+                          .size
+                          .width,
+                      height: MediaQuery
+                          .of(context)
+                          .size
+                          .height / 2,
+                      margin: EdgeInsets.all(10),
+                      padding: EdgeInsets.only(top: 10, bottom: 10),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black12, width: 1),
+                          borderRadius: BorderRadius.circular(5)
+                      ),
+                      child: image == null || image.length == 0 ? Icon(
+                          Icons.image, color: Colors.black) :
+                      // AssetThumb(
+                      //   asset: images[0],
+                      //   width: 300,
+                      //   height: 300,
+                      // )
+
+                    Image(image: AssetImage(image.path))
+                  ),
+                ),
+
+                selectedImageShow()
+
+              ],
+            ),
           ),
         ),
       ),

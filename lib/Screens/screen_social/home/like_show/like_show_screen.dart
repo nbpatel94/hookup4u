@@ -194,7 +194,7 @@ class LikeShowScreenState extends State<LikeShowScreen> {
           color: ColorRes.primaryColor,
           borderRadius: BorderRadius.circular(10),
         ),
-        child: Text(listData.userName, style: TextStyle(color: ColorRes.white))) :
+        child: Text(listData.userName ?? "Empty", style: TextStyle(color: ColorRes.white))) :
     Center(child: Container(child: Text("No data found!")));
   }
 

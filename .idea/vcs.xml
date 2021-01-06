@@ -2,5 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Y" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Y/Library/Taps/homebrew/homebrew-core" vcs="Git" />
   </component>
 </project>

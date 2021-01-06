@@ -163,7 +163,7 @@ class SocialHomePageState extends State<SocialHomePage> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height * 0.5,
         alignment: Alignment.center,
-        child: Text("No Data Found")) :
+        child: Text("No Data Found", style: TextStyle(color: ColorRes.white, fontSize: 20), overflow: TextOverflow.ellipsis)) :
     ListView.builder(
         itemCount: model.socialPostShowList.length,
         shrinkWrap: true,
@@ -222,7 +222,7 @@ class SocialHomePageState extends State<SocialHomePage> {
                      alignment: Alignment.center,
                      child: Icon(Icons.comment, color: Colors.white))
              ),
-             SizedBox(width: 10),
+             SizedBox(width: 15),
              InkWell(
                  onTap: () {
                    Navigator.push(context, MaterialPageRoute(builder: (context) => CommentScreen(postId: socialPostShowList.id)));
@@ -301,9 +301,8 @@ class SocialHomePageState extends State<SocialHomePage> {
                   child: model.socialPostShowList[index].content != null && model.socialPostShowList[index].content.isNotEmpty ?
                   Text(model.socialPostShowList[index].content, style: TextStyle(color: ColorRes.white), textAlign: TextAlign.left ) : Container()),
 
-              Container(
-                height: model.socialPostShowList[index].media != null && model.socialPostShowList[index].media.isNotEmpty ?
-                MediaQuery.of(context).size.height - 400 : 0,
+              model.socialPostShowList[index].media != null && model.socialPostShowList[index].media[0].isNotEmpty ? Container(
+                height: MediaQuery.of(context).size.height - 400,
                 // height: double.infinity,
                 width: MediaQuery.of(context).size.width,
                 color: Colors.black,
@@ -311,8 +310,7 @@ class SocialHomePageState extends State<SocialHomePage> {
                     itemCount: model.socialPostShowList[index].media.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index1) {
-                      return model.socialPostShowList[index].media != null && model.socialPostShowList[index].media[index1].isNotEmpty
-                          ? CachedNetworkImage(
+                      return CachedNetworkImage(
                           imageUrl: model.socialPostShowList[index].media[index1],
                           placeholder: (context, url) => Image.asset(
                               'asset/Icon/placeholder.png',
@@ -321,14 +319,9 @@ class SocialHomePageState extends State<SocialHomePage> {
                               fit: BoxFit.cover),
                           height: 120,
                           width: 120,
-                          fit: BoxFit.cover)
-                          : Image.asset(
-                          'asset/Icon/placeholder.png',
-                          height: 120,
-                          width: 120,
                           fit: BoxFit.cover);
                     }),
-              ),
+              )  : Container(),
 
               likeComment(1, socialPostShowList),
 

@@ -19,53 +19,59 @@ class _SocialMainPageState extends State<SocialMainPage> with SingleTickerProvid
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-      /*  appBar: new AppBar(
-          title: new Text("Social app"),
-          *//*bottom: TabBar(
-            unselectedLabelColor: Colors.white,
+    return Container(
+      color: ColorRes.primaryColor,
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: ColorRes.primaryColor,
+        /*  appBar: new AppBar(
+            title: new Text("Social app"),
+            *//*bottom: TabBar(
+              unselectedLabelColor: Colors.white,
 
-            labelColor: Colors.amber,
-            tabs: [
-              Tab(icon: new Icon(Icons.home)),
-              Tab(icon: new Icon(Icons.people)),
-              Tab(icon: new Icon(Icons.notifications)),
-              Tab(icon: new Icon(Icons.person))
+              labelColor: Colors.amber,
+              tabs: [
+                Tab(icon: new Icon(Icons.home)),
+                Tab(icon: new Icon(Icons.people)),
+                Tab(icon: new Icon(Icons.notifications)),
+                Tab(icon: new Icon(Icons.person))
+              ],
+              controller: _tabController,
+              indicatorColor: Colors.white,
+              indicatorSize: TabBarIndicatorSize.tab,
+            ),
+            bottomOpacity: 1,*//*
+          ),*/
+          bottomNavigationBar:  Container(
+            color: ColorRes.primaryColor,
+            child: TabBar(
+              unselectedLabelColor: ColorRes.greyBg,
+              labelColor: ColorRes.primaryRed,
+              tabs: [
+                Tab(icon: new Icon(Icons.home), text: "Home"),
+                Tab(icon: new Icon(Icons.stream), text: "Streams"),
+                Tab(icon: new Icon(Icons.message), text: "Messages"),
+                Tab(icon: new Icon(Icons.notification_important), text: "Notifications"),
+                Tab(icon: new Icon(Icons.person), text: "Profiles")
+              ],
+              controller: _tabController,
+              indicatorColor: ColorRes.primaryRed,
+              indicatorSize: TabBarIndicatorSize.tab,
+            ),
+          ),
+          body: TabBarView(
+            physics: NeverScrollableScrollPhysics(),
+            children: [
+
+              SocialHomePage(tabController: _tabController),
+              Center(child: new Text("Comming Soon Stream ....", style: TextStyle(color: ColorRes.white, fontSize: 20), overflow: TextOverflow.ellipsis)),
+              Center(child: new Text("Comming Soon Message ....", style: TextStyle(color: ColorRes.white, fontSize: 20), overflow: TextOverflow.ellipsis)),
+              Center(child: new Text("Comming Soon Notification ....", style: TextStyle(color: ColorRes.white, fontSize: 20), overflow: TextOverflow.ellipsis)),
+              Center(child: new Text("Comming Soon Profile ....", style: TextStyle(color: ColorRes.white, fontSize: 20), overflow: TextOverflow.ellipsis)),
+              // UserProfileScreen()
             ],
             controller: _tabController,
-            indicatorColor: Colors.white,
-            indicatorSize: TabBarIndicatorSize.tab,
           ),
-          bottomOpacity: 1,*//*
-        ),*/
-        bottomNavigationBar:  Container(
-          color: ColorRes.primaryColor,
-          child: TabBar(
-            unselectedLabelColor: ColorRes.greyBg,
-            labelColor: ColorRes.primaryRed,
-            tabs: [
-              Tab(icon: new Icon(Icons.home), text: "Home"),
-              Tab(icon: new Icon(Icons.stream), text: "Streams"),
-              Tab(icon: new Icon(Icons.message), text: "Messages"),
-              Tab(icon: new Icon(Icons.notification_important), text: "Notifications"),
-              Tab(icon: new Icon(Icons.person), text: "Profiles")
-            ],
-            controller: _tabController,
-            indicatorColor: Colors.white,
-            indicatorSize: TabBarIndicatorSize.tab,
-          ),
-        ),
-        body: TabBarView(
-          physics: NeverScrollableScrollPhysics(),
-          children: [
-            SocialHomePage(tabController: _tabController),
-            Center(child: new Text("This is chat Tab View")),
-            Center(child: new Text("This is notification Tab View")),
-            Center(child: new Text("This is notification Tab View")),
-            UserProfileScreen()
-          ],
-          controller: _tabController,
         ),
       ),
     );

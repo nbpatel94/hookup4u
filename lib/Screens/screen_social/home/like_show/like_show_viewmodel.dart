@@ -29,7 +29,6 @@ class LikeShowViewModel {
 
     EasyLoading.show();
 
-
     SocialRestApi.showLikeData(state.widget.postId).then((value) {
       print(value);
 

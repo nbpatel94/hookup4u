@@ -206,12 +206,12 @@ class SocialHomePageState extends State<SocialHomePage> {
                       ? Container(
                           height: 40,
                           alignment: Alignment.center,
-                          child: Icon(Icons.favorite_border_outlined,
+                          child: Icon(Icons.favorite,
                               color: Colors.white))
                       : Container(
                           height: 40,
                           alignment: Alignment.center,
-                          child: Icon(Icons.favorite, color: Colors.white))),
+                          child: Icon(Icons.favorite_border_outlined, color: Colors.white))),
 
               // : Icon(Icons.favorite_border_outlined, color: Colors.white)
 
@@ -340,7 +340,7 @@ class SocialHomePageState extends State<SocialHomePage> {
                     }),
               )  : Container(),
 
-              likeComment(1, socialPostShowList),
+              likeComment(index, socialPostShowList),
 
             ],
           ),
@@ -484,7 +484,7 @@ class SocialHomePageState extends State<SocialHomePage> {
               ),
 
 
-              likeComment(1, socialPostShowList),
+              likeComment(index, socialPostShowList),
 
               /*Container(height: 50, color: Colors.white,
                 child: Row(

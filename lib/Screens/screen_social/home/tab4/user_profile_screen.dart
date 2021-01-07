@@ -408,7 +408,7 @@ class UserProfileScreenState extends State<UserProfileScreen> {
             postIdStr = postId;
           });
         } else if(index == 3) {
-          isRef = await Navigator.push(context, MaterialPageRoute(builder: (context) => PostDataScreen(isShare: true, postId: postId)));
+          isRef = await Navigator.push(context, MaterialPageRoute(builder: (context) => PostDataScreen(isEdit: true, postId: postId)));
           if (isRef) {
             // model.showPostApi();
           }

@@ -42,6 +42,7 @@ class SocialPostShowData {
   String postDate;
   int likeCount;
   int commentCount;
+  bool selfLike;
 
   SocialPostShowData(
       {this.id,
@@ -54,7 +55,8 @@ class SocialPostShowData {
         this.thumb,
         this.postDate,
         this.likeCount,
-        this.commentCount
+        this.commentCount,
+        this.selfLike
       });
 
   SocialPostShowData.fromJson(Map<String, dynamic> json) {
@@ -71,6 +73,7 @@ class SocialPostShowData {
     postDate = json['post_date'];
     likeCount = json['like_count'];
     commentCount = json['comment_count'];
+    selfLike = json['self_like'];
   }
 
   Map<String, dynamic> toJson() {
@@ -88,6 +91,7 @@ class SocialPostShowData {
     data['post_date'] = this.postDate;
     data['like_count'] = this.likeCount;
     data['comment_count'] = this.commentCount;
+    data['self_like'] = this.selfLike;
     return data;
   }
 }

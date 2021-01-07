@@ -44,52 +44,54 @@ class LikeShowViewModel {
 
       SocialPostView likeData = socialPostViewFromJson(value.body);
 
-      if(likeData.like != null) {
-        likeList.addAll(likeData.like);
-        lengthShow = lengthShow + 1;
-        showIndexWise.add(0);
-      }
-      if(likeData.love != null) {
-        loveList.addAll(likeData.love);
-        lengthShow = lengthShow + 1;
-        showIndexWise.add(1);
-      }
-      if(likeData.care != null) {
-        careList.addAll(likeData.care);
-        lengthShow = lengthShow + 1;
-        showIndexWise.add(2);
-      }
-      if(likeData.haha != null) {
-        hahaList.addAll(likeData.haha);
-        lengthShow = lengthShow + 1;
-        showIndexWise.add(3);
-      }
-      if(likeData.angry != null) {
-        angryList.addAll(likeData.angry);
-        lengthShow = lengthShow + 1;
-        showIndexWise.add(4);
-      }
-      if(likeData.sad != null) {
-        sadList.addAll(likeData.sad);
-        lengthShow = lengthShow + 1;
-        showIndexWise.add(5);
-      }
+       if(likeData.code == 200 && likeData.status == "success") {
 
-      if(showIndexWise != null && showIndexWise.length != 0) {
-        state.currentIndex = showIndexWise[0];
-      }
-      state.setState(() {});
-      print(likeData);
+         if(likeData.data.like != null) {
+           likeList.addAll(likeData.data.like);
+           lengthShow = lengthShow + 1;
+           showIndexWise.add(0);
+         }
+         if(likeData.data.love != null) {
+           loveList.addAll(likeData.data.love);
+           lengthShow = lengthShow + 1;
+           showIndexWise.add(1);
+         }
+         if(likeData.data.care != null) {
+           careList.addAll(likeData.data.care);
+           lengthShow = lengthShow + 1;
+           showIndexWise.add(2);
+         }
+         if(likeData.data.haha != null) {
+           hahaList.addAll(likeData.data.haha);
+           lengthShow = lengthShow + 1;
+           showIndexWise.add(3);
+         }
+         if(likeData.data.angry != null) {
+           angryList.addAll(likeData.data.angry);
+           lengthShow = lengthShow + 1;
+           showIndexWise.add(4);
+         }
+         if(likeData.data.sad != null) {
+           sadList.addAll(likeData.data.sad);
+           lengthShow = lengthShow + 1;
+           showIndexWise.add(5);
+         }
 
- /*     if(message['code'] == 200 && message['status'] == "success") {
-        // Utils().showToast(message['message']);
-        // showPostApi();
-        state.setState(() {});
-      } else if(message['status'] == "error"){
+         if(showIndexWise != null && showIndexWise.length != 0) {
+           state.currentIndex = showIndexWise[0];
+         }
+         state.setState(() {});
+         print(likeData);
+
+       } else if(message['status'] == "error"){
         Utils().showToast(message['message']);
       } else {
         Utils().showToast("something wrong");
-      }*/
+      }
+
+
+
+
     });
   }
 

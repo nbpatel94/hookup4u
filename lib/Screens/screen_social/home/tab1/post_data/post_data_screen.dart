@@ -10,10 +10,10 @@ import 'post_data_viewmodel.dart';
 
 class PostDataScreen extends StatefulWidget {
 
-  final bool isShare;
+  final bool isEdit;
   final String postId;
 
-  const PostDataScreen({Key key, this.isShare, this.postId}) : super(key: key);
+  const PostDataScreen({Key key, this.isEdit, this.postId}) : super(key: key);
 
   @override
   PostDataScreenState createState() => PostDataScreenState();
@@ -42,7 +42,7 @@ class PostDataScreenState extends State<PostDataScreen> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text(widget.isShare ? "Share post" : "Post upload"),
+          title: Text(widget.isEdit ? "Share post" : "Post upload"),
           actions: [
             IconButton(
                 icon: Icon(Icons.post_add, color: Colors.white), onPressed: () {
@@ -57,7 +57,7 @@ class PostDataScreenState extends State<PostDataScreen> {
 
               containData(),
               visibility(),
-              widget.isShare ? Container() : InkResponse(
+              widget.isEdit ? Container() : InkResponse(
                 onTap: () {
                   source(context);
                 },
@@ -135,13 +135,13 @@ class PostDataScreenState extends State<PostDataScreen> {
                 ),
 
 
-                Positioned(
+                widget.isEdit ? Container()  : Positioned(
                     right: 0,
                     child: IconButton(icon: Icon(Icons.close, color: Colors.black, size: 30), onPressed: () {
                       model.imagesList.removeAt(index);
                       setState(() {});
                     })
-                ),
+                ) ,
               ],
             );
           }),

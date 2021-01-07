@@ -11,8 +11,9 @@ import 'edit_viewmodel.dart';
 
 class EditDataScreen extends StatefulWidget {
 
+  final bool isShare;
   final SocialPostShowData socialPostShowData;
-  const EditDataScreen({Key key, this.socialPostShowData}) : super(key: key);
+  const EditDataScreen({Key key, this.socialPostShowData, this.isShare}) : super(key: key);
 
   @override
   EditDataScreenState createState() => EditDataScreenState();
@@ -37,25 +38,32 @@ class EditDataScreenState extends State<EditDataScreen> {
     }
 
     print(widget.socialPostShowData.media.length);
-    Future.delayed(const Duration(seconds: 1), () {
-      if(widget.socialPostShowData.media != null && widget.socialPostShowData.media.isNotEmpty) {
-        setState(() {
-          model.imagesList.addAll(widget.socialPostShowData.media);
-        });
-      }
 
-      if(widget.socialPostShowData.visibility != null) {
-        dropdownValue = widget.socialPostShowData.visibility;
-        print("hello  $dropdownValue");
-      }
-
-    });
-
-
-
-
-
-
+    if(widget.isShare) {
+      Future.delayed(const Duration(seconds: 1), () {
+        if(widget.socialPostShowData.parentPost.media != null && widget.socialPostShowData.parentPost.media.isNotEmpty) {
+          setState(() {
+            model.imagesList.addAll(widget.socialPostShowData.parentPost.media);
+          });
+        }
+        if(widget.socialPostShowData.visibility != null) {
+          dropdownValue = widget.socialPostShowData.visibility;
+          print("hello  $dropdownValue");
+        }
+      });
+    } else {
+      Future.delayed(const Duration(seconds: 1), () {
+        if(widget.socialPostShowData.media != null && widget.socialPostShowData.media.isNotEmpty) {
+          setState(() {
+            model.imagesList.addAll(widget.socialPostShowData.media);
+          });
+        }
+        if(widget.socialPostShowData.visibility != null) {
+          dropdownValue = widget.socialPostShowData.visibility;
+          print("hello  $dropdownValue");
+        }
+      });
+    }
     print(dropdownValue);
 
     setState(() {});
@@ -85,7 +93,7 @@ class EditDataScreenState extends State<EditDataScreen> {
 
               visibility(),
 
-              InkResponse(
+              widget.isShare ? Container() : InkResponse(
                 onTap: () {
                   source(context);
                 },
@@ -119,7 +127,8 @@ class EditDataScreenState extends State<EditDataScreen> {
                     itemBuilder: (context, index) {
                   return Stack(
                     children: [
-                      Container(
+
+                      widget.isShare ?  Container() : Container(
                         height: 100,
                         width: 100,
                         margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
@@ -127,27 +136,11 @@ class EditDataScreenState extends State<EditDataScreen> {
                             color: Colors.black38,
                             borderRadius: BorderRadius.circular(10)
                         ),
-                        child: model.imagesList != null && model.imagesList.isNotEmpty
-                            ? CachedNetworkImage(
-                            imageUrl: model.imagesList != null && model.imagesList.isNotEmpty ?  model.imagesList[index] : 0,
-                            placeholder: (context, url) => Image.asset(
-                                'asset/Icon/placeholder.png',
-                                height: 120,
-                                width: 120,
-                                fit: BoxFit.cover),
-                            height: 120,
-                            width: 120,
-                            fit: BoxFit.cover)
-                            : Image.asset(
-                            'asset/Icon/placeholder.png',
-                            height: 120,
-                            width: 120,
-                            fit: BoxFit.cover
-                        ),
-                      ),
+                        child: imageShow1(index),
+                      ) ,
 
 
-                      Positioned(
+                      widget.isShare ? Container() : Positioned(
                           right: 0,
                           child: IconButton(icon: Icon(Icons.close, color: Colors.black, size: 30), onPressed: () {
                             model.imagesList.removeAt(index);
@@ -355,6 +348,39 @@ class EditDataScreenState extends State<EditDataScreen> {
         ),
       ),
     );
+  }
+
+  imageShow1(int index) {
+    if(model.imagesList != null && model.imagesList.isNotEmpty) {
+      return   CachedNetworkImage(
+          imageUrl: model.imagesList != null && model.imagesList.isNotEmpty ?  model.imagesList[index] : 0,
+          placeholder: (context, url) => Image.asset(
+              'asset/Icon/placeholder.png',
+              height: 120,
+              width: 120,
+              fit: BoxFit.cover),
+          height: 120,
+          width: 120,
+          fit: BoxFit.cover);
+    } /*else if(widget.socialPostShowData.media != null && widget.socialPostShowData.media.length != 0) {
+      return CachedNetworkImage(
+          imageUrl: model.imagesList != null && model.imagesList.isNotEmpty ?  model.imagesList[index] : 0,
+          placeholder: (context, url) => Image.asset(
+              'asset/Icon/placeholder.png',
+              height: 120,
+              width: 120,
+              fit: BoxFit.cover),
+          height: 120,
+          width: 120,
+          fit: BoxFit.cover);
+    }*/ else {
+      return Image.asset(
+          'asset/Icon/placeholder.png',
+          height: 120,
+          width: 120,
+          fit: BoxFit.cover
+      );
+    }
   }
 
 

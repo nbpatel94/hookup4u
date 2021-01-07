@@ -132,7 +132,7 @@ class _SplashState extends State<Splash> {
       if (Platform.isIOS) iOS_Permission();
 
       _firebaseMessaging.getToken().then((token) {
-        print(token);
+        print("fcm : $token");
         sp.setString('token', token);
         // RestApi.addFCMToken(token);
       });

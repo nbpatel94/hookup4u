@@ -85,4 +85,31 @@ class SocialHomeViewModel {
     });
   }
 
+  deleteLikeApi(String postId) {
+
+    EasyLoading.show();
+    // String imageJoint = imagesList.join(",");
+    // print(imageJoint);
+  /*  Map<String, dynamic> postData = {
+      "post_id": postId,
+      "user_id": appState.currentUserData.data.id,
+      "like_data": type,
+    };*/
+    // post_id=20&user_id=25
+    // print(postData);
+    SocialRestApi.deleteLikePost(postId).then((value) {
+      print(value);
+      Map<String, dynamic> message = jsonDecode(value.body);
+      if(message['code'] == 200 && message['status'] == "success") {
+        // Utils().showToast(message['message']);
+        showPostApi();
+        state.setState(() {});
+      } else if(message['status'] == "error"){
+        Utils().showToast(message['message']);
+      } else {
+        Utils().showToast("something wrong");
+      }
+    });
+  }
+
 }

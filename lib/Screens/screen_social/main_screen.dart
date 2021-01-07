@@ -9,11 +9,11 @@ class SocialMainPage extends StatefulWidget {
 }
 
 class _SocialMainPageState extends State<SocialMainPage> with SingleTickerProviderStateMixin {
-  TabController _tabController;
+  // TabController _tabController;
 
   @override
   void initState() {
-    _tabController = new TabController(length: 5, vsync: this);
+    // _tabController = new TabController(length: 5, vsync: this);
     super.initState();
   }
 
@@ -42,24 +42,24 @@ class _SocialMainPageState extends State<SocialMainPage> with SingleTickerProvid
             ),
             bottomOpacity: 1,*//*
           ),*/
-          bottomNavigationBar:  Container(
-            color: ColorRes.primaryColor,
-            child: TabBar(
-              unselectedLabelColor: ColorRes.greyBg,
-              labelColor: ColorRes.primaryRed,
-              tabs: [
-                Tab(icon: new Icon(Icons.home), text: "Home"),
-                Tab(icon: new Icon(Icons.stream), text: "Streams"),
-                Tab(icon: new Icon(Icons.message), text: "Messages"),
-                Tab(icon: new Icon(Icons.notification_important), text: "Notifications"),
-                Tab(icon: new Icon(Icons.person), text: "Profiles")
-              ],
-              controller: _tabController,
-              indicatorColor: ColorRes.primaryRed,
-              indicatorSize: TabBarIndicatorSize.tab,
-            ),
-          ),
-          body: TabBarView(
+          // bottomNavigationBar:  Container(
+          //   color: ColorRes.primaryColor,
+          //   child: TabBar(
+          //     unselectedLabelColor: ColorRes.greyBg,
+          //     labelColor: ColorRes.primaryRed,
+          //     tabs: [
+          //       Tab(icon: new Icon(Icons.home), text: "Home"),
+          //       Tab(icon: new Icon(Icons.stream), text: "Streams"),
+          //       Tab(icon: new Icon(Icons.message), text: "Messages"),
+          //       Tab(icon: new Icon(Icons.notification_important), text: "Notifications"),
+          //       Tab(icon: new Icon(Icons.person), text: "Profiles")
+          //     ],
+          //     controller: _tabController,
+          //     indicatorColor: ColorRes.primaryRed,
+          //     indicatorSize: TabBarIndicatorSize.tab,
+          //   ),
+          // ),
+         /* body: TabBarView(
             physics: NeverScrollableScrollPhysics(),
             children: [
 
@@ -71,7 +71,8 @@ class _SocialMainPageState extends State<SocialMainPage> with SingleTickerProvid
               // UserProfileScreen()
             ],
             controller: _tabController,
-          ),
+          ),*/
+            body: SocialHomePage(),
         ),
       ),
     );

@@ -54,12 +54,24 @@ class EditDataViewModel {
     EasyLoading.show();
     String imageJoint = imagesList.join(",");
     print(imageJoint);
-    Map<String, dynamic> postData = {
-      "content": state.containController.text,
-      "media": imageJoint.toString(),
-      "visibility": state.dropdownValue,
-      "parent_post": ""
-    };
+
+    Map<String, dynamic> postData = {};
+    if(state.widget.isShare){
+      postData = {
+        "content": state.containController.text,
+        "media": imageJoint.toString(),
+        "visibility": state.dropdownValue,
+        "parent_post": state.widget.socialPostShowData.parentPost.id
+      };
+    } else {
+       postData = {
+        "content": state.containController.text,
+        "media": imageJoint.toString(),
+        "visibility": state.dropdownValue,
+        "parent_post": ""
+      };
+    }
+
 
     print(postData);
 

@@ -305,6 +305,35 @@ class SocialRestApi {
     }
   }
 
+  static Future<Response> deleteLikePost(String postId) async {
+
+    String url = App.baseUrlSA + App.wallLike + "?post_id=$postId" + "&user_id=${appState.currentUserData.data.id}";
+    var headerData = {
+      "Authorization": "Bearer ${appState.accessToken}",
+      "Content-Type":"application/json"
+    };
+    print(url + headerData.toString());
+    try {
+      Response response = await http.delete(url, headers: headerData);
+      print(response.statusCode);
+      EasyLoading.dismiss();
+      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
+        print(response.body);
+        return response;
+      } else {
+        print(response.body);
+        var jsonData = jsonDecode(response.body);
+        Utils().showToast(jsonData['message']);
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      EasyLoading.dismiss();
+      Utils().showToast(e);
+      return null;
+    }
+  }
+
   static Future<Response> showLikeData(String postId) async {
 
     String url = App.baseUrlSA + App.wallLike + "?post_id=$postId";

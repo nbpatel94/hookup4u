@@ -16,7 +16,6 @@ class SocialHomePage extends StatefulWidget {
   final TabController tabController;
   const SocialHomePage({Key key, this.tabController}) : super(key: key);
 
-
   @override
   SocialHomePageState createState() => SocialHomePageState();
 }
@@ -105,7 +104,7 @@ class SocialHomePageState extends State<SocialHomePage> {
           padding: EdgeInsets.only(top: 5, bottom: 5),
           child: FloatingActionButton(
             onPressed: () async {
-              isRef = await Navigator.push(context, MaterialPageRoute(builder: (context) => PostDataScreen(isShare: false, postId: "")));
+              isRef = await Navigator.push(context, MaterialPageRoute(builder: (context) => PostDataScreen(isEdit: false, postId: "")));
               if (isRef) {
                 model.showPostApi();
               }
@@ -193,25 +192,42 @@ class SocialHomePageState extends State<SocialHomePage> {
              SizedBox(width: 10),
              InkWell(
                  onTap: () {
-                   model.addLikeApi(socialPostShowList.id, "#like");
+                   if(model.socialPostShowList[index].selfLike) {
+                     model.deleteLikeApi(socialPostShowList.id);
+                   } else {
+                     model.addLikeApi(socialPostShowList.id, "#like");
+                   }
                  },
                  onLongPress: () {
                    postIdStr = socialPostShowList.id;
                    setState(() {});
                  },
-                 child: Container(
-                     height: 40,
-                     alignment: Alignment.center,
-                     child: Icon(Icons.favorite, color: Colors.white))),
+                  child: model.socialPostShowList[index].selfLike
+                      ? Container(
+                          height: 40,
+                          alignment: Alignment.center,
+                          child: Icon(Icons.favorite_border_outlined,
+                              color: Colors.white))
+                      : Container(
+                          height: 40,
+                          alignment: Alignment.center,
+                          child: Icon(Icons.favorite, color: Colors.white))),
+
+              // : Icon(Icons.favorite_border_outlined, color: Colors.white)
+
              SizedBox(width: 10),
              InkWell(
                  onTap: () {
-                   Navigator.push(context, MaterialPageRoute(builder: (context) => LikeShowScreen(postId: socialPostShowList.id)));
+                   if(socialPostShowList.likeCount != null  && socialPostShowList.likeCount != 0) {
+                     Navigator.push(context, MaterialPageRoute(builder: (context) => LikeShowScreen(postId: socialPostShowList.id)));
+                   }
                  },
                  child: Container(
                      height: 40,
                      alignment: Alignment.center,
                      child: Text(socialPostShowList.likeCount.toString() ?? "0", style: TextStyle(color: Colors.white)))),
+
+
              SizedBox(width: 20),
              InkResponse(
                  onTap: () {
@@ -220,8 +236,9 @@ class SocialHomePageState extends State<SocialHomePage> {
                  child: Container(
                      height: 40,
                      alignment: Alignment.center,
-                     child: Icon(Icons.comment, color: Colors.white))
+                     child: Icon(Icons.message, color: Colors.white))
              ),
+
              SizedBox(width: 15),
              InkWell(
                  onTap: () {
@@ -233,12 +250,12 @@ class SocialHomePageState extends State<SocialHomePage> {
                      child: Text(socialPostShowList.commentCount.toString() ?? "0", style: TextStyle(color: Colors.white)))),
            ],
          ),
-         Padding(
-             padding: EdgeInsets.only(right: 10),
-             child: Image(
-                 height: 35,
-                 width: 35,
-                 image: AssetImage('asset/Icon/layer.png'))),
+         // Padding(
+         //     padding: EdgeInsets.only(right: 10),
+         //     child: Image(
+         //         height: 35,
+         //         width: 35,
+         //         image: AssetImage('asset/Icon/layer.png'))),
         ],
       ),
     );
@@ -289,7 +306,7 @@ class SocialHomePageState extends State<SocialHomePage> {
                     userImgNameShow(index, currentTime),
 
                     Padding(padding: EdgeInsets.only(right: 10),
-                      child: popUpMenuButton(index, model.socialPostShowList[index].id),
+                      child: popUpMenuButton(index, model.socialPostShowList[index].id, false),
                     ),
 
                   ],
@@ -336,7 +353,7 @@ class SocialHomePageState extends State<SocialHomePage> {
   sharingViewShow(int index, SocialPostShowData socialPostShowList) {
 
     String currentTime = "";
-    DateTime dateTIme = DateTime.parse(model.socialPostShowList[index].parentPost.postDate);
+    DateTime dateTIme = DateTime.parse(model.socialPostShowList[index].postDate);
     final date2 = DateTime.now().toUtc();
     DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
     print(formatter);
@@ -378,7 +395,7 @@ class SocialHomePageState extends State<SocialHomePage> {
                   children: [
                     userImgNameShow(index, currentTime),
                     Padding(padding: EdgeInsets.only(right: 10),
-                      child: popUpMenuButton(index, model.socialPostShowList[index].id),
+                      child: popUpMenuButton(index, model.socialPostShowList[index].parentPost.id, true),
                     ),
                   ],
                 ),
@@ -398,10 +415,40 @@ class SocialHomePageState extends State<SocialHomePage> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
 
-                    Padding(padding: EdgeInsets.only(left: 5, right: 5, top: 5),
-                        child: Text(model.socialPostShowList[index].parentPost.userName, style: TextStyle(color: ColorRes.white))),
+                    SizedBox(height: 10),
+
+                    Row(
+                      children: [
+
+                        SizedBox(width: 10),
+
+                        InkResponse(
+                          onTap: () {
+                            // widget.tabController.animateTo(3, duration: Duration(milliseconds: 500));
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: Image(
+                                height: 25,
+                                width: 25,
+                                image: NetworkImage(model.socialPostShowList[index].thumb)),
+                          ),
+                        ),
+                        SizedBox(width: 8),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("${model.socialPostShowList[index].parentPost.userName }",  style: TextStyle(color: ColorRes.white), overflow: TextOverflow.ellipsis, maxLines: 1),
+                            // Text(currentTime, style: TextStyle(color: ColorRes.greyBg, fontSize: 12))
+                          ],
+                        ),
+                      ],
+                    ),
+
+                    // Padding(padding: EdgeInsets.only(left: 5, right: 5, top: 5),
+                    //     child: Text(model.socialPostShowList[index].parentPost.userName, style: TextStyle(color: ColorRes.white))),
                     Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10, bottom: 5, top: 5),
+                        padding: EdgeInsets.only(left: 20, right: 10, bottom: 5, top: 10),
                         child: model.socialPostShowList[index].parentPost.content != null && model.socialPostShowList[index].parentPost.content.isNotEmpty ?
                         Text(model.socialPostShowList[index].parentPost.content, style: TextStyle(color: ColorRes.white), textAlign: TextAlign.left ) : Container()),
                     Container(
@@ -463,7 +510,7 @@ class SocialHomePageState extends State<SocialHomePage> {
       children: [
         InkResponse(
           onTap: () {
-            widget.tabController.animateTo(3, duration: Duration(milliseconds: 500));
+            // widget.tabController.animateTo(3, duration: Duration(milliseconds: 500));
           },
           child: ClipRRect(
             borderRadius: BorderRadius.circular(50),
@@ -539,7 +586,7 @@ class SocialHomePageState extends State<SocialHomePage> {
   }
 
 
-  popUpMenuButton(int index, String postId) {
+  popUpMenuButton(int index, String postId, bool isShare) {
     return PopupMenuButton<String>(
       color: ColorRes.white,
       child: Image(
@@ -548,7 +595,7 @@ class SocialHomePageState extends State<SocialHomePage> {
           image: AssetImage('asset/Icon/menu.png')),
       // icon: Icon(Icons., color: ColorRes.white),
       onSelected: (value) {
-        return handleClick(value, index, postId);
+        return handleClick(value, index, postId, isShare);
       },
       itemBuilder: (BuildContext context) {
         return {'Share', 'Edit', 'Delete'}.map((String choice) {
@@ -561,18 +608,25 @@ class SocialHomePageState extends State<SocialHomePage> {
     );
   }
 
-  Future<void> handleClick(String value, int index, String postId) async {
+  Future<void> handleClick(String value, int index, String postId, bool isShare) async {
     switch (value) {
       case 'Share':
-        isRef = await Navigator.push(context, MaterialPageRoute(builder: (context) => PostDataScreen(isShare: true, postId: postId)));
-        if (isRef) {
-          model.showPostApi();
-        }
+          isRef = await Navigator.push(context, MaterialPageRoute(builder: (context) => PostDataScreen(isEdit: true, postId: postId)));
+          if (isRef) {
+            model.showPostApi();
+          }
         break;
       case 'Edit':
-        isRef = await Navigator.push(context, MaterialPageRoute(builder: (context) => EditDataScreen(socialPostShowData: model.socialPostShowList[index])));
-        if(isRef) {
-          model.showPostApi();
+        if(isShare) {
+          isRef = await Navigator.push(context, MaterialPageRoute(builder: (context) => EditDataScreen(socialPostShowData: model.socialPostShowList[index], isShare: true)));
+          if (isRef) {
+            model.showPostApi();
+          }
+        } else {
+          isRef = await Navigator.push(context, MaterialPageRoute(builder: (context) => EditDataScreen(socialPostShowData: model.socialPostShowList[index], isShare: false)));
+          if(isRef) {
+            model.showPostApi();
+          }
         }
         break;
       case 'Delete':

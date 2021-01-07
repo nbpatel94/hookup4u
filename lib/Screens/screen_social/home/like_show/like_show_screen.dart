@@ -34,6 +34,7 @@ class LikeShowScreenState extends State<LikeShowScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("People who reacted"),
+        elevation: 0.0,
         actions: [
           IconButton(icon: Icon(Icons.refresh), onPressed: () {
             model.showLikeApi();
@@ -184,19 +185,31 @@ class LikeShowScreenState extends State<LikeShowScreen> {
   }
 
   userNameView(int index, LikeData listData) {
-    return listData != null && listData.postId != null ? Container(
-        height: 40,
-        width: Utils().getDeviceWidth(context),
-        margin: EdgeInsets.only(left: 20, right: 20, top: 20),
-        padding: EdgeInsets.only(left: 15, right: 15),
-        alignment: Alignment.centerLeft,
-        decoration: BoxDecoration(
-          color: ColorRes.primaryColor,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Text(listData.userName, style: TextStyle(color: ColorRes.white))) :
-    Center(child: Container(child: Text("No data found!")));
+    return listData != null && listData.postId != null
+        ? Container(
+            height: 40,
+            width: Utils().getDeviceWidth(context),
+            margin: EdgeInsets.only(left: 20, right: 20, top: 20),
+            padding: EdgeInsets.only(left: 15, right: 15),
+            alignment: Alignment.centerLeft,
+            decoration: BoxDecoration(
+              color: ColorRes.primaryColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Image(
+                      height: 25,
+                      width: 25,
+                      image: NetworkImage(listData.thumb)),
+                ),
+                SizedBox(width: 10),
+                Text(listData.userName ?? "Empty",
+                    style: TextStyle(color: ColorRes.white)),
+              ],
+            ))
+        : Center(child: Container(child: Text("No data found!")));
   }
-
-
 }

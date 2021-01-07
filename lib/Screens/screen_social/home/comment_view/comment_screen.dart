@@ -229,10 +229,16 @@ class CommentScreenState extends State<CommentScreen> {
                         child: IconButton(
                             icon: Icon(Icons.send, color: ColorRes.primaryRed),
                             onPressed: () {
-                              model.addCommentApi(widget.postId, model.commentData[index].commentId);
-                              isBottomFiled = false;
-                              commentId = "-1";
-                              setState(() {});
+
+                              if(commentController.text.trim().isNotEmpty) {
+                                model.addCommentApi(widget.postId, model.commentData[index].commentId);
+                                isBottomFiled = false;
+                                commentId = "-1";
+                                setState(() {});
+                              } else {
+                                Utils().showToast("Comment Filed Empty");
+                              }
+
                             }))
                   ],
           ) : Container(),
@@ -281,7 +287,11 @@ class CommentScreenState extends State<CommentScreen> {
               child: IconButton(
                   icon: Icon(Icons.send, color: ColorRes.primaryRed),
                   onPressed: () {
-                    model.addCommentApi(widget.postId, "");
+                    if(commentController.text.trim().isNotEmpty) {
+                      model.addCommentApi(widget.postId, "");
+                    } else {
+                      Utils().showToast("Comment Filed Empty");
+                    }
                   }))
         ],
       ),

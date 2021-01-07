@@ -61,6 +61,7 @@ class SocialHomeViewModel {
 
   addLikeApi(String postId, String type) {
 
+    print("Hello $postId");
     EasyLoading.show();
     // String imageJoint = imagesList.join(",");
     // print(imageJoint);

@@ -202,13 +202,13 @@ class SocialHomePageState extends State<SocialHomePage> {
                    postIdStr = socialPostShowList.id;
                    setState(() {});
                  },
-                  child: model.socialPostShowList[index].selfLike
+                  child:/* model.socialPostShowList[index].selfLike
                       ? Container(
                           height: 40,
                           alignment: Alignment.center,
                           child: Icon(Icons.favorite,
                               color: Colors.white))
-                      : Container(
+                      :*/ Container(
                           height: 40,
                           alignment: Alignment.center,
                           child: Icon(Icons.favorite_border_outlined, color: Colors.white))),

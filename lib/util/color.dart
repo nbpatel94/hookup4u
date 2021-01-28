@@ -18,6 +18,7 @@ class ColorRes{
   static Color primaryRed               =     Color(0xFFD51635);
   static Color black                    =     Color(0xFF000000);
   static Color greyBg                   =     Color(0xff485164);
+  static Color tabBg                    =     Color.fromRGBO(30, 36, 50, 1);
 
 
 }

@@ -25,6 +25,8 @@ class App{
   static const String reset_password = 'reset-password';
   static const String validate_code = 'validate-code';
   static const String notifications = 'notifications';
+  static const String activeUser = 'activate_user';
+  static const String reSendEmail = 'resend_mail';
 
   //social media app
   static const String wallPost = 'wallpost';

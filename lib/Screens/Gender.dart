@@ -78,7 +78,7 @@ class _GenderState extends State<Gender> {
                       style: TextStyle(
                           fontSize: 15,
                           fontFamily: 'NeueFrutigerWorld',
-                          color: ColorRes.textColor,
+                          color: ColorRes.white,
                           fontWeight: FontWeight.w700),
                     ))),
             onTap: () {

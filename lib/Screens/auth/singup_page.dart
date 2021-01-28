@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hookup4u/Screens/auth/login_page.dart';
 import 'package:hookup4u/Screens/auth/signup_viewmodel.dart';
+import 'package:hookup4u/Screens/auth/verify_otp_screen.dart';
 import 'package:hookup4u/util/color.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -76,7 +77,7 @@ class SignUpPageState extends State<SignUpPage> {
                               cursorColor: ColorRes.textColor,
                               controller: userIdCont,
                               decoration: InputDecoration(
-                                hintText: "iHeartMuslims1",
+                                // hintText: "iHeartMuslims1",
                                 hintStyle: TextStyle(
                                     color: ColorRes.textColor, fontSize: 16),
                                 focusColor: ColorRes.textColor,
@@ -111,7 +112,7 @@ class SignUpPageState extends State<SignUpPage> {
                               cursorColor: ColorRes.textColor,
                               controller: userNameCont,
                               decoration: InputDecoration(
-                                hintText: "IHeart Muslims",
+                                // hintText: "IHeart Muslims",
                                 hintStyle: TextStyle(
                                     color: ColorRes.textColor, fontSize: 16),
                                 focusColor: ColorRes.textColor,
@@ -147,7 +148,7 @@ class SignUpPageState extends State<SignUpPage> {
                               cursorColor: ColorRes.textColor,
                               controller: emailCont,
                               decoration: InputDecoration(
-                                hintText: "example@example.com",
+                                // hintText: "example@example.com",
                                 hintStyle: TextStyle(
                                     color: ColorRes.textColor, fontSize: 16),
                                 focusColor: ColorRes.textColor,
@@ -183,7 +184,7 @@ class SignUpPageState extends State<SignUpPage> {
                               controller: passwordCont,
                               obscureText: true,
                               decoration: InputDecoration(
-                                hintText: "••••••",
+                                // hintText: "••••••",
                                 hintStyle: TextStyle(
                                     color: ColorRes.textColor, fontSize: 16),
                                 focusColor: ColorRes.textColor,
@@ -210,12 +211,16 @@ class SignUpPageState extends State<SignUpPage> {
                             GestureDetector(
                               onTap: () {
                                 if (!isLoading) {
+
+                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => VerifyOtpScreen(emailStr: emailCont.text.trim())));
+
                                   if (model.validate()) {
                                     setState(() {
                                       isLoading = true;
                                     });
                                     model.signUp();
                                   }
+
                                 }
                               },
                               child: Container(
@@ -249,7 +254,7 @@ class SignUpPageState extends State<SignUpPage> {
                                   Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => LoginPage()));
+                                          builder: (context) => LoginPage(isShowBackArrow: true)));
                                 }
                               },
                               child: Text(

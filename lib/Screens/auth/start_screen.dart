@@ -19,8 +19,14 @@ class StartScreen extends StatelessWidget {
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
+
+              Image(
+                  width: MediaQuery.of(context).size.width - 130,
+                  height: MediaQuery.of(context).size.height / 1.4,
+                  image: AssetImage("asset/Icon/logo_white.png")),
+
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()));
                 },
                 child: Container(
@@ -42,7 +48,7 @@ class StartScreen extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(isShowBackArrow: true)));
                 },
                 child: Container(
                   height: MediaQuery.of(context).size.height * .075,

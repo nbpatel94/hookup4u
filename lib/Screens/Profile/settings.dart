@@ -217,7 +217,7 @@ class _SettingsState extends State<Settings> {
                 onTap: () async {
                   await sharedPreferences.clear();
                   await databaseHelper.clearMessageDatabase();
-                  appState.medialList.clear();
+                  appState.medialList = List();
                   appState.userDetailsModel = null;
                   appState.currentUserData = null;
                   Navigator.pushAndRemoveUntil(

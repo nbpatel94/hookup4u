@@ -6,6 +6,10 @@ import 'package:hookup4u/Screens/auth/singup_page.dart';
 import 'package:hookup4u/util/color.dart';
 
 class LoginPage extends StatefulWidget {
+
+  final bool isShowBackArrow;
+  const LoginPage({Key key, this.isShowBackArrow = false}) : super(key: key);
+
   @override
   LoginPageState createState() => LoginPageState();
 }
@@ -35,6 +39,7 @@ class LoginPageState extends State<LoginPage> {
       child: Scaffold(
         backgroundColor: ColorRes.primaryColor,
         key: _scaffoldKey,
+
         body: SafeArea(
           child: Stack(
             alignment: Alignment.center,
@@ -57,8 +62,7 @@ class LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 50),
+                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -71,12 +75,11 @@ class LoginPageState extends State<LoginPage> {
                                   color: Colors.grey[200]),
                             ),
                             TextFormField(
-                              style: TextStyle(
-                                  fontSize: 16, color: ColorRes.textColor),
+                              style: TextStyle(fontSize: 16, color: ColorRes.textColor),
                               cursorColor: ColorRes.textColor,
                               controller: usernameCont,
                               decoration: InputDecoration(
-                                hintText: "iHeartMuslims1",
+                                // hintText: "iHeartMuslims1",
                                 hintStyle: TextStyle(
                                     color: ColorRes.textColor, fontSize: 16),
                                 focusColor: ColorRes.textColor,
@@ -106,13 +109,12 @@ class LoginPageState extends State<LoginPage> {
                                   color: Colors.grey[200]),
                             ),
                             TextFormField(
-                              style: TextStyle(
-                                  fontSize: 16, color: ColorRes.textColor),
+                              style: TextStyle(fontSize: 16, color: ColorRes.textColor),
                               cursorColor: ColorRes.textColor,
                               controller: passwordCont,
                               obscureText: true,
                               decoration: InputDecoration(
-                                hintText: "••••••",
+                                // hintText: "••••••",
                                 hintStyle: TextStyle(
                                     color: ColorRes.textColor, fontSize: 16),
                                 focusColor: ColorRes.textColor,
@@ -201,7 +203,7 @@ class LoginPageState extends State<LoginPage> {
                   ),
                 ),
               ),
-              Positioned(
+              widget.isShowBackArrow ? Positioned(
                 top: 0,
                 left: 0,
                 child: Padding(
@@ -219,24 +221,25 @@ class LoginPageState extends State<LoginPage> {
                       ),
                       iconSize: 30),
                 ),
-              ),
+              ) : Container(),
+
               Positioned(
                 bottom: 0,
-                child: GestureDetector(
-                  onTap: () {
-                    if (!isLoading) {
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SignUpPage()));
-                      // Navigator.push(context, MaterialPageRoute(builder: (context) => Welcome()));
-                    }
-                  },
-                  child: Container(
-                      color: Color(0xff192E3F),
-                      alignment: Alignment.center,
-                      width: MediaQuery.of(context).size.width,
-                      height: 50,
+                child: Container(
+                    color: Color(0xff192E3F),
+                    alignment: Alignment.center,
+                    width: MediaQuery.of(context).size.width,
+                    height: 50,
+                    child: InkWell(
+                      onTap: () {
+                        if (!isLoading) {
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignUpPage()));
+                          // Navigator.push(context, MaterialPageRoute(builder: (context) => Welcome()));
+                        }
+                      },
                       child: Text(
                         "Don't have account? Sign up",
                         textAlign: TextAlign.center,
@@ -244,8 +247,8 @@ class LoginPageState extends State<LoginPage> {
                             color: ColorRes.textColor,
                             fontFamily: 'NeueFrutigerWorld',
                             fontSize: 15),
-                      )),
-                ),
+                      ),
+                    )),
               )
             ],
           ),

@@ -166,12 +166,13 @@ class _SplashState extends State<Splash> {
         backgroundColor: ColorRes.primaryColor,
         body: Center(
           child: Container(
-              height: 120,
-              width: 200,
-              child: SvgPicture.asset(
+              height: 150,
+              width: 230,
+              child: Platform.isIOS ? Image.asset("asset/Icon/logo_white.png") : SvgPicture.asset(
                 "asset/ihr-mus-clear-bg.svg",
                 fit: BoxFit.contain,
-              )),
+              )
+          ),
         ));
   }
 
@@ -386,8 +387,7 @@ class _SplashState extends State<Splash> {
 
   void _handleInvalidPurchase(PurchaseDetails purchaseDetails) {
     // handle invalid purchase here if  _verifyPurchase` failed.
-    print(
-        "inAppPurchase purchaseResponse error ${purchaseDetails.error.message} -- ${purchaseDetails.error.code} -- ${purchaseDetails.error.details}");
+    print("inAppPurchase purchaseResponse error ${purchaseDetails.error.message} -- ${purchaseDetails.error.code} -- ${purchaseDetails.error.details}");
   }
 
   void _listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {
@@ -397,12 +397,10 @@ class _SplashState extends State<Splash> {
         print("inAppPurchase purchaseDetails.status ${purchaseDetails.status}");
       } else {
         if (purchaseDetails.status == PurchaseStatus.error) {
-          print(
-              "inAppPurchase purchaseDetails.status ${purchaseDetails.status}");
+          print("inAppPurchase purchaseDetails.status ${purchaseDetails.status}");
           handleError(purchaseDetails.error);
         } else if (purchaseDetails.status == PurchaseStatus.purchased) {
-          print(
-              "inAppPurchase purchaseDetails.status ${purchaseDetails.status}");
+          print("inAppPurchase purchaseDetails.status ${purchaseDetails.status}");
           bool valid = await _verifyPurchase(purchaseDetails);
           if (valid) {
             deliverProduct(purchaseDetails);

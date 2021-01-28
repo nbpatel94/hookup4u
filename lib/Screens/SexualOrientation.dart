@@ -5,6 +5,7 @@ import 'package:hookup4u/Screens/home/list_holder_page.dart';
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:hookup4u/restapi/restapi.dart';
+import 'package:intl/intl.dart';
 
 bool select = false;
 
@@ -92,7 +93,7 @@ class _SexualOrientationState extends State<SexualOrientation> {
                   style: TextStyle(
                       fontSize: 15,
                       fontFamily: 'NeueFrutigerWorld',
-                      color: ColorRes.textColor,
+                      color: ColorRes.white,
                       fontWeight: FontWeight.bold),
                 ))),
             onTap: ()  async {
@@ -115,7 +116,7 @@ class _SexualOrientationState extends State<SexualOrientation> {
                           appState.relation=='Widowed' ) {
                         isRelation = true;
                         isChild = false;
-                      }else{
+                      } else {
                         Navigator.pop(context);
                       }
                     });
@@ -184,8 +185,8 @@ class _SexualOrientationState extends State<SexualOrientation> {
                         appState.dateOfBirth;
 
                     // print(jsonEncode(appState.userDetailsModel.meta.toJson()));
-                    String check = await RestApi.updateUserDetails(
-                        appState.userDetailsModel.meta.toFirstJson());
+                    String check = await RestApi.updateUserDetails(appState.userDetailsModel.meta.toFirstJson());
+                      isLoading = true;
                     if (check == 'success') {
                       Navigator.pushAndRemoveUntil(
                           context,
@@ -193,8 +194,7 @@ class _SexualOrientationState extends State<SexualOrientation> {
                               builder: (context) => ListHolderPage()),
                               (Route<dynamic> route) => false);
                     } else {
-                      snackbar(
-                          'Something went wrong! Try to update after sometime');
+                      snackbar('Something went wrong! Try to update after sometime');
                     }
                   }
                 }
@@ -282,11 +282,8 @@ class _SexualOrientationState extends State<SexualOrientation> {
                                   child: OutlineButton(
                                     highlightedBorderColor: ColorRes.primaryColor,
                                     child: Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              .055,
-                                      width: MediaQuery.of(context).size.width *
-                                          .65,
+                                      height: MediaQuery.of(context).size.height * .055,
+                                      width: MediaQuery.of(context).size.width * .65,
                                       child: Center(
                                           child: Text(
                                               "${childrenlist[index]["name"]}",
@@ -303,9 +300,7 @@ class _SexualOrientationState extends State<SexualOrientation> {
                                         color: childrenlist[index]["ontap"]
                                             ? ColorRes.redButton
                                             : ColorRes.darkButton),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(25)),
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                                     onPressed: () {
                                       setState(() {
                                         for (int i = 0; i < childrenlist.length; i++) {
@@ -359,13 +354,22 @@ class _SexualOrientationState extends State<SexualOrientation> {
                 cancelStyle: TextStyle(color: ColorRes.textColor, fontSize: 16),
                 doneStyle: TextStyle(color: ColorRes.textColor, fontSize: 16)),
             onChanged: (date) {
-          print('change $date in time zone ' +
-              date.timeZoneOffset.inHours.toString());
+          print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
         }, onConfirm: (date) {
+
           currentDay = date.day;
           currentYear = date.year;
           currentMonth = date.month;
-          dateOfBirth = '${date.day}/${date.month}/${date.year}';
+          // dateOfBirth  = '${date.day}/${date.month}/${date.year}';
+          // print("Hello " + dateOfBirth);
+
+          // final DateTime now = DateTime.now();
+          final DateFormat formatter = DateFormat('MMM dd, y');
+          final String formatted = formatter.format(date);
+          print("confirm" + formatted);
+
+          dateOfBirth = formatted;
+
           print('confirm $dateOfBirth');
           setState(() {});
         }, currentTime: DateTime.now(), locale: LocaleType.en);

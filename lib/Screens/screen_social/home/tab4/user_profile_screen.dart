@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hookup4u/Screens/screen_social/home/tab1/edit/edit_screen.dart';
 import 'package:hookup4u/Screens/screen_social/home/tab1/post_data/post_data_screen.dart';
 import 'package:hookup4u/app.dart';
+import 'package:hookup4u/util/color.dart';
 
 import 'user_profile_viewmodel.dart';
 
@@ -17,18 +18,30 @@ class UserProfileScreenState extends State<UserProfileScreen> {
   String postIdStr = "0";
 
   UserProfileViewModel model;
+
   @override
   Widget build(BuildContext context) {
 
     model ?? (model = UserProfileViewModel(this));
 
-    return Material(
-      child: SingleChildScrollView(
+    return Scaffold(
+      backgroundColor: ColorRes.primaryColor,
+      appBar: AppBar(
+        elevation: 0.0,
+        leading: Container(),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.edit, color: ColorRes.primaryRed),
+              onPressed: () {}),
+        ],
+      ),
+      body: SingleChildScrollView(
         child: Column(
           children: [
              topUserImageView(),
+             followerDataShow(),
+             tabIconShow(),
              showMyPost()
-           
           ],
         ),
       ),
@@ -37,9 +50,55 @@ class UserProfileScreenState extends State<UserProfileScreen> {
 
   topUserImageView() {
     return Container(
-      height: 350,
-      color: Colors.white60,
-      child: Stack(
+      height: 200,
+      // color: Colors.white60,
+      child: Row(
+        children: [
+
+          Container(
+              height: 125,
+              width: 125,
+              // height: MediaQuery.of(context).size.width / 3,
+              // width: MediaQuery.of(context).size.width / 3,
+              decoration: BoxDecoration(color: Colors.amberAccent, shape: BoxShape.circle),
+              margin: EdgeInsets.only(left: 30, right: 30),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(125),
+                child: appState.medialList != null &&
+                        appState.medialList.isNotEmpty
+                    ? CachedNetworkImage(
+                        imageUrl: appState.medialList[0].sourceUrl,
+                        placeholder: (context, url) => Image.asset(
+                              'asset/Icon/placeholder.png',
+                              height: 120,
+                              width: 120,
+                              fit: BoxFit.cover,
+                            ),
+                        height: 120,
+                        width: 120,
+                        fit: BoxFit.cover)
+                    : Image.asset(
+                        'asset/Icon/placeholder.png',
+                        height: 120,
+                        width: 120,
+                        fit: BoxFit.cover,
+                      ),
+              )),
+
+              Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+
+                Text("Blanche Hall", style: TextStyle(color: ColorRes.white, fontSize: 23), overflow: TextOverflow.ellipsis, maxLines: 1),
+                Text("@jorgecutis", style: TextStyle(color: ColorRes.greyBg, fontSize: 15),  overflow: TextOverflow.ellipsis, maxLines: 1),
+
+              ])
+
+
+        ],
+      ),
+    /*  child: Stack(
         alignment: Alignment.center,
         children: [
           Positioned(
@@ -90,12 +149,57 @@ class UserProfileScreenState extends State<UserProfileScreen> {
                 ),
               ))
         ],
+      ),*/
+    );
+  }
+
+  followerDataShow() {
+    return Container(
+      height: 50,
+      alignment: Alignment.center,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          followerCountShow("128", "Posts"),
+          followerCountShow("3120", "Following"),
+          followerCountShow("5024", "Follower"),
+        ],
+      ),
+    );
+  }
+
+  followerCountShow(String countShow, String title){
+    return Row(
+      children: [
+        Text(countShow, style: TextStyle(color: ColorRes.white, fontSize: 15), overflow: TextOverflow.ellipsis, maxLines: 1),
+        SizedBox(width: 5),
+        Text(title, style: TextStyle(color: ColorRes.greyBg, fontSize: 15), overflow: TextOverflow.ellipsis, maxLines: 1),
+      ],
+    );
+  }
+
+  tabIconShow(){
+    return Container(
+      height: 50,
+      color: ColorRes.tabBg,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          // Icon(Icons.grid_view, color: ColorRes.white,),
+          Image(
+              height: 20,
+              width: 20,
+              image: AssetImage("asset/Icon/grid.png")
+          ),
+          Icon(Icons.image, color: ColorRes.white),
+          Icon(Icons.play_circle_fill, color: ColorRes.white),
+          Icon(Icons.music_note_rounded, color: ColorRes.white),
+        ],
       ),
     );
   }
 
   showMyPost() {
-
     if(model.showMyPostList.length == 0) {
       return Container(
           width: MediaQuery.of(context).size.width,

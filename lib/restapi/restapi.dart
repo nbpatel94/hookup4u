@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:hookup4u/Screens/auth/verify_otp_screen.dart';
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/models/activitymodel.dart';
 import 'package:hookup4u/models/match_model.dart';
@@ -48,7 +51,7 @@ class RestApi {
     }
   }
 
-  static Future<String> logInApi(String loginId, String password) async {
+  static Future<String> logInApi(String loginId, String password, BuildContext context) async {
     String url = App.loginBase;
 
     var bodyData = {"username": loginId, "password": password};
@@ -61,7 +64,7 @@ class RestApi {
     if (response.statusCode == 200) {
       print(response.body);
       var userDetail = profileDetailFromJson(response.body);
-      if (userDetail.statusCode == 200) {
+      if (userDetail.statusCode == 200 && userDetail.success == true) {
         appState.currentUserData = userDetail;
         appState.accessToken = userDetail.data.token;
         appState.id = userDetail.data.id;
@@ -70,12 +73,76 @@ class RestApi {
         await sharedPreferences.setString(Preferences.password, password);
         await sharedPreferences.setString(Preferences.accessToken, userDetail.data.token);
         return 'success';
+      } else if(userDetail.statusCode == 403 && userDetail.code == "bp_account_not_activated") {
+
+        Navigator.push(context, MaterialPageRoute(builder: (context) => VerifyOtpScreen(emailStr: loginId)));
+
+        Map<String, dynamic> reSendOtp = {
+          "username": loginId,
+        };
+
+        RestApi.reSendOtp(reSendOtp).then((response) {
+          print(response);
+          Map<String, dynamic> jsonData = {};
+          if(jsonData['code'] == 200 && jsonData['status'] == "success") {
+          }
+        });
+
+        return userDetail.message;
+
       } else {
         return userDetail.message;
       }
     } else {
       return 'Something went wrong! Please try later';
     }
+  }
+
+  static Future<http.Response> postOtpVerifyOtp(Map<String, dynamic> otpMapData) async {
+
+    String url = App.baseUrlSA + App.activeUser;
+
+    // var headerData = {
+    //   "Authorization" : "Bearer "+appState.accessToken
+    // };
+
+    print("otp" + url);
+    // print(headerData);
+
+    try {
+      Response response = await http.post(url, body: otpMapData);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        return response;
+      } else {
+        return null;
+      }
+    } catch(e) {
+      print(e);
+      return null;
+    }
+
+  }
+
+  static Future<http.Response> reSendOtp(Map<String, dynamic> otpMapData) async {
+
+    String url = App.baseUrlSA + App.reSendEmail;
+
+    print("ReSend" + url);
+
+    try {
+      Response response = await http.post(url, body: otpMapData);
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        return response;
+      } else {
+        return null;
+      }
+    } catch(e) {
+      print(e);
+      return null;
+    }
+
   }
 
   static Future<String> requestVerificationCodeApi(String email) async {
@@ -468,7 +535,9 @@ class RestApi {
     String url = App.baseUrlSA + App.user;
 
     var headerData = {
-      "Authorization" : "Bearer ${appState.accessToken}"
+      // "Authorization" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZG9vci5paGVhcnRtdXNsaW1zLmNvbSIsImlhdCI6MTYxMTYzOTk2MywibmJmIjoxNjExNjM5OTYzLCJleHAiOjQ3NjUyMzk5NjMsImRhdGEiOnsidXNlciI6eyJpZCI6NH19fQ.HM5lJUFLUeh7ojYImLIwY3wj2mnzaZb_y1g_va8PPWk"
+      "Authorization" : "Bearer ${appState.accessToken}",
+      "Content-Type" : "application/json"
     };
 
     print(url);
@@ -476,7 +545,7 @@ class RestApi {
     print(headerData);
 
     try {
-      Response response = await http.post(url,headers: headerData, body: bodyData);
+      Response response = await http.post(url,headers: headerData, body: jsonEncode(bodyData));
       print(response.statusCode);
       if (response.statusCode == 200) {
         print(response.body);

@@ -68,20 +68,20 @@ class Meta {
     this.subscriptionName,
   });
 
-  String about;
-  String dateOfBirth;
-  String jobTitle;
-  String relation;
-  String livingIn;
-  int superLike;
-  int likeCount;
-  String gender;
-  String children;
-  String deviceToken;
-  String superLikeTime;
-  String likeTime;
-  String subscriptionName;
-  DateTime subscriptionDate;
+  String about = "";
+  String dateOfBirth = "";
+  String jobTitle = "";
+  String relation = "";
+  String livingIn = "";
+  int superLike = null;
+  int likeCount = null;
+  String gender = "";
+  String children = "-";
+  String deviceToken = "";
+  String superLikeTime = "";
+  String likeTime = "";
+  String subscriptionName = "";
+  DateTime subscriptionDate = null;
 
   factory Meta.fromJson(Map<String, dynamic> json) => Meta(
     about: json["about"],

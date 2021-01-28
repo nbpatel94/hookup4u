@@ -9,12 +9,13 @@ import 'dart:convert';
 import 'package:hookup4u/prefrences.dart';
 import 'package:hookup4u/models/mediamodel.dart';
 
-class LoginViewModel{
+class LoginViewModel {
+
   LoginPageState state;
   LoginViewModel(this.state);
 
   login() async {
-    String confirm = await RestApi.logInApi(state.usernameCont.text.trim(), state.passwordCont.text.trim());
+    String confirm = await RestApi.logInApi(state.usernameCont.text.trim(), state.passwordCont.text.trim(), state.context);
     if (confirm == 'success') {
       UserDetailsModel userDetailsModel = await RestApi.getSingleUserDetails(appState.id);
       if(userDetailsModel!=null && userDetailsModel.meta.about!=""){
@@ -28,9 +29,9 @@ class LoginViewModel{
 
         appState.superLikeCount = userDetailsModel.meta.superLike;
         appState.likeCount = userDetailsModel.meta.likeCount;
-        if(userDetailsModel.meta.likeTime!=""){
+        if(userDetailsModel.meta.likeTime!="") {
           appState.likeTime = DateTime.parse(userDetailsModel.meta.likeTime);
-        }else{
+        } else {
           appState.likeTime = DateTime.fromMillisecondsSinceEpoch(DateTime.now().millisecond - 3600000);
         }
         if(userDetailsModel.meta.superLikeTime!=""){
@@ -56,7 +57,7 @@ class LoginViewModel{
         // await RestApi.updateUserDetails(appState.userDetailsModel.meta.toFirstJson());
         await sharedPreferences.setString(Preferences.metaData, jsonEncode(userDetailsModel.toJson()));
         final medialList = await RestApi.getSingleUserMedia();
-        if(medialList!=null){
+        if(medialList!=null) {
           appState.medialList = medialList;
           await sharedPreferences.setString(Preferences.mediaData, mediaListToJson(medialList));
           Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => ListHolderPage()),(Route<dynamic> route) => false);
@@ -65,7 +66,7 @@ class LoginViewModel{
       else{
         Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => Welcome()),(Route<dynamic> route) => false);
       }
-    }else{
+    } else {
       state.showSnackBar(confirm);
       state.setState(() {
         state.isLoading = false;

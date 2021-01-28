@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hookup4u/Screens/auth/login_page.dart';
 import 'package:hookup4u/Screens/auth/singup_page.dart';
+import 'package:hookup4u/Screens/auth/verify_otp_screen.dart';
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/restapi/restapi.dart';
 import 'package:hookup4u/util/color.dart';
@@ -11,7 +12,8 @@ class SignUpViewModel {
   SignUpViewModel(this.state);
 
   signUp() async {
-    String confirm = await RestApi.signUpApi(
+
+     String confirm = await RestApi.signUpApi(
         state.userIdCont.text.trim(),
         state.userNameCont.text.trim(),
         state.emailCont.text.trim(),
@@ -23,7 +25,7 @@ class SignUpViewModel {
     if (confirm == 'success') {
       appState.name = state.userNameCont.text.trim();
       successfullySignUp();
-    }else{
+    } else {
       state.showSnackBar(confirm);
     }
   }
@@ -63,7 +65,11 @@ class SignUpViewModel {
         context: state.context,
         builder: (_) {
           Future.delayed(Duration(seconds: 5), () {
-            Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => LoginPage()),(Route<dynamic> route) => false);
+
+            Navigator.pop(state.context);
+            Navigator.push(state.context, MaterialPageRoute(builder: (context) => VerifyOtpScreen(emailStr: state.emailCont.text.trim())));
+
+            // Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => LoginPage()),(Route<dynamic> route) => false);
           });
           return Center(
               child: Container(

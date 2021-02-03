@@ -1,78 +1,101 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hookup4u/Screens/screen_social/comment_view/comment_screen.dart';
-import 'package:hookup4u/Screens/screen_social/home/tab1/edit/edit_screen.dart';
 import 'package:hookup4u/Screens/screen_social/home/tab1/post_data/post_data_screen.dart';
 import 'package:hookup4u/Screens/screen_social/like_show/like_show_screen.dart';
+import 'package:hookup4u/Screens/screen_social/user_profile_view/user_profile_viewmodel.dart';
 import 'package:hookup4u/app.dart';
-import 'package:hookup4u/models/socialPostShowModel.dart';
+import 'package:hookup4u/models/user_profile_model.dart';
 import 'package:hookup4u/util/color.dart';
+import 'package:hookup4u/widget/social_card_view/social_card_view.dart';
 import 'package:intl/intl.dart';
+// import 'package:hookup4u/widget/social_card_view/social_card_view.dart' as cardView;
 
-import 'user_profile_viewmodel.dart';
+class UserProfilePage extends StatefulWidget {
 
-class UserProfileScreen extends StatefulWidget {
+  final int userId;
+  final bool isFollow;
+
+  const UserProfilePage({Key key, this.userId, this.isFollow}) : super(key: key);
+
   @override
-  UserProfileScreenState createState() => UserProfileScreenState();
+  UserProfilePageState createState() => UserProfilePageState();
 }
 
-class UserProfileScreenState extends State<UserProfileScreen> {
-// with SingleTickerProviderStateMixin
+class UserProfilePageState extends State<UserProfilePage> {
+
+  List<String> emojis = ["👍","❤️","😘","🤣","😡","😥"];
+  int isSelected = 1;
   bool isRef = false;
   String postIdStr = "0";
 
-  List<String> emojis = ["👍","❤️","😘","🤣","😡","😥"];
+  bool isShowFollowUnFollow = false;
 
-  int isSelected = 1;
-  // TabController _tabController;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // _tabController = new TabController(length: 4, vsync: this);
+    isShowFollowUnFollow = widget.isFollow;
+    setState(() {});
   }
 
   UserProfileViewModel model;
+
   @override
   Widget build(BuildContext context) {
 
     model ?? (model = UserProfileViewModel(this));
 
-    return Scaffold(
-      backgroundColor: ColorRes.primaryColor,
-      appBar: AppBar(
-        elevation: 0.0,
-        leading: Container(),
-        actions: <Widget>[
-          IconButton(icon: Icon(Icons.edit, color: ColorRes.primaryRed),
-          onPressed: () {}),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-             topUserImageView(),
-             followerDataShow(),
-             tabIconShow(),
-
-            //  Container(
-            //   height: 150,
-            //   child: TabBarView(
-            //     physics: NeverScrollableScrollPhysics(),
-            //     children: [
-            //
-            //       showMyPost(),
-            //       new Text("This is chat Tab View"),
-            //       new Text("This is notification Tab View"),
-            //       new Text("This is notification Tab View"),
-            //     ],
-            //     controller: _tabController
-            //   ),
-            // ),
-
-             showMyPost()
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context, true);
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: ColorRes.primaryColor,
+        appBar: AppBar(
+          elevation: 0.0,
+          backgroundColor: ColorRes.greyBg,
+          leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () {
+            Navigator.pop(context, true);
+          }),
+          actions: <Widget>[
+            IconButton(icon: Icon(Icons.more_vert, color: ColorRes.white, size: 30), onPressed: () {}),
           ],
+        ),
+        body: !model.isEmptyMessageShow ? Container() : model?.userProfileModel?.data?.userDetail == null?
+        Center(
+          child: Container(
+            alignment: Alignment.center,
+            child: Text("User Profile Not Available!", style: TextStyle(color: ColorRes.white, fontSize: 20)),
+          ),
+        ) : SingleChildScrollView(
+          child: Column(
+            children: [
+              topUserImageView(),
+              followerDataShow(),
+              tabIconShow(),
+
+              //  Container(
+              //   height: 150,
+              //   child: TabBarView(
+              //     physics: NeverScrollableScrollPhysics(),
+              //     children: [
+              //
+              //       showMyPost(),
+              //       new Text("This is chat Tab View"),
+              //       new Text("This is notification Tab View"),
+              //       new Text("This is notification Tab View"),
+              //     ],
+              //     controller: _tabController
+              //   ),
+              // ),
+
+              showMyPost()
+              // SocialPostView(userProfileModel: model.userProfileModel)
+            ],
+          ),
         ),
       ),
     );
@@ -81,54 +104,57 @@ class UserProfileScreenState extends State<UserProfileScreen> {
   topUserImageView() {
     return Container(
       height: 200,
+      alignment: Alignment.center,
+      color: ColorRes.greyBg,
+      padding: EdgeInsets.only(bottom: 15),
       // color: Colors.white60,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
 
           Container(
-              height: 125,
-              width: 125,
+              height: 70,
+              width: 70,
               // height: MediaQuery.of(context).size.width / 3,
               // width: MediaQuery.of(context).size.width / 3,
               decoration: BoxDecoration(color: Colors.amberAccent, shape: BoxShape.circle),
-              margin: EdgeInsets.only(left: 30, right: 30),
+              margin: EdgeInsets.only(left: 15, right: 15),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(125),
-                child: appState.medialList != null &&
-                        appState.medialList.isNotEmpty
+                child: model.userProfileModel?.data?.thumb != null &&
+                    model.userProfileModel.data.thumb.isNotEmpty
                     ? CachedNetworkImage(
-                        imageUrl: appState.medialList[0].sourceUrl,
-                        placeholder: (context, url) => Image.asset(
-                              'asset/Icon/placeholder.png',
-                              height: 120,
-                              width: 120,
-                              fit: BoxFit.cover,
-                            ),
-                        height: 120,
-                        width: 120,
-                        fit: BoxFit.cover)
+                    imageUrl: model.userProfileModel.data.thumb,
+                    placeholder: (context, url) => Image.asset(
+                      'asset/Icon/placeholder.png',
+                      height: 120,
+                      width: 120,
+                      fit: BoxFit.cover,
+                    ),
+                    height: 120,
+                    width: 120,
+                    fit: BoxFit.cover)
                     : Image.asset(
-                        'asset/Icon/placeholder.png',
-                        height: 120,
-                        width: 120,
-                        fit: BoxFit.cover,
-                      ),
+                  'asset/Icon/placeholder.png',
+                  height: 120,
+                  width: 120,
+                  fit: BoxFit.cover,
+                ),
               )),
 
-              Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-
-                Text("Blanche Hall", style: TextStyle(color: ColorRes.white, fontSize: 23), overflow: TextOverflow.ellipsis, maxLines: 1),
-                Text("@jorgecutis", style: TextStyle(color: ColorRes.greyBg, fontSize: 15),  overflow: TextOverflow.ellipsis, maxLines: 1),
-
+          Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(model?.userProfileModel?.data?.userDetail?.displayName ?? "", style: TextStyle(color: ColorRes.white, fontSize: 21), overflow: TextOverflow.ellipsis, maxLines: 1),
+                Text("@${model?.userProfileModel?.data?.userDetail?.userNicename}" ?? "", style: TextStyle(color: ColorRes.white, fontSize: 14),  overflow: TextOverflow.ellipsis, maxLines: 1),
+                SizedBox(height: 15),
               ])
 
 
         ],
       ),
-    /*  child: Stack(
+      /*  child: Stack(
         alignment: Alignment.center,
         children: [
           Positioned(
@@ -190,16 +216,49 @@ class UserProfileScreenState extends State<UserProfileScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          followerCountShow("128", "Posts"),
-          followerCountShow("3120", "Following"),
-          followerCountShow("5024", "Follower"),
+
+          followerCountShow(model?.userProfileModel?.data?.posts?.toString() ?? "0", "Posts"),
+          followerCountShow(model?.totalFollowing.toString() ?? "0", "Following"),
+          followerCountShow(model?.userProfileModel?.data?.follower?.toString() ?? "0", "Follower"),
+
+          InkResponse(
+            onTap: () {
+              model.friendRequestApi();
+            },
+            child: Container (
+              height: 35,
+              width: 35,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.blue.shade200
+              ),
+              child: Icon(Icons.person_add_alt_1, color: ColorRes.white, size: 20),
+            ),
+          ),
+
+          InkResponse(
+            onTap: () {
+              model.userFollowApi(widget.userId.toString());
+            },
+            child: Container(
+              height: 30,
+              width: 80,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  color: ColorRes.primaryRed,
+                  borderRadius: BorderRadius.circular(50)
+              ),
+              child: Text(isShowFollowUnFollow ? "UnFollow" : "Follow", style: TextStyle(color: ColorRes.white, fontSize: 15), textAlign: TextAlign.center, maxLines: 1, overflow: TextOverflow.ellipsis),
+            ),
+          )
         ],
       ),
     );
   }
 
   followerCountShow(String countShow, String title){
-    return Row(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(countShow, style: TextStyle(color: ColorRes.white, fontSize: 15), overflow: TextOverflow.ellipsis, maxLines: 1),
         SizedBox(width: 5),
@@ -246,14 +305,14 @@ class UserProfileScreenState extends State<UserProfileScreen> {
           InkResponse(
             onTap: () {
               setState(() {
-                isSelected =1;
+                isSelected = 1;
               });
             },
             child: Image(
-                height: 20,
-                width: 20,
-                image: AssetImage("asset/Icon/grid.png"),
-                color: isSelected == 1? ColorRes.primaryRed : Colors.white,
+              height: 20,
+              width: 20,
+              image: AssetImage("asset/Icon/grid.png"),
+              color: isSelected == 1? ColorRes.primaryRed : Colors.white,
             ),
           ),
           InkResponse(
@@ -282,41 +341,232 @@ class UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 
+
+
   showMyPost() {
-    if(!model.isEmptyMessageShow) {
-      return Container();
+    print(model.userProfileModel);
+    if(model.userProfileModel?.data?.userPosts?.length == 0) {
+      return Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 0.5,
+          alignment: Alignment.center,
+          child: Text("No Data Found"));
     } else {
-      if(model.showMyPostList.length == 0) {
-        return Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * 0.5,
-            alignment: Alignment.center,
-            child: Text("No Post Available")
-        );
-      } else {
-        return  ListView.builder(
-            itemCount: model.showMyPostList.length,
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return showView(index, model.showMyPostList[index]);
-            });
-      }
+      return  model.userProfileModel?.data == null || model.userProfileModel.data.userPosts == null || model.userProfileModel.data.userPosts.isEmpty ? Container() :
+      ListView.builder(
+          itemCount: model.userProfileModel.data.userPosts.length,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            return showView(index, model.userProfileModel.data.userPosts[index]);
+          });
     }
   }
 
-  showView(int index, SocialPostShowData showMyPostList) {
-    if(model.showMyPostList[index].parentPost != null) {
-      return sharingViewShow(index, showMyPostList);
+
+  showView(int index, UserPosts userPost) {
+    if(userPost.parentPostData != null) {
+      return sharingViewShow(index, userPost);
     } else {
-      return postView(index, showMyPostList);
+      return postView(index, userPost);
     }
   }
 
-  postView(int index, SocialPostShowData showMyPostList) {
+  sharingViewShow(int index, UserPosts userPost) {
 
     String currentTime = "";
-    DateTime dateTIme = DateTime.parse(showMyPostList.postDate);
+    DateTime dateTIme = DateTime.parse(userPost.postDate);
+    final date2 = DateTime.now().toUtc();
+    DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
+    print(formatter);
+    final String formatted = formatter.format(date2);
+    DateTime utcTime = DateTime.parse(formatted);
+    final days = utcTime.difference(dateTIme).inDays;
+    final hours = utcTime.difference(dateTIme).inHours;
+    final minutes = utcTime.difference(dateTIme).inMinutes;
+
+    if(minutes <= 60) {
+      currentTime = "$minutes minutes ago";
+    } else if(hours <= 24) {
+      currentTime = "$hours hours ago";
+    } else if(days > 0) {
+      currentTime = "$days days ago";
+    }
+
+    return Stack(
+      children: [
+        Container(
+          // height: MediaQuery.of(context).size.width,
+          width: MediaQuery.of(context).size.width,
+          margin: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            // border: Border.all(color: Colors.black, width: 1),
+              borderRadius: BorderRadius.circular(5),
+              color: ColorRes.primaryColor,
+              boxShadow: [BoxShadow(color: ColorRes.black, blurRadius: 5.0, offset: Offset(0, 0), spreadRadius: 0.1)]
+          ),
+          child: Column(
+            // mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+
+                    userImgNameShow(index, currentTime),
+                    Padding(
+                      padding: EdgeInsets.only(right: 10),
+                      child: popUpMenuButton(index, "2"/*model.socialPostShowList[index].parentPost.id*/, true),
+                    ),
+                    /*  Row(
+                      children: [
+                        InkResponse(
+                            onTap: () async {
+                              // model.deletePostApi(model.socialPostShowList[index].id);
+                              isRef = await Navigator.push(context, MaterialPageRoute(builder: (context) => EditDataScreen(socialPostShowData: model.showMyPostList[index])));
+                              if(isRef) {
+                                model.showMyPostApi();
+                              }                            },
+                            child: Icon(Icons.edit, color: Colors.black, size: 30)),
+
+                        InkResponse(
+                            onTap: () {
+                              model.deletePostApi(model.showMyPostList[index].id);
+                            },
+                            child: Icon(Icons.delete, color: Colors.black, size: 30))
+                      ],
+                    )*/
+                  ],
+                ),
+              ), //appState.currentUserData
+
+              Padding(padding: EdgeInsets.only(left: 10, right: 10, top: 5),
+                  child: Text(userPost.content, style: TextStyle(color: ColorRes.white))),
+
+              Container(
+                width: MediaQuery.of(context).size.width,
+                margin: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black, width: 1),
+                    borderRadius: BorderRadius.circular(5)
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+
+                    SizedBox(height: 10),
+
+                    Row(
+                      children: [
+
+                        SizedBox(width: 10),
+                        InkResponse(
+                          onTap: () {
+                            // widget.tabController.animateTo(3, duration: Duration(milliseconds: 500));
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(50),
+                            child: Image(
+                                height: 25,
+                                width: 25,
+                                image: NetworkImage(userPost.thumb)),
+                          ),
+                        ),
+                        SizedBox(width: 8),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("${userPost.userName }",  style: TextStyle(color: ColorRes.white), overflow: TextOverflow.ellipsis, maxLines: 1),
+                            // Text(currentTime, style: TextStyle(color: ColorRes.greyBg, fontSize: 12))
+                          ],
+                        ),
+
+                      ],
+                    ),
+
+                    Padding(
+                        padding: EdgeInsets.only(left: 20, right: 10, bottom: 5, top: 10),
+                        child: userPost.content != null && userPost.content.isNotEmpty ?
+                        Text(userPost.content, style: TextStyle(color: ColorRes.white), textAlign: TextAlign.left ) : Container()),
+
+
+                    Container(
+                      height: MediaQuery.of(context).size.height  - 400,
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.black,
+                      child: PageView.builder(
+                          itemCount: userPost.media.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index1) {
+                            return userPost.media != null && userPost.media[index1].isNotEmpty
+                                ? CachedNetworkImage(
+                                imageUrl: userPost.media[index1],
+                                placeholder: (context, url) => Image.asset(
+                                    'asset/Icon/placeholder.png',
+                                    height: 120,
+                                    width: 120,
+                                    fit: BoxFit.cover),
+                                height: 120,
+                                width: 120,
+                                fit: BoxFit.cover)
+                                : Image.asset(
+                                'asset/Icon/placeholder.png',
+                                height: 120,
+                                width: 120,
+                                fit: BoxFit.cover
+                            );
+                          }),
+                    ),
+
+                  ],
+                ),
+              ),
+
+              likeComment(index, userPost),
+
+              /*   Container(height: 50, color: Colors.white,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    likeCommentShare("Like",1, model.showMyPostList[index].parentPost.id),
+                    likeCommentShare("Comment",2, model.showMyPostList[index].parentPost.id),
+                    likeCommentShare("Share",3, model.showMyPostList[index].parentPost.id),
+                  ],
+                ),
+              )*/
+            ],
+          ),
+        ),
+
+        likeEmojisView(index, userPost)
+
+        /* postIdStr == model.showMyPostList[index].id ? Container(
+            height: 50,
+            width: MediaQuery.of(context).size.width,
+            margin: EdgeInsets.only(left: 8, right: 8, top: 0, bottom: 25),
+            decoration: BoxDecoration(
+                color: Colors.white60,
+                border: Border.all(color: Colors.black, width: 1),
+                borderRadius: BorderRadius.circular(8)
+            ),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Comment',
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.all(10),
+              ),
+            )) : Container()*/
+      ],
+    );
+  }
+
+  postView(int index, UserPosts userPost) {
+
+    String currentTime = "";
+    DateTime dateTIme = DateTime.parse(userPost.postDate);
     final date2 = DateTime.now().toUtc();
     DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
     final String formatted = formatter.format(date2);
@@ -359,10 +609,10 @@ class UserProfileScreenState extends State<UserProfileScreen> {
 
                     Padding(
                       padding: EdgeInsets.only(right: 10),
-                      child: popUpMenuButton(index, showMyPostList.id, false),
+                      child: popUpMenuButton(index, userPost.id, false),
                     ),
 
-                   /* Row(
+                    /* Row(
                       children: [
                         InkResponse(
                             onTap: () {
@@ -391,19 +641,19 @@ class UserProfileScreenState extends State<UserProfileScreen> {
 
               Padding(
                   padding: EdgeInsets.only(left: 10, right: 10, bottom: 5, top: 5),
-                  child: model.showMyPostList[index].content != null && model.showMyPostList[index].content.isNotEmpty ?
-                  Text(model.showMyPostList[index].content, style: TextStyle(color: ColorRes.white), textAlign: TextAlign.left ) : Container()),
+                  child: userPost.content != null && userPost.content.isNotEmpty ?
+                  Text(userPost.content, style: TextStyle(color: ColorRes.white), textAlign: TextAlign.left ) : Container()),
 
-              model.showMyPostList[index].media != null && model.showMyPostList[index].media[0].isNotEmpty ? Container(
+              userPost.media != null && userPost.media[0].isNotEmpty ? Container(
                 height: MediaQuery.of(context).size.height  - 400,
                 width: MediaQuery.of(context).size.width,
                 color: Colors.black,
                 child: PageView.builder(
-                    itemCount: model.showMyPostList[index].media.length,
+                    itemCount: userPost.media.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index1) {
                       return CachedNetworkImage(
-                          imageUrl: model.showMyPostList[index].media[index1],
+                          imageUrl: userPost.media[index1],
                           placeholder: (context, url) => Image.asset(
                               'asset/Icon/placeholder.png',
                               height: 120,
@@ -420,7 +670,7 @@ class UserProfileScreenState extends State<UserProfileScreen> {
                   height: MediaQuery.of(context).size.height - 150,
                   width: MediaQuery.of(context).size.width,
                   image: NetworkImage(model.socialPostShowList[index].media[0]))),*/
-              likeComment(index, showMyPostList),
+              likeComment(index, userPost),
 
               /*   Container(height: 50, color: Colors.white,
                 child: Row(
@@ -436,7 +686,7 @@ class UserProfileScreenState extends State<UserProfileScreen> {
           ),
         ),
 
-        likeEmojisView(index, showMyPostList)
+        likeEmojisView(index, userPost)
 
         /*    postIdStr == model.showMyPostList[index].id ? Container(
             height: 50,
@@ -458,219 +708,55 @@ class UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 
-
-  sharingViewShow(int index, SocialPostShowData showMyPostList) {
-
-    String currentTime = "";
-    DateTime dateTIme = DateTime.parse(showMyPostList.postDate);
-    final date2 = DateTime.now().toUtc();
-    DateFormat formatter = DateFormat('yyyy-MM-dd HH:mm:ss');
-    print(formatter);
-    final String formatted = formatter.format(date2);
-    DateTime utcTime = DateTime.parse(formatted);
-    final days = utcTime.difference(dateTIme).inDays;
-    final hours = utcTime.difference(dateTIme).inHours;
-    final minutes = utcTime.difference(dateTIme).inMinutes;
-
-    if(minutes <= 60) {
-      currentTime = "$minutes minutes ago";
-    } else if(hours <= 24) {
-      currentTime = "$hours hours ago";
-    } else if(days > 0) {
-      currentTime = "$days days ago";
-    }
-
-    return Stack(
-      children: [
-        Container(
-          // height: MediaQuery.of(context).size.width,
-          width: MediaQuery.of(context).size.width,
-          margin: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              // border: Border.all(color: Colors.black, width: 1),
-              borderRadius: BorderRadius.circular(5),
-              color: ColorRes.primaryColor,
-              boxShadow: [BoxShadow(color: ColorRes.black, blurRadius: 5.0, offset: Offset(0, 0), spreadRadius: 0.1)]
-
-          ),
-          child: Column(
-            // mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: 5, right: 5, top: 5, bottom: 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-
-                    userImgNameShow(index, currentTime),
-                    Padding(padding: EdgeInsets.only(right: 10),
-                      child: popUpMenuButton(index, "2"/*model.socialPostShowList[index].parentPost.id*/, true),
-                    ),
-                  /*  Row(
-                      children: [
-                        InkResponse(
-                            onTap: () async {
-                              // model.deletePostApi(model.socialPostShowList[index].id);
-                              isRef = await Navigator.push(context, MaterialPageRoute(builder: (context) => EditDataScreen(socialPostShowData: model.showMyPostList[index])));
-                              if(isRef) {
-                                model.showMyPostApi();
-                              }                            },
-                            child: Icon(Icons.edit, color: Colors.black, size: 30)),
-
-                        InkResponse(
-                            onTap: () {
-                              model.deletePostApi(model.showMyPostList[index].id);
-                            },
-                            child: Icon(Icons.delete, color: Colors.black, size: 30))
-                      ],
-                    )*/
-                  ],
-                ),
-              ), //appState.currentUserData
-
-              Padding(padding: EdgeInsets.only(left: 10, right: 10, top: 5),
-                  child: Text(model.showMyPostList[index].content)),
-
-              Container(
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black, width: 1),
-                    borderRadius: BorderRadius.circular(5)
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-
-                    SizedBox(height: 10),
-
-                    Row(
-                      children: [
-
-                        SizedBox(width: 10),
-                        InkResponse(
-                          onTap: () {
-                            // widget.tabController.animateTo(3, duration: Duration(milliseconds: 500));
-                          },
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(50),
-                            child: Image(
-                                height: 25,
-                                width: 25,
-                                image: NetworkImage(model.showMyPostList[index].thumb)),
-                          ),
-                        ),
-                        SizedBox(width: 8),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("${model.showMyPostList[index].parentPost.userName }",  style: TextStyle(color: ColorRes.white), overflow: TextOverflow.ellipsis, maxLines: 1),
-                            // Text(currentTime, style: TextStyle(color: ColorRes.greyBg, fontSize: 12))
-                          ],
-                        ),
-
-                      ],
-                    ),
-
-                    Padding(
-                        padding: EdgeInsets.only(left: 20, right: 10, bottom: 5, top: 10),
-                        child: model.showMyPostList[index].parentPost.content != null && model.showMyPostList[index].parentPost.content.isNotEmpty ?
-                        Text(model.showMyPostList[index].parentPost.content, style: TextStyle(color: ColorRes.white), textAlign: TextAlign.left ) : Container()),
-
-
-                    Container(
-                      height: MediaQuery.of(context).size.height  - 400,
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.black,
-                      child: PageView.builder(
-                          itemCount: model.showMyPostList[index].parentPost.media.length,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index1) {
-                            return model.showMyPostList[index].parentPost.media != null && model.showMyPostList[index].parentPost.media[index1].isNotEmpty
-                                ? CachedNetworkImage(
-                                imageUrl: model.showMyPostList[index].parentPost.media[index1],
-                                placeholder: (context, url) => Image.asset(
-                                    'asset/Icon/placeholder.png',
-                                    height: 120,
-                                    width: 120,
-                                    fit: BoxFit.cover),
-                                height: 120,
-                                width: 120,
-                                fit: BoxFit.cover)
-                                : Image.asset(
-                                'asset/Icon/placeholder.png',
-                                height: 120,
-                                width: 120,
-                                fit: BoxFit.cover
-                            );
-                          }),
-                    ),
-
-                  ],
-                ),
-              ),
-
-              likeComment(index, showMyPostList),
-
-              /*   Container(height: 50, color: Colors.white,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    likeCommentShare("Like",1, model.showMyPostList[index].parentPost.id),
-                    likeCommentShare("Comment",2, model.showMyPostList[index].parentPost.id),
-                    likeCommentShare("Share",3, model.showMyPostList[index].parentPost.id),
-                  ],
-                ),
-              )*/
-            ],
-          ),
-        ),
-
-        likeEmojisView(index, showMyPostList)
-
-       /* postIdStr == model.showMyPostList[index].id ? Container(
-            height: 50,
-            width: MediaQuery.of(context).size.width,
-            margin: EdgeInsets.only(left: 8, right: 8, top: 0, bottom: 25),
-            decoration: BoxDecoration(
-                color: Colors.white60,
-                border: Border.all(color: Colors.black, width: 1),
-                borderRadius: BorderRadius.circular(8)
-            ),
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Comment',
-                border: InputBorder.none,
-                contentPadding: EdgeInsets.all(10),
-              ),
-            )) : Container()*/
-      ],
+  popUpMenuButton(int index, String postId, bool isShare) {
+    return PopupMenuButton<String>(
+      color: ColorRes.white,
+      child: Image(
+          height: 25,
+          width: 25,
+          image: AssetImage('asset/Icon/menu.png')),
+      // icon: Icon(Icons., color: ColorRes.white),
+      onSelected: (value) {
+        return handleClick(value, index, postId, isShare);
+      },
+      itemBuilder: (BuildContext context) {
+        return {'Share'}.map((String choice) {
+          return PopupMenuItem<String>(
+            value: choice,
+            child: Text(choice),
+          );
+        }).toList();
+      },
     );
   }
 
+  Future<void> handleClick(String value, int index, String postId, bool isShare) async {
+    switch (value) {
+      case 'Share':
+        // isRef = await Navigator.push(context, MaterialPageRoute(builder: (context) => PostDataScreen(isEdit: true, postId: postId)));
+        // if (isRef) {
+        //   // model.showMyPostApi();
+        // }
+        break;
+      case 'Edit':
+        if(isShare) {
+          // isRef = await Navigator.push(context, MaterialPageRoute(builder: (context) => EditDataScreen(socialPostShowData: userProfileModel.data.userPosts[index], isShare: true)));
+          // if (isRef) {
+          //   // model.showMyPostApi();
+          // }
+        } else {
+          // isRef = await Navigator.push(context, MaterialPageRoute(builder: (context) => EditDataScreen(socialPostShowData: userProfileModel.data.userPosts[index], isShare: false)));
+          // if(isRef) {
+          //   // model.showMyPostApi();
+          // }
+        }
+        break;
+      case 'Delete':
+        // model.deletePostApi(userProfileModel.data.userPosts[index].id);
+        break;
+    }
+  }
 
-  /*userImgNameShow(int index){
-    return  Row(
-      children: [
-        InkResponse(
-          onTap: () {
-            // widget.tabController.animateTo(3, duration: Duration(milliseconds: 500));
-          },
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(50),
-            child: Image(
-                height: 25,
-                width: 25,
-                image: NetworkImage(model.showMyPostList[index].thumb)),
-          ),
-        ),
-        SizedBox(width: 8),
-        Text(model.showMyPostList[index].userName , overflow: TextOverflow.ellipsis, maxLines: 1),
-      ],
-    );
-  }*/
 
   userImgNameShow(int index, String currentTime) {
     return Row(
@@ -682,16 +768,16 @@ class UserProfileScreenState extends State<UserProfileScreen> {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(50),
             child: Image(
-                height: 25,
-                width: 25,
-                image: NetworkImage(model.showMyPostList[index].thumb)),
+                height: 50,
+                width: 50,
+                image: NetworkImage(model.userProfileModel.data.userPosts[index].thumb)),
           ),
         ),
         SizedBox(width: 8),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("${model.showMyPostList[index].userName }",  style: TextStyle(color: ColorRes.white), overflow: TextOverflow.ellipsis, maxLines: 1),
+            Text("${model.userProfileModel.data.userPosts[index].userName }",  style: TextStyle(color: ColorRes.white), overflow: TextOverflow.ellipsis, maxLines: 1),
             Text(currentTime, style: TextStyle(color: ColorRes.greyBg, fontSize: 12))
           ],
         ),
@@ -719,56 +805,9 @@ class UserProfileScreenState extends State<UserProfileScreen> {
     );
   }
 
-  popUpMenuButton(int index, String postId, bool isShare) {
-    return PopupMenuButton<String>(
-      color: ColorRes.white,
-      child: Image(
-          height: 25,
-          width: 25,
-          image: AssetImage('asset/Icon/menu.png')),
-      // icon: Icon(Icons., color: ColorRes.white),
-      onSelected: (value) {
-        return handleClick(value, index, postId, isShare);
-      },
-      itemBuilder: (BuildContext context) {
-        return {'Share', 'Edit', 'Delete'}.map((String choice) {
-          return PopupMenuItem<String>(
-            value: choice,
-            child: Text(choice),
-          );
-        }).toList();
-      },
-    );
-  }
 
-  Future<void> handleClick(String value, int index, String postId, bool isShare) async {
-    switch (value) {
-      case 'Share':
-        isRef = await Navigator.push(context, MaterialPageRoute(builder: (context) => PostDataScreen(isEdit: true, postId: postId)));
-        if (isRef) {
-          model.showMyPostApi();
-        }
-        break;
-      case 'Edit':
-        if(isShare) {
-          isRef = await Navigator.push(context, MaterialPageRoute(builder: (context) => EditDataScreen(socialPostShowData: model.showMyPostList[index], isShare: true)));
-          if (isRef) {
-            model.showMyPostApi();
-          }
-        } else {
-          isRef = await Navigator.push(context, MaterialPageRoute(builder: (context) => EditDataScreen(socialPostShowData: model.showMyPostList[index], isShare: false)));
-          if(isRef) {
-            model.showMyPostApi();
-          }
-        }
-        break;
-      case 'Delete':
-        model.deletePostApi(model.showMyPostList[index].id);
-        break;
-    }
-  }
 
-  likeComment(int index, SocialPostShowData showMyPostList) {
+  likeComment(int index, UserPosts userPost) {
     return Container(
       height: 50,
       child: Row(
@@ -779,10 +818,10 @@ class UserProfileScreenState extends State<UserProfileScreen> {
               SizedBox(width: 10),
               InkWell(
                   onTap: () {
-                    if(showMyPostList.selfLike) {
-                      // model.deleteLikeApi(socialPostShowList.id);
+                    if(userPost.selfLike) {
+                      model.deletePostApi(userPost.id);
                     } else {
-                      // model.addLikeApi(socialPostShowList.id, "#like");
+                      model.addLikeApi(userPost.id, "#like");
                     }
                   },
                   onLongPress: () {
@@ -798,27 +837,28 @@ class UserProfileScreenState extends State<UserProfileScreen> {
                       :*/ Container(
                       height: 40,
                       alignment: Alignment.center,
-                      child: Icon(Icons.favorite_border_outlined, color: Colors.white))),
+                      child: Icon(Icons.favorite_border_outlined, color: Colors.white))
+              ),
 
               // : Icon(Icons.favorite_border_outlined, color: Colors.white)
 
               SizedBox(width: 10),
               InkWell(
                   onTap: () {
-                    if(showMyPostList.likeCount != null  && showMyPostList.likeCount != 0) {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => LikeShowScreen(postId: showMyPostList.id)));
+                    if(userPost.likeCount != null  && userPost.likeCount != 0) {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => LikeShowScreen(postId: userPost.id)));
                     }
                   },
                   child: Container(
                       height: 40,
                       alignment: Alignment.center,
-                      child: Text(showMyPostList.likeCount.toString() ?? "0", style: TextStyle(color: Colors.white)))),
+                      child: Text(userPost.likeCount.toString() ?? "0", style: TextStyle(color: Colors.white)))),
 
 
               SizedBox(width: 20),
               InkResponse(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => CommentScreen(postId: showMyPostList.id)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => CommentScreen(postId: userPost.id)));
                   },
                   child: Container(
                       height: 40,
@@ -829,12 +869,12 @@ class UserProfileScreenState extends State<UserProfileScreen> {
               SizedBox(width: 15),
               InkWell(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => CommentScreen(postId: showMyPostList.id)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => CommentScreen(postId: userPost.id)));
                   },
                   child: Container(
                       height: 40,
                       alignment: Alignment.center,
-                      child: Text(showMyPostList.commentCount.toString() ?? "0", style: TextStyle(color: Colors.white)))),
+                      child: Text(userPost.commentCount.toString() ?? "0", style: TextStyle(color: Colors.white)))),
             ],
           ),
           // Padding(
@@ -849,10 +889,10 @@ class UserProfileScreenState extends State<UserProfileScreen> {
   }
 
 
-  likeEmojisView(int index, SocialPostShowData socialPostShowList) {
+  likeEmojisView(int index, UserPosts userPost) {
     return  Positioned(
         bottom: 40,
-        child: postIdStr == socialPostShowList.id ?
+        child: postIdStr == userPost.id ?
         Container(
             height: 40,
             width: MediaQuery.of(context).size.width - 150,
@@ -873,17 +913,17 @@ class UserProfileScreenState extends State<UserProfileScreen> {
 
                       postIdStr = "-1";
                       if(index == 0) {
-                        model.addLikeApi(socialPostShowList.id, "#like");
+                        model.addLikeApi(userPost.id, "#like");
                       } else if(index == 1) {
-                        model.addLikeApi(socialPostShowList.id, "#love");
+                        model.addLikeApi(userPost.id, "#love");
                       } else if(index == 2) {
-                        model.addLikeApi(socialPostShowList.id, "#care");
+                        model.addLikeApi(userPost.id, "#care");
                       } else if(index == 3) {
-                        model.addLikeApi(socialPostShowList.id, "#haha");
+                        model.addLikeApi(userPost.id, "#haha");
                       } else if(index == 4) {
-                        model.addLikeApi(socialPostShowList.id, "#angry");
+                        model.addLikeApi(userPost.id, "#angry");
                       } else if(index == 5) {
-                        model.addLikeApi(socialPostShowList.id, "#sad");
+                        model.addLikeApi(userPost.id, "#sad");
                       }
                     },
 

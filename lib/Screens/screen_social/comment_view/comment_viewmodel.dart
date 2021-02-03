@@ -10,6 +10,9 @@ import 'comment_screen.dart';
 class CommentViewModel {
 
   List<CommentData> commentData = List();
+
+  bool isEmptyMessageShow = false;
+
   CommentScreenState state;
   CommentViewModel(this.state) {
     showCommentApi();
@@ -29,7 +32,7 @@ class CommentViewModel {
       if(getPostDataModel.code == 200 && getPostDataModel.status == "success") {
         // Utils().showToast(message['message']);
         state.commentController.clear();
-
+        isEmptyMessageShow = true;
         commentData = List();
         getPostDataModel.data.forEach((element) {
           commentData.add(element);

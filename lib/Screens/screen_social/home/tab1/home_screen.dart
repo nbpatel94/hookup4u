@@ -1,9 +1,10 @@
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:hookup4u/Screens/screen_social/home/comment_view/comment_screen.dart';
-import 'package:hookup4u/Screens/screen_social/home/like_show/like_show_screen.dart';
+import 'package:hookup4u/Screens/screen_social/comment_view/comment_screen.dart';
 import 'package:hookup4u/Screens/screen_social/home/tab1/post_data/post_data_screen.dart';
+import 'package:hookup4u/Screens/screen_social/like_show/like_show_screen.dart';
+import 'package:hookup4u/Screens/screen_social/search_view/search_screen.dart';
 import 'package:hookup4u/models/socialPostShowModel.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:hookup4u/util/utils.dart';
@@ -87,18 +88,27 @@ class SocialHomePageState extends State<SocialHomePage> {
             onPressed: ()  {
             Navigator.pop(context);
             }),
-        Container(
-            width: Utils().getDeviceWidth(context) - 110,
-            height: 40,
-            decoration: BoxDecoration(
-              color: ColorRes.greyBg.withOpacity(0.5),
-              borderRadius: BorderRadius.circular(60),
-            ),
-            child: TextField(
-              decoration: InputDecoration(
-                border: InputBorder.none,
+        InkResponse(
+          onTap: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
+          },
+          child: Container(
+              width: Utils().getDeviceWidth(context) - 110,
+              height: 40,
+              alignment: Alignment.centerLeft,
+              padding: EdgeInsets.only(left: 10),
+              decoration: BoxDecoration(
+                color: ColorRes.greyBg.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(60),
               ),
-            )
+             child: Text("Search Friends", style: TextStyle(color: Colors.white)),
+             /* child: TextField(
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  hintText: "Search Friends"
+                ),
+              )*/
+          ),
         ),
         Padding(
           padding: EdgeInsets.only(top: 5, bottom: 5),
@@ -261,7 +271,7 @@ class SocialHomePageState extends State<SocialHomePage> {
     );
   }
 
-  postView(int index, SocialPostShowData socialPostShowList){
+  postView(int index, SocialPostShowData socialPostShowList) {
 
     String currentTime = "";
     DateTime dateTIme = DateTime.parse(model.socialPostShowList[index].postDate);
@@ -305,10 +315,33 @@ class SocialHomePageState extends State<SocialHomePage> {
                   children: [
                     userImgNameShow(index, currentTime),
 
-                    Padding(padding: EdgeInsets.only(right: 10),
+                    Padding(
+                      padding: EdgeInsets.only(right: 10),
                       child: popUpMenuButton(index, model.socialPostShowList[index].id, false),
                     ),
-
+                  /*  Row(
+                      children: [
+                        InkResponse(
+                            onTap: () {
+                              model.showPostApi();
+                            },
+                            child: Icon(Icons.refresh, color: Colors.black, size: 30)),
+                        InkResponse (
+                            onTap: () async {
+                              // model.deletePostApi(model.socialPostShowList[index].id);
+                              isRef = await Navigator.push(context, MaterialPageRoute(builder: (context) => EditDataScreen(socialPostShowData: socialPostShowList)));
+                              if(isRef) {
+                                model.showPostApi();
+                              }
+                            },
+                            child: Icon(Icons.edit, color: Colors.black, size: 30)),
+                        InkResponse(
+                            onTap: () {
+                              model.deletePostApi(socialPostShowList.id);
+                            },
+                            child: Icon(Icons.delete, color: Colors.black, size: 30))
+                      ],
+                    )*/
                   ],
                 ),
               ), //appState.currentUserData
@@ -336,12 +369,11 @@ class SocialHomePageState extends State<SocialHomePage> {
                               fit: BoxFit.cover),
                           height: 120,
                           width: 120,
-                          fit: BoxFit.cover);
+                          fit: BoxFit.cover
+                      );
                     }),
               )  : Container(),
-
               likeComment(index, socialPostShowList),
-
             ],
           ),
         ),
@@ -505,7 +537,7 @@ class SocialHomePageState extends State<SocialHomePage> {
     );
   }
 
-  userImgNameShow(int index, String currentTime){
+  userImgNameShow(int index, String currentTime) {
     return Row(
       children: [
         InkResponse(

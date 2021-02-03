@@ -30,9 +30,13 @@ class App{
 
   //social media app
   static const String wallPost = 'wallpost';
-  static const String myWallPost = 'mywallpost';
+  static const String myWallPost = 'my_wallpost';
   static const String wallComment = 'wallpost/comment';
   static const String wallLike = 'wallpost/like';
+  static const String searchUser = 'searchuser';
+  static const String userProfile = 'user_profile';
+  static const String follow = 'follow';
+  static const String friends = 'friends';
 }
 
 SharedPreferences sharedPreferences;

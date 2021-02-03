@@ -1,3 +1,5 @@
+import 'package:hookup4u/models/user_profile_model.dart';
+
 class SocialPostShowModel {
   int code;
   String message;
@@ -75,6 +77,23 @@ class SocialPostShowData {
     commentCount = json['comment_count'];
     selfLike = json['self_like'];
   }
+
+/*  SocialPostShowData.fromUserPosts(UserPosts userPosts) {
+    id = userPosts.id;
+    userId = userPosts.userId;
+    content = userPosts.content;
+    media = userPosts.media.cast<String>();
+    visibility = userPosts.visibility;
+    // parentPost = userPosts.parentPostData != null
+    //     ? new ParentPost.fromJson(userPosts.parentPostData)
+    //     : null;
+    userName = userPosts.userName;
+    thumb = userPosts.thumb;
+    postDate = userPosts.postDate;
+    likeCount = userPosts.likeCount;
+    commentCount = userPosts.commentCount;
+    selfLike = userPosts.selfLike;
+  }*/
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();

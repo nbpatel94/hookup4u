@@ -362,4 +362,132 @@ class SocialRestApi {
       return null;
     }
   }
+
+
+  //search friend List api done : -
+
+
+  static Future<Response> searchFriendListApi(String searchName) async {
+
+    String url = App.baseUrlSA + App.searchUser;
+    var headerData = {
+      "Authorization": "Bearer ${appState.accessToken}",
+    };
+
+    Map<String, dynamic> searchMap = {"search": searchName};
+
+    print(url + headerData.toString());
+    try {
+      Response response = await http.post(url, headers: headerData, body: searchMap);
+      print(response.statusCode);
+      EasyLoading.dismiss();
+      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
+        print(response.body);
+        return response;
+      } else {
+        print(response.body);
+        var jsonData = jsonDecode(response.body);
+        Utils().showToast(jsonData['message']);
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      EasyLoading.dismiss();
+      Utils().showToast(e);
+      return null;
+    }
+  }
+
+
+  static Future<Response> getUserProfileApi(String userId) async {
+
+    String url = App.baseUrlSA + App.userProfile + "/$userId";
+    var headerData = {
+      "Authorization": "Bearer ${appState.accessToken}",
+    };
+
+    print(url + headerData.toString());
+    try {
+      Response response = await http.get(url, headers: headerData);
+      print(response.statusCode);
+      EasyLoading.dismiss();
+      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
+        print(response.body);
+        return response;
+      } else {
+        print(response.body);
+        var jsonData = jsonDecode(response.body);
+        Utils().showToast(jsonData['message']);
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      EasyLoading.dismiss();
+      Utils().showToast(e);
+      return null;
+    }
+  }
+
+
+  static Future<Response> postUserFollowApi(String userId) async {
+
+    String url = App.baseUrlSA + App.follow + "/$userId";
+    var headerData = {
+      "Authorization": "Bearer ${appState.accessToken}",
+    };
+
+    print(url + headerData.toString());
+    try {
+      Response response = await http.post(url, headers: headerData);
+      print(response.statusCode);
+      EasyLoading.dismiss();
+      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
+        print(response.body);
+        return response;
+      } else {
+        print(response.body);
+        var jsonData = jsonDecode(response.body);
+        Utils().showToast(jsonData['message']);
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      EasyLoading.dismiss();
+      Utils().showToast(e);
+      return null;
+    }
+  }
+
+  static Future<Response> postFriendRequest(Map<String, dynamic> friendRequestMap) async {
+
+
+    String url = App.baseUrlSA + App.friends;
+
+
+    var headerData = {
+      "Authorization": "Bearer ${appState.accessToken}",
+    };
+
+    print(url + headerData.toString());
+    try {
+      Response response = await http.post(url, headers: headerData, body: friendRequestMap);
+      print(response.statusCode);
+      EasyLoading.dismiss();
+      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
+        print(response.body);
+        return response;
+      } else {
+        print(response.body);
+        var jsonData = jsonDecode(response.body);
+        Utils().showToast(jsonData['message']);
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      EasyLoading.dismiss();
+      Utils().showToast(e);
+      return null;
+    }
+  }
+
 }

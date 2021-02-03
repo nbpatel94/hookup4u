@@ -1,26 +1,23 @@
 import 'dart:convert';
 
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:hookup4u/Screens/screen_social/home/tab4/user_profile_screen.dart';
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/models/socialPostShowModel.dart';
 import 'package:hookup4u/restapi/social_restapi.dart';
 import 'package:hookup4u/util/utils.dart';
+import 'package:hookup4u/widget/social_card_view/social_card_view.dart';
 
-class UserProfileViewModel{
+class SocialCardViewModel {
 
-  List<SocialPostShowData> showMyPostList = List();
-  bool isEmptyMessageShow = false;
+  // List<SocialPostShowData> showMyPostList = List();
 
-  // List<SocialPostShowData> socialPostShowList = List();
-
-
-  UserProfileScreenState state;
-  UserProfileViewModel(this.state){
-    showMyPostApi();
+  SocialPostViewState state;
+  SocialCardViewModel(SocialPostViewState state) {
+    this.state = state;
   }
 
-  showMyPostApi() {
+
+/*  showMyPostApi() {
     EasyLoading.show();
     SocialRestApi.showMyPostData().then((value) {
       SocialPostShowModel socialPostShowModel = SocialPostShowModel.fromJson(jsonDecode(value.body));
@@ -28,11 +25,10 @@ class UserProfileViewModel{
       if(value != null) {
         if(socialPostShowModel.code == 200 && socialPostShowModel.status == "success") {
           state.isRef = false;
-          showMyPostList = List();
-          isEmptyMessageShow = true;
-          socialPostShowModel.data.forEach((element) {
-            showMyPostList.add(element);
-          });
+          // showMyPostList = List();
+          // socialPostShowModel.data.forEach((element) {
+          //   showMyPostList.add(element);
+          // });
           if (state.mounted) {
             state.setState(() {
               // Your state change code goes here
@@ -46,7 +42,7 @@ class UserProfileViewModel{
       }
       // socialPostShowModel.addAll(value);
     });
-  }
+  }*/
 
 
   deletePostApi(String userId) {
@@ -56,7 +52,7 @@ class UserProfileViewModel{
       Map<String, dynamic> message = jsonDecode(value.body);
       if(message['code'] == 200 && message['status'] == "success") {
         Utils().showToast(message['message']);
-        showMyPostApi();
+        // showMyPostApi();
       } else if(message['status'] == "error"){
         Utils().showToast(message['message']);
       } else {
@@ -70,6 +66,8 @@ class UserProfileViewModel{
       // socialPostShowModel.addAll(value);
     });
   }
+
+
 
   addLikeApi(String postId, String type) {
 
@@ -88,7 +86,7 @@ class UserProfileViewModel{
       Map<String, dynamic> message = jsonDecode(value.body);
       if(message['code'] == 200 && message['status'] == "success") {
         // Utils().showToast(message['message']);
-        showMyPostApi();
+        // showMyPostApi();
         state.setState(() {});
       } else if(message['status'] == "error"){
         // Utils().showToast(message['message']);

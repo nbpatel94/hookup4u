@@ -66,11 +66,12 @@ class CommentScreenState extends State<CommentScreen> {
                 style: TextStyle(fontSize: 25, color: ColorRes.white)),
           ),
           Expanded(
-              child: model.commentData.length == 0 ? Center(child: Text("No Data Foutnd"),) :
+              child: model.commentData.length == 0  && model.isEmptyMessageShow ? Center(child: Text("No comments yet", style: TextStyle(color: ColorRes.white))) :
               RefreshIndicator(
                 key: refreshKey,
                 onRefresh: refreshList,
                  child: ListView.builder(
+                   padding: EdgeInsets.only(left: 10),
                     itemCount:  model.commentData != null && model.commentData.length != 0 ? model.commentData.length : 0 ,
                     itemBuilder: (context, index) {
 
@@ -177,7 +178,7 @@ class CommentScreenState extends State<CommentScreen> {
 
             },
             child: Padding(
-                padding: EdgeInsets.only(left: 50, top: 10),
+                padding: EdgeInsets.only(left: 55, top: 10),
                 child: Text("Replay", style: TextStyle(color: ColorRes.primaryRed))),
           ),
 
@@ -219,7 +220,6 @@ class CommentScreenState extends State<CommentScreen> {
                         FocusScope.of(context).requestFocus(new FocusNode());
                         commentId = "-1";
                         setState(() {});
-
 
                         // model.addCommentApi(widget.postId, "");
                       })),
@@ -332,7 +332,7 @@ class CommentScreenState extends State<CommentScreen> {
         return Container(
           // height: 20,
           width: Utils().getDeviceWidth(context) - 100,
-          margin: EdgeInsets.only(left: 50),
+          margin: EdgeInsets.only(left: 55),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,

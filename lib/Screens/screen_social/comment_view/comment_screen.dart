@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hookup4u/models/getPostDataModel.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:hookup4u/util/utils.dart';
@@ -33,6 +34,13 @@ class CommentScreenState extends State<CommentScreen> {
     // TODO: implement initState
     super.initState();
     refreshList();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    EasyLoading.dismiss();
   }
 
   Future<Null> refreshList() async {

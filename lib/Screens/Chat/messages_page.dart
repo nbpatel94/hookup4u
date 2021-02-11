@@ -58,22 +58,19 @@ class MessagesScreenState extends State<MessagesScreen> {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      SizedBox(height: 10,),
-                      Text(appState.currentUserData.data.displayName,style: TextStyle(fontSize: 28,fontFamily: 'NeueFrutigerWorld',fontWeight: FontWeight.w100,color: ColorRes.textColor)),
-                      SizedBox(height: 2,),
+                      SizedBox(height: 10),
+                      Text(appState.currentUserData?.data?.displayName ?? "",style: TextStyle(fontSize: 28,fontFamily: 'NeueFrutigerWorld',fontWeight: FontWeight.w100,color: ColorRes.textColor)),
+                      SizedBox(height: 2),
                       GestureDetector(
-                          onTap: (){
+                          onTap: () {
                             Navigator.pop(context);
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => EditProfile()));
+                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => EditProfile()));
                           },
                           child: Text("EDIT PROFILE",style: TextStyle(fontSize: 12,fontFamily: 'NeueFrutigerWorld',color: Colors.white,fontWeight: FontWeight.w700)))
                     ],
                   ),
                 ),
-                SizedBox(height: 70,),
+                SizedBox(height: 70),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 12),
                   child: Column(

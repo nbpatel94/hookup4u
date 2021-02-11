@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:hookup4u/Screens/Chat/messages_page.dart';
 import 'package:hookup4u/Screens/screen_social/home/tab1/home_screen.dart';
-import 'package:hookup4u/Screens/screen_social/home/tab4/user_profile_screen.dart';
+import 'package:hookup4u/Screens/screen_social/home/tab5/user_profile_screen.dart';
 import 'package:hookup4u/util/color.dart';
+
+import 'home/tab4/notification_detail_screen.dart';
+import 'invite_friends/invite_friends_screen.dart';
 
 class SocialMainPage extends StatefulWidget {
   @override
@@ -47,6 +51,8 @@ class _SocialMainPageState extends State<SocialMainPage> with SingleTickerProvid
             child: TabBar(
               unselectedLabelColor: ColorRes.greyBg,
               labelColor: ColorRes.primaryRed,
+              unselectedLabelStyle: TextStyle(fontSize: 10),
+              labelStyle: TextStyle(fontSize: 10),
               tabs: [
                 Tab(icon: new Icon(Icons.home), text: "Home"),
                 Tab(icon: new Icon(Icons.stream), text: "Streams"),
@@ -65,10 +71,13 @@ class _SocialMainPageState extends State<SocialMainPage> with SingleTickerProvid
             children: [
 
               SocialHomePage(tabController: _tabController),
-              Center(child: new Text("Comming Soon Stream ....", style: TextStyle(color: ColorRes.white, fontSize: 20), overflow: TextOverflow.ellipsis)),
-              Center(child: new Text("Comming Soon Message ....", style: TextStyle(color: ColorRes.white, fontSize: 20), overflow: TextOverflow.ellipsis)),
-              Center(child: new Text("Comming Soon Notification ....", style: TextStyle(color: ColorRes.white, fontSize: 20), overflow: TextOverflow.ellipsis)),
+              InviteFriendsPage(),
+              MessagesScreen(),
+              // Center(child: new Text("Comming Soon Stream ....", style: TextStyle(color: ColorRes.white, fontSize: 20), overflow: TextOverflow.ellipsis)),
+              // Center(child: new Text("Comming Soon Message ....", style: TextStyle(color: ColorRes.white, fontSize: 20), overflow: TextOverflow.ellipsis)),
+              // Center(child: new Text("Comming Soon Notification ....", style: TextStyle(color: ColorRes.white, fontSize: 20), overflow: TextOverflow.ellipsis)),
               // Center(child: new Text("Comming Soon Profile ....", style: TextStyle(color: ColorRes.white, fontSize: 20), overflow: TextOverflow.ellipsis)),
+              NotificationDetailsScreen(),
               UserProfileScreen()
               // UserProfileScreen()
             ],

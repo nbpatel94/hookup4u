@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -21,7 +20,7 @@ class PostDataViewModel {
       // imagesList.add("https://door.iheartmuslims.com/wp-content/uploads/2021/01/user_image-14-scaled.jpg");
   }
 
-  Future<Void> imageUpload(File image) async {
+  imageUpload(File image) async {
 
     EasyLoading.show();
     SocialRestApi.uploadSocialMediaImage(image).then((value) {

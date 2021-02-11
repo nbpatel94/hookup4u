@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hookup4u/Screens/screen_social/comment_view/comment_screen.dart';
 import 'package:hookup4u/Screens/screen_social/home/tab1/post_data/post_data_screen.dart';
 import 'package:hookup4u/Screens/screen_social/like_show/like_show_screen.dart';
@@ -34,12 +35,17 @@ class SocialHomePageState extends State<SocialHomePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
     // final loveEmojis = Emoji.byKeyword('love'); // returns list of lovely emojis :)
     // print(loveEmojis);
-
     print(commentController.text);
     refreshList();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    EasyLoading.dismiss();
   }
 
   Future<Null> refreshList() async {
@@ -93,7 +99,7 @@ class SocialHomePageState extends State<SocialHomePage> {
             Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
           },
           child: Container(
-              width: Utils().getDeviceWidth(context) - 110,
+              width: Utils().getDeviceWidth(context) - 165,
               height: 40,
               alignment: Alignment.centerLeft,
               padding: EdgeInsets.only(left: 10),
@@ -110,6 +116,27 @@ class SocialHomePageState extends State<SocialHomePage> {
               )*/
           ),
         ),
+
+            Padding(
+              padding: EdgeInsets.only(top: 5, bottom: 5),
+              child: FloatingActionButton(
+                onPressed: () async {
+                  // isRef = await Navigator.push(context, MaterialPageRoute(builder: (context) => PostDataScreen(isEdit: false, postId: "")));
+                  // if (isRef) {
+                  //   model.showPostApi();
+                  // }
+                },
+                backgroundColor: ColorRes.primaryRed,
+                child: Container(
+                  height: 40,
+                  width: 40,
+                  // padding: EdgeInsets.all(10),
+                  child: Icon(Icons.person_add_alt_1, color: ColorRes.white, size: 25),
+                ),
+              ),
+            ),
+
+
         Padding(
           padding: EdgeInsets.only(top: 5, bottom: 5),
           child: FloatingActionButton(

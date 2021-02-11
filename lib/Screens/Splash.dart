@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +19,7 @@ import 'package:hookup4u/restapi/restapi.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class Splash extends StatefulWidget {
   @override
@@ -29,35 +29,27 @@ class Splash extends StatefulWidget {
 class _SplashState extends State<Splash> {
   getSharedDetails() async {
     await initStoreInfo();
+
     if (sharedPreferences.containsKey(Preferences.accessToken)) {
       print("FCM --> ${sharedPreferences.getString("token")}");
-      appState.accessToken =
-          sharedPreferences.getString(Preferences.accessToken);
-      appState.currentUserData = profileDetailFromJson(
-          sharedPreferences.getString(Preferences.profile));
+      appState.accessToken = sharedPreferences.getString(Preferences.accessToken);
+      appState.currentUserData = profileDetailFromJson(sharedPreferences.getString(Preferences.profile));
       if (sharedPreferences.containsKey(Preferences.metaData)) {
         print("meta contain");
 
-        UserDetailsModel userDetailsModel = userDetailsModelFromJson(
-            sharedPreferences.getString(Preferences.metaData));
+        UserDetailsModel userDetailsModel = userDetailsModelFromJson(sharedPreferences.getString(Preferences.metaData));
 
-        appState.superLikeTime = DateTime.parse(
-            sharedPreferences.getString(Preferences.superLikeTime));
-        appState.superLikeCount =
-            sharedPreferences.getInt(Preferences.superLikeCount);
+        appState.superLikeTime = DateTime.parse(sharedPreferences.getString(Preferences.superLikeTime));
+        appState.superLikeCount = sharedPreferences.getInt(Preferences.superLikeCount);
         appState.likeCount = sharedPreferences.getInt(Preferences.likeCount);
-        appState.likeTime =
-            DateTime.parse(sharedPreferences.getString(Preferences.likeTime));
+        appState.likeTime = DateTime.parse(sharedPreferences.getString(Preferences.likeTime));
 
-        print(
-            "Superlike Count -> ${appState.superLikeCount} Superlike time -> ${appState.superLikeTime}");
-        print(
-            "Like Count -> ${appState.likeCount} Like time -> ${appState.likeTime}");
-        print(
-            "SuperLike -> ${DateTime.now().difference(appState.superLikeTime).inMinutes} Like -> ${DateTime.now().difference(appState.likeTime).inMinutes}");
+        print("Superlike Count -> ${appState.superLikeCount} Superlike time -> ${appState.superLikeTime}");
+        print("Like Count -> ${appState.likeCount} Like time -> ${appState.likeTime}");
+        print("SuperLike -> ${DateTime.now().difference(appState.superLikeTime).inMinutes} Like -> ${DateTime.now().difference(appState.likeTime).inMinutes}");
 
-        appState.subscriptionName = userDetailsModel.meta.subscriptionName;
-        appState.subscriptionDate = userDetailsModel.meta.subscriptionDate;
+        appState.subscriptionName = userDetailsModel?.meta?.subscriptionName ?? "";
+        appState.subscriptionDate = userDetailsModel?.meta?.subscriptionDate ?? null;
 
         // if(DateTime.now().difference(appState.superLikeTime).inMinutes>=10 && appState.superLikeCount==0){
         //   if(appState.subscriptionDate!=null && appState.subscriptionDate.month==0) {
@@ -70,23 +62,23 @@ class _SplashState extends State<Splash> {
         //   appState.likeCount = 30;
         // }
 
-        appState.subscriptionName = userDetailsModel.meta.subscriptionName;
-        appState.subscriptionDate = userDetailsModel.meta.subscriptionDate;
+        // appState.subscriptionName = userDetailsModel.meta.subscriptionName;
+        // appState.subscriptionDate = userDetailsModel.meta.subscriptionDate;
 
         print("Subscription Name: ${appState.subscriptionName}");
         print("Subscription Date: ${appState.subscriptionDate}");
 
         appState.userDetailsModel = userDetailsModel;
-        appState.children = userDetailsModel.meta.children;
-        appState.gender = userDetailsModel.meta.gender;
-        appState.relation = userDetailsModel.meta.relation;
-        appState.livingIn = userDetailsModel.meta.livingIn;
-        appState.jobTitle = userDetailsModel.meta.jobTitle;
-        appState.about = userDetailsModel.meta.about;
-        appState.id = userDetailsModel.id;
+        appState.children = userDetailsModel?.meta?.children ?? "";
+        appState.gender = userDetailsModel?.meta?.gender ?? "";
+        appState.relation = userDetailsModel?.meta?.relation ?? "";
+        appState.livingIn = userDetailsModel?.meta?.livingIn ?? "";
+        appState.jobTitle = userDetailsModel?.meta?.jobTitle ?? "";
+        appState.about = userDetailsModel?.meta?.about ?? "";
+        appState.id = int.parse(userDetailsModel?.id ?? "");
         // appState.id = int.parse(userDetailsModel.id);
 
-        print(userDetailsModel.meta.toFirstJson());
+        print(userDetailsModel?.meta?.toFirstJson());
         if (sharedPreferences.containsKey(Preferences.mediaData)) {
           print("media contain");
           List<MediaModel> mediaList = mediaListFromJson(
@@ -179,7 +171,11 @@ class _SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    firebaseTokenListening();
+
+    if (!kIsWeb) {
+      firebaseTokenListening();
+    }
+
     getSharedDetails();
   }
 

@@ -34,9 +34,9 @@ class LoginViewModel {
         } else {
           appState.likeTime = DateTime.fromMillisecondsSinceEpoch(DateTime.now().millisecond - 3600000);
         }
-        if(userDetailsModel.meta.superLikeTime!=""){
+        if(userDetailsModel.meta.superLikeTime!="") {
           appState.superLikeTime = DateTime.parse(userDetailsModel.meta.superLikeTime);
-        }else{
+        } else {
           appState.superLikeTime = DateTime.fromMillisecondsSinceEpoch(DateTime.now().millisecond - 3600000);
         }
 

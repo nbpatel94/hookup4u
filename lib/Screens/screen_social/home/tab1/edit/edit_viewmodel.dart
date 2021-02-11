@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +17,7 @@ class EditDataViewModel {
     // imagesList.add("https://door.iheartmuslims.com/wp-content/uploads/2021/01/user_image-14-scaled.jpg");
   }
 
-  Future<Void> imageUpload(File image) async {
+ imageUpload(File image) async {
 
     EasyLoading.show();
     FocusScope.of(state.context).requestFocus(new FocusNode());

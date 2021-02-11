@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:hookup4u/Screens/auth/forgot_password.dart';
 import 'package:hookup4u/Screens/auth/login_viewmodel.dart';
 import 'package:hookup4u/Screens/auth/singup_page.dart';
+import 'package:hookup4u/Screens/home/list_holder_page.dart';
+import 'package:hookup4u/Screens/screen_social/invite_friends/invite_friends_screen.dart';
+import 'package:hookup4u/Screens/screen_social/main_screen.dart';
 import 'package:hookup4u/util/color.dart';
 
 class LoginPage extends StatefulWidget {
@@ -121,20 +124,15 @@ class LoginPageState extends State<LoginPage> {
                                 focusedBorder: UnderlineInputBorder(
                                     borderSide:
                                         BorderSide(color: ColorRes.textColor)),
-                                enabledBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: ColorRes.textColor)),
+                                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorRes.textColor)),
                               ),
                             ),
                           ],
                         ),
                       ),
-                      SizedBox(
-                        height: 30,
-                      ),
+                      SizedBox(height: 30),
                       Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 50),
+                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 50),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -142,6 +140,7 @@ class LoginPageState extends State<LoginPage> {
                               onTap: () {
                                 if (!isLoading) {
                                   if (model.validate()) {
+                                    // Navigator.push(context, MaterialPageRoute(builder: (context) => SocialMainPage()));
                                     setState(() {
                                       isLoading = true;
                                     });

@@ -8,18 +8,26 @@ import 'package:hookup4u/util/utils.dart';
 
 class SearchViewModel {
 
-  SearchResponseModel searchResponseModel = SearchResponseModel();
+  SearchResponseModel searchResponseModel;
+  SearchResponseModel searchRecentResponseModel;
+
+
+  bool recentDataShowMessage = true;
+  bool searchDataShowMessage = true;
+
 
   SearchScreenState state;
 
 
   SearchViewModel(SearchScreenState state) {
     this.state = state;
+    userRecentHistory();
   }
 
   searchListApi(String searchTile) {
     EasyLoading.show();
     SocialRestApi.searchFriendListApi(searchTile).then((value) {
+      searchDataShowMessage = false;
       if(value != null && value.statusCode == 200) {
         // imagesList.add(value.sourceUrl.toString());
         searchResponseModel = SearchResponseModel.fromJson(jsonDecode(value.body));
@@ -43,7 +51,7 @@ class SearchViewModel {
       if(message['code'] == 200 && message['status'] == "success") {
         // Utils().showToast(message['message']);
         // showMyPostApi();
-        state.isShowFollowUnFollow = !state.isShowFollowUnFollow;
+        // state.isShowFollowUnFollow = !state.isShowFollowUnFollow;
 
         // searchResponseModel
         searchListApi(state.searchFiled.text);
@@ -57,6 +65,45 @@ class SearchViewModel {
     });
   }
 
+
+  userRecentHistory() {
+
+    EasyLoading.show();
+    SocialRestApi.getRecentUserList().then((value) {
+      print(value);
+      Map<String, dynamic> message = jsonDecode(value.body);
+      if(value != null && message['code'] == 200 && message['status'] == "success") {
+
+        recentDataShowMessage = false;
+        // searchListApi(state.searchFiled.text);
+        searchRecentResponseModel = SearchResponseModel.fromJson(message);
+        state.setState(() {});
+      } else if(message['status'] == "error"){
+        Utils().showToast(message['message']);
+      } else {
+        Utils().showToast("something wrong");
+      }
+    });
+
+  }
+
+
+  userRecentHistoryDelete() {
+    EasyLoading.show();
+    SocialRestApi.deleteRecentHistory().then((value) {
+      print(value);
+      Map<String, dynamic> message = jsonDecode(value.body);
+      if(value != null && message['code'] == 200 && message['status'] == "success") {
+        searchRecentResponseModel = SearchResponseModel();
+        Utils().showToast(message['message']);
+        state.setState(() {});
+      } else if(message['status'] == "error"){
+        Utils().showToast(message['message']);
+      } else {
+        Utils().showToast("something wrong");
+      }
+    });
+  }
 
 
 }

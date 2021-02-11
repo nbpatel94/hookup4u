@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+// import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:hookup4u/Screens/home/list_holder_page.dart';
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/util/color.dart';
@@ -315,7 +315,9 @@ class _SexualOrientationState extends State<SexualOrientation> {
                                 );
                               },
                             )
-                          : dateOfBirthDropDown(),
+                          : Container()
+                  // dateOfBirthDropDown(),
+
                 ),
                 SizedBox(
                   height: 30,
@@ -333,7 +335,7 @@ class _SexualOrientationState extends State<SexualOrientation> {
   int currentYear;
   String dateOfBirth = 'Date of birth';
 
-  Widget dateOfBirthDropDown() {
+  /*Widget dateOfBirthDropDown() {
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).requestFocus(
@@ -403,5 +405,5 @@ class _SexualOrientationState extends State<SexualOrientation> {
         ),
       ),
     );
-  }
+  }*/
 }

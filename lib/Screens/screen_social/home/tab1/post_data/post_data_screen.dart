@@ -42,50 +42,67 @@ class PostDataScreenState extends State<PostDataScreen> {
     model ?? (model = PostDataViewModel(this));
     return SafeArea(
       child: Scaffold(
+        backgroundColor: ColorRes.primaryColor,
         appBar: AppBar(
-          title: Text(widget.isEdit ? "Share post" : "Post upload"),
           actions: [
-            IconButton(
-                icon: Icon(Icons.post_add, color: Colors.white), onPressed: () {
-              print("tap");
-              model.addPostApi(widget.postId);
-            })
+            InkWell(
+                onTap: () {
+                  model.addPostApi(widget.postId);
+                },
+                child: Center(
+                    child: Padding(
+                    padding: EdgeInsets.only(right: 10),
+                    child: Text("Done", style: TextStyle(color: ColorRes.primaryRed))))
+            )
           ],
         ),
-        body: SingleChildScrollView(
-          child: Column(
+        body: SingleChildScrollView (
+          child: Column (
+            // mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
+              Padding(
+                  padding: EdgeInsets.only(left: 10),
+                  child: Text(widget.isEdit ? "Share post" : "Create a post", style: TextStyle(color: ColorRes.white, fontSize: 30))),
+
+              SizedBox(height: 10),
               containData(),
+              SizedBox(height: 10),
               visibility(),
               widget.isEdit ? Container() : InkResponse(
                 onTap: () {
                   source(context);
                 },
-                child: Container(
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width,
-                    height: MediaQuery
-                        .of(context)
-                        .size
-                        .height / 2,
-                    margin: EdgeInsets.all(10),
-                    padding: EdgeInsets.only(top: 10, bottom: 10),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black12, width: 1),
-                        borderRadius: BorderRadius.circular(5)
-                    ),
-                    child: image == null || image.length == 0 ? Icon(
-                        Icons.image, color: Colors.black) :
-                    // AssetThumb(
-                    //   asset: images[0],
-                    //   width: 300,
-                    //   height: 300,
-                    // )
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                      width: MediaQuery.of(context).size.width / 2,
+                      height: MediaQuery.of(context).size.height / 4,
+                      margin: EdgeInsets.all(10),
+                      padding: EdgeInsets.only(top: 10, bottom: 10),
+                      decoration: BoxDecoration(
+                          color: ColorRes.white,
+                          border: Border.all(color: Colors.black12, width: 1),
+                          borderRadius: BorderRadius.circular(5)
+                      ),
+                      // child: image == null || image.length == 0 ? Icon (
+                      //     Icons.image, color: Colors.black
+                      // ) :
+                      // AssetThumb(
+                      //   asset: images[0],
+                      //   width: 300,
+                      //   height: 300,
+                      // )
+                      // Image(image: AssetImage(image.path)),
 
-                  Image(image: AssetImage(image.path))
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                      Icon (Icons.image, color: Colors.black),
+                      Text("Add Image", style: TextStyle(color: ColorRes.black))
+                    ])
+                  ),
                 ),
               ),
 
@@ -285,13 +302,18 @@ class PostDataScreenState extends State<PostDataScreen> {
   containData() {
     return Container(
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height / 2.3,
+        // height: MediaQuery.of(context).size.height / 2.3,
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        margin: EdgeInsets.all(5),
+        margin: EdgeInsets.only(left: 8, right: 8, bottom: 10, top: 5),
         decoration:
-            BoxDecoration(border: Border.all(width: 1, color: Colors.black12)),
+            BoxDecoration(
+                color: ColorRes.white,
+                borderRadius: BorderRadius.circular(10),
+                boxShadow: [BoxShadow(color: ColorRes.black, blurRadius: 1)]
+                // border: Border.all(width: 1, color: Colors.black12)
+            ),
         child: TextField(
-          maxLines: 13,
+          maxLines: 10,
           controller: containController,
           // keyboardType: TextInputType.text,
           textInputAction: TextInputAction.newline,
@@ -317,7 +339,10 @@ class PostDataScreenState extends State<PostDataScreen> {
       margin: EdgeInsets.only(left: 8, right: 8),
       padding: EdgeInsets.only(left: 10, right: 10),
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.black, width: 1)
+          color: ColorRes.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [BoxShadow(color: ColorRes.greyBg, blurRadius: 1)]
+          // border: Border.all(color: Colors.black, width: 1)
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
@@ -327,8 +352,7 @@ class PostDataScreenState extends State<PostDataScreen> {
               dropdownValue = newValue;
             });
           },
-          items: <String>['Public', 'Private', 'Friends']
-              .map<DropdownMenuItem<String>>((String value) {
+          items: <String>['Public', 'Private', 'Friends'].map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
               child: Text(value),

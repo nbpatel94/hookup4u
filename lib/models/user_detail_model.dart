@@ -18,7 +18,7 @@ class UserDetailsModel {
     this.meta,
   });
 
-  int id;
+  String id;
   String name;
   String url;
   String description;
@@ -28,14 +28,14 @@ class UserDetailsModel {
   Meta meta;
 
   factory UserDetailsModel.fromJson(Map<String, dynamic> json) => UserDetailsModel(
-    id: json["id"],
+    id: json["id"].toString(),
     name: json["name"],
     url: json["url"],
     description: json["description"],
     link: json["link"],
     slug: json["slug"],
-    avatarUrls: Map.from(json["avatar_urls"]).map((k, v) => MapEntry<String, String>(k, v)),
-    meta: Meta.fromJson(json["meta"]),
+    avatarUrls: json["avatar_urls"] != null ? Map.from(json["avatar_urls"]).map((k, v) => MapEntry<String, String>(k, v)) : null,
+    meta: json["meta"] != null ? Meta.fromJson(json["meta"]) : null,
   );
 
   Map<String, dynamic> toJson() => {
@@ -96,7 +96,7 @@ class Meta {
     children: json["children"],
     superLikeTime: json["superLikeTime"],
     likeTime: json["likeTime"],
-    subscriptionName: json["subscription_name"],
+    subscriptionName: json["subscription_name"] != null ? json["subscription_name"] : null,
     subscriptionDate: json["subscription_date"] !="" ? DateTime.parse(json["subscription_date"]) : null,
   );
 

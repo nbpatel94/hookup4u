@@ -450,6 +450,23 @@ class CardPicturesState extends State<CardPictures>
   }
 
   int ageCount(String date){
-    return DateTime.now().difference(DateFormat("dd-MM-yyyy").parse(date)).inDays~/365;
+
+    DateTime newDateTimeObj2;
+    try {
+      newDateTimeObj2 = new DateFormat("dd-MM-yyyy").parse(date) ?? null;
+    } catch(e) {
+      // print(e);
+      newDateTimeObj2 = new DateFormat("MMM dd, yyyy").parse(date) ?? null;
+    }
+    final DateFormat formatter = DateFormat('dd-MM-yyyy');
+    final String formatted = formatter.format(newDateTimeObj2);
+    // print(formatted);
+    int dateCount = DateTime.now().difference(DateFormat("dd-MM-yyyy").parse(formatted)).inDays~/365;
+    print(dateCount);
+
+    return dateCount;
+
+    // int dateCount = DateTime.now().difference(DateFormat("dd-MM-yyyy").parse(date)).inDays~/365;
+    // return date != null ? dateCount : 0;
   }
 }

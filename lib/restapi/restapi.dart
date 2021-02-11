@@ -537,7 +537,7 @@ class RestApi {
     var headerData = {
       // "Authorization" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZG9vci5paGVhcnRtdXNsaW1zLmNvbSIsImlhdCI6MTYxMTYzOTk2MywibmJmIjoxNjExNjM5OTYzLCJleHAiOjQ3NjUyMzk5NjMsImRhdGEiOnsidXNlciI6eyJpZCI6NH19fQ.HM5lJUFLUeh7ojYImLIwY3wj2mnzaZb_y1g_va8PPWk"
       "Authorization" : "Bearer ${appState.accessToken}",
-      "Content-Type" : "application/json"
+      // "Content-Type" : "application/json"
     };
 
     print(url);
@@ -545,7 +545,7 @@ class RestApi {
     print(headerData);
 
     try {
-      Response response = await http.post(url,headers: headerData, body: jsonEncode(bodyData));
+      Response response = await http.post(url,headers: headerData, body: bodyData);
       print(response.statusCode);
       if (response.statusCode == 200) {
         print(response.body);
@@ -557,6 +557,39 @@ class RestApi {
     } catch (e) {
       print(e);
       return 'Something went wrong! Please try later';
+    }
+  }
+
+
+  static Future<Response> updateUserDetailsSocial(Map bodyData) async {
+
+    String url = App.baseUrlSA + App.user;
+
+    var headerData = {
+      // "Authorization" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZG9vci5paGVhcnRtdXNsaW1zLmNvbSIsImlhdCI6MTYxMTYzOTk2MywibmJmIjoxNjExNjM5OTYzLCJleHAiOjQ3NjUyMzk5NjMsImRhdGEiOnsidXNlciI6eyJpZCI6NH19fQ.HM5lJUFLUeh7ojYImLIwY3wj2mnzaZb_y1g_va8PPWk"
+      "Authorization" : "Bearer ${appState.accessToken}",
+      // "Content-Type" : "application/json"
+    };
+
+    print(url);
+    print(bodyData);
+    print(headerData);
+
+    try {
+      Response response = await http.post(url,headers: headerData, body: bodyData);
+      print(response.statusCode);
+      return response;
+      /*if (response.statusCode == 200) {
+        print(response.body);
+        return response.body;
+      } else {
+        print(response.body);
+        return jsonDecode(response.body)['message'];
+      }*/
+    } catch (e) {
+      print(e);
+      return null;
+      // return 'Something went wrong! Please try later';
     }
   }
 

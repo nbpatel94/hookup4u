@@ -1,14 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hookup4u/Screens/screen_social/comment_view/comment_screen.dart';
+import 'package:hookup4u/Screens/screen_social/edit_profile/edit_profile_screen.dart';
+import 'package:hookup4u/Screens/screen_social/follower_view/follower_screen.dart';
 import 'package:hookup4u/Screens/screen_social/home/tab1/edit/edit_screen.dart';
 import 'package:hookup4u/Screens/screen_social/home/tab1/post_data/post_data_screen.dart';
 import 'package:hookup4u/Screens/screen_social/like_show/like_show_screen.dart';
+import 'package:hookup4u/Screens/screen_social/setting_view/setting_screen.dart';
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/models/socialPostShowModel.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:intl/intl.dart';
-
 import 'user_profile_viewmodel.dart';
 
 class UserProfileScreen extends StatefulWidget {
@@ -26,11 +29,22 @@ class UserProfileScreenState extends State<UserProfileScreen> {
   int isSelected = 1;
   // TabController _tabController;
 
+  String nameUpdate = "";
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
     // _tabController = new TabController(length: 4, vsync: this);
+
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    EasyLoading.dismiss();
   }
 
   UserProfileViewModel model;
@@ -45,13 +59,28 @@ class UserProfileScreenState extends State<UserProfileScreen> {
         elevation: 0.0,
         leading: Container(),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.edit, color: ColorRes.primaryRed),
-          onPressed: () {}),
+          /*IconButton(icon: Icon(Icons.edit, color: ColorRes.primaryRed),
+          onPressed: () async {
+           Map<String, dynamic> data = await Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfilePage()));
+
+           if(data != null) {
+             nameUpdate = data['name'];
+             setState(() {});
+           }
+
+          }),*/
+
+          IconButton(icon: Icon(Icons.settings, color: ColorRes.primaryRed),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SettingPage()));
+              }),
+
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
+
              topUserImageView(),
              followerDataShow(),
              tabIconShow(),
@@ -71,7 +100,15 @@ class UserProfileScreenState extends State<UserProfileScreen> {
             //   ),
             // ),
 
-             showMyPost()
+            isSelected == 1 ? showMyPost() : Container(),
+            isSelected == 2 ? mediaListShow() : Container(),
+            isSelected == 3 ? Container(
+                padding: EdgeInsets.only(top: 100),
+                child: Text("No Data")) : Container(),
+            isSelected == 4 ? Container(
+                padding: EdgeInsets.only(top: 100),
+                child: Text("No Data")): Container(),
+
           ],
         ),
       ),
@@ -94,25 +131,25 @@ class UserProfileScreenState extends State<UserProfileScreen> {
               margin: EdgeInsets.only(left: 30, right: 30),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(125),
-                child: appState.medialList != null &&
-                        appState.medialList.isNotEmpty
+                child: model.userProfileModel?.data?.thumb != null &&
+                    model.userProfileModel.data.thumb.isNotEmpty
                     ? CachedNetworkImage(
-                        imageUrl: appState.medialList[0].sourceUrl,
-                        placeholder: (context, url) => Image.asset(
-                              'asset/Icon/placeholder.png',
-                              height: 120,
-                              width: 120,
-                              fit: BoxFit.cover,
-                            ),
-                        height: 120,
-                        width: 120,
-                        fit: BoxFit.cover)
+                    imageUrl: model.userProfileModel.data.thumb,
+                    placeholder: (context, url) => Image.asset(
+                      'asset/Icon/placeholder.png',
+                      height: 120,
+                      width: 120,
+                      fit: BoxFit.cover,
+                    ),
+                    height: 120,
+                    width: 120,
+                    fit: BoxFit.cover)
                     : Image.asset(
-                        'asset/Icon/placeholder.png',
-                        height: 120,
-                        width: 120,
-                        fit: BoxFit.cover,
-                      ),
+                  'asset/Icon/placeholder.png',
+                  height: 120,
+                  width: 120,
+                  fit: BoxFit.cover,
+                )
               )),
 
               Column(
@@ -120,8 +157,12 @@ class UserProfileScreenState extends State<UserProfileScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
 
-                Text("Blanche Hall", style: TextStyle(color: ColorRes.white, fontSize: 23), overflow: TextOverflow.ellipsis, maxLines: 1),
-                Text("@jorgecutis", style: TextStyle(color: ColorRes.greyBg, fontSize: 15),  overflow: TextOverflow.ellipsis, maxLines: 1),
+                    Text(nameUpdate != null && nameUpdate.isNotEmpty ? nameUpdate : model?.userProfileModel?.data?.userDetail?.displayName ?? "", style: TextStyle(color: ColorRes.white, fontSize: 21), overflow: TextOverflow.ellipsis, maxLines: 1),
+                    Text("@${model?.userProfileModel?.data?.userDetail?.userNicename ?? ""}" ?? "", style: TextStyle(color: ColorRes.white, fontSize: 14),  overflow: TextOverflow.ellipsis, maxLines: 1),
+                    SizedBox(height: 15),
+
+                // Text(nameUpdate != null && nameUpdate.isNotEmpty ? nameUpdate : appState?.currentUserData?.data?.displayName ?? "", style: TextStyle(color: ColorRes.white, fontSize: 23), overflow: TextOverflow.ellipsis, maxLines: 1),
+                // Text(appState?.currentUserData?.data?.email ?? "", style: TextStyle(color: ColorRes.greyBg, fontSize: 15),  overflow: TextOverflow.ellipsis, maxLines: 1),
 
               ])
 
@@ -190,9 +231,20 @@ class UserProfileScreenState extends State<UserProfileScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          followerCountShow("128", "Posts"),
-          followerCountShow("3120", "Following"),
-          followerCountShow("5024", "Follower"),
+          followerCountShow(model?.userProfileModel?.data?.posts?.toString() ?? "0", "Posts"),
+          InkResponse(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => FollowerFollowingList(isCheckScreen: "Following")));
+            },
+            child: followerCountShow(model?.totalFollowing.toString() ?? "0", "Following"),
+          ),
+          InkResponse(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => FollowerFollowingList(isCheckScreen: "Follower")));
+            },
+            child: followerCountShow(model?.userProfileModel?.data?.follower?.toString() ?? "0", "Follower"),
+          ),
+
         ],
       ),
     );
@@ -891,6 +943,7 @@ class UserProfileScreenState extends State<UserProfileScreen> {
                         height: 40,
                         alignment: Alignment.centerLeft,
                         child: Text(emojis[index].toString(), style: TextStyle(fontSize: 30))),
+
                   );
                   /* return Image(
                   height: 40,
@@ -898,6 +951,51 @@ class UserProfileScreenState extends State<UserProfileScreen> {
                   image: AssetImage("asset/Icon/${emojis[index]}.png"))*/;
                 })
         ) : Container());
+  }
+
+
+  mediaListShow() {
+    if(model.isEmptyMessageUserMedia) {
+      return Container();
+    } else {
+      if (model?.userMediaProfileApi?.data != null &&
+          model?.userMediaProfileApi?.data?.length != 0) {
+        return ListView.builder(
+            itemCount: model.userMediaProfileApi.data.length,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return userProfileImages(
+                  index, model.userMediaProfileApi.data[index]);
+            });
+      } else {
+        return Container(
+            width: MediaQuery
+                .of(context)
+                .size
+                .width,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height * 0.5,
+            alignment: Alignment.center,
+            child: Text("No Post Available")
+        );
+      }
+    }
+  }
+
+  userProfileImages(int index, String data) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: ColorRes.primaryColor,
+          boxShadow: [BoxShadow(color: ColorRes.black, blurRadius: 5.0, offset: Offset(0, 0), spreadRadius: 0.1)]
+      ),
+      child: Image(image: NetworkImage(data), fit: BoxFit.contain),
+    );
   }
 
 }

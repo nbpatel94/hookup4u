@@ -3,11 +3,19 @@ import 'package:hookup4u/database/database_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class App{
-  static const String baseUrl = 'https://door.iheartmuslims.com/wp-json/buddypress/v1/';
+/*  static const String baseUrl = 'https://door.iheartmuslims.com/wp-json/buddypress/v1/';
   static const String baseUrl2 = 'https://door.iheartmuslims.com/wp-json/bdpwr/v1/';
   static const String baseUrlV2 = 'https://door.iheartmuslims.com/wp-json/wp/v2/';
   static const String baseUrlSA = 'https://door.iheartmuslims.com/wp-json/sa/v1/';
   static const String loginBase = 'https://door.iheartmuslims.com/wp-json/jwt-auth/v1/token';
+*/
+
+
+  static const String baseUrl = 'https://iheartmuslims.wp.apis.demographed.com/wp-json/buddypress/v1/';
+  static const String baseUrl2 = 'https://iheartmuslims.wp.apis.demographed.com/wp-json/bdpwr/v1/';
+  static const String baseUrlV2 = 'https://iheartmuslims.wp.apis.demographed.com/wp-json/wp/v2/';
+  static const String baseUrlSA = 'https://iheartmuslims.wp.apis.demographed.com/wp-json/sa/v1/';
+  static const String loginBase = 'https://iheartmuslims.wp.apis.demographed.com/wp-json/jwt-auth/v1/token';
 
   static const String adminToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZG9vci5paGVhcnRtdXNsaW1zLmNvbSIsImlhdCI6MTYwNDgzODU5MywibmJmIjoxNjA0ODM4NTkzLCJleHAiOjQ3NTg0Mzg1OTMsImRhdGEiOnsidXNlciI6eyJpZCI6NH19fQ.SW23tR-JgteoMmKaM-wzrRxRfI5AG8IDIjxvTTlciPw';
 
@@ -37,6 +45,9 @@ class App{
   static const String userProfile = 'user_profile';
   static const String follow = 'follow';
   static const String friends = 'friends';
+  static const String profile_media = 'profile_media';
+  static const String followList = 'follow_list';
+  static const String recent = 'recent';
 }
 
 SharedPreferences sharedPreferences;

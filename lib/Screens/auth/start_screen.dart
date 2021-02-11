@@ -67,9 +67,9 @@ class StartScreen extends StatelessWidget {
                               fontWeight: FontWeight.w700))),
                 ),
               ),
-                  SizedBox(
+              SizedBox(
                     height: 30,
-                  )
+              )
             ]),
           ),
         ),

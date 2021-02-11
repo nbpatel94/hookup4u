@@ -96,7 +96,7 @@ class SocialRestApi {
     };
     print(url + headerData.toString() + postData.toString());
     try {
-      Response response = await http.post(url, headers: headerData, body: jsonEncode(postData));
+      Response response = await http.post(url, headers: headerData, body: jsonEncode(postData)).timeout(Duration(seconds: 20));
       print(response.statusCode);
       EasyLoading.dismiss();
       if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
@@ -125,7 +125,7 @@ class SocialRestApi {
     };
     print(url + headerData.toString());
     try {
-      Response response = await http.get(url, headers: headerData);
+      Response response = await http.get(url, headers: headerData).timeout(Duration(seconds: 20));
       print(response.statusCode);
       EasyLoading.dismiss();
       if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
@@ -398,6 +398,38 @@ class SocialRestApi {
     }
   }
 
+  static Future<Response> getUserProfileMedia() async {
+
+    String url = App.baseUrlSA + App.profile_media + "/${appState.currentUserData.data.id}";
+
+    var headerData = {
+      "Authorization": "Bearer ${appState.accessToken}",
+      "Content-Type":"application/json"
+    };
+
+    print(url + headerData.toString());
+
+    try {
+      Response response = await http.get(url, headers: headerData);
+      print(response.statusCode);
+      // EasyLoading.dismiss();
+      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
+        print(response.body);
+        return response;
+      } else {
+        print(response.body);
+        var jsonData = jsonDecode(response.body);
+        Utils().showToast(jsonData['message']);
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      EasyLoading.dismiss();
+      // Utils().showToast(e);
+      return null;
+    }
+  }
+
 
   static Future<Response> getUserProfileApi(String userId) async {
 
@@ -408,7 +440,7 @@ class SocialRestApi {
 
     print(url + headerData.toString());
     try {
-      Response response = await http.get(url, headers: headerData);
+      Response response = await http.get(url, headers: headerData).timeout(Duration(seconds: 20));
       print(response.statusCode);
       EasyLoading.dismiss();
       if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
@@ -438,7 +470,69 @@ class SocialRestApi {
 
     print(url + headerData.toString());
     try {
-      Response response = await http.post(url, headers: headerData);
+      Response response = await http.post(url, headers: headerData).timeout(Duration(seconds: 20));
+      print(response.statusCode);
+      EasyLoading.dismiss();
+      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
+        print(response.body);
+        return response;
+      } else {
+        print(response.body);
+        var jsonData = jsonDecode(response.body);
+        Utils().showToast(jsonData['message']);
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      EasyLoading.dismiss();
+      Utils().showToast(e);
+      return null;
+    }
+  }
+
+
+  static Future<Response> getRecentUserList() async {
+
+    String url = App.baseUrlSA + App.recent;
+
+    var headerData = {
+      "Authorization": "Bearer ${appState.accessToken}",
+    };
+
+    print(url + headerData.toString());
+    try {
+      Response response = await http.get(url, headers: headerData).timeout(Duration(seconds: 20));
+      print(response.statusCode);
+      EasyLoading.dismiss();
+      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
+        print(response.body);
+        return response;
+      } else {
+        print(response.body);
+        var jsonData = jsonDecode(response.body);
+        Utils().showToast(jsonData['message']);
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      EasyLoading.dismiss();
+      Utils().showToast(e);
+      return null;
+    }
+  }
+
+  static Future<Response> deleteRecentHistory() async {
+
+    String url = App.baseUrlSA + App.recent;
+
+    var headerData = {
+      "Authorization": "Bearer ${appState.accessToken}",
+    };
+
+    print(url + headerData.toString());
+
+    try {
+      Response response = await http.delete(url, headers: headerData).timeout(Duration(seconds: 20));
       print(response.statusCode);
       EasyLoading.dismiss();
       if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
@@ -461,8 +555,7 @@ class SocialRestApi {
   static Future<Response> postFriendRequest(Map<String, dynamic> friendRequestMap) async {
 
 
-    String url = App.baseUrlSA + App.friends;
-
+    String url = App.baseUrl + App.friends;
 
     var headerData = {
       "Authorization": "Bearer ${appState.accessToken}",
@@ -471,6 +564,37 @@ class SocialRestApi {
     print(url + headerData.toString());
     try {
       Response response = await http.post(url, headers: headerData, body: friendRequestMap);
+      print(response.statusCode);
+      EasyLoading.dismiss();
+      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
+        print(response.body);
+        return response;
+      } else {
+        print(response.body);
+        var jsonData = jsonDecode(response.body);
+        Utils().showToast(jsonData['message']);
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      EasyLoading.dismiss();
+      Utils().showToast(e);
+      return null;
+    }
+  }
+
+
+  static Future<Response> getFollowerFollowingList() async {
+
+    String url = App.baseUrlSA + App.followList;
+
+    var headerData = {
+      "Authorization": "Bearer ${appState.accessToken}",
+    };
+
+    print(url + headerData.toString());
+    try {
+      Response response = await http.get(url, headers: headerData).timeout(Duration(seconds: 20));
       print(response.statusCode);
       EasyLoading.dismiss();
       if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {

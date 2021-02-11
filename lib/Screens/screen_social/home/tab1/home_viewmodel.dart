@@ -14,7 +14,7 @@ class SocialHomeViewModel {
   List<SocialPostShowData> socialPostShowList = List();
   SocialHomePageState state;
 
-  SocialHomeViewModel(this.state){
+  SocialHomeViewModel(this.state) {
     showPostApi();
   }
 

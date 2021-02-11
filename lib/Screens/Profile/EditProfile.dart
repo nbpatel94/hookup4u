@@ -86,8 +86,7 @@ class EditProfileState extends State<EditProfile> {
           print(appState.userDetailsModel.meta.toJson());
           await sharedPreferences.setString(Preferences.metaData, jsonEncode(appState.userDetailsModel.meta.toJson()));
 
-          String check = await RestApi.updateUserDetails(
-              appState.userDetailsModel.meta.toJson());
+          String check = await RestApi.updateUserDetails(appState.userDetailsModel.meta.toJson());
           if (check == 'success') {
             Navigator.pop(context);
           } else {

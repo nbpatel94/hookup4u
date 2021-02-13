@@ -5,7 +5,7 @@ import 'package:hookup4u/restapi/restapi.dart';
 
 class MessagesPageViewModel{
   MessagesScreenState state;
-  List<MatchModel> matchList = List();
+  List<MatchModel> matchList = [];
 
   MessagesPageViewModel(this.state){
     getMyMatch();

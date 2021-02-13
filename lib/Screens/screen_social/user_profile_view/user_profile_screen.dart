@@ -15,8 +15,9 @@ class UserProfilePage extends StatefulWidget {
 
   final int userId;
   final bool isFollow;
+  final bool isOpenRequestScreen;
 
-  const UserProfilePage({Key key, this.userId, this.isFollow}) : super(key: key);
+  const UserProfilePage({Key key, this.userId, this.isFollow, this.isOpenRequestScreen = false}) : super(key: key);
 
   @override
   UserProfilePageState createState() => UserProfilePageState();
@@ -221,7 +222,17 @@ class UserProfilePageState extends State<UserProfilePage> {
           followerCountShow(model?.totalFollowing.toString() ?? "0", "Following"),
           followerCountShow(model?.userProfileModel?.data?.follower?.toString() ?? "0", "Follower"),
 
-          InkResponse(
+          widget.isOpenRequestScreen ? Row(children: [
+            InkWell(onTap: () {
+              model.acceptFriendRequestApi(widget.userId.toString());
+            }, child: Icon(Icons.check, color: ColorRes.primaryRed)),
+            SizedBox(width: 15),
+            InkWell(onTap: () {
+
+              model.deleteFriendsRequest(widget.userId.toString());
+
+            }, child: Icon(Icons.delete, color: ColorRes.primaryRed))
+          ]) : InkResponse(
             onTap: () {
               model.friendRequestApi();
             },
@@ -819,7 +830,8 @@ class UserProfilePageState extends State<UserProfilePage> {
               InkWell(
                   onTap: () {
                     if(userPost.selfLike) {
-                      model.deletePostApi(userPost.id);
+                      // model.deletePostApi(userPost.id);
+                      model.deleteLikeApi(userPost.id);
                     } else {
                       model.addLikeApi(userPost.id, "#like");
                     }

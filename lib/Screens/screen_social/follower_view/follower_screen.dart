@@ -227,8 +227,8 @@ class FollowerFollowingListState extends State<FollowerFollowingList> {
                                   child:  Text(
                                       model.followingList[index].following ? "UnFollow" :
                                       "Follow",
-                                      style: TextStyle(color: ColorRes.white , fontSize: 15),
-                                      // style: TextStyle(color: model.followingList[index].following ? ColorRes.primaryRed : ColorRes.white, fontSize: 15),
+                                      // style: TextStyle(color: ColorRes.white , fontSize: 15),
+                                      style: TextStyle(color: model.followingList[index].following ? ColorRes.primaryRed : ColorRes.white, fontSize: 15),
                                       textAlign: TextAlign.center),
 
                                 ),

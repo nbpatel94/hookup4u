@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:hookup4u/models/notification_data_model.dart';
 import 'package:hookup4u/util/color.dart';
+
+import 'notification_detail_viewmodel.dart';
 
 class NotificationDetailsScreen extends StatefulWidget {
   @override
-  _NotificationDetailsScreenState createState() => _NotificationDetailsScreenState();
+  NotificationDetailsScreenState createState() => NotificationDetailsScreenState();
 }
 
-class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
+class NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
 
   var refreshKey = GlobalKey<RefreshIndicatorState>();
+
+
 
   Future<Null> refreshList() async {
     refreshKey.currentState?.show(atTop: false);
@@ -18,6 +23,15 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
     //   // model.showCommentApi();
     // });
     return null;
+  }
+
+  NotificationListDataViewModel model;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    model ?? (model = NotificationListDataViewModel(this));
   }
 
   @override
@@ -35,19 +49,19 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
             Container(
                 height: 50,
                 child: Text("Notifications", style: TextStyle(color: ColorRes.white, fontSize: 30))),
-            Expanded(child: RefreshIndicator(
+            Expanded(child: model.notificationDataEmpty ? Container() : RefreshIndicator(
               key: refreshKey,
               onRefresh: refreshList,
-              child: ListView.separated(
-                  itemCount: 6,
+              child: model.notificationData != null && model.notificationData.length != 0 ?  ListView.separated(
+                  itemCount: model.notificationData.length,
                   separatorBuilder: (context, index) {
                     return Padding(
                         padding: EdgeInsets.only(left: 60),
                         child: Divider(height: 1, color: ColorRes.black));
                   },
                   itemBuilder: (context, index) {
-                return cellDataShow(index);
-              }),
+                return cellDataShow(index, model.notificationData[index]);
+              }) : Container(child: Text("Notification data empty!")),
             ))
           ],
         ),
@@ -55,8 +69,9 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
     );
   }
 
-  cellDataShow(int index) {
-    if(index == 0) {
+  cellDataShow(int index, NotificationDataModel notificationData) {
+    // if(index == 0) {
+    if(notificationData.component == "user follow") {
       return Container(
         height: 60,
         child: Row(
@@ -73,7 +88,8 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("jimmy Nilson followed you.", style: TextStyle(color: ColorRes.white)),
+                Text(notificationData.action ?? "", style: TextStyle(color: ColorRes.white)),
+                // Text("jimmy Nilson followed you.", style: TextStyle(color: ColorRes.white)),
                 SizedBox(height: 10),
                 Text("2 hours ago", style: TextStyle(color: ColorRes.greyBg)),
               ],
@@ -81,7 +97,33 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
           ],
         ),
       );
-    } if(index == 1) {
+    } else if(notificationData.component == "friends") {
+      return Container(
+        height: 60,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Image(
+                    height: 50,
+                    width: 50,
+                    image: AssetImage("asset/Icon/placeholder.png"), fit: BoxFit.cover)),
+            SizedBox(width: 10),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(notificationData.action ?? "", style: TextStyle(color: ColorRes.white)),
+                // Text("jimmy Nilson followed you.", style: TextStyle(color: ColorRes.white)),
+                SizedBox(height: 10),
+                Text("2 hours ago", style: TextStyle(color: ColorRes.greyBg)),
+              ],
+            )
+          ],
+        ),
+      );
+    } else if(notificationData.component == "likes") {
       return Container(
         height: 100,
         child: Row(
@@ -98,7 +140,8 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Katie Malone liked 3 your photos", style: TextStyle(color: ColorRes.white)),
+                Text(notificationData.action, style: TextStyle(color: ColorRes.white)),
+                // Text("Katie Malone liked 3 your photos", style: TextStyle(color: ColorRes.white)),
                 SizedBox(height: 3),
                 Container(
                   height: 40,
@@ -120,7 +163,7 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
           ],
         ),
       );
-    } if(index == 2) {
+    } else if(index == 2) {
       return Container(
         // height: 60,
         padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -139,6 +182,7 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Text(notificationData.action, style: TextStyle(color: ColorRes.white), maxLines: 2, overflow: TextOverflow.ellipsis),
                   Text('Ola Gonzales reacts for story "killin\' chillin" to your timeline', style: TextStyle(color: ColorRes.white), maxLines: 2, overflow: TextOverflow.ellipsis),
                   SizedBox(height: 10),
                   Text("2 hours ago", style: TextStyle(color: ColorRes.greyBg)),
@@ -148,7 +192,7 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
           ],
         ),
       );
-    } if(index == 3) {
+    } else if(notificationData.component == "comments") {
       return Container(
         // height: 60,
         padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -174,7 +218,8 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(child: Text("The Luxury of traveling with Yacht Charter Companies", style: TextStyle(color: ColorRes.white), maxLines: 2, overflow: TextOverflow.ellipsis)),
+                        Expanded(child: Text(notificationData.action, style: TextStyle(color: ColorRes.white), maxLines: 2, overflow: TextOverflow.ellipsis)),
+                        // Expanded(child: Text("The Luxury of traveling with Yacht Charter Companies", style: TextStyle(color: ColorRes.white), maxLines: 2, overflow: TextOverflow.ellipsis)),
                         Image(
                             height: 50,
                             width: 50,
@@ -190,7 +235,7 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
           ],
         ),
       );
-    } if(index == 4) {
+    } else if(index == 4) {
       return Container(
         // height: 60,
         padding: EdgeInsets.only(top: 10, bottom: 10),

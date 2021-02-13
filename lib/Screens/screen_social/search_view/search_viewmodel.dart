@@ -67,13 +67,11 @@ class SearchViewModel {
 
 
   userRecentHistory() {
-
     EasyLoading.show();
     SocialRestApi.getRecentUserList().then((value) {
       print(value);
       Map<String, dynamic> message = jsonDecode(value.body);
       if(value != null && message['code'] == 200 && message['status'] == "success") {
-
         recentDataShowMessage = false;
         // searchListApi(state.searchFiled.text);
         searchRecentResponseModel = SearchResponseModel.fromJson(message);
@@ -84,7 +82,6 @@ class SearchViewModel {
         Utils().showToast("something wrong");
       }
     });
-
   }
 
 

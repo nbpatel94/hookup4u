@@ -162,7 +162,7 @@ class ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    model ?? (model = ChatScreenViewModel(this));
+    model = ChatScreenViewModel(this);
 
     return WillPopScope(
       onWillPop: () async {

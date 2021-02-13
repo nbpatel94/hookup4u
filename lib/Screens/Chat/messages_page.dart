@@ -38,7 +38,7 @@ class MessagesScreenState extends State<MessagesScreen> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(80),
-                        child: appState.medialList!=null ?
+                        child: appState.medialList!=null && appState.medialList.length != 0 ?
                         CachedNetworkImage(
                             imageUrl: appState.medialList[0].sourceUrl,
                             placeholder: (context, url) => Image.asset(
@@ -192,7 +192,7 @@ class MessagesScreenState extends State<MessagesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    model ?? (model = MessagesPageViewModel(this));
+    model = MessagesPageViewModel(this);
     return Scaffold(
       backgroundColor: ColorRes.primaryColor,
       key: _scaffoldKey,

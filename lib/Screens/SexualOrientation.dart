@@ -50,6 +50,7 @@ class _SexualOrientationState extends State<SexualOrientation> {
     {'name': 'No Children', 'ontap': false},
     {'name': 'Have Children', 'ontap': false},
   ];
+
   List selectedRelationship = [];
   List selectedChildren = [];
 
@@ -315,13 +316,12 @@ class _SexualOrientationState extends State<SexualOrientation> {
                                 );
                               },
                             )
-                          : Container()
-                  // dateOfBirthDropDown(),
+                          : Container(),
 
                 ),
-                SizedBox(
-                  height: 30,
-                ),
+                SizedBox(height: 30),
+                // dateOfBirthDropDown(),
+
               ],
             ),
           ),

@@ -60,13 +60,13 @@ class SocialRestApi {
 
     var headerData = {
       "Authorization": "Bearer ${appState.accessToken}",
-      "Content-Type":"application/json"
+      // "Content-Type":"application/json"
     };
 
     print(url + headerData.toString() + postData.toString());
 
     try {
-      Response response = await http.post(url, headers: headerData, body: jsonEncode(postData));
+      Response response = await http.post(url, headers: headerData, body: postData);
       print(response.statusCode);
       EasyLoading.dismiss();
       if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
@@ -552,15 +552,45 @@ class SocialRestApi {
     }
   }
 
-  static Future<Response> postFriendRequest(Map<String, dynamic> friendRequestMap) async {
+  static Future<Response> getFollowerFollowingList() async {
 
-
-    String url = App.baseUrl + App.friends;
+    String url = App.baseUrlSA + App.followList;
 
     var headerData = {
       "Authorization": "Bearer ${appState.accessToken}",
     };
 
+    print(url + headerData.toString());
+    try {
+      Response response = await http.get(url, headers: headerData).timeout(Duration(seconds: 20));
+      print(response.statusCode);
+      EasyLoading.dismiss();
+      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
+        print(response.body);
+        return response;
+      } else {
+        print(response.body);
+        var jsonData = jsonDecode(response.body);
+        Utils().showToast(jsonData['message']);
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      EasyLoading.dismiss();
+      Utils().showToast(e);
+      return null;
+    }
+  }
+
+
+  /// Friends request api
+
+  static Future<Response> postFriendRequest(Map<String, dynamic> friendRequestMap) async {
+
+    String url = App.baseUrl + App.friends;
+    var headerData = {
+      "Authorization": "Bearer ${appState.accessToken}",
+    };
     print(url + headerData.toString());
     try {
       Response response = await http.post(url, headers: headerData, body: friendRequestMap);
@@ -584,9 +614,100 @@ class SocialRestApi {
   }
 
 
-  static Future<Response> getFollowerFollowingList() async {
+  static Future<Response> getFriendRequestListApi() async {
 
-    String url = App.baseUrlSA + App.followList;
+    String url = App.baseUrl + App.friends;
+
+    var headerData = {
+      "Authorization": "Bearer ${appState.accessToken}",
+    };
+
+    print(url + headerData.toString());
+    try {
+      Response response = await http.get(url, headers: headerData).timeout(Duration(seconds: 20));
+      print(response.statusCode);
+      EasyLoading.dismiss();
+      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
+        print(response.body);
+        return response;
+      } else {
+        print(response.body);
+        var jsonData = jsonDecode(response.body);
+        Utils().showToast(jsonData['message']);
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      EasyLoading.dismiss();
+      Utils().showToast(e);
+      return null;
+    }
+  }
+
+  static Future<Response> putAcceptFriendRequest(String friendId) async {
+
+    String url = App.baseUrl + App.friends + "/$friendId";
+
+    var headerData = {
+      "Authorization": "Bearer ${appState.accessToken}",
+    };
+
+    print(url + headerData.toString());
+    try {
+      Response response = await http.get(url, headers: headerData).timeout(Duration(seconds: 20));
+      print(response.statusCode);
+      EasyLoading.dismiss();
+      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
+        print(response.body);
+        return response;
+      } else {
+        print(response.body);
+        var jsonData = jsonDecode(response.body);
+        Utils().showToast(jsonData['message']);
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      EasyLoading.dismiss();
+      Utils().showToast(e);
+      return null;
+    }
+  }
+
+  static Future<Response> deleteFriendRequestApi(String friendId) async {
+
+    String url = App.baseUrl + App.friends + "/$friendId";
+
+    var headerData = {
+      "Authorization": "Bearer ${appState.accessToken}",
+    };
+
+    print(url + headerData.toString());
+    try {
+      Response response = await http.delete(url, headers: headerData).timeout(Duration(seconds: 20));
+      print(response.statusCode);
+      EasyLoading.dismiss();
+      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
+        print(response.body);
+        return response;
+      } else {
+        print(response.body);
+        var jsonData = jsonDecode(response.body);
+        Utils().showToast(jsonData['message']);
+        return response;
+      }
+    } catch (e) {
+      print(e);
+      EasyLoading.dismiss();
+      Utils().showToast(e);
+      return null;
+    }
+  }
+  ///notification data
+
+  static Future<Response> getNotificationData() async {
+
+    String url = App.baseUrl + App.notifications;
 
     var headerData = {
       "Authorization": "Bearer ${appState.accessToken}",

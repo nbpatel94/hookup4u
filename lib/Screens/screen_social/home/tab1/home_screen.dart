@@ -3,6 +3,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hookup4u/Screens/screen_social/comment_view/comment_screen.dart';
+import 'package:hookup4u/Screens/screen_social/friends_request/friends_request_screen.dart';
 import 'package:hookup4u/Screens/screen_social/home/tab1/post_data/post_data_screen.dart';
 import 'package:hookup4u/Screens/screen_social/like_show/like_show_screen.dart';
 import 'package:hookup4u/Screens/screen_social/search_view/search_screen.dart';
@@ -89,69 +90,76 @@ class SocialHomePageState extends State<SocialHomePage> {
       child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-          IconButton(
-            icon: Icon(Icons.arrow_back_outlined, color: ColorRes.white),
-            onPressed: ()  {
-            Navigator.pop(context);
-            }),
-        InkResponse(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
-          },
-          child: Container(
-              width: Utils().getDeviceWidth(context) - 165,
-              height: 40,
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.only(left: 10),
-              decoration: BoxDecoration(
-                color: ColorRes.greyBg.withOpacity(0.5),
-                borderRadius: BorderRadius.circular(60),
-              ),
-             child: Text("Search Friends", style: TextStyle(color: Colors.white)),
-             /* child: TextField(
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "Search Friends"
+          SizedBox(
+            width: 40,
+            height: 40,
+            child: IconButton(
+              icon: Icon(Icons.arrow_back_outlined, color: ColorRes.white),
+              onPressed: ()  {
+              Navigator.pop(context);
+              }),
+          ),
+        Expanded(
+          child: InkResponse(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
+            },
+            child: Container(
+                width: Utils().getDeviceWidth(context) - 175,
+                height: 40,
+                padding: EdgeInsets.only(left: 8),
+                alignment: Alignment.centerLeft,
+                decoration: BoxDecoration(
+                  color: ColorRes.greyBg.withOpacity(0.5),
+                  borderRadius: BorderRadius.circular(60),
                 ),
-              )*/
+               child: Text("Search Friends", style: TextStyle(color: Colors.white)),
+               /* child: TextField(
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "Search Friends"
+                  ),
+                )*/
+            ),
           ),
         ),
 
-            Padding(
-              padding: EdgeInsets.only(top: 5, bottom: 5),
-              child: FloatingActionButton(
-                onPressed: () async {
-                  // isRef = await Navigator.push(context, MaterialPageRoute(builder: (context) => PostDataScreen(isEdit: false, postId: "")));
-                  // if (isRef) {
-                  //   model.showPostApi();
-                  // }
-                },
-                backgroundColor: ColorRes.primaryRed,
-                child: Container(
-                  height: 40,
-                  width: 40,
-                  // padding: EdgeInsets.all(10),
-                  child: Icon(Icons.person_add_alt_1, color: ColorRes.white, size: 25),
-                ),
-              ),
+        InkWell (
+          onTap: () async {
+            // isRef = await Navigator.push(context, MaterialPageRoute(builder: (context) => PostDataScreen(isEdit: false, postId: "")));
+            // if (isRef) {
+            //   model.showPostApi();
+            // }
+            Navigator.push(context, MaterialPageRoute(builder: (context) => FriendsRequestPage()));
+          },
+          child: Container(
+            height: 40,
+            width: 40,
+            margin: EdgeInsets.only(left: 5, right: 5),
+            decoration: BoxDecoration(
+              color: ColorRes.primaryRed,
+              shape: BoxShape.circle
             ),
+            child: Icon(Icons.person_add_alt_1, color: ColorRes.white, size: 25),
+          ),
+        ),
 
 
-        Padding(
-          padding: EdgeInsets.only(top: 5, bottom: 5),
-          child: FloatingActionButton(
-            onPressed: () async {
-              isRef = await Navigator.push(context, MaterialPageRoute(builder: (context) => PostDataScreen(isEdit: false, postId: "")));
-              if (isRef) {
-                model.showPostApi();
-              }
-            },
-            backgroundColor: ColorRes.primaryRed,
-            child: Container(
-              height: 40,
-              width: 40,
-              child: Icon(Icons.add, color: ColorRes.white, size: 35),
+        InkWell(
+          onTap: () async {
+            isRef = await Navigator.push(context, MaterialPageRoute(builder: (context) => PostDataScreen(isEdit: false, postId: "")));
+            if (isRef) {
+              model.showPostApi();
+            }
+          },
+          child: Container(
+            height: 40,
+            width: 40,
+            decoration: BoxDecoration(
+                color: ColorRes.primaryRed,
+                shape: BoxShape.circle
             ),
+            child: Icon(Icons.add, color: ColorRes.white, size: 35),
           ),
         )
       ]),
@@ -194,19 +202,23 @@ class SocialHomePageState extends State<SocialHomePage> {
   }
 
   showUserData() {
-    return model.socialPostShowList.length == 0 ?
-    Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height * 0.5,
-        alignment: Alignment.center,
-        child: Text("No Data Found", style: TextStyle(color: ColorRes.white, fontSize: 20), overflow: TextOverflow.ellipsis)) :
-    ListView.builder(
-        itemCount: model.socialPostShowList.length,
-        shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) {
-      return showView(index, model.socialPostShowList[index]);
-    });
+    if(model.isEmptyMessageShow) {
+      return Container();
+    } else {
+      return model.socialPostShowList.length == 0 ?
+      Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 0.5,
+          alignment: Alignment.center,
+          child: Text("No Data Found", style: TextStyle(color: ColorRes.white, fontSize: 20), overflow: TextOverflow.ellipsis)) :
+      ListView.builder(
+          itemCount: model.socialPostShowList.length,
+          shrinkWrap: true,
+          physics: NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            return showView(index, model.socialPostShowList[index]);
+          });
+    }
   }
 
   showView(int index, SocialPostShowData socialPostShowList) {
@@ -227,7 +239,7 @@ class SocialHomePageState extends State<SocialHomePage> {
          Row(
            children: [
              SizedBox(width: 10),
-             InkWell(
+             InkWell (
                  onTap: () {
                    if(model.socialPostShowList[index].selfLike) {
                      model.deleteLikeApi(socialPostShowList.id);

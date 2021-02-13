@@ -21,7 +21,6 @@ class PostDataViewModel {
   }
 
   imageUpload(File image) async {
-
     EasyLoading.show();
     SocialRestApi.uploadSocialMediaImage(image).then((value) {
       if(value != null) {
@@ -32,7 +31,6 @@ class PostDataViewModel {
       }
       //flase load;
     });
-
   }
 
  /* Future<Void> imageUpload(List<int> imageData, String name) async {

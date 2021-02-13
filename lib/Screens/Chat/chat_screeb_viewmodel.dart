@@ -26,7 +26,7 @@ class ChatScreenViewModel{
       if( temp.isNotEmpty){
         print("Contain Messages");
         messageElement = MessageElement();
-        messageElement.messages = List();
+        messageElement.messages = [];
        messageElement.messages = await databaseHelper.getSingleUserMessages(int.parse(state.widget.threadId));
        await Future.delayed(Duration(seconds: 1));
 
@@ -87,7 +87,7 @@ class ChatScreenViewModel{
       if (!state.mounted) return;
       state.setState(() {
         messageElement = MessageElement();
-        messageElement.messages = List();
+        messageElement.messages = [];
         messageElement.messages.insert(0,temp);
       });
       print("Sending First Message");

@@ -213,7 +213,7 @@ class PostDataScreenState extends State<PostDataScreen> {
                 onTap: () async {
                   // loadAssets();
                   FocusScope.of(context).requestFocus(new FocusNode());
-                  File _image = await ImagePicker.pickImage(source: ImageSource.gallery);
+                  File _image = await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 50);
                   if (_image != null) {
                     image = _image;
                     print("Image ${image.absolute.path}");

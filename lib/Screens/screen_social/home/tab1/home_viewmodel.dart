@@ -18,6 +18,7 @@ class SocialHomeViewModel {
     showPostApi();
   }
 
+  bool isEmptyMessageShow = true;
 
   showPostApi() {
     EasyLoading.show();
@@ -27,6 +28,7 @@ class SocialHomeViewModel {
       if(value != null) {
         if(socialPostShowModel.code == 200 && socialPostShowModel.status == "success") {
           state.isRef = false;
+          isEmptyMessageShow = false;
           socialPostShowList = List();
           socialPostShowModel.data.forEach((element) {
             socialPostShowList.add(element);

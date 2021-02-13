@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hookup4u/Screens/screen_social/user_profile_view/user_profile_screen.dart';
 import 'package:hookup4u/app.dart';
@@ -77,6 +78,33 @@ class UserProfileViewModel {
     });
   }
 
+  deleteLikeApi(String postId) {
+
+    EasyLoading.show();
+    // String imageJoint = imagesList.join(",");
+    // print(imageJoint);
+    /*  Map<String, dynamic> postData = {
+      "post_id": postId,
+      "user_id": appState.currentUserData.data.id,
+      "like_data": type,
+    };*/
+    // post_id=20&user_id=25
+    // print(postData);
+    SocialRestApi.deleteLikePost(postId).then((value) {
+      print(value);
+      Map<String, dynamic> message = jsonDecode(value.body);
+      if(message['code'] == 200 && message['status'] == "success") {
+        // Utils().showToast(message['message']);
+        userShowApi();
+        state.setState(() {});
+      } else if(message['status'] == "error"){
+        Utils().showToast(message['message']);
+      } else {
+        Utils().showToast("something wrong");
+      }
+    });
+  }
+
 
   userFollowApi(String userId) {
 
@@ -142,6 +170,62 @@ class UserProfileViewModel {
         Utils().showToast("something wrong");
       }
     });
+  }
+
+
+
+  acceptFriendRequestApi(String friendId) {
+
+    EasyLoading.show();
+    // String imageJoint = imagesList.join(",");
+
+    SocialRestApi.putAcceptFriendRequest(friendId).then((value) {
+      print(value);
+
+      // if(message['code'] == 200 && message['status'] == "success") {
+      if(value != null && value.statusCode == 200) {
+        Navigator.pop(state.context, true);
+
+        state.setState(() {});
+        // } else if(message['status'] == "error"){
+        //   Utils().showToast(message['message']);
+      } else {
+        Utils().showToast("something wrong");
+      }
+    });
+  }
+
+
+  deleteFriendsRequest(String friendId) {
+
+    EasyLoading.show();
+
+    SocialRestApi.deleteFriendRequestApi(friendId).then((value) {
+      print(value);
+
+      // if(message['code'] == 200 && message['status'] == "success") {
+      if(value != null && value.statusCode == 200) {
+
+        Utils().showToast("Delete $friendId request.");
+
+        Navigator.pop(state.context, true);
+
+        /*     List mapData = jsonDecode(value.body);
+
+        mapData.forEach((element) {
+
+          FriendsRequestViewModel friendsRequestViewModel = FriendsRequestViewModel.fromJson(element);
+          allFriendRequestShow.add(friendsRequestViewModel);
+        });*/
+
+        state.setState(() {});
+        // } else if(message['status'] == "error"){
+        //   Utils().showToast(message['message']);
+      } else {
+        Utils().showToast("something wrong");
+      }
+    });
+
   }
 
 }

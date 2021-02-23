@@ -19,7 +19,7 @@ class SignUpPageState extends State<SignUpPage> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
-  bool isLoading = false;
+    bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -46,227 +46,182 @@ class SignUpPageState extends State<SignUpPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                        margin: EdgeInsets.only(bottom: 20, left: 50),
+                        margin: EdgeInsets.only(bottom: 20, left: 25, top: 50),
                         child: Text(
-                          "Signup",
+                          "Create an account",
                           style: TextStyle(
                               fontSize: 34,
                               color: Colors.white,
                               fontFamily: 'NeueFrutigerWorld',
-                              fontWeight: FontWeight.w100),
+                              fontWeight: FontWeight.w400),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 50),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "USERNAME",
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: 'NeueFrutigerWorld',
-                                  color: Colors.grey[200]),
-                            ),
-                            TextFormField(
-                              keyboardType: TextInputType.emailAddress,
-                              style: TextStyle(
-                                  fontSize: 16, color: ColorRes.textColor),
-                              cursorColor: ColorRes.textColor,
-                              controller: userIdCont,
-                              decoration: InputDecoration(
-                                // hintText: "iHeartMuslims1",
-                                hintStyle: TextStyle(
-                                    color: ColorRes.textColor, fontSize: 16),
-                                focusColor: ColorRes.textColor,
-                                focusedBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: ColorRes.textColor)),
-                                enabledBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: ColorRes.textColor)),
-                              ),
-                            ),
-                          ],
+                      Container(
+                        margin: EdgeInsets.only(left: 25, right: 25, bottom: 15),
+                        padding: EdgeInsets.only(left: 10, right: 10),
+                        decoration: BoxDecoration(
+                            color: ColorRes.greyBg,
+                            borderRadius: BorderRadius.circular(50)
+                        ),
+                        child: TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          style: TextStyle(fontSize: 16, color: ColorRes.white),
+                          cursorColor: ColorRes.textColor,
+                          controller: userIdCont,
+                          decoration: InputDecoration(
+                            hintText: "Username",
+                            hintStyle: TextStyle(color: ColorRes.textColor, fontSize: 16),
+                            focusColor: ColorRes.textColor,
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            // focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorRes.textColor)),
+                            // enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorRes.textColor)
+                          ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 50),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "NAME",
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: 'NeueFrutigerWorld',
-                                  color: Colors.grey[200]),
-                            ),
-                            TextFormField(
-                              style: TextStyle(
-                                  fontSize: 16, color: ColorRes.textColor),
-                              cursorColor: ColorRes.textColor,
-                              controller: userNameCont,
-                              decoration: InputDecoration(
-                                // hintText: "IHeart Muslims",
-                                hintStyle: TextStyle(
-                                    color: ColorRes.textColor, fontSize: 16),
-                                focusColor: ColorRes.textColor,
-                                focusedBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: ColorRes.textColor)),
-                                enabledBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: ColorRes.textColor)),
-                              ),
-                            ),
-                          ],
+                      Container(
+                        margin: EdgeInsets.only(left: 25, right: 25, bottom: 15),
+                        padding: EdgeInsets.only(left: 10, right: 10),
+                        decoration: BoxDecoration(
+                            color: ColorRes.greyBg,
+                            borderRadius: BorderRadius.circular(50)
+                        ),
+                        child: TextFormField(
+                          style: TextStyle(
+                              fontSize: 16, color: ColorRes.white),
+                          cursorColor: ColorRes.textColor,
+                          controller: userNameCont,
+                          decoration: InputDecoration(
+                            hintText: "Name",
+                            hintStyle: TextStyle(
+                                color: ColorRes.textColor, fontSize: 16),
+                            focusColor: ColorRes.textColor,
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            // focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorRes.textColor)),
+                            // enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorRes.textColor)),
+                          ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 50),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "EMAIL ADDRESS",
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: 'NeueFrutigerWorld',
-                                  color: Colors.grey[200]),
-                            ),
-                            TextFormField(
-                              keyboardType: TextInputType.emailAddress,
-                              style: TextStyle(
-                                  fontSize: 16, color: ColorRes.textColor),
-                              cursorColor: ColorRes.textColor,
-                              controller: emailCont,
-                              decoration: InputDecoration(
-                                // hintText: "example@example.com",
-                                hintStyle: TextStyle(
-                                    color: ColorRes.textColor, fontSize: 16),
-                                focusColor: ColorRes.textColor,
-                                focusedBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: ColorRes.textColor)),
-                                enabledBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: ColorRes.textColor)),
-                              ),
-                            ),
-                          ],
+                      Container(
+                        margin: EdgeInsets.only(left: 25, right: 25, bottom: 15),
+                        padding: EdgeInsets.only(left: 10, right: 10),
+                        decoration: BoxDecoration(
+                            color: ColorRes.greyBg,
+                            borderRadius: BorderRadius.circular(50)
+                        ),
+                        child: TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          style: TextStyle(
+                              fontSize: 16, color: ColorRes.white),
+                          cursorColor: ColorRes.textColor,
+                          controller: emailCont,
+                          decoration: InputDecoration(
+                            hintText: "Email address",
+                            hintStyle: TextStyle(
+                                color: ColorRes.textColor, fontSize: 16),
+                            focusColor: ColorRes.textColor,
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                            // focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorRes.textColor)),
+                            // enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorRes.textColor)),
+                          ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 20, horizontal: 50),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "PASSWORD",
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontFamily: 'NeueFrutigerWorld',
-                                  color: Colors.grey[200]),
-                            ),
-                            TextFormField(
-                              style: TextStyle(
-                                  fontSize: 16, color: ColorRes.textColor),
-                              cursorColor: ColorRes.textColor,
-                              controller: passwordCont,
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                // hintText: "••••••",
-                                hintStyle: TextStyle(
-                                    color: ColorRes.textColor, fontSize: 16),
-                                focusColor: ColorRes.textColor,
-                                focusedBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: ColorRes.textColor)),
-                                enabledBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: ColorRes.textColor)),
-                              ),
-                            ),
-                          ],
+                      Container(
+                        margin: EdgeInsets.only(left: 25, right: 25, bottom: 15),
+                        padding: EdgeInsets.only(left: 10, right: 10),
+                        decoration: BoxDecoration(
+                            color: ColorRes.greyBg,
+                            borderRadius: BorderRadius.circular(50)
+                        ),
+                        child: TextFormField(
+                          style: TextStyle(
+                              fontSize: 16, color: ColorRes.white),
+                          cursorColor: ColorRes.textColor,
+                          controller: passwordCont,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                            hintText: "Password",
+                            hintStyle: TextStyle(
+                                color: ColorRes.textColor, fontSize: 16),
+                            focusColor: ColorRes.textColor,
+                            border: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                            enabledBorder: InputBorder.none,
+                            errorBorder: InputBorder.none,
+                            disabledBorder: InputBorder.none,
+                          ),
                         ),
                       ),
                       SizedBox(
                         height: 30,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 50),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                if (!isLoading) {
-
-                                  // Navigator.push(context, MaterialPageRoute(builder: (context) => VerifyOtpScreen(emailStr: emailCont.text.trim())));
-
-                                  if (model.validate()) {
-                                    setState(() {
-                                      isLoading = true;
-                                    });
-                                    model.signUp();
-                                  }
-
-                                }
-                              },
-                              child: Container(
-                                height:
-                                    MediaQuery.of(context).size.height * .075,
-                                width: MediaQuery.of(context).size.width / 3.5,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: ColorRes.redButton,
+                      GestureDetector(
+                        onTap: () {
+                          if (!isLoading) {
+                            // Navigator.push(context, MaterialPageRoute(builder: (context) => VerifyOtpScreen(emailStr: emailCont.text.trim())));
+                            if (model.validate()) {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              model.signUp();
+                            }
+                          }
+                        },
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * .075,
+                          // width: MediaQuery.of(context).size.width / 3.5,
+                          margin: EdgeInsets.only(left: 25, right: 25, bottom: 30),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            color: ColorRes.redButton,
+                          ),
+                          child: Center(
+                              child: isLoading
+                                  ? Padding(
+                                child: CircularProgressIndicator(
+                                  backgroundColor:
+                                  ColorRes.primaryColor,
                                 ),
-                                child: Center(
-                                    child: isLoading
-                                        ? Padding(
-                                            child: CircularProgressIndicator(
-                                              backgroundColor:
-                                                  ColorRes.primaryColor,
-                                            ),
-                                            padding: EdgeInsets.all(5),
-                                          )
-                                        : Text("SIGNUP",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 16,
-                                                fontFamily: 'NeueFrutigerWorld',
-                                                fontWeight: FontWeight.w700))),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                if (!isLoading) {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => LoginPage(isShowBackArrow: true)));
-                                }
-                              },
-                              child: Text(
-                                "Already a member? Login",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    fontFamily: 'NeueFrutigerWorld',
-                                    color: ColorRes.textColor),
-                              ),
-                            ),
-                          ],
+                                padding: EdgeInsets.all(5),
+                              )
+                                  : Text("SIGNUP",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16,
+                                      fontFamily: 'NeueFrutigerWorld',
+                                      fontWeight: FontWeight.w700))),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.center,
+                        child: GestureDetector(
+                          onTap: () {
+                            if (!isLoading) {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginPage(isShowBackArrow: true)));
+                            }
+                          },
+                          child: Text(
+                            "Already a member? Login",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                                fontSize: 12,
+                                fontFamily: 'NeueFrutigerWorld',
+                                color: ColorRes.textColor),
+                          ),
                         ),
                       ),
                     ],

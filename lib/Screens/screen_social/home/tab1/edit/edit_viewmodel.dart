@@ -20,7 +20,8 @@ class EditDataViewModel {
  imageUpload(File image) async {
 
     EasyLoading.show();
-    FocusScope.of(state.context).requestFocus(new FocusNode());
+    FocusScope.of(state.context).unfocus();
+    // FocusScope.of(state.context).requestFocus(new FocusNode());
     SocialRestApi.uploadSocialMediaImage(image).then((value) {
       if(value != null) {
         imagesList.add(value.sourceUrl.toString());

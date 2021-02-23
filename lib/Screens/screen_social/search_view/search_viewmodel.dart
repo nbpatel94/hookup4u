@@ -15,9 +15,9 @@ class SearchViewModel {
   bool recentDataShowMessage = true;
   bool searchDataShowMessage = true;
 
+  bool isChangesThisScreen = false;
 
   SearchScreenState state;
-
 
   SearchViewModel(SearchScreenState state) {
     this.state = state;
@@ -39,7 +39,7 @@ class SearchViewModel {
     });
   }
 
-  userFollowApi(String userId) {
+  userFollowApi(String userId, bool isRecentView) {
 
     print("Hello $userId");
     EasyLoading.show();
@@ -49,13 +49,18 @@ class SearchViewModel {
       print(value);
       Map<String, dynamic> message = jsonDecode(value.body);
       if(message['code'] == 200 && message['status'] == "success") {
+
+        isChangesThisScreen = true;
+
         // Utils().showToast(message['message']);
         // showMyPostApi();
         // state.isShowFollowUnFollow = !state.isShowFollowUnFollow;
 
-        // searchResponseModel
-        searchListApi(state.searchFiled.text);
-
+        if(!isRecentView) {
+          userRecentHistory();
+        } else {
+          searchListApi(state.searchFiled.text);
+        }
         state.setState(() {});
       } else if(message['status'] == "error"){
         Utils().showToast(message['message']);
@@ -74,9 +79,10 @@ class SearchViewModel {
       if(value != null && message['code'] == 200 && message['status'] == "success") {
         recentDataShowMessage = false;
         // searchListApi(state.searchFiled.text);
+        // searchRecentResponseModel = SearchResponseModel();
         searchRecentResponseModel = SearchResponseModel.fromJson(message);
         state.setState(() {});
-      } else if(message['status'] == "error"){
+      } else if(message['status'] == "error") {
         Utils().showToast(message['message']);
       } else {
         Utils().showToast("something wrong");

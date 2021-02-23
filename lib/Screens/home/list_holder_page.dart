@@ -10,6 +10,8 @@ import 'package:hookup4u/Screens/match/my_matches.dart';
 import 'package:hookup4u/Screens/screen_social/main_screen.dart';
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/util/color.dart';
+import 'package:hookup4u/web_view/edit_profile_view/edit_profile_screen.dart';
+import 'package:flutter/foundation.dart' show kIsWeb, kReleaseMode;
 
 class ListHolderPage extends StatefulWidget {
   @override
@@ -64,13 +66,14 @@ class ListHolderPageState extends State<ListHolderPage> {
                           GestureDetector(
                               onTap: () async {
                                 Navigator.pop(context);
-                                await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => EditProfile()));
-                                setState(() {
 
-                                });
+                                if(kIsWeb == false) {
+                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => EditProfile()));
+                                } else {
+                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => EditProfilePage()));
+                                }
+                                // await Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfile()));
+                                // setState(() {});
                               },
                               child: Text("EDIT PROFILE",style: TextStyle(fontSize: 12,fontFamily: 'NeueFrutigerWorld',color: Colors.white,fontWeight: FontWeight.w700)))
                         ],
@@ -84,7 +87,7 @@ class ListHolderPageState extends State<ListHolderPage> {
                           ListTile(
                             onTap: () {
                               Navigator.pop(context);
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => MessagesScreen()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => MessagesScreen(isDrawerShow: true)));
                             },
                             leading: Icon(
                               Icons.message,
@@ -124,7 +127,7 @@ class ListHolderPageState extends State<ListHolderPage> {
                           ),
                           ListTile(
                             onTap: () {
-                              // Navigator.of(context).pushNamed('/Pages', arguments: 4);
+                              Navigator.of(context).pushNamed('/Pages', arguments: 4);
                             },
                             leading: Icon(
                               Icons.star,
@@ -143,10 +146,7 @@ class ListHolderPageState extends State<ListHolderPage> {
                           ListTile(
                             onTap: () {
                               Navigator.pop(context);
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => Settings()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context) => Settings()));
                             },
                             leading: Icon(
                               Icons.settings,
@@ -245,7 +245,7 @@ class ListHolderPageState extends State<ListHolderPage> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => MessagesScreen()));
+                          builder: (context) => MessagesScreen(isDrawerShow: true)));
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(right: 10),

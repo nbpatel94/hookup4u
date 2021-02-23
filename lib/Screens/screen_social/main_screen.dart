@@ -72,7 +72,7 @@ class _SocialMainPageState extends State<SocialMainPage> with SingleTickerProvid
 
               SocialHomePage(tabController: _tabController),
               InviteFriendsPage(),
-              MessagesScreen(),
+              MessagesScreen(isDrawerShow: false),
               // Center(child: new Text("Comming Soon Stream ....", style: TextStyle(color: ColorRes.white, fontSize: 20), overflow: TextOverflow.ellipsis)),
               // Center(child: new Text("Comming Soon Message ....", style: TextStyle(color: ColorRes.white, fontSize: 20), overflow: TextOverflow.ellipsis)),
               // Center(child: new Text("Comming Soon Notification ....", style: TextStyle(color: ColorRes.white, fontSize: 20), overflow: TextOverflow.ellipsis)),

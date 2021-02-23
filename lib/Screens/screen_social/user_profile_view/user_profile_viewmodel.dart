@@ -7,6 +7,7 @@ import 'package:hookup4u/Screens/screen_social/user_profile_view/user_profile_sc
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/models/search_response_model.dart';
 import 'package:hookup4u/models/socialPostShowModel.dart';
+import 'package:hookup4u/models/user_media_profile.dart';
 import 'package:hookup4u/models/user_profile_model.dart';
 import 'package:hookup4u/restapi/social_restapi.dart';
 import 'package:hookup4u/util/utils.dart';
@@ -15,16 +16,23 @@ class UserProfileViewModel {
 
   UserProfilePageState state;
   bool isEmptyMessageShow = false;
+  bool isEmptyMessageUserMedia = false;
+
+  bool isChangesThisScreen = false;
 
 
   int totalFollowing = 0;
 
   UserProfileModel userProfileModel = UserProfileModel();
+
+  UserMediaProfileApi userMediaProfileApi;
+
   // SocialPostShowModel socialPostShowModel = SocialPostShowModel();
 
   UserProfileViewModel(UserProfilePageState state) {
     this.state = state;
     userShowApi();
+    userMediaShow();
     // socialPostShowModel.data = List();
   }
 
@@ -118,6 +126,7 @@ class UserProfileViewModel {
       if(message['code'] == 200 && message['status'] == "success") {
         // Utils().showToast(message['message']);
         // showMyPostApi();
+        isChangesThisScreen = true;
         state.isShowFollowUnFollow = !state.isShowFollowUnFollow;
         if(state.isShowFollowUnFollow) {
             //+1
@@ -184,6 +193,10 @@ class UserProfileViewModel {
 
       // if(message['code'] == 200 && message['status'] == "success") {
       if(value != null && value.statusCode == 200) {
+
+
+        isChangesThisScreen = true;
+
         Navigator.pop(state.context, true);
 
         state.setState(() {});
@@ -206,6 +219,7 @@ class UserProfileViewModel {
       // if(message['code'] == 200 && message['status'] == "success") {
       if(value != null && value.statusCode == 200) {
 
+        isChangesThisScreen = true;
         Utils().showToast("Delete $friendId request.");
 
         Navigator.pop(state.context, true);
@@ -226,6 +240,25 @@ class UserProfileViewModel {
       }
     });
 
+  }
+
+
+  userMediaShow() {
+    SocialRestApi.getUserProfileMedia().then((value) {
+      print(value);
+      Map<String, dynamic> message = jsonDecode(value.body);
+      if(message['code'] == 200 && message['status'] == "success") {
+        // Utils().showToast(message['message']);
+
+        userMediaProfileApi = UserMediaProfileApi.fromJson(message);
+
+        state.setState(() {});
+      } else if(message['status'] == "error"){
+        Utils().showToast(message['message']);
+      } else {
+        Utils().showToast("something wrong");
+      }
+    });
   }
 
 }

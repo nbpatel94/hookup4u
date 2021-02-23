@@ -15,16 +15,23 @@ class CommentViewModel {
 
   CommentScreenState state;
   CommentViewModel(this.state) {
-    showCommentApi();
+    showCommentApi(true);
   }
 
-  showCommentApi() {
-    FocusScope.of(state.context).requestFocus(new FocusNode());
-    EasyLoading.show();
+  showCommentApi(bool isLoaderShow) {
+    // FocusScope.of(state.context).requestFocus(new FocusNode());
+
+    FocusScope.of(state.context).unfocus();
+
+    if(isLoaderShow) {
+      EasyLoading.show();
+    }
+
     // Map<String, dynamic> postComment = {
     //   "post_id": state.widget.postId,
     // };
     // print(postComment);
+
     SocialRestApi.getCommentList(state.widget.postId).then((value) {
       print(value);
       GetPostDataModel getPostDataModel = GetPostDataModel.fromJson(json.decode(value.body));
@@ -45,6 +52,7 @@ class CommentViewModel {
         Utils().showToast("something wrong");
       }
     });
+
   }
 
   addCommentApi(String postId, String parentPost) {
@@ -62,7 +70,7 @@ class CommentViewModel {
       Map<String, dynamic> message = jsonDecode(value.body);
       if(message['code'] == 200 && message['status'] == "success") {
         Utils().showToast(message['message']);
-        showCommentApi();
+        showCommentApi(true);
       } else if(message['status'] == "error"){
         Utils().showToast(message['message']);
       } else {

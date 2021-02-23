@@ -15,10 +15,20 @@ class LoginViewModel {
   LoginViewModel(this.state);
 
   login() async {
+
+    print("hello");
+
     String confirm = await RestApi.logInApi(state.usernameCont.text.trim(), state.passwordCont.text.trim(), state.context);
     if (confirm == 'success') {
+
+      print("Hello1");
+
       UserDetailsModel userDetailsModel = await RestApi.getSingleUserDetails(appState.id);
-      if(userDetailsModel!=null && userDetailsModel.meta.about!=""){
+      print("Hello2");
+
+      if(userDetailsModel!=null && userDetailsModel.meta.about!="") {
+        print("Hello3");
+
         appState.userDetailsModel = userDetailsModel;
         appState.children = userDetailsModel.meta.children;
         appState.gender = userDetailsModel.meta.gender;

@@ -10,9 +10,14 @@ import 'package:hookup4u/Screens/home/list_holder_page.dart';
 import 'package:hookup4u/Screens/match/my_matches.dart';
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/util/color.dart';
+import 'package:hookup4u/web_view/edit_profile_view/edit_profile_screen.dart';
 import 'package:lottie/lottie.dart';
 
 class MessagesScreen extends StatefulWidget {
+
+  final bool isDrawerShow;
+  const MessagesScreen({Key key, this.isDrawerShow}) : super(key: key);
+
   @override
   MessagesScreenState createState() => MessagesScreenState();
 }
@@ -22,7 +27,8 @@ class MessagesScreenState extends State<MessagesScreen> {
   MessagesPageViewModel model;
   bool isLoading = true;
 
-  get drawerWidget => SafeArea(
+  get drawerWidget =>
+  SafeArea(
     child: Drawer(
       child: Container(
         color: ColorRes.primaryColor,
@@ -64,7 +70,11 @@ class MessagesScreenState extends State<MessagesScreen> {
                       GestureDetector(
                           onTap: () {
                             Navigator.pop(context);
-                            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => EditProfile()));
+                            // if(kIsWeb == false) {
+                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => EditProfile()));
+                            // } else {
+                            //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => EditProfilePage()));
+                            // }
                           },
                           child: Text("EDIT PROFILE",style: TextStyle(fontSize: 12,fontFamily: 'NeueFrutigerWorld',color: Colors.white,fontWeight: FontWeight.w700)))
                     ],
@@ -198,16 +208,18 @@ class MessagesScreenState extends State<MessagesScreen> {
       key: _scaffoldKey,
       appBar: AppBar(
         elevation: 0,
+        automaticallyImplyLeading: false, // this will hide Drawer hamburger icon
         title: Container(
           // margin: EdgeInsets.only(right: MediaQuery.of(context).size.width/6),
-          margin: EdgeInsets.only(right: 40),
+          margin: EdgeInsets.only(right: MediaQuery.of(context).size.width / 6.0),
             alignment:Alignment.center,child: Text("Messages",style: TextStyle(fontFamily: 'NeueFrutigerWorld',fontWeight: FontWeight.w700),)),
         backgroundColor: ColorRes.darkButton,
-        leading: GestureDetector(
+        centerTitle: true,
+        leading: widget.isDrawerShow ? GestureDetector(
             onTap: (){
               _scaffoldKey.currentState.openDrawer();
             },
-            child: Icon(Icons.menu)),
+            child: Icon(Icons.menu)) : Container(),
       ),
       body: isLoading
           ? Center(
@@ -217,8 +229,7 @@ class MessagesScreenState extends State<MessagesScreen> {
               height: MediaQuery.of(context).size.width / 2,
               width: MediaQuery.of(context).size.width / 2),
         ),
-      )
-          : model.matchList.isNotEmpty ?
+      ) : model.matchList.isNotEmpty ?
       SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

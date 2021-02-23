@@ -4,7 +4,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hookup4u/Screens/screen_social/user_profile_view/user_profile_screen.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:hookup4u/util/utils.dart';
-
 import 'follower_view_model.dart';
 
 class FollowerFollowingList extends StatefulWidget {
@@ -54,7 +53,7 @@ class FollowerFollowingListState extends State<FollowerFollowingList> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height - 80,
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,

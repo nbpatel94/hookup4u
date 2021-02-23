@@ -6,6 +6,7 @@ import 'package:hookup4u/app.dart';
 import 'package:hookup4u/consumableStore.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:share/share.dart';
 import 'UpdateNumber.dart';
 import 'package:hookup4u/Screens/Splash.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -45,19 +46,25 @@ class _SettingsState extends State<Settings> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                color: ColorRes.darkButton,
-                child: Padding(
-                  padding: const EdgeInsets.all(18.0),
-                  child: Center(
-                    child: Text(
-                      "Invite your friends",
-                      style: TextStyle(
-                          color: ColorRes.white,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w500),
+            InkWell(
+              onTap: () {
+                Share.share('Download our dating app available in play store \n Download link : - https://play.google.com/store/apps/details?id=com.dating.iheartmuslims&hl=en_US&gl=US', subject: 'Look what I made!');
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  color: ColorRes.darkButton,
+                  child: Padding(
+                    padding: const EdgeInsets.all(18.0),
+                    child: Center(
+                      child: Text(
+                        "Invite your friends",
+                        style: TextStyle(
+                            color: ColorRes.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w500
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -406,6 +413,7 @@ class _SettingsState extends State<Settings> {
                   //       MaterialPageRoute(builder: (context) => Splash()),
                   //           (Route<dynamic> route) => false);
                   // }
+
                 },
                 child: Container(
                   padding: const EdgeInsets.all(20.0),

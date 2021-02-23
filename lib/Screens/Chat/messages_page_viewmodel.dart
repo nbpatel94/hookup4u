@@ -3,15 +3,17 @@ import 'package:hookup4u/app.dart';
 import 'package:hookup4u/models/match_model.dart';
 import 'package:hookup4u/restapi/restapi.dart';
 
-class MessagesPageViewModel{
+class MessagesPageViewModel {
+
   MessagesScreenState state;
   List<MatchModel> matchList = [];
 
-  MessagesPageViewModel(this.state){
+  MessagesPageViewModel(this.state) {
     getMyMatch();
   }
 
   getMyMatch() async {
+
     List<MatchModel> tempList = await RestApi.myMatchApi();
 
     if(tempList.isNotEmpty){

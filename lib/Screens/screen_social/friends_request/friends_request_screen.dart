@@ -24,6 +24,7 @@ class FriendsRequestPageState extends State<FriendsRequestPage> {
 
     model ?? (model = FriendRequestViewModel(this));
 
+    refreshList();
   }
 
   @override
@@ -34,10 +35,11 @@ class FriendsRequestPageState extends State<FriendsRequestPage> {
   }
 
   Future<Null> refreshList() async {
-    refreshKey.currentState?.show(atTop: false);
-    await Future.delayed(Duration(seconds: 2));
 
-    model.friendRequestShow();
+    model.friendRequestShow(false);
+
+    refreshKey.currentState?.show(atTop: false);
+    await Future.delayed(Duration(seconds: 6));
 
     // setState(() {
     //   // model.showCommentApi();
@@ -65,9 +67,14 @@ class FriendsRequestPageState extends State<FriendsRequestPage> {
          children: [
            Padding(
                padding: EdgeInsets.only(left: 10),
-               child: Text("Friends List", style: TextStyle(color: ColorRes.white, fontSize: 30))),
+               child: Text("Friends Request", style: TextStyle(color: ColorRes.white, fontSize: 20))),
            SizedBox(height: 10),
            followingView(),
+           SizedBox(height: 10),
+           Padding(
+               padding: EdgeInsets.only(left: 10),
+               child: Text("Friends Suggestion", style: TextStyle(color: ColorRes.white, fontSize: 20))),
+           SizedBox(height: 10),
            recentView()
          ],
        ),
@@ -153,7 +160,8 @@ class FriendsRequestPageState extends State<FriendsRequestPage> {
           child: /*model.searchResponseModel?.data != null &&
           model.searchResponseModel.data.isNotEmpty
           ? */
-          model.allFriendRequestShow != null && model.allFriendRequestShow.isNotEmpty ? ListView.builder(
+          model.allFriendRequestShow != null && model.allFriendRequestShow.isNotEmpty ?
+          ListView.builder(
               itemCount: model.allFriendRequestShow.length,
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
@@ -161,13 +169,13 @@ class FriendsRequestPageState extends State<FriendsRequestPage> {
                 return InkWell(
                   onTap: () async {
                     final data = await Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfilePage(
-                        userId: model.allFriendRequestShow[index].id,
+                        userId: model.allFriendRequestShow[index].friendId,
                         isFollow: false,
                         isOpenRequestScreen: true,
                         // isFollow: model.allFriendRequestShow[index].following
                     )));
                     if (data == true) {
-                      model.friendRequestShow();
+                      model.friendRequestShow(true);
                     }
 
                     // final data = await Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfilePage(

@@ -21,6 +21,7 @@ class PostDataViewModel {
   }
 
   imageUpload(File image) async {
+    FocusScope.of(state.context).unfocus();
     EasyLoading.show();
     SocialRestApi.uploadSocialMediaImage(image).then((value) {
       if(value != null) {
@@ -49,15 +50,30 @@ class PostDataViewModel {
   }*/
 
   addPostApi(String postId) {
-  EasyLoading.show();
-  String imageJoint = imagesList.join(",");
-    print(postId);
-    Map<String, dynamic> postData = {
-      "content": state.containController.text,
-      "media": imageJoint.toString(),
-      "visibility": state.dropdownValue,
-      "parent_post": postId
-    };
+    FocusScope.of(state.context).unfocus();
+    EasyLoading.show();
+
+    Map<String, dynamic> postData = {};
+
+    if(imagesList != null && imagesList.length != 0) {
+      String imageJoint = imagesList.join(",");
+      print(postId);
+
+      postData = {
+        "content": state.containController.text,
+        "media": imageJoint.toString(),
+        "visibility": state.dropdownValue,
+        "parent_post": postId
+      };
+    } else {
+      postData = {
+        "content": state.containController.text,
+        // "media": imageJoint.toString(),
+        "visibility": state.dropdownValue,
+        "parent_post": postId
+      };
+    }
+
     print(postData);
     SocialRestApi.uploadPostData(postData).then((value) {
       print(value);

@@ -30,9 +30,11 @@ class SocialHomeViewModel {
           state.isRef = false;
           isEmptyMessageShow = false;
           socialPostShowList = List();
+
           socialPostShowModel.data.forEach((element) {
             socialPostShowList.add(element);
           });
+
           state.setState(() {});
         }
       } else if(socialPostShowModel.code == 200 && socialPostShowModel.status == "error"){
@@ -61,7 +63,7 @@ class SocialHomeViewModel {
   }
 
 
-  addLikeApi(String postId, String type) {
+  addLikeApi(String postId, String type, int index) {
 
     print("Hello $postId");
     EasyLoading.show();
@@ -78,6 +80,7 @@ class SocialHomeViewModel {
       Map<String, dynamic> message = jsonDecode(value.body);
       if(message['code'] == 200 && message['status'] == "success") {
         // Utils().showToast(message['message']);
+        // socialPostShowList[index].selfLike = true;
         showPostApi();
         state.setState(() {});
       } else if(message['status'] == "error"){
@@ -88,7 +91,7 @@ class SocialHomeViewModel {
     });
   }
 
-  deleteLikeApi(String postId) {
+  deleteLikeApi(String postId, int index) {
 
     EasyLoading.show();
     // String imageJoint = imagesList.join(",");
@@ -105,6 +108,8 @@ class SocialHomeViewModel {
       Map<String, dynamic> message = jsonDecode(value.body);
       if(message['code'] == 200 && message['status'] == "success") {
         // Utils().showToast(message['message']);
+
+        // socialPostShowList[index].selfLike = false;
         showPostApi();
         state.setState(() {});
       } else if(message['status'] == "error"){

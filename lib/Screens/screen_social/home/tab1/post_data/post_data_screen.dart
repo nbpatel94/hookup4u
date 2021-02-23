@@ -1,13 +1,15 @@
+import 'dart:async';
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hookup4u/util/color.dart';
+import 'package:hookup4u/util/web_image_selection.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
-
 import 'post_data_viewmodel.dart';
+import 'package:flutter/foundation.dart' show kIsWeb, kReleaseMode;
 
 class PostDataScreen extends StatefulWidget {
 
@@ -40,30 +42,32 @@ class PostDataScreenState extends State<PostDataScreen> {
   @override
   Widget build(BuildContext context) {
     model ?? (model = PostDataViewModel(this));
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: ColorRes.primaryColor,
-        appBar: AppBar(
-          actions: [
-            InkWell(
-                onTap: () {
+    return Scaffold(
+      backgroundColor: ColorRes.primaryColor,
+      appBar: AppBar(
+        actions: [
+          InkWell(
+              onTap: () {
+                if(containController.text.trim() != null && containController.text.trim().isNotEmpty) {
                   model.addPostApi(widget.postId);
-                },
-                child: Center(
-                    child: Padding(
-                    padding: EdgeInsets.only(right: 10),
-                    child: Text("Done", style: TextStyle(color: ColorRes.primaryRed))))
-            )
-          ],
-        ),
-        body: SingleChildScrollView (
+                }
+              },
+              child: Center(
+                  child: Padding(
+                  padding: EdgeInsets.only(right: 10),
+                  child: Text("Done", style: TextStyle(color: ColorRes.primaryRed))))
+          )
+        ],
+      ),
+      body: SafeArea (
+        child: SingleChildScrollView (
           child: Column (
             // mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-              Padding(
-                  padding: EdgeInsets.only(left: 10),
+              Padding (
+                  padding: EdgeInsets.only (left: 10),
                   child: Text(widget.isEdit ? "Share post" : "Create a post", style: TextStyle(color: ColorRes.white, fontSize: 30))),
 
               SizedBox(height: 10),
@@ -72,12 +76,19 @@ class PostDataScreenState extends State<PostDataScreen> {
               visibility(),
               widget.isEdit ? Container() : InkResponse(
                 onTap: () {
-                  source(context);
+                  if(!kIsWeb) {
+                    source(context);
+                  } else {
+                    FocusScope.of(context).unfocus();
+                  /*  WebImageSelection().selectImageWeb().then((value) {
+                      // print(value);
+                    });*/
+                  }
                 },
                 child: Align(
                   alignment: Alignment.center,
                   child: Container(
-                      width: MediaQuery.of(context).size.width / 2,
+                      width: MediaQuery.of(context).size.height / 4,
                       height: MediaQuery.of(context).size.height / 4,
                       margin: EdgeInsets.all(10),
                       padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -153,7 +164,7 @@ class PostDataScreenState extends State<PostDataScreen> {
                 ),
 
 
-                widget.isEdit ? Container()  : Positioned(
+                widget.isEdit ? Container() : Positioned (
                     right: 0,
                     child: IconButton(icon: Icon(Icons.close, color: Colors.black, size: 30), onPressed: () {
                       model.imagesList.removeAt(index);
@@ -217,6 +228,7 @@ class PostDataScreenState extends State<PostDataScreen> {
                   if (_image != null) {
                     image = _image;
                     print("Image ${image.absolute.path}");
+                    print(image.readAsBytesSync());
                     // model.uploadUseMedia();
                     setState(() {});
                     model.imageUpload(image);
@@ -248,6 +260,8 @@ class PostDataScreenState extends State<PostDataScreen> {
         });
   }
 
+
+
   Future<void> loadAssets() async {
     List<Asset> resultList = List<Asset>();
     String error = 'No Error Dectected';
@@ -270,10 +284,8 @@ class PostDataScreenState extends State<PostDataScreen> {
       error = e.toString();
     }
 
-
     Navigator.pop(context);
     if (!mounted) return;
-
 
     setState(() {
       // image = resultList;
@@ -281,7 +293,6 @@ class PostDataScreenState extends State<PostDataScreen> {
       print(images[0].name);
       // _error = error;
     });
-
 
     // List<ByteData> byteDataList = await Future.wait(images.map((Asset image) => image.getByteData()));
 
@@ -291,9 +302,6 @@ class PostDataScreenState extends State<PostDataScreen> {
       print("hello ${images[i].getByteData().toString()}");
       // await model.imageUpload(imageData, images[i].name);
     }
-
-
-
 
     setState(() {});
 

@@ -13,17 +13,17 @@ class FriendRequestViewModel {
 
   FriendRequestViewModel(FriendsRequestPageState state) {
     this.state = state;
-
-    friendRequestShow();
-
+    friendRequestShow(true);
   }
 
   bool isMessageShow = false;
   List<FriendsRequestViewModel> allFriendRequestShow = [];
 
-  friendRequestShow() {
+  friendRequestShow(bool isLoaderShow) {
 
-    EasyLoading.show();
+    if(isLoaderShow) {
+      EasyLoading.show();
+    }
     // String imageJoint = imagesList.join(",");
     SocialRestApi.getFriendRequestListApi().then((value) {
       print(value);
@@ -89,7 +89,7 @@ class FriendRequestViewModel {
 
         Utils().showToast("Delete $friendId request.");
 
-        friendRequestShow();
+        friendRequestShow(true);
 
         // Utils().showToast();
 

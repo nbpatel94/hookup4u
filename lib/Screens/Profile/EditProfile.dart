@@ -66,36 +66,6 @@ class EditProfileState extends State<EditProfile> {
 
     return WillPopScope(
       onWillPop: () async {
-        if (aboutCont.text.trim() == '') {
-          snackbar('Write something about you');
-        } else if (jobTitleCont.text.trim() == '') {
-          snackbar('Write something about what do you do');
-        } else if (livingCont.text.trim() == '') {
-          snackbar('Write where do you live');
-        } else {
-          EasyLoading.show();
-          appState.jobTitle = jobTitleCont.text.trim();
-          appState.userDetailsModel.meta.jobTitle = jobTitleCont.text.trim();
-          appState.about = aboutCont.text.trim();
-          appState.userDetailsModel.meta.about = aboutCont.text.trim();
-          appState.livingIn = livingCont.text.trim();
-          appState.userDetailsModel.meta.livingIn = livingCont.text.trim();
-          appState.userDetailsModel.meta.children = appState.children;
-          appState.userDetailsModel.meta.relation = appState.relation;
-
-          print(appState.userDetailsModel.meta.toJson());
-          await sharedPreferences.setString(Preferences.metaData, jsonEncode(appState.userDetailsModel.meta.toJson()));
-
-          String check = await RestApi.updateUserDetails(appState.userDetailsModel.meta.toJson());
-          if (check == 'success') {
-            Navigator.pop(context);
-          } else {
-            snackbarWithDismiss(
-                'Something went wrong! Try to update after sometime');
-          }
-
-          EasyLoading.dismiss();
-        }
         return false;
       },
       child: Scaffold(
@@ -111,7 +81,10 @@ class EditProfileState extends State<EditProfile> {
               icon: Icon(Icons.arrow_back_ios),
               color: Colors.white,
               onPressed: () async {
-                if (aboutCont.text.trim() == '') {
+
+
+                Navigator.pop(context);
+               /* if (aboutCont.text.trim() == '') {
                   snackbar('Write something about you');
                 } else if (jobTitleCont.text.trim() == '') {
                   snackbar('Write something about what do you do');
@@ -141,12 +114,58 @@ class EditProfileState extends State<EditProfile> {
                     snackbarWithDismiss(
                         'Something went wrong! Try to update after sometime');
                   }
-
                   EasyLoading.dismiss();
-                }
+                }*/
+
               },
             ),
-            backgroundColor: ColorRes.primaryColor),
+            backgroundColor: ColorRes.primaryColor,
+            actions: [
+
+              InkWell(
+                onTap: () async {
+                  if (aboutCont.text.trim() == '') {
+                    snackbar('Write something about you');
+                  } else if (jobTitleCont.text.trim() == '') {
+                    snackbar('Write something about what do you do');
+                  } else if (livingCont.text.trim() == '') {
+                    snackbar('Write where do you live');
+                  } else {
+                    EasyLoading.show();
+                    appState.jobTitle = jobTitleCont.text.trim();
+                    appState.userDetailsModel.meta.jobTitle = jobTitleCont.text.trim();
+                    appState.about = aboutCont.text.trim();
+                    appState.userDetailsModel.meta.about = aboutCont.text.trim();
+                    appState.livingIn = livingCont.text.trim();
+                    appState.userDetailsModel.meta.livingIn = livingCont.text.trim();
+                    appState.userDetailsModel.meta.children = appState.children;
+                    appState.userDetailsModel.meta.relation = appState.relation;
+
+                    print(appState.userDetailsModel.meta.toJson());
+                    await sharedPreferences.setString(Preferences.metaData, jsonEncode(appState.userDetailsModel.meta.toJson()));
+
+                    String check = await RestApi.updateUserDetails(appState.userDetailsModel.meta.toJson());
+                    if (check == 'success') {
+                      Navigator.pop(context);
+                    } else {
+                      snackbarWithDismiss(
+                          'Something went wrong! Try to update after sometime');
+                    }
+
+                    EasyLoading.dismiss();
+                  }
+                },
+                child: Container(
+                  height: 50,
+                  width: 50,
+                  alignment: Alignment.center,
+                  child: Text("save", style: TextStyle(color: Colors.white)),
+                ),
+              )
+
+            ],
+
+        ),
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,

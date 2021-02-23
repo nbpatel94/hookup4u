@@ -5,6 +5,7 @@ import 'package:hookup4u/Screens/screen_social/search_view/search_viewmodel.dart
 import 'package:hookup4u/Screens/screen_social/user_profile_view/user_profile_screen.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:hookup4u/util/utils.dart';
+import 'package:flutter/foundation.dart' show kIsWeb, kReleaseMode;
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -40,31 +41,29 @@ class SearchScreenState extends State<SearchScreen> {
   }
 
 
-
   SearchViewModel model;
-
-
 
   @override
   Widget build(BuildContext context) {
     model ?? (model = SearchViewModel(this));
 
-
-
-    return Scaffold(
-        backgroundColor: ColorRes.primaryColor,
-        body: SafeArea(
-          child: Column(
-            children: [
-              headerView(),
-
-              searchFiled.text.isNotEmpty ? searchDataView() : Container(),
-
-              searchFiled.text.isNotEmpty ? Container() : recentView()
-
-            ],
+    return WillPopScope(
+      onWillPop: () async{
+        Navigator.pop(context, model.isChangesThisScreen);
+        return false;
+      },
+      child: Scaffold(
+          backgroundColor: ColorRes.primaryColor,
+          body: SafeArea(
+            child: Column(
+              children: [
+                headerView(),
+                searchFiled.text.isNotEmpty ? searchDataView() : Container(),
+                searchFiled.text.isNotEmpty ? Container() : recentView()
+              ],
+            ),
           ),
-        ),
+      ),
     );
   }
 
@@ -77,7 +76,7 @@ class SearchScreenState extends State<SearchScreen> {
         children: [
           InkResponse(
             onTap: () {
-              Navigator.pop(context);
+              Navigator.pop(context, model.isChangesThisScreen);
             },
             child: Container(
               child: Icon(Icons.close, color: ColorRes.white, size: 30),
@@ -146,8 +145,7 @@ class SearchScreenState extends State<SearchScreen> {
       return Container();
     } else {
       return Expanded(
-        child: model.searchResponseModel?.data != null &&
-            model.searchResponseModel.data.isNotEmpty
+        child: model.searchResponseModel?.data != null && model.searchResponseModel.data.isNotEmpty
             ? ListView.builder(
             itemCount: model.searchResponseModel.data.length,
             itemBuilder: (context, index) {
@@ -156,10 +154,8 @@ class SearchScreenState extends State<SearchScreen> {
                   InkResponse(
                     onTap: () async {
                       final data = await Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfilePage(
-                          userId: model
-                              .searchResponseModel.data[index].userId,
-                          isFollow: model.searchResponseModel.data[index]
-                              .following)));
+                          userId: model.searchResponseModel.data[index].userId,
+                          isFollow: model.searchResponseModel.data[index].following)));
                       if (data == true) {
                         model.searchListApi(searchFiled.text);
                       }
@@ -226,9 +222,7 @@ class SearchScreenState extends State<SearchScreen> {
                             ),
                             InkResponse(
                               onTap: () {
-                                model.userFollowApi(model
-                                    .searchResponseModel.data[index].userId
-                                    .toString());
+                                model.userFollowApi(model.searchResponseModel.data[index].userId.toString(), true);
                               },
                               child: Container(
                                 height: 30,
@@ -348,9 +342,7 @@ class SearchScreenState extends State<SearchScreen> {
                             ),
                             InkResponse(
                               onTap: () {
-                                model.userFollowApi(model
-                                    .searchRecentResponseModel.data[index].userId
-                                    .toString());
+                                model.userFollowApi(model.searchRecentResponseModel.data[index].userId.toString(), false);
                               },
                               child: Container(
                                 height: 30,

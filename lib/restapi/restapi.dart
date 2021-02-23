@@ -60,7 +60,7 @@ class RestApi {
     print(bodyData);
 
     Response response = await http.post(url, body: bodyData);
-    print(response.statusCode);
+    print("login response ${response.statusCode}");
     if (response.statusCode == 200) {
       print(response.body);
       var userDetail = profileDetailFromJson(response.body);
@@ -68,6 +68,9 @@ class RestApi {
         appState.currentUserData = userDetail;
         appState.accessToken = userDetail.data.token;
         appState.id = userDetail.data.id;
+
+        print(userDetail.toJson());
+
         await sharedPreferences.setString(Preferences.profile, jsonEncode(userDetail.toJson()));
         await sharedPreferences.setString(Preferences.username, loginId);
         await sharedPreferences.setString(Preferences.password, password);
@@ -328,18 +331,24 @@ class RestApi {
     print(url);
     print(headerData);
 
-    Response response = await http.get(url,headers: headerData);
-    print(response.statusCode);
-    if (response.statusCode == 200) {
-      print(response.body);
-      if(response.body.isNotEmpty) {
-        return userDetailsModelFromJson(response.body);
-      }else{
+    try {
+      Response response = await http.get(url,headers: headerData);
+      print("data recive ${response.statusCode}");
+      if (response.statusCode == 200) {
+        print(response.body);
+        if(response.body.isNotEmpty) {
+          return userDetailsModelFromJson(response.body);
+        } else {
+          return null;
+        }
+      } else {
         return null;
       }
-    } else {
+    } catch(e) {
+      print("login errro $e");
       return null;
     }
+
   }
 
   static Future<List<MediaModel>> getSingleUserMedia() async {

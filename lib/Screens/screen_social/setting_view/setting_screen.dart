@@ -36,7 +36,7 @@ class _SettingPageState extends State<SettingPage> {
                     child: Divider(height: 1, color: ColorRes.black));
               },
               itemBuilder: (context, index) {
-              return InkResponse(
+              return InkWell(
                 onTap: () {
 
                   if(index == 0) {

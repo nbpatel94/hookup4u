@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:hookup4u/Screens/screen_social/comment_view/comment_screen.dart';
+import 'package:hookup4u/Screens/screen_social/follower_view/follower_screen.dart';
 import 'package:hookup4u/Screens/screen_social/home/tab1/post_data/post_data_screen.dart';
 import 'package:hookup4u/Screens/screen_social/like_show/like_show_screen.dart';
 import 'package:hookup4u/Screens/screen_social/user_profile_view/user_profile_viewmodel.dart';
@@ -10,6 +11,7 @@ import 'package:hookup4u/util/color.dart';
 import 'package:hookup4u/widget/social_card_view/social_card_view.dart';
 import 'package:intl/intl.dart';
 // import 'package:hookup4u/widget/social_card_view/social_card_view.dart' as cardView;
+import 'package:flutter/foundation.dart' show kIsWeb, kReleaseMode;
 
 class UserProfilePage extends StatefulWidget {
 
@@ -50,7 +52,7 @@ class UserProfilePageState extends State<UserProfilePage> {
 
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pop(context, true);
+        Navigator.pop(context, model.isChangesThisScreen);
         return false;
       },
       child: Scaffold(
@@ -59,11 +61,11 @@ class UserProfilePageState extends State<UserProfilePage> {
           elevation: 0.0,
           backgroundColor: ColorRes.greyBg,
           leading: IconButton(icon: Icon(Icons.arrow_back), onPressed: () {
-            Navigator.pop(context, true);
+            Navigator.pop(context, model.isChangesThisScreen);
           }),
-          actions: <Widget>[
+         /* actions: <Widget>[
             IconButton(icon: Icon(Icons.more_vert, color: ColorRes.white, size: 30), onPressed: () {}),
-          ],
+          ],*/
         ),
         body: !model.isEmptyMessageShow ? Container() : model?.userProfileModel?.data?.userDetail == null?
         Center(
@@ -72,6 +74,7 @@ class UserProfilePageState extends State<UserProfilePage> {
             child: Text("User Profile Not Available!", style: TextStyle(color: ColorRes.white, fontSize: 20)),
           ),
         ) : SingleChildScrollView(
+          physics: ClampingScrollPhysics(),
           child: Column(
             children: [
               topUserImageView(),
@@ -93,7 +96,19 @@ class UserProfilePageState extends State<UserProfilePage> {
               //   ),
               // ),
 
-              showMyPost()
+              // showMyPost()
+
+              isSelected == 1 ? showMyPost() : Container(),
+              isSelected == 2 ? mediaListShow() : Container(),
+              isSelected == 3 ? Container(
+                  padding: EdgeInsets.only(top: 100),
+                  child: Text("No Data")) : Container(),
+              isSelected == 4 ? Container(
+                  padding: EdgeInsets.only(top: 100),
+                  child: Text("No Data")): Container(),
+
+
+
               // SocialPostView(userProfileModel: model.userProfileModel)
             ],
           ),
@@ -219,8 +234,18 @@ class UserProfilePageState extends State<UserProfilePage> {
         children: [
 
           followerCountShow(model?.userProfileModel?.data?.posts?.toString() ?? "0", "Posts"),
-          followerCountShow(model?.totalFollowing.toString() ?? "0", "Following"),
-          followerCountShow(model?.userProfileModel?.data?.follower?.toString() ?? "0", "Follower"),
+          InkWell(
+            onTap: () {
+              // Navigator.push(context, MaterialPageRoute(builder: (context) => FollowerFollowingList(isCheckScreen: "Following")));
+            },
+            child: followerCountShow(model?.totalFollowing.toString() ?? "0", "Following"),
+          ),
+          InkWell(
+            onTap: () {
+              // Navigator.push(context, MaterialPageRoute(builder: (context) => FollowerFollowingList(isCheckScreen: "Follower")));
+            },
+            child: followerCountShow(model?.userProfileModel?.data?.follower?.toString() ?? "0", "Follower"),
+          ),
 
           widget.isOpenRequestScreen ? Row(children: [
             InkWell(onTap: () {
@@ -352,8 +377,6 @@ class UserProfilePageState extends State<UserProfilePage> {
     );
   }
 
-
-
   showMyPost() {
     print(model.userProfileModel);
     if(model.userProfileModel?.data?.userPosts?.length == 0) {
@@ -364,13 +387,16 @@ class UserProfilePageState extends State<UserProfilePage> {
           child: Text("No Data Found"));
     } else {
       return  model.userProfileModel?.data == null || model.userProfileModel.data.userPosts == null || model.userProfileModel.data.userPosts.isEmpty ? Container() :
-      ListView.builder(
-          itemCount: model.userProfileModel.data.userPosts.length,
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            return showView(index, model.userProfileModel.data.userPosts[index]);
-          });
+      Container(
+        width: kIsWeb ? MediaQuery.of(context).size.height / 2.0 : MediaQuery.of(context).size.width,
+        child: ListView.builder(
+            itemCount: model.userProfileModel.data.userPosts.length,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return showView(index, model.userProfileModel.data.userPosts[index]);
+            }),
+      );
     }
   }
 
@@ -950,6 +976,54 @@ class UserProfilePageState extends State<UserProfilePage> {
                   image: AssetImage("asset/Icon/${emojis[index]}.png"))*/;
                 })
         ) : Container());
+  }
+
+
+  mediaListShow() {
+    if(model.isEmptyMessageUserMedia) {
+      return Container();
+    } else {
+      if (model?.userMediaProfileApi?.data != null &&
+          model?.userMediaProfileApi?.data?.length != 0) {
+        return Container(
+          width: kIsWeb ? MediaQuery.of(context).size.height / 2.0 : MediaQuery.of(context).size.width,
+          child: ListView.builder(
+              itemCount: model.userMediaProfileApi.data.length,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return userProfileImages(
+                    index, model.userMediaProfileApi.data[index]);
+              }),
+        );
+      } else {
+        return Container(
+            width: MediaQuery
+                .of(context)
+                .size
+                .width,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height * 0.5,
+            alignment: Alignment.center,
+            child: Text("No Post Available")
+        );
+      }
+    }
+  }
+
+  userProfileImages(int index, String data) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.all(10),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: ColorRes.primaryColor,
+          boxShadow: [BoxShadow(color: ColorRes.black, blurRadius: 5.0, offset: Offset(0, 0), spreadRadius: 0.1)]
+      ),
+      child: Image(image: NetworkImage(data), fit: BoxFit.contain),
+    );
   }
 
 }

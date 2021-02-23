@@ -7,12 +7,15 @@ import 'package:hookup4u/Screens/screen_social/friends_request/friends_request_s
 import 'package:hookup4u/Screens/screen_social/home/tab1/post_data/post_data_screen.dart';
 import 'package:hookup4u/Screens/screen_social/like_show/like_show_screen.dart';
 import 'package:hookup4u/Screens/screen_social/search_view/search_screen.dart';
+import 'package:hookup4u/Screens/screen_social/user_profile_view/user_profile_screen.dart';
 import 'package:hookup4u/models/socialPostShowModel.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:hookup4u/util/utils.dart';
 import 'package:intl/intl.dart';
 import 'edit/edit_screen.dart';
 import 'home_viewmodel.dart';
+import 'package:flutter/foundation.dart' show kIsWeb, kReleaseMode;
+
 
 class SocialHomePage extends StatefulWidget {
 
@@ -70,6 +73,7 @@ class SocialHomePageState extends State<SocialHomePage> {
         key: refreshKey,
         onRefresh: refreshList,
         child: SingleChildScrollView(
+          physics: ClampingScrollPhysics(),
           child: Column(
             children: [
               headerView(),
@@ -96,13 +100,16 @@ class SocialHomePageState extends State<SocialHomePage> {
             child: IconButton(
               icon: Icon(Icons.arrow_back_outlined, color: ColorRes.white),
               onPressed: ()  {
-              Navigator.pop(context);
+                  Navigator.pop(context);
               }),
           ),
         Expanded(
           child: InkResponse(
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
+            onTap: () async {
+              bool isUpdate = await Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
+              if(isUpdate) {
+                model.showPostApi();
+              }
             },
             child: Container(
                 width: Utils().getDeviceWidth(context) - 175,
@@ -208,16 +215,20 @@ class SocialHomePageState extends State<SocialHomePage> {
       return model.socialPostShowList.length == 0 ?
       Container(
           width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height * 0.5,
+          height: MediaQuery.of(context).size.height * .8,
           alignment: Alignment.center,
-          child: Text("No Data Found", style: TextStyle(color: ColorRes.white, fontSize: 20), overflow: TextOverflow.ellipsis)) :
-      ListView.builder(
-          itemCount: model.socialPostShowList.length,
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            return showView(index, model.socialPostShowList[index]);
-          });
+          child: Text("No any friend post", style: TextStyle(color: ColorRes.white, fontSize: 20), overflow: TextOverflow.ellipsis)) :
+      Container(
+        width: kIsWeb ? MediaQuery.of(context).size.height / 2.0 : MediaQuery.of(context).size.width,
+        // height: MediaQuery.of(context).size.height,
+        child: ListView.builder(
+            itemCount: model.socialPostShowList.length,
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return showView(index, model.socialPostShowList[index]);
+            }),
+      );
     }
   }
 
@@ -233,7 +244,7 @@ class SocialHomePageState extends State<SocialHomePage> {
   likeComment(int index, SocialPostShowData socialPostShowList) {
     return Container(
       height: 50,
-      child: Row(
+      child: Row (
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
          Row(
@@ -242,22 +253,22 @@ class SocialHomePageState extends State<SocialHomePage> {
              InkWell (
                  onTap: () {
                    if(model.socialPostShowList[index].selfLike) {
-                     model.deleteLikeApi(socialPostShowList.id);
+                     model.deleteLikeApi(socialPostShowList.id, index);
                    } else {
-                     model.addLikeApi(socialPostShowList.id, "#like");
+                     model.addLikeApi(socialPostShowList.id, "#like", index);
                    }
                  },
                  onLongPress: () {
                    postIdStr = socialPostShowList.id;
                    setState(() {});
                  },
-                  child:/* model.socialPostShowList[index].selfLike
+                  child:  model.socialPostShowList[index].selfLike
                       ? Container(
                           height: 40,
                           alignment: Alignment.center,
                           child: Icon(Icons.favorite,
-                              color: Colors.white))
-                      :*/ Container(
+                              color: Colors.white)
+                  ) : Container(
                           height: 40,
                           alignment: Alignment.center,
                           child: Icon(Icons.favorite_border_outlined, color: Colors.white))),
@@ -401,11 +412,11 @@ class SocialHomePageState extends State<SocialHomePage> {
                     itemBuilder: (context, index1) {
                       return CachedNetworkImage(
                           imageUrl: model.socialPostShowList[index].media[index1],
-                          placeholder: (context, url) => Image.asset(
+                          placeholder: (context, url) => Image.asset (
                               'asset/Icon/placeholder.png',
                               height: 120,
                               width: 120,
-                              fit: BoxFit.cover),
+                              fit: BoxFit.cover ),
                           height: 120,
                           width: 120,
                           fit: BoxFit.cover
@@ -577,32 +588,33 @@ class SocialHomePageState extends State<SocialHomePage> {
   }
 
   userImgNameShow(int index, String currentTime) {
-    return Row(
-      children: [
-        InkResponse(
-          onTap: () {
-            // widget.tabController.animateTo(3, duration: Duration(milliseconds: 500));
-          },
-          child: ClipRRect(
+    return InkWell(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfilePage(
+            userId: int.parse(model.socialPostShowList[index].userId),
+            isFollow: true)));
+      },
+      child: Row(
+        children: [
+          ClipRRect(
             borderRadius: BorderRadius.circular(50),
             child: Image(
                 height: 25,
                 width: 25,
                 image: NetworkImage(model.socialPostShowList[index].thumb)),
           ),
-        ),
-        SizedBox(width: 8),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("${model.socialPostShowList[index].userName }",  style: TextStyle(color: ColorRes.white), overflow: TextOverflow.ellipsis, maxLines: 1),
-            Text(currentTime, style: TextStyle(color: ColorRes.greyBg, fontSize: 12))
-          ],
-        ),
-      ],
+          SizedBox(width: 8),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("${model.socialPostShowList[index].userName }",  style: TextStyle(color: ColorRes.white), overflow: TextOverflow.ellipsis, maxLines: 1),
+              Text(currentTime, style: TextStyle(color: ColorRes.greyBg, fontSize: 12))
+            ],
+          ),
+        ],
+      ),
     );
   }
-
 
   likeEmojisView(int index, SocialPostShowData socialPostShowList) {
     return  Positioned(
@@ -629,17 +641,17 @@ class SocialHomePageState extends State<SocialHomePage> {
                       postIdStr = "-1";
 
                       if(index == 0) {
-                        model.addLikeApi(socialPostShowList.id, "#like");
+                        model.addLikeApi(socialPostShowList.id, "#like", index);
                       } else if(index == 1) {
-                        model.addLikeApi(socialPostShowList.id, "#love");
+                        model.addLikeApi(socialPostShowList.id, "#love", index);
                       } else if(index == 2) {
-                        model.addLikeApi(socialPostShowList.id, "#care");
+                        model.addLikeApi(socialPostShowList.id, "#care", index);
                       } else if(index == 3) {
-                        model.addLikeApi(socialPostShowList.id, "#haha");
+                        model.addLikeApi(socialPostShowList.id, "#haha", index);
                       } else if(index == 4) {
-                        model.addLikeApi(socialPostShowList.id, "#angry");
+                        model.addLikeApi(socialPostShowList.id, "#angry", index);
                       } else if(index == 5) {
-                        model.addLikeApi(socialPostShowList.id, "#sad");
+                        model.addLikeApi(socialPostShowList.id, "#sad", index);
                       }
                     },
 
@@ -658,7 +670,7 @@ class SocialHomePageState extends State<SocialHomePage> {
 
 
   popUpMenuButton(int index, String postId, bool isShare) {
-    return PopupMenuButton<String>(
+    return PopupMenuButton<String> (
       color: ColorRes.white,
       child: Image(
           height: 25,
@@ -670,7 +682,7 @@ class SocialHomePageState extends State<SocialHomePage> {
       },
       itemBuilder: (BuildContext context) {
         return {'Share', 'Edit', 'Delete'}.map((String choice) {
-          return PopupMenuItem<String>(
+          return PopupMenuItem<String> (
             value: choice,
             child: Text(choice),
           );

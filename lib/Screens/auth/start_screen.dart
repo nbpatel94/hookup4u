@@ -14,63 +14,84 @@ class StartScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: ColorRes.primaryColor,
         body: SafeArea(
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
+          child: SingleChildScrollView(
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
 
-              Image(
-                  width: MediaQuery.of(context).size.width - 130,
-                  height: MediaQuery.of(context).size.height / 1.4,
-                  image: AssetImage("asset/Icon/logo_white.png")),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Image(
+                      width: MediaQuery.of(context).size.width - 150,
+                      height: MediaQuery.of(context).size.height / 2.5,
+                      image: AssetImage("asset/Icon/logo_white.png")),
+                ),
 
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()));
-                },
-                child: Container(
-                  height: MediaQuery.of(context).size.height * .075,
-                  width: MediaQuery.of(context).size.height * .300,
-                  margin: EdgeInsets.symmetric(horizontal: 15,vertical: 7),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                    color: ColorRes.redButton,
-                  ),
-                  child: Center(
-                      child: Text("SIGN UP NOW",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontFamily: 'NeueFrutigerWorld',
-                              fontWeight: FontWeight.w700))),
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(" Social Network \n and Matchmaking", style: TextStyle(fontSize: 40, color: ColorRes.white)),
                 ),
-              ),
-              GestureDetector(
-                onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(isShowBackArrow: true)));
-                },
-                child: Container(
-                  height: MediaQuery.of(context).size.height * .075,
-                  width: MediaQuery.of(context).size.height * .300,
-                  margin: EdgeInsets.symmetric(horizontal: 15,vertical: 7),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: ColorRes.darkButton,
-                  ),
-                  child: Center(
-                      child: Text("LOGIN",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16,
-                              fontFamily: 'NeueFrutigerWorld',
-                              fontWeight: FontWeight.w700))),
+
+                Container(
+                  alignment: Alignment.topLeft,
+                  margin: EdgeInsets.only(top: 15, bottom: 40),
+                  padding: EdgeInsets.only(left: 10, right: 10),
+                  child: Text("Meet and connect with Muslims in a  private, secure network, and the largest community for finding relationships.",
+                      style: TextStyle(fontSize: 20, color: ColorRes.white)),
                 ),
-              ),
-              SizedBox(
-                    height: 30,
-              )
-            ]),
+
+
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage(isShowBackArrow: true)));
+                  },
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * .075,
+                    // width: MediaQuery.of(context).size.height * .300,
+                    margin: EdgeInsets.symmetric(horizontal: 15,vertical: 7),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      color: ColorRes.white,
+                    ),
+                    child: Center(
+                        child: Text("LOGIN",
+                            style: TextStyle(
+                                color: ColorRes.primaryRed,
+                                fontSize: 16,
+                                fontFamily: 'NeueFrutigerWorld',
+                                fontWeight: FontWeight.w700))),
+                  ),
+                ),
+
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => SignUpPage()));
+                      },
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * .075,
+                        // width: MediaQuery.of(context).size.height * .300,
+                        margin: EdgeInsets.symmetric(horizontal: 15,vertical: 7),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: ColorRes.primaryRed,
+                        ),
+                        child: Center(
+                            child: Text("SIGN UP",
+                                style: TextStyle(
+                                    color: ColorRes.white,
+                                    fontSize: 16,
+                                    fontFamily: 'NeueFrutigerWorld',
+                                    fontWeight: FontWeight.w700))),
+                      ),
+                    ),
+
+                SizedBox(
+                      height: 30,
+                )
+              ]),
+            ),
           ),
         ),
       ),

@@ -13,6 +13,7 @@ import 'package:hookup4u/models/socialPostShowModel.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:intl/intl.dart';
 import 'user_profile_viewmodel.dart';
+import 'package:flutter/foundation.dart' show kIsWeb, kReleaseMode;
 
 class UserProfileScreen extends StatefulWidget {
   @override
@@ -78,6 +79,7 @@ class UserProfileScreenState extends State<UserProfileScreen> {
         ],
       ),
       body: SingleChildScrollView(
+        physics: ClampingScrollPhysics(),
         child: Column(
           children: [
 
@@ -346,13 +348,16 @@ class UserProfileScreenState extends State<UserProfileScreen> {
             child: Text("No Post Available")
         );
       } else {
-        return  ListView.builder(
-            itemCount: model.showMyPostList.length,
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return showView(index, model.showMyPostList[index]);
-            });
+        return  Container(
+          width: kIsWeb ? MediaQuery.of(context).size.height / 2.0 : MediaQuery.of(context).size.width,
+          child: ListView.builder(
+              itemCount: model.showMyPostList.length,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return showView(index, model.showMyPostList[index]);
+              }),
+        );
       }
     }
   }
@@ -960,14 +965,17 @@ class UserProfileScreenState extends State<UserProfileScreen> {
     } else {
       if (model?.userMediaProfileApi?.data != null &&
           model?.userMediaProfileApi?.data?.length != 0) {
-        return ListView.builder(
-            itemCount: model.userMediaProfileApi.data.length,
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              return userProfileImages(
-                  index, model.userMediaProfileApi.data[index]);
-            });
+        return Container(
+          width: kIsWeb ? MediaQuery.of(context).size.height / 2.0 : MediaQuery.of(context).size.width,
+          child: ListView.builder(
+              itemCount: model.userMediaProfileApi.data.length,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return userProfileImages(
+                    index, model.userMediaProfileApi.data[index]);
+              }),
+        );
       } else {
         return Container(
             width: MediaQuery

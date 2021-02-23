@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hookup4u/Screens/Splash.dart';
 import 'package:hookup4u/util/color.dart';
+import 'package:hookup4u/web_view/about_as/about_us_screen.dart';
+import 'package:hookup4u/web_view/edit_profile_view/edit_profile_screen.dart';
 import 'package:hookup4u/web_view/home_view/home_screen.dart' as webView;
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,6 +14,8 @@ import 'app.dart';
 import 'dart:io';
 import 'package:flutter/foundation.dart' show kIsWeb, kReleaseMode;
 import 'dart:io' show Platform;
+
+import 'web_view/edit_profile_view/edit_profile_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,6 +41,10 @@ void main() async {
     });
   } else {
     print("Web.......");
+    SharedPreferences.getInstance().then((prefs) {
+      sharedPreferences = prefs;
+      runApp(MyApp());
+    });
     runApp(MyApp());
     /*  SharedPreferences.getInstance().then((prefs) {
       sharedPreferences = prefs;
@@ -74,6 +82,7 @@ class MyApp extends StatelessWidget {
             // ... // and so on
         ),
       ),
+      // home: kIsWeb ? AboutUsPage() : Splash(),
       home: kIsWeb ? webView.HomePage() : Splash(),
       debugShowCheckedModeBanner: false,
       builder: (BuildContext context, Widget child) {

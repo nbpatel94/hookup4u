@@ -38,11 +38,11 @@ class ForgotPasswordState extends State<ForgotPassword> {
               child: SingleChildScrollView(
                 child: isVerified ?
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Container(
-                      alignment: Alignment.center,
+                      alignment: Alignment.topLeft,
                       margin: EdgeInsets.only(bottom: 15),
                       child: Text(
                         "Forgot password",
@@ -162,59 +162,52 @@ class ForgotPasswordState extends State<ForgotPassword> {
                 )
                     :
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Container(
-                      alignment: Alignment.center,
-                      margin: EdgeInsets.only(bottom: 15),
+                    Container (
+                      alignment: Alignment.topLeft,
+                      margin: EdgeInsets.only(bottom: 15, left: 25),
                       child: Text(
                         "Forgot password",
-                        style: TextStyle(fontSize: 36, fontFamily: 'NeueFrutigerWorld',fontWeight: FontWeight.w100,color: Colors.white),
+                        style: TextStyle(fontSize: 36, fontFamily: 'NeueFrutigerWorld',fontWeight: FontWeight.w300,color: Colors.white),
                       ),
                     ),
                     Container(
                       alignment: Alignment.center,
-                      margin: EdgeInsets.only(bottom: 30,left: 40,right: 40),
+                      margin: EdgeInsets.only(bottom: 30,left: 25,right: 40),
                       child: Text(
-                        "Enter your email address, we'll send you the verification code",
+                        "Please enter your email address. You will receive a link to create a new password via email.",
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                            fontSize: 14, fontFamily: 'NeueFrutigerWorld',color: ColorRes.textColor),
+                        style: TextStyle(fontSize: 14, fontFamily: 'NeueFrutigerWorld',color: ColorRes.white),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 50),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "EMAIL ADDRESS",
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                                fontSize: 16, fontFamily: 'NeueFrutigerWorld',color: Colors.grey[200]),
-                          ),
-                          TextFormField(
-                            keyboardType: TextInputType.emailAddress,
-                            style: TextStyle(
-                                fontSize: 16, color: ColorRes.textColor),
-                            cursorColor: ColorRes.textColor,
-                            controller: emailCont,
-                            decoration: InputDecoration(
-                              hintText: "example@example.com",
-                              hintStyle: TextStyle(
-                                  color: ColorRes.textColor, fontSize: 16),
-                              focusColor: ColorRes.textColor,
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide:
-                                  BorderSide(color: ColorRes.textColor)),
-                              enabledBorder: UnderlineInputBorder(
-                                  borderSide:
-                                  BorderSide(color: ColorRes.textColor)),
-                            ),
-                          ),
-                        ],
+                    Container(
+                      margin: EdgeInsets.only(left: 25, right: 25),
+                      padding: EdgeInsets.only(left: 10, right: 10),
+                      decoration: BoxDecoration(
+                          color: ColorRes.greyBg,
+                          borderRadius: BorderRadius.circular(50)
+                      ),
+                      child: TextFormField(
+                        keyboardType: TextInputType.emailAddress,
+                        style: TextStyle(fontSize: 16, color: ColorRes.white),
+                        cursorColor: ColorRes.textColor,
+                        controller: emailCont,
+                        decoration: InputDecoration(
+                          hintText: "example@example.com",
+                          hintStyle: TextStyle(color: ColorRes.white, fontSize: 16),
+                          focusColor: ColorRes.textColor,
+
+                          border: InputBorder.none,
+                          focusedBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          errorBorder: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+
+                          // focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorRes.textColor)),
+                          // enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorRes.textColor)),
+                        ),
                       ),
                     ),
                     !isCodeSend ? Container(): Padding(
@@ -257,43 +250,39 @@ class ForgotPasswordState extends State<ForgotPassword> {
                     Row(
                       mainAxisAlignment: !isCodeSend ? MainAxisAlignment.start: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 10, horizontal: !isCodeSend ? 50: 0),
-                          child: GestureDetector(
-                            onTap: () {
-                              if(!isLoading) {
-                                if (isCodeSend) {
-                                  if (model.validate()) {
-                                    model.verifyVerificationCode();
-                                  }
-                                } else {
-                                  if (model.validate()) {
-                                    model.sendVerificationCode();
-                                  }
+                        GestureDetector(
+                          onTap: () {
+                            if(!isLoading) {
+                              if (isCodeSend) {
+                                if (model.validate()) {
+                                  model.verifyVerificationCode();
+                                }
+                              } else {
+                                if (model.validate()) {
+                                  model.sendVerificationCode();
                                 }
                               }
-                            },
-                            child: Container(
-                              height: MediaQuery.of(context).size.height * .075,
-                              width: MediaQuery.of(context).size.width / 3,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                color: ColorRes.redButton,
-                              ),
-                              child: Center(
-                                  child: isLoading ? Padding(child: CircularProgressIndicator(backgroundColor: ColorRes.primaryColor,),padding: EdgeInsets.all(5),): Text(isCodeSend ? "VERIFY" :"SEND",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontFamily: 'NeueFrutigerWorld',
-                                          fontWeight: FontWeight.w700))),
+                            }
+                          },
+                          child: Container(
+                            height: MediaQuery.of(context).size.height * .075,
+                            width: MediaQuery.of(context).size.width - 50,
+                            margin: EdgeInsets.only(left: 25, right: 25),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: ColorRes.redButton,
                             ),
+                            child: Center(
+                                child: isLoading ? Padding(child: CircularProgressIndicator(backgroundColor: ColorRes.primaryColor,),padding: EdgeInsets.all(5),): Text(isCodeSend ? "VERIFY" :"SEND",
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontFamily: 'NeueFrutigerWorld',
+                                        fontWeight: FontWeight.w700))),
                           ),
                         ),
                         !isCodeSend ? Container(): Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10),
+                          padding: const EdgeInsets.symmetric(vertical: 10),
                           child: GestureDetector(
                             onTap: () {
                               if(!isLoading) {
@@ -335,7 +324,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
                     Navigator.pop(context);
                   },
                   icon: Icon(
-                    Icons.arrow_back,
+                    Icons.close,
                     color: Colors.white,
                   ),
                   iconSize: 30),

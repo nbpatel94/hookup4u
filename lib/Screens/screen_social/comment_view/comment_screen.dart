@@ -44,12 +44,9 @@ class CommentScreenState extends State<CommentScreen> {
   }
 
   Future<Null> refreshList() async {
+    model.showCommentApi(false);
     refreshKey.currentState?.show(atTop: false);
-    await Future.delayed(Duration(seconds: 2));
-
-    setState(() {
-      // model.showCommentApi();
-    });
+    await Future.delayed(Duration(seconds: 6));
     return null;
   }
 
@@ -82,7 +79,6 @@ class CommentScreenState extends State<CommentScreen> {
                    padding: EdgeInsets.only(left: 10),
                     itemCount:  model.commentData != null && model.commentData.length != 0 ? model.commentData.length : 0 ,
                     itemBuilder: (context, index) {
-
                       return listDataShow(index, model.commentData[index]);
                     }),
                )),
@@ -224,6 +220,7 @@ class CommentScreenState extends State<CommentScreen> {
                       icon: Icon(Icons.close, color: ColorRes.primaryRed),
                       onPressed: () {
 
+                        commentController.clear();
                         isBottomFiled = false;
                         FocusScope.of(context).requestFocus(new FocusNode());
                         commentId = "-1";

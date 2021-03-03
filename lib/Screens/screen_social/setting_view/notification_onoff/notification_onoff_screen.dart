@@ -1,16 +1,47 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hookup4u/app.dart';
 import 'package:hookup4u/util/color.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'notification_onoff_viewmodel.dart';
 
 class NotificationOnOFFPage extends StatefulWidget {
   @override
-  _NotificationOnOFFPageState createState() => _NotificationOnOFFPageState();
+  NotificationOnOFFPageState createState() => NotificationOnOFFPageState();
 }
 
-class _NotificationOnOFFPageState extends State<NotificationOnOFFPage> {
+class NotificationOnOFFPageState extends State<NotificationOnOFFPage> {
 
   bool status = false;
+  SharedPreferences prefs;
+  String getToken = "";
 
+
+  NotificationOnOffViewModel model;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    model ?? (model = NotificationOnOffViewModel(this));
+    sharedPref();
+  }
+
+  sharedPref() async {
+     prefs = await SharedPreferences.getInstance();
+     // bool isKey = prefs.containsKey("deviceToken");
+     // if(isKey){
+     //   getToken = prefs.getString("deviceToken");
+     // }
+       getToken = appState.userDetailsModel.meta.deviceToken;
+     if(getToken != null && getToken.isNotEmpty) {
+       status = true;
+     } else {
+       status = false;
+     }
+     setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +100,9 @@ class _NotificationOnOFFPageState extends State<NotificationOnOFFPage> {
                     value: status,
                     onChanged: (value) {
                       print("VALUE : $value");
+
+                      model.notificationTokenSend();
+
                       setState(() {
                         status = value;
                       });
@@ -83,4 +117,7 @@ class _NotificationOnOFFPageState extends State<NotificationOnOFFPage> {
       ),
     );
   }
+
+
+
 }

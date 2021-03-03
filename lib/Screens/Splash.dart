@@ -75,7 +75,7 @@ class _SplashState extends State<Splash> {
         appState.livingIn = userDetailsModel?.meta?.livingIn ?? "";
         appState.jobTitle = userDetailsModel?.meta?.jobTitle ?? "";
         appState.about = userDetailsModel?.meta?.about ?? "";
-        appState.id = int.parse(userDetailsModel?.id ?? "");
+        appState.id = userDetailsModel?.id != "null" ?int.parse(userDetailsModel?.id ?? "") : 27;
         // appState.id = int.parse(userDetailsModel.id);
 
         print(userDetailsModel?.meta?.toFirstJson());
@@ -86,8 +86,7 @@ class _SplashState extends State<Splash> {
           appState.medialList = mediaList;
           print('Current User : ${appState.id}');
           Future.delayed(Duration(seconds: 3), () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ListHolderPage()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ListHolderPage()));
           });
         } else {
           print("media !contain");

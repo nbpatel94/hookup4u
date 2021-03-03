@@ -10,6 +10,7 @@ class App{
   static const String loginBase = 'https://door.iheartmuslims.com/wp-json/jwt-auth/v1/token';
 */
 
+  // https://iheartmuslims.wp.apis.demographed.com/wp-json/
 
   static const String baseUrl = 'https://iheartmuslims.wp.apis.demographed.com/wp-json/buddypress/v1/';
   static const String baseUrl2 = 'https://iheartmuslims.wp.apis.demographed.com/wp-json/bdpwr/v1/';
@@ -45,9 +46,11 @@ class App{
   static const String userProfile = 'user_profile';
   static const String follow = 'follow';
   static const String friends = 'friends';
+  static const String friend_requests = 'get_friend_requests';
   static const String profile_media = 'profile_media';
   static const String followList = 'follow_list';
   static const String recent = 'recent';
+
 }
 
 SharedPreferences sharedPreferences;

@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -64,27 +63,66 @@ class EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     model ?? (model = EditProfileViewModel(this));
 
-    return WillPopScope(
-      onWillPop: () async {
-        return false;
-      },
-      child: Scaffold(
-        backgroundColor: ColorRes.primaryColor,
-        key: _scaffoldKey,
-        appBar: AppBar(
-            elevation: 0,
-            title: Text(
-              "Edit Profile",
-              style: TextStyle(color: Colors.white,fontFamily: 'NeueFrutigerWorld',fontWeight: FontWeight.w700),
-            ),
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back_ios),
-              color: Colors.white,
-              onPressed: () async {
+    // onWillPop: () async {
+    //   return false;
+    // },
+    return Scaffold(
+      backgroundColor: ColorRes.primaryColor,
+      key: _scaffoldKey,
+      appBar: AppBar(
+          elevation: 0,
+          title: Text(
+            "Edit Profile",
+            style: TextStyle(color: Colors.white,fontFamily: 'NeueFrutigerWorld',fontWeight: FontWeight.w700),
+          ),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            color: Colors.white,
+            onPressed: () {
 
 
-                Navigator.pop(context);
-               /* if (aboutCont.text.trim() == '') {
+              Navigator.pop(context);
+             /* if (aboutCont.text.trim() == '') {
+                snackbar('Write something about you');
+              } else if (jobTitleCont.text.trim() == '') {
+                snackbar('Write something about what do you do');
+              } else if (livingCont.text.trim() == '') {
+                snackbar('Write where do you live');
+              } else {
+                EasyLoading.show();
+                appState.jobTitle = jobTitleCont.text.trim();
+                appState.userDetailsModel.meta.jobTitle =
+                    jobTitleCont.text.trim();
+                appState.about = aboutCont.text.trim();
+                appState.userDetailsModel.meta.about = aboutCont.text.trim();
+                appState.livingIn = livingCont.text.trim();
+                appState.userDetailsModel.meta.livingIn =
+                    livingCont.text.trim();
+                appState.userDetailsModel.meta.children = appState.children;
+                appState.userDetailsModel.meta.relation = appState.relation;
+
+                print(appState.userDetailsModel.meta.toJson());
+                await sharedPreferences.setString(Preferences.metaData, jsonEncode(appState.userDetailsModel.meta.toJson()));
+
+                String check = await RestApi.updateUserDetails(
+                    appState.userDetailsModel.meta.toJson());
+                if (check == 'success') {
+                  Navigator.pop(context);
+                } else {
+                  snackbarWithDismiss(
+                      'Something went wrong! Try to update after sometime');
+                }
+                EasyLoading.dismiss();
+              }*/
+
+            },
+          ),
+          backgroundColor: ColorRes.primaryColor,
+          actions: [
+
+            InkWell(
+              onTap: () async {
+                if (aboutCont.text.trim() == '') {
                   snackbar('Write something about you');
                 } else if (jobTitleCont.text.trim() == '') {
                   snackbar('Write something about what do you do');
@@ -93,336 +131,295 @@ class EditProfileState extends State<EditProfile> {
                 } else {
                   EasyLoading.show();
                   appState.jobTitle = jobTitleCont.text.trim();
-                  appState.userDetailsModel.meta.jobTitle =
-                      jobTitleCont.text.trim();
+                  appState.userDetailsModel.meta.jobTitle = jobTitleCont.text.trim();
                   appState.about = aboutCont.text.trim();
                   appState.userDetailsModel.meta.about = aboutCont.text.trim();
                   appState.livingIn = livingCont.text.trim();
-                  appState.userDetailsModel.meta.livingIn =
-                      livingCont.text.trim();
+                  appState.userDetailsModel.meta.livingIn = livingCont.text.trim();
                   appState.userDetailsModel.meta.children = appState.children;
                   appState.userDetailsModel.meta.relation = appState.relation;
 
                   print(appState.userDetailsModel.meta.toJson());
                   await sharedPreferences.setString(Preferences.metaData, jsonEncode(appState.userDetailsModel.meta.toJson()));
 
-                  String check = await RestApi.updateUserDetails(
-                      appState.userDetailsModel.meta.toJson());
+                  String check = await RestApi.updateUserDetails(appState.userDetailsModel.meta.toJson());
                   if (check == 'success') {
                     Navigator.pop(context);
                   } else {
                     snackbarWithDismiss(
                         'Something went wrong! Try to update after sometime');
                   }
+
                   EasyLoading.dismiss();
-                }*/
-
+                }
               },
-            ),
-            backgroundColor: ColorRes.primaryColor,
-            actions: [
-
-              InkWell(
-                onTap: () async {
-                  if (aboutCont.text.trim() == '') {
-                    snackbar('Write something about you');
-                  } else if (jobTitleCont.text.trim() == '') {
-                    snackbar('Write something about what do you do');
-                  } else if (livingCont.text.trim() == '') {
-                    snackbar('Write where do you live');
-                  } else {
-                    EasyLoading.show();
-                    appState.jobTitle = jobTitleCont.text.trim();
-                    appState.userDetailsModel.meta.jobTitle = jobTitleCont.text.trim();
-                    appState.about = aboutCont.text.trim();
-                    appState.userDetailsModel.meta.about = aboutCont.text.trim();
-                    appState.livingIn = livingCont.text.trim();
-                    appState.userDetailsModel.meta.livingIn = livingCont.text.trim();
-                    appState.userDetailsModel.meta.children = appState.children;
-                    appState.userDetailsModel.meta.relation = appState.relation;
-
-                    print(appState.userDetailsModel.meta.toJson());
-                    await sharedPreferences.setString(Preferences.metaData, jsonEncode(appState.userDetailsModel.meta.toJson()));
-
-                    String check = await RestApi.updateUserDetails(appState.userDetailsModel.meta.toJson());
-                    if (check == 'success') {
-                      Navigator.pop(context);
-                    } else {
-                      snackbarWithDismiss(
-                          'Something went wrong! Try to update after sometime');
-                    }
-
-                    EasyLoading.dismiss();
-                  }
-                },
-                child: Container(
-                  height: 50,
-                  width: 50,
-                  alignment: Alignment.center,
-                  child: Text("save", style: TextStyle(color: Colors.white)),
-                ),
-              )
-
-            ],
-
-        ),
-        body: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Container(
+              child: Container(
+                height: 50,
+                width: 50,
                 alignment: Alignment.center,
-                height: MediaQuery.of(context).size.height * .65,
-                width: MediaQuery.of(context).size.width,
-                child: GridView.count(
-                    physics: NeverScrollableScrollPhysics(),
-                    crossAxisCount: 3,
-                    childAspectRatio:
-                        MediaQuery.of(context).size.aspectRatio * 1.5,
-                    crossAxisSpacing: 4,
-                    padding: EdgeInsets.all(10),
-                    children: List.generate(9, (index) {
-                      return Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Container(
-                          decoration: appState.medialList!=null && appState.medialList.length > index
-                              ? BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(
-                                        appState.medialList[index].sourceUrl,
-                                      )),
-                                )
-                              : BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: ColorRes.darkButton,
-                                  border: Border.all(
-                                      style: BorderStyle.solid,
-                                      width: 1,
-                                      color: ColorRes.white)),
-                          child: Align(
-                            alignment: Alignment.bottomRight,
-                            child: Container(
-                                // width: 12,
-                                // height: 16,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: appState.medialList!=null && appState.medialList.length > index
-                                      ? Colors.white
-                                      : ColorRes.primaryColor,
-                                ),
-                                child: appState.medialList!=null && appState.medialList.length > index
-                                    ? InkWell(
-                                        child: Icon(
-                                          Icons.cancel,
-                                          color: ColorRes.primaryColor,
-                                          size: 22,
-                                        ),
-                                        onTap: () async {
-                                          if (appState.medialList.length > 1) {
-                                            model.removePhoto(appState.medialList[index].id, index);
-                                          } else {
-                                            source(context);
-                                          }
-                                        },
-                                      )
-                                    : InkWell(
-                                        child: Icon(
-                                          Icons.add_circle_outline,
-                                          size: 22,
-                                          color: Colors.white,
-                                        ),
-                                        onTap: () async {
-                                          source(context);
-                                        })),
-                          ),
-                        ),
-                      );
-                    })),
+                child: Text("save", style: TextStyle(color: Colors.white)),
               ),
-              SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListBody(
-                  mainAxis: Axis.vertical,
-                  children: <Widget>[
-                    ListTile(
-                      title: Text(
-                        "About",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            fontFamily: 'NeueFrutigerWorld',
-                            color: ColorRes.textColor),
+            )
+
+          ],
+
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              alignment: Alignment.center,
+              height: MediaQuery.of(context).size.height * .65,
+              width: MediaQuery.of(context).size.width,
+              child: GridView.count(
+                  physics: NeverScrollableScrollPhysics(),
+                  crossAxisCount: 3,
+                  childAspectRatio:
+                      MediaQuery.of(context).size.aspectRatio * 1.5,
+                  crossAxisSpacing: 4,
+                  padding: EdgeInsets.all(10),
+                  children: List.generate(9, (index) {
+                    return Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      subtitle: CupertinoTextField(
-                        cursorColor: ColorRes.primaryColor,
-                        controller: aboutCont,
-                        maxLines: 10,
-                        minLines: 3,
-                        placeholder: "${appState.about}",
-                        padding: EdgeInsets.all(10),
-                      ),
-                    ),
-                    ListTile(
-                      title: Text(
-                        "Job title",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            fontFamily: 'NeueFrutigerWorld',
-                            color: ColorRes.textColor),
-                      ),
-                      subtitle: CupertinoTextField(
-                        cursorColor: ColorRes.primaryColor,
-                        controller: jobTitleCont,
-                        placeholder: "${appState.jobTitle}",
-                        padding: EdgeInsets.all(10),
-                      ),
-                    ),
-                    ListTile(
-                      title: Text(
-                        "Living in",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                            fontFamily: 'NeueFrutigerWorld',
-                            color: ColorRes.textColor),
-                      ),
-                      subtitle: CupertinoTextField(
-                        cursorColor: ColorRes.primaryColor,
-                        controller: livingCont,
-                        placeholder: "${appState.livingIn}",
-                        padding: EdgeInsets.all(10),
-                      ),
-                    ),
-                    ListTile(
-                        title: Text(
-                          "In Relation",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                              fontFamily: 'NeueFrutigerWorld',
-                              color: ColorRes.textColor),
-                        ),
-                        subtitle: Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: InkWell(
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text("${appState.relation}"),
-                                  Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 16,
-                                  )
-                                ],
+                      child: Container(
+                        decoration: appState.medialList!=null && appState.medialList.length > index
+                            ? BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(
+                                      appState.medialList[index].sourceUrl,
+                                    )),
+                              )
+                            : BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: ColorRes.darkButton,
+                                border: Border.all(
+                                    style: BorderStyle.solid,
+                                    width: 1,
+                                    color: ColorRes.white)),
+                        child: Align(
+                          alignment: Alignment.bottomRight,
+                          child: Container(
+                              // width: 12,
+                              // height: 16,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: appState.medialList!=null && appState.medialList.length > index
+                                    ? Colors.white
+                                    : ColorRes.primaryColor,
                               ),
-                              onTap: () async {
-                                await Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => SexualOrientation(
-                                          isStatus: true,
-                                          generated: true,
-                                        )));
-                                setState(() {});
-                              },
+                              child: appState.medialList!=null && appState.medialList.length > index
+                                  ? InkWell(
+                                      child: Icon(
+                                        Icons.cancel,
+                                        color: ColorRes.primaryColor,
+                                        size: 22,
+                                      ),
+                                      onTap: () async {
+                                        if (appState.medialList.length > 1) {
+                                          model.removePhoto(appState.medialList[index].id, index);
+                                        } else {
+                                          source(context);
+                                        }
+                                      },
+                                    )
+                                  : InkWell(
+                                      child: Icon(
+                                        Icons.add_circle_outline,
+                                        size: 22,
+                                        color: Colors.white,
+                                      ),
+                                      onTap: () async {
+                                        source(context);
+                                      })),
+                        ),
+                      ),
+                    );
+                  })),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListBody(
+                mainAxis: Axis.vertical,
+                children: <Widget>[
+                  ListTile(
+                    title: Text(
+                      "About",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          fontFamily: 'NeueFrutigerWorld',
+                          color: ColorRes.textColor),
+                    ),
+                    subtitle: CupertinoTextField(
+                      cursorColor: ColorRes.primaryColor,
+                      controller: aboutCont,
+                      maxLines: 10,
+                      minLines: 3,
+                      placeholder: "${appState.about}",
+                      padding: EdgeInsets.all(10),
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(
+                      "Job title",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          fontFamily: 'NeueFrutigerWorld',
+                          color: ColorRes.textColor),
+                    ),
+                    subtitle: CupertinoTextField(
+                      cursorColor: ColorRes.primaryColor,
+                      controller: jobTitleCont,
+                      placeholder: "${appState.jobTitle}",
+                      padding: EdgeInsets.all(10),
+                    ),
+                  ),
+                  ListTile(
+                    title: Text(
+                      "Living in",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
+                          fontFamily: 'NeueFrutigerWorld',
+                          color: ColorRes.textColor),
+                    ),
+                    subtitle: CupertinoTextField(
+                      cursorColor: ColorRes.primaryColor,
+                      controller: livingCont,
+                      placeholder: "${appState.livingIn}",
+                      padding: EdgeInsets.all(10),
+                    ),
+                  ),
+                  ListTile(
+                      title: Text(
+                        "In Relation",
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            fontFamily: 'NeueFrutigerWorld',
+                            color: ColorRes.textColor),
+                      ),
+                      subtitle: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: InkWell(
+                            child: Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Text("${appState.relation}"),
+                                Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 16,
+                                )
+                              ],
                             ),
+                            onTap: () async {
+                              await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SexualOrientation(
+                                        isStatus: true,
+                                        generated: true,
+                                      )));
+                              setState(() {});
+                            },
                           ),
-                        )),
-                    // ListTile(
-                    //     title: Text(
-                    //       "Sexual Orientation",
-                    //       style: TextStyle(
-                    //           fontWeight: FontWeight.w500,
-                    //           fontSize: 16,
-                    //           color: ColorRes.textColor),
-                    //     ),
-                    //     subtitle: Card(
-                    //       child: Padding(
-                    //         padding: const EdgeInsets.all(15.0),
-                    //         child: InkWell(
-                    //           child: Row(
-                    //             mainAxisAlignment:
-                    //                 MainAxisAlignment.spaceBetween,
-                    //             children: <Widget>[
-                    //               Text("${appState.sexualOrientation}"),
-                    //               Icon(
-                    //                 Icons.arrow_forward_ios,
-                    //                 size: 16,
-                    //               )
-                    //             ],
-                    //           ),
-                    //           onTap: () => Navigator.push(
-                    //               context,
-                    //               MaterialPageRoute(
-                    //                   builder: (context) => SexualOrientation(
-                    //                         generated: true,
-                    //                       ))),
-                    //         ),
-                    //       ),
-                    //     )),
-                    // ListTile(
-                    //     title: Text(
-                    //       "Control your profile",
-                    //       style: TextStyle(
-                    //           fontWeight: FontWeight.w500,
-                    //           fontSize: 16,
-                    //           color: Colors.black87),
-                    //     ),
-                    //     subtitle: Card(
-                    //       child: Column(
-                    //         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    //         crossAxisAlignment: CrossAxisAlignment.start,
-                    //         children: <Widget>[
-                    //           Row(
-                    //             mainAxisAlignment:
-                    //                 MainAxisAlignment.spaceBetween,
-                    //             children: <Widget>[
-                    //               Padding(
-                    //                 padding: const EdgeInsets.all(8.0),
-                    //                 child: Text("Don't Show My Age"),
-                    //               ),
-                    //               Switch(
-                    //                   activeColor: primaryColor,
-                    //                   value: true,
-                    //                   onChanged: (value) {
-                    //                     value = !value;
-                    //                   })
-                    //             ],
-                    //           ),
-                    //           Row(
-                    //             mainAxisAlignment:
-                    //                 MainAxisAlignment.spaceBetween,
-                    //             children: <Widget>[
-                    //               Padding(
-                    //                 padding: const EdgeInsets.all(8.0),
-                    //                 child: Text("Make My Distance Visible"),
-                    //               ),
-                    //               Switch(
-                    //                   activeColor: primaryColor,
-                    //                   value: true,
-                    //                   onChanged: (value) {
-                    //                     value = !value;
-                    //                   })
-                    //             ],
-                    //           )
-                    //         ],
-                    //       ),
-                    //     )),
-                  ],
-                ),
-              )
-            ],
-          ),
+                        ),
+                      )),
+                  // ListTile(
+                  //     title: Text(
+                  //       "Sexual Orientation",
+                  //       style: TextStyle(
+                  //           fontWeight: FontWeight.w500,
+                  //           fontSize: 16,
+                  //           color: ColorRes.textColor),
+                  //     ),
+                  //     subtitle: Card(
+                  //       child: Padding(
+                  //         padding: const EdgeInsets.all(15.0),
+                  //         child: InkWell(
+                  //           child: Row(
+                  //             mainAxisAlignment:
+                  //                 MainAxisAlignment.spaceBetween,
+                  //             children: <Widget>[
+                  //               Text("${appState.sexualOrientation}"),
+                  //               Icon(
+                  //                 Icons.arrow_forward_ios,
+                  //                 size: 16,
+                  //               )
+                  //             ],
+                  //           ),
+                  //           onTap: () => Navigator.push(
+                  //               context,
+                  //               MaterialPageRoute(
+                  //                   builder: (context) => SexualOrientation(
+                  //                         generated: true,
+                  //                       ))),
+                  //         ),
+                  //       ),
+                  //     )),
+                  // ListTile(
+                  //     title: Text(
+                  //       "Control your profile",
+                  //       style: TextStyle(
+                  //           fontWeight: FontWeight.w500,
+                  //           fontSize: 16,
+                  //           color: Colors.black87),
+                  //     ),
+                  //     subtitle: Card(
+                  //       child: Column(
+                  //         mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  //         crossAxisAlignment: CrossAxisAlignment.start,
+                  //         children: <Widget>[
+                  //           Row(
+                  //             mainAxisAlignment:
+                  //                 MainAxisAlignment.spaceBetween,
+                  //             children: <Widget>[
+                  //               Padding(
+                  //                 padding: const EdgeInsets.all(8.0),
+                  //                 child: Text("Don't Show My Age"),
+                  //               ),
+                  //               Switch(
+                  //                   activeColor: primaryColor,
+                  //                   value: true,
+                  //                   onChanged: (value) {
+                  //                     value = !value;
+                  //                   })
+                  //             ],
+                  //           ),
+                  //           Row(
+                  //             mainAxisAlignment:
+                  //                 MainAxisAlignment.spaceBetween,
+                  //             children: <Widget>[
+                  //               Padding(
+                  //                 padding: const EdgeInsets.all(8.0),
+                  //                 child: Text("Make My Distance Visible"),
+                  //               ),
+                  //               Switch(
+                  //                   activeColor: primaryColor,
+                  //                   value: true,
+                  //                   onChanged: (value) {
+                  //                     value = !value;
+                  //                   })
+                  //             ],
+                  //           )
+                  //         ],
+                  //       ),
+                  //     )),
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );

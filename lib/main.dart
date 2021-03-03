@@ -82,7 +82,8 @@ class MyApp extends StatelessWidget {
             // ... // and so on
         ),
       ),
-      // home: kIsWeb ? AboutUsPage() : Splash(),
+      // home:  EditWebProfilePage() ,
+      // home: kIsWeb ? EditWebProfilePage() : Splash(),
       home: kIsWeb ? webView.HomePage() : Splash(),
       debugShowCheckedModeBanner: false,
       builder: (BuildContext context, Widget child) {

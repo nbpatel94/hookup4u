@@ -20,15 +20,19 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_form_builder:
+
+  flutter_datetime_picker: ^1.5.0
   country_code_picker: ^1.2.3
   flutter_svg: ^0.19.1
   http: ^0.12.2
   pin_code_fields: ^2.3.0+3
   swipe_stack: ^1.0.0
   flutter_swiper: ^1.1.6
-  shared_preferences: ^0.5.12+2
-  flutter_datetime_picker: ^1.4.0
+#  shared_preferences: ^0.5.12+2
+  shared_preferences: ^0.5.12+4
+#  shared_preferences: ^0.5.4+8
+#  shared_preferences_web: ^0.1.0
+#  flutter_datetime_picker: ^1.4.0
   flutter_easyloading: ^1.2.0
   image_picker: ^0.6.7+12
   lottie: ^0.7.0+1
@@ -46,6 +50,7 @@ dependencies:
   fluttertoast: ^7.1.6
   dio: ^3.0.8
   emojis: ^0.9.3
+  share: ^0.6.5+4
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -107,5 +112,6 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
 flutter_intl:
   enabled: true

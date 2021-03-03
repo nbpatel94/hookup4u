@@ -1,7 +1,8 @@
 import 'dart:io';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:hookup4u/app.dart';
 // import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:hookup4u/util/color.dart';
@@ -9,6 +10,8 @@ import 'package:hookup4u/util/utils.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'edit_profile_viewmodel.dart';
+import 'package:flutter/foundation.dart' show kIsWeb, kReleaseMode;
+
 
 class EditProfilePage extends StatefulWidget {
   @override
@@ -35,31 +38,57 @@ class EditProfilePageState extends State<EditProfilePage> {
   int _radioValue = 0;
 
   File image;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
     model ?? (model = EditProfileViewModel(this));
 
-    nameTxt.text = appState.currentUserData.data.displayName;
-    emailTxt.text = appState.currentUserData.data.email;
+    // nameTxt.text = appState.currentUserData.data.displayName;
+
+    // nameTxt.text = appState?.currentUserData?.data?.displayName != null && appState.currentUserData.data.displayName.isNotEmpty ?
+    //               appState.currentUserData.data.displayName : appState.userDetailsModel.meta.name;
+
+    if(appState?.userDetailsModel?.meta?.name != null && appState.userDetailsModel.meta.name.isNotEmpty) {
+        nameTxt.text = appState.userDetailsModel.meta.name;
+    } else {
+        nameTxt.text = appState.currentUserData.data.displayName;
+    }
+
+    emailTxt.text = appState.currentUserData.data.email ?? "";
+    dateOfBirth = appState?.userDetailsModel?.meta?.dateOfBirth ?? "";
+    selectGender = appState?.userDetailsModel?.meta?.gender ?? "Male";
+
+    if(selectGender == "Male") {
+      selectGender = "Male";
+      _radioValue = 0;
+    } else {
+      selectGender = "FeMale";
+      _radioValue = 1;
+    }
+    setState(() {});
     // phoneTxt.text = appState.currentUserData.data.phone;
     // genderTxt.text = appState.currentUserData.data.;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold (
+
       backgroundColor: ColorRes.primaryColor,
+
       appBar: AppBar(
         elevation: 0.0,
         actions: [
           InkResponse(
             onTap: () {
               model.editProfileUser();
+              // model.updateUserDetails();
             },
-            child: Center(child:
-                Padding(
+            child: Center (
+                child: Padding(
                 padding: EdgeInsets.only(right: 10),
                 child: Text("Done", style: TextStyle(color: ColorRes.primaryRed)))),
           )
@@ -79,17 +108,19 @@ class EditProfilePageState extends State<EditProfilePage> {
               padding: EdgeInsets.only(top: 25),
               width: MediaQuery.of(context).size.width,
               child: Column(children: [
-                Center(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: Image(
-                        alignment: Alignment.center,
-                        height: 180,
-                        width: 180,
-                        image: AssetImage("asset/Icon/placeholder.png")),
-                  ),
-                ),
-                Text("Change Profile Photo", style: TextStyle(color: ColorRes.primaryRed))
+                imageShow(),
+                InkWell(
+                    onTap: () {
+                      if(!kIsWeb) {
+                        source(context);
+                      } else {
+                        FocusScope.of(context).unfocus();
+                        /*  WebImageSelection().selectImageWeb().then((value) {
+                      // print(value);
+                    });*/
+                      }
+                    },
+                    child: Text("Change Profile Photo", style: TextStyle(color: ColorRes.primaryRed)))
               ]),
             ),
 
@@ -109,9 +140,9 @@ class EditProfilePageState extends State<EditProfilePage> {
                       enableInteractiveSelection: false,
                       controller: nameTxt,
                     style: TextStyle(color: ColorRes.white),
-                    decoration: decorationTextFiled("Darrell Bailey"),
-
-                    ))
+                    decoration: decorationTextFiled("Darrell Bailey")
+                    )
+                  )
                 ],
               ),
             ),
@@ -122,9 +153,12 @@ class EditProfilePageState extends State<EditProfilePage> {
               width: MediaQuery.of(context).size.width,
               child: Row(
                 children: [
+
                   Container(
                       width: 100,
-                      child: Text("Email", style: TextStyle(color: ColorRes.greyBg))),
+                      child: Text("Email", style: TextStyle(color: ColorRes.greyBg))
+                  ),
+
                   Expanded(
                       child: TextField (
                         controller: emailTxt,
@@ -132,7 +166,9 @@ class EditProfilePageState extends State<EditProfilePage> {
                         textAlign: TextAlign.right,
                         style: TextStyle(color: ColorRes.white),
                         decoration: decorationTextFiled("darrell_bailery@gmail.com"),
-                      ))
+                      )
+                  )
+
                 ],
               ),
             ),
@@ -169,7 +205,9 @@ class EditProfilePageState extends State<EditProfilePage> {
                       width: 50,
                       margin: EdgeInsets.only(top: 15),
                       child: Text("Gender", style: TextStyle(color: ColorRes.greyBg))),
-                  Expanded(
+                  Container(
+                    width: 150,
+                    padding: EdgeInsets.only(right: 10),
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -190,7 +228,7 @@ class EditProfilePageState extends State<EditProfilePage> {
                                 ),
                                 new Text(
                                   'Male',
-                                  style: new TextStyle(fontSize: 16.0, color: ColorRes.greyBg)),
+                                  style: new TextStyle(fontSize: 16.0, color: ColorRes.white)),
                                 SizedBox(width: 17)
                               ]),
                           Row(
@@ -206,7 +244,7 @@ class EditProfilePageState extends State<EditProfilePage> {
                                     setState(() {});
                                   },
                                 ),
-                                Text('Female', style: new TextStyle(fontSize: 16.0, color: ColorRes.greyBg)),
+                                Text('Female', style: new TextStyle(fontSize: 16.0, color: ColorRes.white)),
                               ])
                         ]),
                      /* child: TextField (
@@ -219,8 +257,7 @@ class EditProfilePageState extends State<EditProfilePage> {
               ),
             ),
 
-
-            /*Container (
+            Container (
               height: 40,
               padding: EdgeInsets.only(left: 15, right: 15),
               width: MediaQuery.of(context).size.width,
@@ -231,7 +268,7 @@ class EditProfilePageState extends State<EditProfilePage> {
                       child: Text("Date of birth", style: TextStyle(color: ColorRes.greyBg))),
                   Expanded (
                     child: dateOfBirthDropDown(),
-                     *//* child: TextField (
+               /*       child: TextField (
                         onTap: () {
                           dateOfBirthDropDown();
                         },
@@ -239,11 +276,11 @@ class EditProfilePageState extends State<EditProfilePage> {
                         textAlign: TextAlign.right,
                         style: TextStyle(color: ColorRes.white),
                         decoration: decorationTextFiled("dd-mm-yyyy"),
-                      )*//*
+                      )*/
                   )
                 ],
               ),
-            )*/
+            )
 
           ],
         ),
@@ -273,7 +310,7 @@ class EditProfilePageState extends State<EditProfilePage> {
         context: context,
         builder: (BuildContext context) {
           return CupertinoAlertDialog(
-            title: Text(
+            title: Text (
               "Select source",
             ),
             insetAnimationCurve: Curves.decelerate,
@@ -285,6 +322,9 @@ class EditProfilePageState extends State<EditProfilePage> {
                     image = _image;
                     print("Image ${image.absolute.path}");
                     // model.uploadUseMedia();
+                    model.updateUserProfile(image);
+                    // model.updateUserProfile(image.readAsBytesSync());
+                    setState(() {});
                     Navigator.pop(context);
                   }
                 },
@@ -314,9 +354,10 @@ class EditProfilePageState extends State<EditProfilePage> {
                   if (_image != null) {
                     image = _image;
                     print("Image ${image.absolute.path}");
-                    // model.uploadUseMedia();
+                    model.updateUserProfile(image);
                     Navigator.pop(context);
                   }
+                  setState(() {});
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
@@ -343,77 +384,137 @@ class EditProfilePageState extends State<EditProfilePage> {
         });
   }
 
-  // Widget dateOfBirthDropDown() {
-  //   return GestureDetector(
-  //     onTap: () {
-  //       FocusScope.of(context).requestFocus(
-  //         FocusNode(),
-  //       );
-  //       DatePicker.showDatePicker(context,
-  //           showTitleActions: true,
-  //           minTime: DateTime(1960, 1, 1),
-  //           maxTime: DateTime.now(),
-  //           theme: DatePickerTheme(
-  //               headerColor: ColorRes.darkButton,
-  //               backgroundColor: ColorRes.primaryColor,
-  //               itemStyle: TextStyle(
-  //                   color: ColorRes.textColor,
-  //                   fontFamily: 'NeueFrutigerWorld',
-  //                   fontWeight: FontWeight.bold,
-  //                   fontSize: 18),
-  //               cancelStyle: TextStyle(color: ColorRes.textColor, fontSize: 16),
-  //               doneStyle: TextStyle(color: ColorRes.textColor, fontSize: 16)),
-  //           onChanged: (date) {
-  //             print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
-  //           }, onConfirm: (date) {
-  //
-  //             currentDay = date.day;
-  //             currentYear = date.year;
-  //             currentMonth = date.month;
-  //             // dateOfBirth  = '${date.day}/${date.month}/${date.year}';
-  //             // print("Hello " + dateOfBirth);
-  //
-  //             // final DateTime now = DateTime.now();
-  //             final DateFormat formatter = DateFormat('MMM dd, y');
-  //             final String formatted = formatter.format(date);
-  //             print("confirm" + formatted);
-  //
-  //             dateOfBirth = formatted;
-  //
-  //             print('confirm $dateOfBirth');
-  //             setState(() {});
-  //           }, currentTime: DateTime.now(), locale: LocaleType.en);
-  //     },
-  //     child: Container (
-  //       height: 50,
-  //       // padding: const EdgeInsets.all(15.0),
-  //       width: MediaQuery.of(context).size.width - 250,
-  //       // margin: EdgeInsets.symmetric(vertical: 40),
-  //       // decoration: BoxDecoration(
-  //       //   border: Border.all(width: 1, color: Colors.grey),
-  //       //   borderRadius: BorderRadius.circular(4),
-  //       // ),
-  //       child: Row(
-  //         mainAxisAlignment: MainAxisAlignment.end,
-  //         children: [
-  //           Container(
-  //             child: Text(
-  //               dateOfBirth,
-  //               style: TextStyle(fontFamily: 'NeueFrutigerWorld',color: ColorRes.white, fontSize: 15),
-  //             ),
-  //           ),
-  //           SizedBox(width: 5),
-  //           Container(
-  //             child: Icon(
-  //               Icons.keyboard_arrow_down,
-  //               size: 35,
-  //               color: Colors.grey,
-  //             ),
-  //           )
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
+  Widget dateOfBirthDropDown() {
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(
+          FocusNode(),
+        );
+        DatePicker.showDatePicker(context,
+            showTitleActions: true,
+            minTime: DateTime(1960, 1, 1),
+            maxTime: DateTime.now(),
+            theme: DatePickerTheme(
+                headerColor: ColorRes.darkButton,
+                backgroundColor: ColorRes.primaryColor,
+                itemStyle: TextStyle(
+                    color: ColorRes.textColor,
+                    fontFamily: 'NeueFrutigerWorld',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18),
+                cancelStyle: TextStyle(color: ColorRes.textColor, fontSize: 16),
+                doneStyle: TextStyle(color: ColorRes.textColor, fontSize: 16)),
+            onChanged: (date) {
+              print('change $date in time zone ' + date.timeZoneOffset.inHours.toString());
+            }, onConfirm: (date) {
+
+              currentDay = date.day;
+              currentYear = date.year;
+              currentMonth = date.month;
+              // dateOfBirth  = '${date.day}/${date.month}/${date.year}';
+              // print("Hello " + dateOfBirth);
+
+              // final DateTime now = DateTime.now();
+              final DateFormat formatter = DateFormat('MMM dd, y');
+              final String formatted = formatter.format(date);
+              print("confirm" + formatted);
+
+              dateOfBirth = formatted;
+
+              print('confirm $dateOfBirth');
+              setState(() {});
+            }, currentTime: DateTime.now(), locale: LocaleType.en);
+      },
+      child: Container (
+        height: 50,
+        // padding: const EdgeInsets.all(15.0),
+        width: MediaQuery.of(context).size.width - 250,
+        // margin: EdgeInsets.symmetric(vertical: 40),
+        // decoration: BoxDecoration(
+        //   border: Border.all(width: 1, color: Colors.grey),
+        //   borderRadius: BorderRadius.circular(4),
+        // ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              child: Text(
+                dateOfBirth,
+                style: TextStyle(fontFamily: 'NeueFrutigerWorld',color: ColorRes.white, fontSize: 15),
+              ),
+            ),
+            SizedBox(width: 5),
+            Container(
+              child: Icon(
+                Icons.keyboard_arrow_down,
+                size: 35,
+                color: Colors.grey,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  imageShow() {
+    if(image != null && image.path.isNotEmpty) {
+      return Center(
+        child:  Container(
+          height: 150,
+          width: 150,
+          // padding: EdgeInsets.all(5),
+          margin: EdgeInsets.only(bottom: 10, top: 10),
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.white, width: 1),
+              shape: BoxShape.circle,
+              image: DecorationImage(image: FileImage(image), fit: BoxFit.cover)
+          ),
+        ),
+      );
+    } else {
+      return Center(
+        child:  Container(
+          height: 150,
+          width: 150,
+          padding: EdgeInsets.all(5),
+          margin: EdgeInsets.only(bottom: 10),
+          decoration: BoxDecoration(
+              border: Border.all(color: Colors.white, width: 1),
+              shape: BoxShape.circle
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(80),
+            child: appState.medialList!=null &&  appState.medialList.isNotEmpty ?
+            CachedNetworkImage(
+                imageUrl: appState.medialList[0].sourceUrl,
+                placeholder: (context, url) => Image.asset(
+                  'asset/Icon/placeholder.png',
+                  height: 120,
+                  width: 120,
+                  fit: BoxFit.cover,
+                ),
+                height: 120,
+                width: 120,
+                fit: BoxFit.contain
+            ) : Image.asset(
+              'asset/Icon/placeholder.png',
+              height: 120,
+              width: 120,
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+        /*child: ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: Image(
+                        alignment: Alignment.center,
+                        height: 180,
+                        width: 180,
+                        image: AssetImage("asset/Icon/placeholder.png")),
+                  ),*/
+      );
+    }
+  }
 
 }

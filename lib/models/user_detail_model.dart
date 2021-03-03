@@ -52,6 +52,7 @@ class UserDetailsModel {
 
 class Meta {
   Meta({
+    this.name,
     this.about,
     this.dateOfBirth,
     this.jobTitle,
@@ -68,6 +69,7 @@ class Meta {
     this.subscriptionName,
   });
 
+  String name = "";
   String about = "";
   String dateOfBirth = "";
   String jobTitle = "";
@@ -84,6 +86,7 @@ class Meta {
   DateTime subscriptionDate = null;
 
   factory Meta.fromJson(Map<String, dynamic> json) => Meta(
+    name: json["name"],
     about: json["about"],
     dateOfBirth: json["date_of_birth"],
     jobTitle: json["job_title"],
@@ -107,23 +110,41 @@ class Meta {
     "relation": relation,
     "living_in": livingIn,
     "children": children ?? '-',
-    "subscription_name": subscriptionName ?? '',
-    "subscription_date": subscriptionDate != null ?subscriptionDate.toString() : '',
+    "subscription_name": subscriptionName ?? "",
+    "subscription_date": subscriptionDate != null ?subscriptionDate.toString() : "",
   };
 
   Map<String, dynamic> toFirstJson() => {
+    "name": name,
     "id" : appState.currentUserData.data.id.toString(),
     "about": about,
     "date_of_birth": dateOfBirth.replaceAll('/', '-'),
     "job_title": jobTitle,
     "gender": gender,
     "relation": relation,
-    "superlikes": superLike,
-    "likes": likeCount,
+    "superlikes": superLike.toString(),
+    "likes": likeCount.toString(),
     "living_in": livingIn,
     'device_token' : sharedPreferences.getString("token"),
     "children": children ?? '-',
-    "subscription_name": subscriptionName ?? '',
-    "subscription_date": subscriptionDate != null ? subscriptionDate.toString() : '',
+    "subscription_name": subscriptionName ?? "",
+    "subscription_date": subscriptionDate != null ? subscriptionDate.toString() : "",
   };
+
+  Map<String, dynamic> toRemoveToken() => {
+    "id" : appState.currentUserData.data.id.toString(),
+    "about": about,
+    "date_of_birth": dateOfBirth.replaceAll('/', '-'),
+    "job_title": jobTitle,
+    "gender": gender,
+    "relation": relation,
+    "superlikes": superLike.toString(),
+    "likes": likeCount.toString(),
+    "living_in": livingIn,
+    'device_token' : deviceToken,
+    "children": children ?? '-',
+    "subscription_name": subscriptionName ?? "",
+    "subscription_date": subscriptionDate != null ? subscriptionDate.toString() : "",
+  };
+
 }

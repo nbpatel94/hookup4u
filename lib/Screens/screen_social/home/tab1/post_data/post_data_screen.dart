@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'post_data_viewmodel.dart';
 import 'package:flutter/foundation.dart' show kIsWeb, kReleaseMode;
+// import 'dart:html' as html;
 
 class PostDataScreen extends StatefulWidget {
 
@@ -45,6 +48,7 @@ class PostDataScreenState extends State<PostDataScreen> {
     return Scaffold(
       backgroundColor: ColorRes.primaryColor,
       appBar: AppBar(
+        elevation: 0.0,
         actions: [
           InkWell(
               onTap: () {
@@ -79,10 +83,14 @@ class PostDataScreenState extends State<PostDataScreen> {
                   if(!kIsWeb) {
                     source(context);
                   } else {
-                    FocusScope.of(context).unfocus();
-                  /*  WebImageSelection().selectImageWeb().then((value) {
-                      // print(value);
-                    });*/
+                    // FocusScope.of(context).unfocus();
+                    print("click web image");
+                    // loadAssets();
+                    // _selectImage();
+
+
+                    // _startFilePicker();
+
                   }
                 },
                 child: Align(
@@ -126,6 +134,7 @@ class PostDataScreenState extends State<PostDataScreen> {
     );
   }
 
+
   selectedImageShow() {
     return Container(
       height: 150,
@@ -136,10 +145,35 @@ class PostDataScreenState extends State<PostDataScreen> {
           itemBuilder: (context, index) {
             return Stack(
               children: [
-                Container(
-                  height: 100,
-                  width: 100,
+                !kIsWeb ? Container(
+                  height: 120,
+                  width: 120,
                   margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+                  decoration: BoxDecoration(
+                      color: Colors.black38,
+                      borderRadius: BorderRadius.circular(10)
+                  ),
+                  child: model.imagesList != null && model.imagesList.isNotEmpty
+                      ? CachedNetworkImage(
+                      imageUrl: model.imagesList != null && model.imagesList.isNotEmpty ?  model.imagesList[index] : 0,
+                      placeholder: (context, url) => Image.asset(
+                          'asset/Icon/placeholder.png',
+                          height: 120,
+                          width: 120,
+                          fit: BoxFit.cover),
+                      height: 120,
+                      width: 120,
+                      fit: BoxFit.cover)
+                      : Image.asset(
+                      'asset/Icon/placeholder.png',
+                      height: 120,
+                      width: 120,
+                      fit: BoxFit.cover
+                  ),
+                ) : Container(
+                  height: 120,
+                  width: 120,
+                  margin: EdgeInsets.only(left: 10, right: 0, top: 0, bottom: 10),
                   decoration: BoxDecoration(
                       color: Colors.black38,
                       borderRadius: BorderRadius.circular(10)
@@ -176,7 +210,6 @@ class PostDataScreenState extends State<PostDataScreen> {
           }),
     );
   }
-
 
   source(context) {
     return showDialog(
@@ -262,66 +295,107 @@ class PostDataScreenState extends State<PostDataScreen> {
 
 
 
-  Future<void> loadAssets() async {
-    List<Asset> resultList = List<Asset>();
-    String error = 'No Error Dectected';
 
-    try {
-      resultList = await MultiImagePicker.pickImages(
-        maxImages: 300,
-        enableCamera: true,
-        selectedAssets: images,
-        cupertinoOptions: CupertinoOptions(takePhotoIcon: "chat"),
-        materialOptions: MaterialOptions(
-          actionBarColor: "#abcdef",
-          actionBarTitle: "Example App",
-          allViewTitle: "All Photos",
-          useDetailsView: false,
-          selectCircleStrokeColor: "#000000",
-        ),
-      );
-    } on Exception catch (e) {
-      error = e.toString();
-    }
+  // Future<void> _selectImage() async {
+  //   final completer = Completer<List<String>>();
+  //   final html.InputElement input = html.document.createElement('input');
+  //   input
+  //     ..type = 'file'
+  //     ..multiple = false
+  //     ..accept = 'image/*';
+  //   input.click();
+  //   // onChange doesn't work on mobile safari
+  //   input.addEventListener('change', (e) async {
+  //     final List<html.File> files = input.files;
+  //
+  //     Iterable<Future<String>> resultsFutures = files.map((file) {
+  //       final reader = html.FileReader();
+  //       reader.readAsDataUrl(file);
+  //       reader.onError.listen((error) => completer.completeError(error));
+  //       return reader.onLoad.first.then((_) => reader.result as String);
+  //     });
+  //     final results = await Future.wait(resultsFutures);
+  //     completer.complete(results);
+  //   });
+  //   // need to append on mobile safari
+  //   html.document.body.append(input);
+  //   // input.click(); can be here
+  //
+  //   // String image = completer.
+  //
+  //   final List<String> images = await completer.future;
+  //   String imageBase64 = images[0];
+  //
+  //   Uint8List data = base64.decode(imageBase64);
+  //
+  //   print("unit 8 data $data");
+  //   // List<int> _imageBytesDecoded = base64Decode(imageBase64);
+  //
+  //   // uploadedImage = base64Decode(imageBase64);
+  //   // List<int> _imageBytesDecoded = base64.decode(imageBase64);
+  //
+  //   // print(images);
+  //   // print("List int data $_imageBytesDecoded");
+  //
+  //   // _uploadedImages = images;
+  //
+  //   // setState(() {});
+  //
+  //   // model.imageUpload(images);
+  //
+  //   // _con.imageUploadApi(imageBase64);
+  //   input.remove();
+  // }
 
-    Navigator.pop(context);
-    if (!mounted) return;
+  Uint8List uploadedImage;
 
-    setState(() {
-      // image = resultList;
-      images = resultList;
-      print(images[0].name);
-      // _error = error;
-    });
+  // _startFilePicker() async {
+  //   html.InputElement uploadInput = html.FileUploadInputElement();
+  //   uploadInput.click();
+  //
+  //   uploadInput.onChange.listen((e) {
+  //
+  //     // read file content as dataURL
+  //
+  //     final files = uploadInput.files;
+  //     if (files.length == 1) {
+  //
+  //       final file = files[0];
+  //       html.FileReader reader =  html.FileReader();
+  //
+  //       reader.onLoadEnd.listen((e) {
+  //         setState(() {
+  //           uploadedImage = reader.result;
+  //           // print("Unit 8 list $uploadedImage");
+  //           model.webImageUpload(uploadedImage);
+  //
+  //         });
+  //       });
+  //
+  //       reader.onError.listen((fileEvent) {
+  //         setState(() {
+  //          String option1Text = "Some Error occured while reading the file";
+  //         });
+  //       });
+  //
+  //       reader.readAsArrayBuffer(file);
+  //
+  //     }
+  //   });
+  // }
 
-    // List<ByteData> byteDataList = await Future.wait(images.map((Asset image) => image.getByteData()));
-
-    for(int i = 0; i < images.length; i++) {
-      ByteData byteData = await images[i].getByteData();
-      List<int> imageData = byteData.buffer.asUint8List();
-      print("hello ${images[i].getByteData().toString()}");
-      // await model.imageUpload(imageData, images[i].name);
-    }
-
-    setState(() {});
-
-  }
 
   containData() {
     return Container(
         width: MediaQuery.of(context).size.width,
-        // height: MediaQuery.of(context).size.height / 2.3,
+        height: MediaQuery.of(context).size.height / 2.3,
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        margin: EdgeInsets.only(left: 8, right: 8, bottom: 10, top: 5),
-        decoration:
-            BoxDecoration(
-                color: ColorRes.white,
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [BoxShadow(color: ColorRes.black, blurRadius: 1)]
-                // border: Border.all(width: 1, color: Colors.black12)
-            ),
+        margin: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
+        decoration: BoxDecoration(
+            color: ColorRes.white,
+            border: Border.all(width: 1, color: Colors.black12)),
         child: TextField(
-          maxLines: 10,
+          maxLines: 13,
           controller: containController,
           // keyboardType: TextInputType.text,
           textInputAction: TextInputAction.newline,
@@ -332,7 +406,7 @@ class PostDataScreenState extends State<PostDataScreen> {
               errorBorder: InputBorder.none,
               disabledBorder: InputBorder.none,
               contentPadding:
-                  EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+              EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
               hintText: "Hint here"),
         ));
   }

@@ -12,12 +12,14 @@ class FriendRequestViewModel {
   FriendsRequestPageState state;
 
   FriendRequestViewModel(FriendsRequestPageState state) {
+
     this.state = state;
     friendRequestShow(true);
+
   }
 
   bool isMessageShow = false;
-  List<FriendsRequestViewModel> allFriendRequestShow = [];
+  List<FriendsRequest> allFriendRequestShow = [];
 
   friendRequestShow(bool isLoaderShow) {
 
@@ -30,11 +32,15 @@ class FriendRequestViewModel {
       // if(message['code'] == 200 && message['status'] == "success") {
       if(value != null && value.statusCode == 200) {
         allFriendRequestShow = List();
-        List mapData = jsonDecode(value.body);
-        mapData.forEach((element) {
-          FriendsRequestViewModel friendsRequestViewModel = FriendsRequestViewModel.fromJson(element);
-          allFriendRequestShow.add(friendsRequestViewModel);
-        });
+        // List mapData = jsonDecode(value.body);
+        // mapData.forEach((element) {
+          FriendsRequestViewModel friendsRequestViewModel = FriendsRequestViewModel.fromJson(jsonDecode(value.body));
+
+          friendsRequestViewModel.data.forEach((element) {
+            allFriendRequestShow.add(element);
+          });
+
+        // });
         state.setState(() {});
       // } else if(message['status'] == "error"){
       //   Utils().showToast(message['message']);
@@ -42,7 +48,6 @@ class FriendRequestViewModel {
         Utils().showToast("something wrong");
       }
     });
-
   }
 
   acceptFriendRequestApi(String friendId) {

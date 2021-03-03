@@ -72,8 +72,7 @@ class LoginViewModel {
           await sharedPreferences.setString(Preferences.mediaData, mediaListToJson(medialList));
           Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => ListHolderPage()),(Route<dynamic> route) => false);
         }
-      }
-      else{
+      } else {
         Navigator.pushAndRemoveUntil(state.context, MaterialPageRoute(builder: (context) => Welcome()),(Route<dynamic> route) => false);
       }
     } else {

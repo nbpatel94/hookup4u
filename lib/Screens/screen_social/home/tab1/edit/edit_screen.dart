@@ -1,13 +1,16 @@
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hookup4u/models/socialPostShowModel.dart';
+import 'package:hookup4u/util/color.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
-
+import 'package:flutter/foundation.dart' show kIsWeb, kReleaseMode;
 import 'edit_viewmodel.dart';
+import 'dart:html' as html;
 
 class EditDataScreen extends StatefulWidget {
 
@@ -75,6 +78,7 @@ class EditDataScreenState extends State<EditDataScreen> {
     model ?? (model = EditDataViewModel(this));
     return SafeArea(
       child: Scaffold(
+        backgroundColor: ColorRes.primaryColor,
         appBar: AppBar(
           title: Text("Edit upload"),
           actions: [
@@ -95,27 +99,45 @@ class EditDataScreenState extends State<EditDataScreen> {
 
               widget.isShare ? Container() : InkResponse(
                 onTap: () {
-                  source(context);
+                  if(!kIsWeb) {
+                    source(context);
+                  } else {
+                    // FocusScope.of(context).unfocus();
+                    print("click web image");
+                    // loadAssets();
+                    // _selectImage();
+                    _startFilePicker();
+                  }
                 },
+                child: Align(
+                alignment: Alignment.center,
                 child: Container(
-                    width: MediaQuery.of(context).size.width / 2,
+                    width: MediaQuery.of(context).size.height / 4,
                     height: MediaQuery.of(context).size.height / 4,
                     margin: EdgeInsets.all(10),
                     padding: EdgeInsets.only(top: 10, bottom: 10),
                     decoration: BoxDecoration(
+                        color: ColorRes.white,
                         border: Border.all(color: Colors.black12, width: 1),
                         borderRadius: BorderRadius.circular(5)
                     ),
-                    child: image == null || image.length == 0 ? Icon(
-                        Icons.image, color: Colors.black) :
+                    // child: image == null || image.length == 0 ? Icon (
+                    //     Icons.image, color: Colors.black
+                    // ) :
                     // AssetThumb(
                     //   asset: images[0],
                     //   width: 300,
                     //   height: 300,
                     // )
+                    // Image(image: AssetImage(image.path)),
 
-                    Image(image: AssetImage(image.path))
-                ),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon (Icons.image, color: Colors.black),
+                          Text("Add Image", style: TextStyle(color: ColorRes.black))
+                        ])
+                )),
               ),
 
               Container(
@@ -131,7 +153,7 @@ class EditDataScreenState extends State<EditDataScreen> {
                       widget.isShare ?  Container() : Container(
                         height: 100,
                         width: 100,
-                        margin: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+                        margin: EdgeInsets.only(left: 10, right: 0, top: 0, bottom: 10),
                         decoration: BoxDecoration(
                             color: Colors.black38,
                             borderRadius: BorderRadius.circular(10)
@@ -297,9 +319,11 @@ class EditDataScreenState extends State<EditDataScreen> {
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height / 2.3,
         padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-        margin: EdgeInsets.all(5),
+        margin: EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
         decoration:
-        BoxDecoration(border: Border.all(width: 1, color: Colors.black12)),
+        BoxDecoration(
+            color: ColorRes.white,
+            border: Border.all(width: 1, color: Colors.black12)),
         child: TextField(
           maxLines: 13,
           controller: containController,
@@ -320,14 +344,14 @@ class EditDataScreenState extends State<EditDataScreen> {
   visibility() {
     return Container(
       height: 50,
-      width: MediaQuery
-          .of(context)
-          .size
-          .width,
+      width: MediaQuery.of(context).size.width,
       margin: EdgeInsets.only(left: 8, right: 8),
       padding: EdgeInsets.only(left: 10, right: 10),
       decoration: BoxDecoration(
-          border: Border.all(color: Colors.black, width: 1)
+          color: ColorRes.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [BoxShadow(color: ColorRes.greyBg, blurRadius: 1)]
+        // border: Border.all(color: Colors.black, width: 1)
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
@@ -337,8 +361,7 @@ class EditDataScreenState extends State<EditDataScreen> {
               dropdownValue = newValue;
             });
           },
-          items: <String>['Public', 'Private', 'Friends']
-              .map<DropdownMenuItem<String>>((String value) {
+          items: <String>['Public', 'Private', 'Friends'].map<DropdownMenuItem<String>>((String value) {
             return DropdownMenuItem<String>(
               value: value,
               child: Text(value),
@@ -383,6 +406,38 @@ class EditDataScreenState extends State<EditDataScreen> {
     }
   }
 
+  Uint8List uploadedImage;
+
+  _startFilePicker() async {
+    html.InputElement uploadInput = html.FileUploadInputElement();
+    uploadInput.click();
+
+    uploadInput.onChange.listen((e) {
+      // read file content as dataURL
+
+      final files = uploadInput.files;
+      if (files.length == 1) {
+        final file = files[0];
+        html.FileReader reader = html.FileReader();
+
+        reader.onLoadEnd.listen((e) {
+          setState(() {
+            uploadedImage = reader.result;
+            // print("Unit 8 list $uploadedImage");
+            model.webImageUpload(uploadedImage);
+          });
+        });
+
+        reader.onError.listen((fileEvent) {
+          setState(() {
+            String option1Text = "Some Error occured while reading the file";
+          });
+        });
+
+        reader.readAsArrayBuffer(file);
+      }
+    });
+  }
 
 /*void getFileList() async {
     listFile.clear();

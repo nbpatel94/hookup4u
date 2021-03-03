@@ -55,8 +55,7 @@ class VerifyOtpScreenState extends State<VerifyOtpScreen> with TickerProviderSta
           children: [
             Center(
               child: SingleChildScrollView(
-                child:
-                Column(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[

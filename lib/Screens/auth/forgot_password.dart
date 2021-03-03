@@ -43,7 +43,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
                   children: <Widget>[
                     Container(
                       alignment: Alignment.topLeft,
-                      margin: EdgeInsets.only(bottom: 15),
+                      margin: EdgeInsets.only(bottom: 15, left: 15),
                       child: Text(
                         "Forgot password",
                         style: TextStyle(fontSize: 36,fontFamily: 'NeueFrutigerWorld',fontWeight: FontWeight.w100, color: Colors.white),
@@ -52,7 +52,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
                     Container(
                       alignment: Alignment.center,
                       margin: EdgeInsets.only(bottom: 30,left: 40,right: 40),
-                      child: Text(
+                      child: Text (
                         "Enter your new password and do not share this password with anyone",
                         textAlign: TextAlign.start,
                         style: TextStyle(
@@ -159,9 +159,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
                       ),
                     ),
                   ],
-                )
-                    :
-                Column(
+                ) : Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
@@ -182,6 +180,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
                         style: TextStyle(fontSize: 14, fontFamily: 'NeueFrutigerWorld',color: ColorRes.white),
                       ),
                     ),
+
                     Container(
                       margin: EdgeInsets.only(left: 25, right: 25),
                       padding: EdgeInsets.only(left: 10, right: 10),
@@ -189,7 +188,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
                           color: ColorRes.greyBg,
                           borderRadius: BorderRadius.circular(50)
                       ),
-                      child: TextFormField(
+                      child: TextFormField (
                         keyboardType: TextInputType.emailAddress,
                         style: TextStyle(fontSize: 16, color: ColorRes.white),
                         cursorColor: ColorRes.textColor,
@@ -210,6 +209,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
                         ),
                       ),
                     ),
+
                     !isCodeSend ? Container(): Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 10, horizontal: 50),
@@ -250,7 +250,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
                     Row(
                       mainAxisAlignment: !isCodeSend ? MainAxisAlignment.start: MainAxisAlignment.spaceEvenly,
                       children: [
-                        GestureDetector(
+                        GestureDetector (
                           onTap: () {
                             if(!isLoading) {
                               if (isCodeSend) {
@@ -266,7 +266,7 @@ class ForgotPasswordState extends State<ForgotPassword> {
                           },
                           child: Container(
                             height: MediaQuery.of(context).size.height * .075,
-                            width: MediaQuery.of(context).size.width - 50,
+                            width: MediaQuery.of(context).size.width / 2.5,
                             margin: EdgeInsets.only(left: 25, right: 25),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(50),

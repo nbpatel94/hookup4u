@@ -90,7 +90,7 @@ class SocialHomePageState extends State<SocialHomePage> {
     return Container(
       height: 50,
       width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.only(top: 10),
+      margin: EdgeInsets.only(top: 10,  right: 10),
       child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -219,7 +219,7 @@ class SocialHomePageState extends State<SocialHomePage> {
           alignment: Alignment.center,
           child: Text("No any friend post", style: TextStyle(color: ColorRes.white, fontSize: 20), overflow: TextOverflow.ellipsis)) :
       Container(
-        width: kIsWeb ? MediaQuery.of(context).size.height / 2.0 : MediaQuery.of(context).size.width,
+        width: kIsWeb ? MediaQuery.of(context).size.height : MediaQuery.of(context).size.width,
         // height: MediaQuery.of(context).size.height,
         child: ListView.builder(
             itemCount: model.socialPostShowList.length,
@@ -401,13 +401,13 @@ class SocialHomePageState extends State<SocialHomePage> {
                   child: model.socialPostShowList[index].content != null && model.socialPostShowList[index].content.isNotEmpty ?
                   Text(model.socialPostShowList[index].content, style: TextStyle(color: ColorRes.white), textAlign: TextAlign.left ) : Container()),
 
-              model.socialPostShowList[index].media != null && model.socialPostShowList[index].media[0].isNotEmpty ? Container(
+              model?.socialPostShowList[index]?.media != null && model?.socialPostShowList[index].media.isNotEmpty ? Container(
                 height: MediaQuery.of(context).size.height - 400,
                 // height: double.infinity,
                 width: MediaQuery.of(context).size.width,
                 color: Colors.black,
                 child: PageView.builder(
-                    itemCount: model.socialPostShowList[index].media.length,
+                    itemCount: model.socialPostShowList[index].media.length ?? 0,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index1) {
                       return CachedNetworkImage(
@@ -422,7 +422,7 @@ class SocialHomePageState extends State<SocialHomePage> {
                           fit: BoxFit.cover
                       );
                     }),
-              )  : Container(),
+              )  :  Container(),
               likeComment(index, socialPostShowList),
             ],
           ),
@@ -533,7 +533,7 @@ class SocialHomePageState extends State<SocialHomePage> {
                         padding: EdgeInsets.only(left: 20, right: 10, bottom: 5, top: 10),
                         child: model.socialPostShowList[index].parentPost.content != null && model.socialPostShowList[index].parentPost.content.isNotEmpty ?
                         Text(model.socialPostShowList[index].parentPost.content, style: TextStyle(color: ColorRes.white), textAlign: TextAlign.left ) : Container()),
-                    Container(
+                    model.socialPostShowList[index].parentPost.media != null && model.socialPostShowList[index].parentPost.media.isNotEmpty ? Container(
                       height: MediaQuery.of(context).size.height  - 400,
                       width: MediaQuery.of(context).size.width,
                       color: Colors.black,
@@ -541,8 +541,8 @@ class SocialHomePageState extends State<SocialHomePage> {
                           itemCount: model.socialPostShowList[index].parentPost.media.length,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index1) {
-                            return model.socialPostShowList[index].parentPost.media != null && model.socialPostShowList[index].parentPost.media[index1].isNotEmpty
-                                ? CachedNetworkImage(
+                            return
+                                 CachedNetworkImage(
                                 imageUrl: model.socialPostShowList[index].parentPost.media[index1],
                                 placeholder: (context, url) => Image.asset(
                                     'asset/Icon/placeholder.png',
@@ -551,15 +551,15 @@ class SocialHomePageState extends State<SocialHomePage> {
                                     fit: BoxFit.cover),
                                 height: 120,
                                 width: 120,
-                                fit: BoxFit.cover)
-                                : Image.asset(
-                                'asset/Icon/placeholder.png',
-                                height: 120,
-                                width: 120,
-                                fit: BoxFit.cover
-                            );
+                                fit: BoxFit.cover);
+                            //     : Image.asset(
+                            //     'asset/Icon/placeholder.png',
+                            //     height: 120,
+                            //     width: 120,
+                            //     fit: BoxFit.cover
+                            // );
                           }),
-                    ),
+                    ) : Container(),
 
                   ],
                 ),

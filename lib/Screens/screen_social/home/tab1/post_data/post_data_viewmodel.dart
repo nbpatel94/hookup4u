@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -24,6 +25,20 @@ class PostDataViewModel {
     FocusScope.of(state.context).unfocus();
     EasyLoading.show();
     SocialRestApi.uploadSocialMediaImage(image).then((value) {
+      if(value != null) {
+        imagesList.add(value.sourceUrl.toString());
+        state.setState(() {});
+      } else {
+        Utils().showToast("Data is empty");
+      }
+      //flase load;
+    });
+  }
+
+  webImageUpload(Uint8List uploadedImage) async {
+    FocusScope.of(state.context).unfocus();
+    EasyLoading.show();
+    SocialRestApi.uploadWebImage(uploadedImage).then((value) {
       if(value != null) {
         imagesList.add(value.sourceUrl.toString());
         state.setState(() {});

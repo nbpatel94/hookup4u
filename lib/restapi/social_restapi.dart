@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hookup4u/models/socialPostShowModel.dart';
 import 'package:hookup4u/util/utils.dart';
@@ -29,6 +30,8 @@ class SocialRestApi {
     // print(imageData);
     print(headerData);
 
+    print(file.readAsBytesSync());
+
     try {
       // Response response = await http.post(url, headers: headerData, body: imageData);
       Response response = await http.post(url,headers: headerData, body: file.readAsBytesSync());
@@ -53,6 +56,47 @@ class SocialRestApi {
   }
 
 
+  static Future<MediaModel> uploadWebImage (Uint8List uploadedImage) async {
+    // static Future<MediaModel> uploadSocialMediaImage(List<int> imageData, String imageName) async {
+    String url = App.baseUrlV2 + App.media;
+
+    // print(imageName);
+
+    var headerData = {
+      "Authorization": "Bearer ${appState.accessToken}",
+      "Content-Disposition": "attachment; filename=user_image.jpg",
+      "Content-Type": "image/png"
+    };
+
+    print(url);
+    // print(file.absolute.path);
+    // print(file.readAsBytesSync());
+    // print(imageData);
+    print(headerData);
+
+
+    try {
+      // Response response = await http.post(url, headers: headerData, body: imageData);
+      Response response = await http.post(url,headers: headerData, body: uploadedImage);
+      print(response.statusCode);
+      EasyLoading.dismiss();
+      if (response != null && (response.statusCode == 200 || response.statusCode == 201)) {
+        print(response.body);
+        return mediaModelFromJson(response.body);
+      } else if(response.statusCode == 500) {
+        Utils().showToast("Inernal server error");
+      } else {
+        print(response.body);
+        Utils().showToast("Some Thing wrong");
+        return null;
+      }
+    } catch (e) {
+      print(e);
+      EasyLoading.dismiss();
+      Utils().showToast(e);
+      return null;
+    }
+  }
 
   static Future<MediaModel> uploadPostData(Map<String, dynamic> postData) async {
 
@@ -616,7 +660,7 @@ class SocialRestApi {
 
   static Future<Response> getFriendRequestListApi() async {
 
-    String url = App.baseUrl + App.friends;
+    String url = App.baseUrlSA + App.friend_requests;
 
     var headerData = {
       "Authorization": "Bearer ${appState.accessToken}",

@@ -1,126 +1,76 @@
 class FriendsRequestViewModel {
-  int id;
-  int initiatorId;
-  int friendId;
-  bool isConfirmed;
-  String dateCreated;
-  Links lLinks;
+  int code;
+  String message;
+  String status;
+  List<FriendsRequest> data;
 
-  FriendsRequestViewModel(
-      {this.id,
-        this.initiatorId,
-        this.friendId,
-        this.isConfirmed,
-        this.dateCreated,
-        this.lLinks});
+  FriendsRequestViewModel({this.code, this.message, this.status, this.data});
 
   FriendsRequestViewModel.fromJson(Map<String, dynamic> json) {
+    code = json['code'];
+    message = json['message'];
+    status = json['status'];
+    if (json['data'] != null) {
+      data = new List<FriendsRequest>();
+      json['data'].forEach((v) {
+        data.add(new FriendsRequest.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['code'] = this.code;
+    data['message'] = this.message;
+    data['status'] = this.status;
+    if (this.data != null) {
+      data['data'] = this.data.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class FriendsRequest {
+  String id;
+  String initiatorUserId;
+  String friendUserId;
+  String isConfirmed;
+  String isLimited;
+  String dateCreated;
+  String initiatorName;
+  String thumb;
+
+  FriendsRequest(
+      {this.id,
+        this.initiatorUserId,
+        this.friendUserId,
+        this.isConfirmed,
+        this.isLimited,
+        this.dateCreated,
+        this.initiatorName,
+        this.thumb});
+
+  FriendsRequest.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    initiatorId = json['initiator_id'];
-    friendId = json['friend_id'];
+    initiatorUserId = json['initiator_user_id'];
+    friendUserId = json['friend_user_id'];
     isConfirmed = json['is_confirmed'];
+    isLimited = json['is_limited'];
     dateCreated = json['date_created'];
-    lLinks = json['_links'] != null ? new Links.fromJson(json['_links']) : null;
+    initiatorName = json['initiator_name'];
+    thumb = json['thumb'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['initiator_id'] = this.initiatorId;
-    data['friend_id'] = this.friendId;
+    data['initiator_user_id'] = this.initiatorUserId;
+    data['friend_user_id'] = this.friendUserId;
     data['is_confirmed'] = this.isConfirmed;
+    data['is_limited'] = this.isLimited;
     data['date_created'] = this.dateCreated;
-    if (this.lLinks != null) {
-      data['_links'] = this.lLinks.toJson();
-    }
-    return data;
-  }
-}
-
-class Links {
-  List<Self> self;
-  List<Self> collection;
-  List<Initiator> initiator;
-  List<Initiator> friend;
-
-  Links({this.self, this.collection, this.initiator, this.friend});
-
-  Links.fromJson(Map<String, dynamic> json) {
-    if (json['self'] != null) {
-      self = new List<Self>();
-      json['self'].forEach((v) {
-        self.add(new Self.fromJson(v));
-      });
-    }
-    if (json['collection'] != null) {
-      collection = new List<Self>();
-      json['collection'].forEach((v) {
-        collection.add(Self.fromJson(v));
-      });
-    }
-    if (json['initiator'] != null) {
-      initiator = new List<Initiator>();
-      json['initiator'].forEach((v) {
-        initiator.add(new Initiator.fromJson(v));
-      });
-    }
-    if (json['friend'] != null) {
-      friend = new List<Initiator>();
-      json['friend'].forEach((v) {
-        friend.add(new Initiator.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.self != null) {
-      data['self'] = this.self.map((v) => v.toJson()).toList();
-    }
-    if (this.collection != null) {
-      data['collection'] = this.collection.map((v) => v.toJson()).toList();
-    }
-    if (this.initiator != null) {
-      data['initiator'] = this.initiator.map((v) => v.toJson()).toList();
-    }
-    if (this.friend != null) {
-      data['friend'] = this.friend.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class Self {
-  String href;
-
-  Self({this.href});
-
-  Self.fromJson(Map<String, dynamic> json) {
-    href = json['href'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['href'] = this.href;
-    return data;
-  }
-}
-
-class Initiator {
-  bool embeddable;
-  String href;
-
-  Initiator({this.embeddable, this.href});
-
-  Initiator.fromJson(Map<String, dynamic> json) {
-    embeddable = json['embeddable'];
-    href = json['href'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['embeddable'] = this.embeddable;
-    data['href'] = this.href;
+    data['initiator_name'] = this.initiatorName;
+    data['thumb'] = this.thumb;
     return data;
   }
 }

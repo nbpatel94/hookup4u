@@ -11,6 +11,7 @@ import 'package:hookup4u/Screens/screen_social/setting_view/setting_screen.dart'
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/models/socialPostShowModel.dart';
 import 'package:hookup4u/util/color.dart';
+import 'package:hookup4u/web_view/edit_profile_view/edit_profile_screen.dart';
 import 'package:intl/intl.dart';
 import 'user_profile_viewmodel.dart';
 import 'package:flutter/foundation.dart' show kIsWeb, kReleaseMode;
@@ -59,18 +60,23 @@ class UserProfileScreenState extends State<UserProfileScreen> {
       appBar: AppBar(
         elevation: 0.0,
         leading: Container(),
-        actions: <Widget>[
-          /*IconButton(icon: Icon(Icons.edit, color: ColorRes.primaryRed),
+        actions: <Widget> [
+          IconButton(icon: Icon(Icons.edit, color: ColorRes.primaryRed),
           onPressed: () async {
-           Map<String, dynamic> data = await Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfilePage()));
+           Map<String, dynamic> data;
+
+           if(!kIsWeb) {
+             data = await Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfilePage()));
+           } else {
+             data = await Navigator.push(context, MaterialPageRoute(builder: (context) => EditWebProfilePage()));
+           }
 
            if(data != null) {
              nameUpdate = data['name'];
              setState(() {});
            }
 
-          }),*/
-
+          }),
           IconButton(icon: Icon(Icons.settings, color: ColorRes.primaryRed),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) => SettingPage()));
@@ -154,19 +160,21 @@ class UserProfileScreenState extends State<UserProfileScreen> {
                 )
               )),
 
-              Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+              Expanded(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
 
-                    Text(nameUpdate != null && nameUpdate.isNotEmpty ? nameUpdate : model?.userProfileModel?.data?.userDetail?.displayName ?? "", style: TextStyle(color: ColorRes.white, fontSize: 21), overflow: TextOverflow.ellipsis, maxLines: 1),
-                    Text("@${model?.userProfileModel?.data?.userDetail?.userNicename ?? ""}" ?? "", style: TextStyle(color: ColorRes.white, fontSize: 14),  overflow: TextOverflow.ellipsis, maxLines: 1),
-                    SizedBox(height: 15),
+                      Text(nameUpdate != null && nameUpdate.isNotEmpty ? nameUpdate : model?.userProfileModel?.data?.userDetail?.displayName ?? "", style: TextStyle(color: ColorRes.white, fontSize: 21), overflow: TextOverflow.ellipsis, maxLines: 2),
+                      Text("@${model?.userProfileModel?.data?.userDetail?.userNicename ?? ""}" ?? "", style: TextStyle(color: ColorRes.white, fontSize: 14),  overflow: TextOverflow.ellipsis, maxLines: 2),
+                      SizedBox(height: 15),
 
-                // Text(nameUpdate != null && nameUpdate.isNotEmpty ? nameUpdate : appState?.currentUserData?.data?.displayName ?? "", style: TextStyle(color: ColorRes.white, fontSize: 23), overflow: TextOverflow.ellipsis, maxLines: 1),
-                // Text(appState?.currentUserData?.data?.email ?? "", style: TextStyle(color: ColorRes.greyBg, fontSize: 15),  overflow: TextOverflow.ellipsis, maxLines: 1),
+                  // Text(nameUpdate != null && nameUpdate.isNotEmpty ? nameUpdate : appState?.currentUserData?.data?.displayName ?? "", style: TextStyle(color: ColorRes.white, fontSize: 23), overflow: TextOverflow.ellipsis, maxLines: 1),
+                  // Text(appState?.currentUserData?.data?.email ?? "", style: TextStyle(color: ColorRes.greyBg, fontSize: 15),  overflow: TextOverflow.ellipsis, maxLines: 1),
 
-              ])
+                ]),
+              )
 
 
         ],
@@ -349,7 +357,7 @@ class UserProfileScreenState extends State<UserProfileScreen> {
         );
       } else {
         return  Container(
-          width: kIsWeb ? MediaQuery.of(context).size.height / 2.0 : MediaQuery.of(context).size.width,
+          width: kIsWeb ? MediaQuery.of(context).size.height : MediaQuery.of(context).size.width,
           child: ListView.builder(
               itemCount: model.showMyPostList.length,
               shrinkWrap: true,
@@ -548,7 +556,6 @@ class UserProfileScreenState extends State<UserProfileScreen> {
               borderRadius: BorderRadius.circular(5),
               color: ColorRes.primaryColor,
               boxShadow: [BoxShadow(color: ColorRes.black, blurRadius: 5.0, offset: Offset(0, 0), spreadRadius: 0.1)]
-
           ),
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.center,
@@ -563,7 +570,7 @@ class UserProfileScreenState extends State<UserProfileScreen> {
 
                     userImgNameShow(index, currentTime),
                     Padding(padding: EdgeInsets.only(right: 10),
-                      child: popUpMenuButton(index, "2"/*model.socialPostShowList[index].parentPost.id*/, true),
+                      child: popUpMenuButton(index, showMyPostList.parentPost.id, true),
                     ),
                   /*  Row(
                       children: [
@@ -958,7 +965,6 @@ class UserProfileScreenState extends State<UserProfileScreen> {
         ) : Container());
   }
 
-
   mediaListShow() {
     if(model.isEmptyMessageUserMedia) {
       return Container();
@@ -966,7 +972,7 @@ class UserProfileScreenState extends State<UserProfileScreen> {
       if (model?.userMediaProfileApi?.data != null &&
           model?.userMediaProfileApi?.data?.length != 0) {
         return Container(
-          width: kIsWeb ? MediaQuery.of(context).size.height / 2.0 : MediaQuery.of(context).size.width,
+          width: kIsWeb ? MediaQuery.of(context).size.height : MediaQuery.of(context).size.width,
           child: ListView.builder(
               itemCount: model.userMediaProfileApi.data.length,
               shrinkWrap: true,

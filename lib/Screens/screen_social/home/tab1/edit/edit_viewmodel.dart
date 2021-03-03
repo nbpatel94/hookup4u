@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -32,6 +33,20 @@ class EditDataViewModel {
       //flase load;
     });
 
+  }
+
+  webImageUpload(Uint8List uploadedImage) async {
+    FocusScope.of(state.context).unfocus();
+    EasyLoading.show();
+    SocialRestApi.uploadWebImage(uploadedImage).then((value) {
+      if(value != null) {
+        imagesList.add(value.sourceUrl.toString());
+        state.setState(() {});
+      } else {
+        Utils().showToast("Data is empty");
+      }
+      //flase load;
+    });
   }
 
   /* Future<Void> imageUpload(List<int> imageData, String name) async {

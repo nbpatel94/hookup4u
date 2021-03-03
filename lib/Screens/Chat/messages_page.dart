@@ -27,8 +27,7 @@ class MessagesScreenState extends State<MessagesScreen> {
   MessagesPageViewModel model;
   bool isLoading = true;
 
-  get drawerWidget =>
-  SafeArea(
+  get drawerWidget => SafeArea(
     child: Drawer(
       child: Container(
         color: ColorRes.primaryColor,
@@ -64,14 +63,21 @@ class MessagesScreenState extends State<MessagesScreen> {
                           fit: BoxFit.cover,
                         ),
                       ),
+
                       SizedBox(height: 10),
                       Text(appState.currentUserData?.data?.displayName ?? "",style: TextStyle(fontSize: 28,fontFamily: 'NeueFrutigerWorld',fontWeight: FontWeight.w100,color: ColorRes.textColor)),
+
                       SizedBox(height: 2),
                       GestureDetector(
                           onTap: () {
-                            Navigator.pop(context);
+
+                               // Navigator.pop(context);
+
                             // if(kIsWeb == false) {
-                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => EditProfile()));
+
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfile()));
+
+                                // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => EditProfile()));
                             // } else {
                             //     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => EditProfilePage()));
                             // }

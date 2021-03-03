@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hookup4u/Screens/screen_social/friends/friends_screen.dart';
+import 'package:hookup4u/Screens/screen_social/search_history/search_history.dart';
 import 'package:hookup4u/util/color.dart';
 
 import 'notification_onoff/notification_onoff_screen.dart';
@@ -11,7 +12,8 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
 
-  List<String> itemList = ["Push Notifications", "Language", "Linked Accounts", "Blocked Accounts", "Search History", "Reports a Problem"];
+  //Blocked Accounts, Language
+  List<String> itemList = ["Push Notifications", "Linked Accounts",  "Search History", "Reports a Problem"];
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,9 @@ class _SettingPageState extends State<SettingPage> {
                      Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationOnOFFPage()));
                   } else if(index == 1) {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => FriendsScreen()));
-                  } else {
+                  } else if(index == 2){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SearchHistoryPage()));
+                  } else if(index == 3) {
 
                   }
                 },

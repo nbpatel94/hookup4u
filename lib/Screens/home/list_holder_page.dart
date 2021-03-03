@@ -8,6 +8,7 @@ import 'package:hookup4u/Screens/Profile/settings.dart';
 import 'package:hookup4u/Screens/cardpage/card_pictures.dart';
 import 'package:hookup4u/Screens/match/my_matches.dart';
 import 'package:hookup4u/Screens/screen_social/main_screen.dart';
+import 'package:hookup4u/Screens/screen_social/setting_view/notification_onoff/notification_onoff_screen.dart';
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:hookup4u/web_view/edit_profile_view/edit_profile_screen.dart';
@@ -34,8 +35,9 @@ class ListHolderPageState extends State<ListHolderPage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(top: 30),
+                    Container(
+                      height: 205,
+                      margin: EdgeInsets.only(top: 30),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
@@ -64,126 +66,154 @@ class ListHolderPageState extends State<ListHolderPage> {
                           Text(appState.currentUserData.data.displayName,style: TextStyle(fontSize: 28,fontFamily: 'NeueFrutigerWorld',fontWeight: FontWeight.w100,color: ColorRes.textColor)),
                           SizedBox(height: 2,),
                           GestureDetector(
-                              onTap: () async {
+                              onTap: () {
                                 Navigator.pop(context);
 
-                                if(kIsWeb == false) {
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfile()));
+
+                                /*  if(kIsWeb == false) {
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => EditProfile()));
                                 } else {
                                   Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => EditProfilePage()));
-                                }
+                                }*/
                                 // await Navigator.push(context, MaterialPageRoute(builder: (context) => EditProfile()));
                                 // setState(() {});
                               },
+                              //uses
                               child: Text("EDIT PROFILE",style: TextStyle(fontSize: 12,fontFamily: 'NeueFrutigerWorld',color: Colors.white,fontWeight: FontWeight.w700)))
                         ],
                       ),
                     ),
-                    SizedBox(height: 30), //70
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12),
-                      child: Column(
-                        children: [
-                          ListTile(
-                            onTap: () {
-                              Navigator.pop(context);
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => MessagesScreen(isDrawerShow: true)));
-                            },
-                            leading: Icon(
-                              Icons.message,
-                              color: ColorRes.textColor,
-                              size: 25,
+                    SizedBox(height: 15), //70
+                    Container(
+                      height: MediaQuery.of(context).size.height - 300,
+                      padding: EdgeInsets.only(bottom: 65),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 12),
+                        child: ListView(
+                          children: [
+                            ListTile(
+                              onTap: () {
+                                Navigator.pop(context);
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => MessagesScreen(isDrawerShow: true)));
+                              },
+                              leading: Icon(
+                                Icons.message,
+                                color: ColorRes.textColor,
+                                size: 25,
+                              ),
+                              title: Text(
+                                'Message',
+                                style: TextStyle(
+                                    color: ColorRes.textColor,
+                                    fontSize: 18,
+                                    fontFamily: 'NeueFrutigerWorld',
+                                    fontWeight: FontWeight.w500),
+                              ),
                             ),
-                            title: Text(
-                              'Message',
-                              style: TextStyle(
-                                  color: ColorRes.textColor,
-                                  fontSize: 18,
-                                  fontFamily: 'NeueFrutigerWorld',
-                                  fontWeight: FontWeight.w500),
+                            ListTile(
+                              onTap: () {
+                                Navigator.pop(context);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MyMatchesPage()));
+                              },
+                              leading: Icon(
+                                Icons.favorite_outlined,
+                                color: ColorRes.textColor,
+                                size: 25,
+                              ),
+                              title: Text(
+                                'My Matches',
+                                style: TextStyle(
+                                    color: ColorRes.textColor,
+                                    fontSize: 18,
+                                    fontFamily: 'NeueFrutigerWorld',
+                                    fontWeight: FontWeight.w500),
+                              ),
                             ),
-                          ),
-                          ListTile(
-                            onTap: () {
-                              Navigator.pop(context);
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => MyMatchesPage()));
-                            },
-                            leading: Icon(
-                              Icons.favorite_outlined,
-                              color: ColorRes.textColor,
-                              size: 25,
+                            ListTile(
+                              onTap: () {
+                                Navigator.of(context).pushNamed('/Pages', arguments: 4);
+                              },
+                              leading: Icon(
+                                Icons.star,
+                                color: ColorRes.textColor,
+                                size: 25,
+                              ),
+                              title: Text(
+                                'Favorite',
+                                style: TextStyle(
+                                    color: ColorRes.textColor,
+                                    fontSize: 18,
+                                    fontFamily: 'NeueFrutigerWorld',
+                                    fontWeight: FontWeight.w500),
+                              ),
                             ),
-                            title: Text(
-                              'My Matches',
-                              style: TextStyle(
-                                  color: ColorRes.textColor,
-                                  fontSize: 18,
-                                  fontFamily: 'NeueFrutigerWorld',
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                          ListTile(
-                            onTap: () {
-                              Navigator.of(context).pushNamed('/Pages', arguments: 4);
-                            },
-                            leading: Icon(
-                              Icons.star,
-                              color: ColorRes.textColor,
-                              size: 25,
-                            ),
-                            title: Text(
-                              'Favorite',
-                              style: TextStyle(
-                                  color: ColorRes.textColor,
-                                  fontSize: 18,
-                                  fontFamily: 'NeueFrutigerWorld',
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
-                          ListTile(
-                            onTap: () {
-                              Navigator.pop(context);
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => Settings()));
-                            },
-                            leading: Icon(
-                              Icons.settings,
-                              color: ColorRes.textColor,
-                              size: 25,
-                            ),
-                            title: Text(
-                              'Settings',
-                              style: TextStyle(
-                                  color: ColorRes.textColor,
-                                  fontSize: 18,
-                                  fontFamily: 'NeueFrutigerWorld',
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
 
-                          ListTile(
-                            onTap: () {
-                              Navigator.pop(context);
-                              Navigator.push(context, MaterialPageRoute(builder: (context) => SocialMainPage()));
-                            },
-                            leading: Icon(
-                              Icons.home,
-                              color: ColorRes.textColor,
-                              size: 25,
+                            ListTile(
+                              onTap: () {
+                                Navigator.pop(context);
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationOnOFFPage()));
+                              },
+                              leading: Icon(
+                                Icons.star,
+                                color: ColorRes.textColor,
+                                size: 25,
+                              ),
+                              title: Text(
+                                'Notification',
+                                style: TextStyle(
+                                    color: ColorRes.textColor,
+                                    fontSize: 18,
+                                    fontFamily: 'NeueFrutigerWorld',
+                                    fontWeight: FontWeight.w500),
+                              ),
                             ),
-                            title: Text(
-                              'Social Home',
-                              style: TextStyle(
-                                  color: ColorRes.textColor,
-                                  fontSize: 18,
-                                  fontFamily: 'NeueFrutigerWorld',
-                                  fontWeight: FontWeight.w500),
-                            ),
-                          ),
 
-                        ],
+                            ListTile(
+                              onTap: () {
+                                Navigator.pop(context);
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => Settings()));
+                              },
+                              leading: Icon(
+                                Icons.settings,
+                                color: ColorRes.textColor,
+                                size: 25,
+                              ),
+                              title: Text(
+                                'Settings',
+                                style: TextStyle(
+                                    color: ColorRes.textColor,
+                                    fontSize: 18,
+                                    fontFamily: 'NeueFrutigerWorld',
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ),
+
+                            ListTile(
+                              onTap: () {
+                                Navigator.pop(context);
+                                Navigator.push(context, MaterialPageRoute(builder: (context) => SocialMainPage()));
+                              },
+                              leading: Icon(
+                                Icons.home,
+                                color: ColorRes.textColor,
+                                size: 25,
+                              ),
+                              title: Text(
+                                'Social Home',
+                                style: TextStyle(
+                                    color: ColorRes.textColor,
+                                    fontSize: 18,
+                                    fontFamily: 'NeueFrutigerWorld',
+                                    fontWeight: FontWeight.w500),
+                              ),
+                            ),
+
+                          ],
+                        ),
                       ),
                     )
                   ],

@@ -50,6 +50,7 @@ class App{
   static const String profile_media = 'profile_media';
   static const String followList = 'follow_list';
   static const String recent = 'recent';
+  static const String changesPassword = 'change_password';
 
 }
 

@@ -3,7 +3,7 @@ import 'package:hookup4u/Screens/Chat/messages_page.dart';
 import 'package:hookup4u/Screens/screen_social/home/tab1/home_screen.dart';
 import 'package:hookup4u/Screens/screen_social/home/tab5/user_profile_screen.dart';
 import 'package:hookup4u/util/color.dart';
-
+import 'home/tab3/message_view/messages_page.dart';
 import 'home/tab4/notification_detail_screen.dart';
 import 'invite_friends/invite_friends_screen.dart';
 
@@ -72,7 +72,8 @@ class _SocialMainPageState extends State<SocialMainPage> with SingleTickerProvid
 
               SocialHomePage(tabController: _tabController),
               InviteFriendsPage(),
-              MessagesScreen(isDrawerShow: false),
+              SocialMessagesScreen(isDrawerShow: false),
+              // MessagesScreen(isDrawerShow: false),
               // Center(child: new Text("Comming Soon Stream ....", style: TextStyle(color: ColorRes.white, fontSize: 20), overflow: TextOverflow.ellipsis)),
               // Center(child: new Text("Comming Soon Message ....", style: TextStyle(color: ColorRes.white, fontSize: 20), overflow: TextOverflow.ellipsis)),
               // Center(child: new Text("Comming Soon Notification ....", style: TextStyle(color: ColorRes.white, fontSize: 20), overflow: TextOverflow.ellipsis)),

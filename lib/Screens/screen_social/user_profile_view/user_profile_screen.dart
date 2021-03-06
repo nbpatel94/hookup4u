@@ -166,62 +166,8 @@ class UserProfilePageState extends State<UserProfilePage> {
                 Text("@${model?.userProfileModel?.data?.userDetail?.userNicename}" ?? "", style: TextStyle(color: ColorRes.white, fontSize: 14),  overflow: TextOverflow.ellipsis, maxLines: 1),
                 SizedBox(height: 15),
               ])
-
-
         ],
       ),
-      /*  child: Stack(
-        alignment: Alignment.center,
-        children: [
-          Positioned(
-            top: 0,
-            child: Container(
-              height: 220,
-              width: MediaQuery.of(context).size.width / 1.15,
-              margin: EdgeInsets.only(left: 30, right: 30, top: 30),
-              padding: EdgeInsets.only(top: 30),
-              alignment: Alignment.topCenter,
-              decoration: BoxDecoration(
-                  color: Colors.black12,
-                  borderRadius: BorderRadius.circular(5)
-              ),
-              child: Text("Cover Photo"),
-            ),
-          ),
-          Positioned(
-              bottom: 10,
-              child: Container(
-                height: MediaQuery.of(context).size.width / 2,
-                width: MediaQuery.of(context).size.width / 2,
-                decoration: BoxDecoration(
-                    color: Colors.amberAccent,
-                    shape: BoxShape.circle
-                ),
-                margin: EdgeInsets.only(left: 30, right: 30),
-                child:  ClipRRect(
-                  borderRadius: BorderRadius.circular(125),
-                  child: appState.medialList!=null &&  appState.medialList.isNotEmpty?
-                  CachedNetworkImage(
-                      imageUrl: appState.medialList[0].sourceUrl,
-                      placeholder: (context, url) => Image.asset(
-                        'asset/Icon/placeholder.png',
-                        height: 120,
-                        width: 120,
-                        fit: BoxFit.cover,
-                      ),
-                      height: 120,
-                      width: 120,
-                      fit: BoxFit.cover
-                  ) : Image.asset(
-                    'asset/Icon/placeholder.png',
-                    height: 120,
-                    width: 120,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ))
-        ],
-      ),*/
     );
   }
 
@@ -253,11 +199,9 @@ class UserProfilePageState extends State<UserProfilePage> {
             }, child: Icon(Icons.check, color: ColorRes.primaryRed)),
             SizedBox(width: 15),
             InkWell(onTap: () {
-
               model.deleteFriendsRequest(widget.userId.toString());
-
             }, child: Icon(Icons.delete, color: ColorRes.primaryRed))
-          ]) : InkResponse(
+          ]) : InkResponse (
             onTap: () {
               model.friendRequestApi();
             },
@@ -304,33 +248,7 @@ class UserProfilePageState extends State<UserProfilePage> {
   }
 
   tabIconShow(){
-    /*return Container(
-      height: 50,
-      color: ColorRes.tabBg,
-      child: TabBar(
-        unselectedLabelColor: Colors.white,
-        labelColor: Colors.amber,
-        tabs: [
-          new Tab(child: Image(
-              height: 20,
-              width: 20,
-              image: AssetImage("asset/Icon/grid.png")
-          ),),
-          new Tab(
-            icon: new Icon(Icons.image),
-          ),
-          new Tab(
-            icon: new Icon(Icons.play_circle_fill),
-          ),
-          new Tab(
-            icon: new Icon(Icons.music_note_rounded),
-          )
-        ],
-        controller: _tabController,
-        indicatorColor: Colors.white,
-        indicatorSize: TabBarIndicatorSize.tab,
-      ),
-    );*/
+
     return Container(
       height: 50,
       color: ColorRes.tabBg,

@@ -32,6 +32,7 @@ class UserProfileScreenState extends State<UserProfileScreen> {
   // TabController _tabController;
 
   String nameUpdate = "";
+  String imageUpdate = "";
 
   @override
   void initState() {
@@ -73,6 +74,7 @@ class UserProfileScreenState extends State<UserProfileScreen> {
 
            if(data != null) {
              nameUpdate = data['name'];
+             imageUpdate = data['image'];
              setState(() {});
            }
 
@@ -137,7 +139,18 @@ class UserProfileScreenState extends State<UserProfileScreen> {
               // width: MediaQuery.of(context).size.width / 3,
               decoration: BoxDecoration(color: Colors.amberAccent, shape: BoxShape.circle),
               margin: EdgeInsets.only(left: 30, right: 30),
-              child: ClipRRect(
+              child: imageUpdate != null && imageUpdate.isNotEmpty ?
+              CachedNetworkImage(
+                  imageUrl: imageUpdate,
+                  placeholder: (context, url) => Image.asset(
+                    'asset/Icon/placeholder.png',
+                    height: 150,
+                    width: 150,
+                    fit: BoxFit.cover),
+                  height: 150,
+                  width: 150,
+                  fit: BoxFit.contain
+              ) :  ClipRRect(
                 borderRadius: BorderRadius.circular(125),
                 child: model.userProfileModel?.data?.thumb != null &&
                     model.userProfileModel.data.thumb.isNotEmpty

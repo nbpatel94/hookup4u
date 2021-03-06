@@ -442,9 +442,9 @@ class SocialRestApi {
     }
   }
 
-  static Future<Response> getUserProfileMedia() async {
+  static Future<Response> getUserProfileMedia(String userId) async {
 
-    String url = App.baseUrlSA + App.profile_media + "/${appState.currentUserData.data.id}";
+    String url = App.baseUrlSA + App.profile_media + "/$userId";
 
     var headerData = {
       "Authorization": "Bearer ${appState.accessToken}",

@@ -13,6 +13,7 @@ import 'package:swipe_stack/swipe_stack.dart';
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/prefrences.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/foundation.dart' show kIsWeb, kReleaseMode;
 
 GlobalKey<SwipeStackState> swipeKey = GlobalKey<SwipeStackState>();
 
@@ -42,9 +43,11 @@ class CardPicturesState extends State<CardPictures>
       backgroundColor: ColorRes.primaryColor,
       body: isLoading ? Center(child: Padding(
         padding: const EdgeInsets.only(bottom:50),
-        child: Lottie.asset('asset/Icon/main_loader.json',height: MediaQuery.of(context).size.width/2,width: MediaQuery.of(context).size.width/2),
-      ),): Container(
-        child: Stack(
+        child: Lottie.asset('asset/Icon/main_loader.json',
+            height: /*kIsWeb ? MediaQuery.of(context).size.height / 5  :*/   MediaQuery.of(context).size.width/2,
+            width: /*kIsWeb ? MediaQuery.of(context).size.height / 5 :*/  MediaQuery.of(context).size.width/2 ),
+      )) : Container (
+        child: Stack (
           alignment: Alignment.topCenter,
           children: <Widget>[
             onEnd

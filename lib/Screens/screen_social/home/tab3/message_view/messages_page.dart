@@ -3,28 +3,29 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:hookup4u/Screens/Chat/chat_screen.dart';
-import 'package:hookup4u/Screens/Chat/messages_page_viewmodel.dart';
 import 'package:hookup4u/Screens/Profile/EditProfile.dart';
 import 'package:hookup4u/Screens/Profile/settings.dart';
 import 'package:hookup4u/Screens/home/list_holder_page.dart';
 import 'package:hookup4u/Screens/match/my_matches.dart';
+import 'package:hookup4u/Screens/screen_social/home/tab3/message_user_list/chat_screen.dart';
+import 'package:hookup4u/Screens/screen_social/home/tab3/new_user_get/new_user_get_screen.dart';
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/util/color.dart';
-import 'package:hookup4u/web_view/edit_profile_view/edit_profile_screen.dart';
 import 'package:lottie/lottie.dart';
+import 'messages_page_viewmodel.dart';
 
-class MessagesScreen extends StatefulWidget {
+class SocialMessagesScreen extends StatefulWidget {
 
   final bool isDrawerShow;
-  const MessagesScreen({Key key, this.isDrawerShow}) : super(key: key);
+  const SocialMessagesScreen({Key key, this.isDrawerShow}) : super(key: key);
 
   @override
-  MessagesScreenState createState() => MessagesScreenState();
+  SocialMessagesScreenState createState() => SocialMessagesScreenState();
 }
 
-class MessagesScreenState extends State<MessagesScreen> {
+class SocialMessagesScreenState extends State<SocialMessagesScreen> {
 
-  MessagesPageViewModel model;
+  SocialMessagesPageViewModel model;
   bool isLoading = true;
 
   get drawerWidget => SafeArea(
@@ -205,9 +206,16 @@ class MessagesScreenState extends State<MessagesScreen> {
   );
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    model = SocialMessagesPageViewModel(this);
+  }
+
   @override
   Widget build(BuildContext context) {
-    model = MessagesPageViewModel(this);
     return Scaffold(
       backgroundColor: ColorRes.primaryColor,
       key: _scaffoldKey,
@@ -217,14 +225,25 @@ class MessagesScreenState extends State<MessagesScreen> {
         title: Container(
           // margin: EdgeInsets.only(right: MediaQuery.of(context).size.width/6),
           margin: EdgeInsets.only(right: MediaQuery.of(context).size.width / 6.0),
-            alignment:Alignment.center,child: Text("Messages",style: TextStyle(fontFamily: 'NeueFrutigerWorld',fontWeight: FontWeight.w700),)),
+            alignment:Alignment.center,child: Text("Messages",style: TextStyle(fontFamily: 'NeueFrutigerWorld',fontWeight: FontWeight.w700))),
         backgroundColor: ColorRes.darkButton,
         centerTitle: true,
         leading: widget.isDrawerShow ? GestureDetector(
-            onTap: (){
+            onTap: () {
               _scaffoldKey.currentState.openDrawer();
             },
             child: Icon(Icons.menu)) : Container(),
+        actions: [
+          Padding (
+            padding: EdgeInsets.only(right: 10),
+            child: InkWell (
+              onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewUserListPage()));
+              },
+              child: Icon(Icons.supervised_user_circle, color: ColorRes.white, size: 25),
+            ),
+          )
+        ],
       ),
       body: isLoading
           ? Center(
@@ -251,6 +270,7 @@ class MessagesScreenState extends State<MessagesScreen> {
               child: ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: model.matchList.length,
+                // itemCount: model.tempList.length,
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
                   return Column(
@@ -265,7 +285,7 @@ class MessagesScreenState extends State<MessagesScreen> {
                           var res = await Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => ChatScreen(
+                              builder: (_) => SocialChatScreen(
                                 sender: model.matchList[index].senderId != appState.id.toString() ?
                                 model.matchList[index].senderMeta :
                                 model.matchList[index].targetMeta,
@@ -284,6 +304,7 @@ class MessagesScreenState extends State<MessagesScreen> {
                             });
                             model.getMyMatch();
                           }
+
                         },
                         child: Container(
                           margin: EdgeInsets.only(top: 5.0, bottom: 5.0, right: 20.0),
@@ -291,19 +312,21 @@ class MessagesScreenState extends State<MessagesScreen> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Row(
-                                children: <Widget>[
-                                  Stack(
+                              Row (
+                                children: <Widget> [
+                                  Stack (
                                     alignment: Alignment.bottomCenter,
                                     children: [
-                                      ClipRRect(
+                                      ClipRRect (
                                         borderRadius: BorderRadius.circular(80),
                                         child: model.matchList[index].senderId != appState.id.toString() ?
-                                        model.matchList[index].senderMeta.media.isNotEmpty
-                                            ?
-                                        CachedNetworkImage(
-                                          imageUrl:  model.matchList[index].senderMeta.media[0],
-                                          placeholder: (context, url) => Image.asset(
+                                        model.matchList[index].senderMeta.media.isNotEmpty ?
+                                        // child: model.friendIdList[index] != appState.id.toString() ?
+                                        //        model.tempList[index].recipients["${model.friendIdList[index]}"].userAvatars.thumb.isNotEmpty ?
+                                        CachedNetworkImage (
+                                          // imageUrl:  model.matchList[index].senderMeta.media[0],
+                                          imageUrl:  model.tempList[index].recipients["${model.friendIdList[index]}"].userAvatars.thumb,
+                                          placeholder: (context, url) => Image.asset (
                                               'asset/Icon/placeholder.png',
                                                height: 60,
                                                width: 60,
@@ -312,17 +335,14 @@ class MessagesScreenState extends State<MessagesScreen> {
                                           height: 60,
                                           width: 60,
                                           fit: BoxFit.cover
-                                        )
-                                         : Image.asset(
+                                        ) : Image.asset(
                                           'asset/Icon/placeholder.png',
                                           height: 60,
                                           width: 60,
                                           fit: BoxFit.cover,
-                                        )
-                                            :
-                                        model.matchList[index].targetMeta.media.isNotEmpty
-                                            ?
-                                        CachedNetworkImage(
+                                        ) :
+                                        model.matchList[index].targetMeta.media.isNotEmpty ?
+                                        CachedNetworkImage (
                                             imageUrl:  model.matchList[index].targetMeta.media[0],
                                             placeholder: (context, url) => Image.asset(
                                               'asset/Icon/placeholder.png',
@@ -333,8 +353,7 @@ class MessagesScreenState extends State<MessagesScreen> {
                                             height: 60,
                                             width: 60,
                                             fit: BoxFit.cover
-                                        )
-                                            : Image.asset(
+                                        ) : Image.asset (
                                           'asset/Icon/placeholder.png',
                                           height: 60,
                                           width: 60,
@@ -358,7 +377,7 @@ class MessagesScreenState extends State<MessagesScreen> {
                                       Row(
                                         children: [
                                           Text(
-                                            model.matchList[index].senderId != appState.id.toString() ?
+                                            model.friendIdList[index] != appState.id.toString() ?
                                             model.matchList[index].senderMeta.name :
                                             model.matchList[index].targetMeta.name,
                                             style: TextStyle(

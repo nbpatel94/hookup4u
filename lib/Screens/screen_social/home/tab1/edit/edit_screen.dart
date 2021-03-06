@@ -10,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:flutter/foundation.dart' show kIsWeb, kReleaseMode;
 import 'edit_viewmodel.dart';
-import 'dart:html' as html;
+// import 'dart:html' as html;
 
 class EditDataScreen extends StatefulWidget {
 
@@ -75,7 +75,9 @@ class EditDataScreenState extends State<EditDataScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     model ?? (model = EditDataViewModel(this));
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: ColorRes.primaryColor,
@@ -83,9 +85,10 @@ class EditDataScreenState extends State<EditDataScreen> {
           title: Text("Edit upload"),
           actions: [
             IconButton(
-                icon: Icon(Icons.post_add, color: Colors.white), onPressed: () {
-              print("tap");
-              model.editPostApi(widget.socialPostShowData.id);
+              icon: Icon(Icons.post_add, color: Colors.white),
+              onPressed: () {
+                print("tap");
+                model.editPostApi(widget.socialPostShowData.id);
             })
           ],
         ),
@@ -106,7 +109,9 @@ class EditDataScreenState extends State<EditDataScreen> {
                     print("click web image");
                     // loadAssets();
                     // _selectImage();
-                    _startFilePicker();
+
+                    // _startFilePicker();
+
                   }
                 },
                 child: Align(
@@ -408,36 +413,36 @@ class EditDataScreenState extends State<EditDataScreen> {
 
   Uint8List uploadedImage;
 
-  _startFilePicker() async {
-    html.InputElement uploadInput = html.FileUploadInputElement();
-    uploadInput.click();
-
-    uploadInput.onChange.listen((e) {
-      // read file content as dataURL
-
-      final files = uploadInput.files;
-      if (files.length == 1) {
-        final file = files[0];
-        html.FileReader reader = html.FileReader();
-
-        reader.onLoadEnd.listen((e) {
-          setState(() {
-            uploadedImage = reader.result;
-            // print("Unit 8 list $uploadedImage");
-            model.webImageUpload(uploadedImage);
-          });
-        });
-
-        reader.onError.listen((fileEvent) {
-          setState(() {
-            String option1Text = "Some Error occured while reading the file";
-          });
-        });
-
-        reader.readAsArrayBuffer(file);
-      }
-    });
-  }
+  // _startFilePicker() async {
+  //   html.InputElement uploadInput = html.FileUploadInputElement();
+  //   uploadInput.click();
+  //
+  //   uploadInput.onChange.listen((e) {
+  //     // read file content as dataURL
+  //
+  //     final files = uploadInput.files;
+  //     if (files.length == 1) {
+  //       final file = files[0];
+  //       html.FileReader reader = html.FileReader();
+  //
+  //       reader.onLoadEnd.listen((e) {
+  //         setState(() {
+  //           uploadedImage = reader.result;
+  //           // print("Unit 8 list $uploadedImage");
+  //           model.webImageUpload(uploadedImage);
+  //         });
+  //       });
+  //
+  //       reader.onError.listen((fileEvent) {
+  //         setState(() {
+  //           String option1Text = "Some Error occured while reading the file";
+  //         });
+  //       });
+  //
+  //       reader.readAsArrayBuffer(file);
+  //     }
+  //   });
+  // }
 
 /*void getFileList() async {
     listFile.clear();

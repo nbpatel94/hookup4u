@@ -20,12 +20,13 @@ class SearchHistoryPageState extends State<SearchHistoryPage> {
     super.initState();
 
     model ?? (model = SearchHistoryViewModel(this));
+
   }
 
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold (
       backgroundColor: ColorRes.primaryColor,
       appBar: AppBar(
         elevation: 0.0,
@@ -37,7 +38,8 @@ class SearchHistoryPageState extends State<SearchHistoryPage> {
 
           Padding(
               padding: EdgeInsets.only(left: 10, top: 10),
-              child: Text("Settings", style: TextStyle(color: ColorRes.white, fontSize: 33))),
+              child: Text("Settings", style: TextStyle(color: ColorRes.white, fontSize: 33))
+          ),
 
           recentView()
 

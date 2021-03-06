@@ -16,12 +16,12 @@ class MessagesPageViewModel {
 
     List<MatchModel> tempList = await RestApi.myMatchApi();
 
-    if(tempList.isNotEmpty){
-      tempList.removeWhere((element) => element.mutualMatch!='true');
+    if(tempList.isNotEmpty) {
+      tempList.removeWhere((element) => element.mutualMatch != 'true');
     }
 
     // for(int i=0;i<tempList.length;i++){
-    //   if(tempList[i].threadId!=null){
+    //   if(tempList[i].threadId!=null) {
     //     tempList[i].lastMessage = await lastMessage(int.parse(tempList[i].threadId));
     //   }
     // }

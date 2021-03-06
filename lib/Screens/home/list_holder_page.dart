@@ -258,24 +258,21 @@ class ListHolderPageState extends State<ListHolderPage> {
   Widget build(BuildContext context) {
     print("Current page --> $runtimeType");
 
-    return WillPopScope(
+    return WillPopScope (
       onWillPop: onWillPop,
       child: Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
           elevation: 0,
           leading: GestureDetector(
-              onTap: (){
+              onTap: () {
                 _scaffoldKey.currentState.openDrawer();
               },
               child: Icon(Icons.menu)),
           actions: [
-            GestureDetector(
-                onTap: (){
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MessagesScreen(isDrawerShow: true)));
+            GestureDetector (
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => MessagesScreen(isDrawerShow: true)));
                 },
                 child: Padding(
                   padding: const EdgeInsets.only(right: 10),
@@ -283,8 +280,8 @@ class ListHolderPageState extends State<ListHolderPage> {
                 )),
           ],
         ),
-        body: isLoading
-            ? Center(
+        body: isLoading ?
+        Center(
                 child: CupertinoActivityIndicator(
                   radius: 15,
                 ),

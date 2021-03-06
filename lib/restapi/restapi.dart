@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:dio/dio.dart' as d;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hookup4u/Screens/auth/verify_otp_screen.dart';
@@ -9,11 +9,14 @@ import 'package:hookup4u/models/activitymodel.dart';
 import 'package:hookup4u/models/match_model.dart';
 import 'package:hookup4u/models/mediamodel.dart';
 import 'package:hookup4u/models/profile_detail.dart';
+import 'package:hookup4u/models/thread_list_model.dart' as thread;
 import 'package:hookup4u/models/thread_model.dart';
 import 'package:hookup4u/models/user_detail_model.dart';
 import 'package:hookup4u/prefrences.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:async/async.dart';
 
 class RestApi {
 
@@ -154,7 +157,7 @@ class RestApi {
     var bodyData = {"email": email};
 
     var headerData = {
-      "Authorization" : "Bearer "+App.adminToken
+      "Authorization" : "Bearer " + App.adminToken
     };
 
     print(url);
@@ -173,7 +176,31 @@ class RestApi {
     }
   }
 
+
+  static Future<List<thread.ThreadList>> getThreadListApi() async {
+
+    String url = App.baseUrl + App.messages;
+
+    var headerData = {
+      "Authorization" : "Bearer "+appState.accessToken
+    };
+
+    print(url);
+    print(headerData);
+
+    Response response = await http.get(url,headers: headerData);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      List<thread.ThreadList> list = thread.threadListFromJson(response.body);
+      return list;
+    } else {
+      return null;
+    }
+
+  }
+
   static Future<MessageElement> getThreadMessages(String threadId) async {
+
     String url = App.baseUrl + App.messages + '/$threadId';
 
     var headerData = {
@@ -297,6 +324,7 @@ class RestApi {
   }
 
   static Future<String> resetPasswordApi(String email, String password, String code,) async {
+
     String url = App.baseUrl2 + App.set_password;
 
     var bodyData = {"email": email, "password": password, "code": code};
@@ -462,9 +490,9 @@ class RestApi {
       print(response.statusCode);
       if (response.statusCode == 200) {
         print(response.body);
-        if(response.body.isEmpty){
-
-        }else{
+        if(response.body.isEmpty) {
+          print("Response id empty");
+        } else {
           return matchModelFromJson(response.body);
         }
       } else {
@@ -602,6 +630,31 @@ class RestApi {
     }
   }
 
+  static Future<Response> postChangePasswordApi (Map passwordData) async {
+
+    String url = App.baseUrlSA + App.changesPassword;
+
+    var headerData = {
+      // "Authorization" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZG9vci5paGVhcnRtdXNsaW1zLmNvbSIsImlhdCI6MTYxMTYzOTk2MywibmJmIjoxNjExNjM5OTYzLCJleHAiOjQ3NjUyMzk5NjMsImRhdGEiOnsidXNlciI6eyJpZCI6NH19fQ.HM5lJUFLUeh7ojYImLIwY3wj2mnzaZb_y1g_va8PPWk"
+      "Authorization" : "Bearer ${appState.accessToken}",
+      // "Content-Type" : "application/json"
+    };
+
+    print(url);
+    print(passwordData);
+    print(headerData);
+
+    try {
+      Response response = await http.post(url, headers: headerData, body: passwordData);
+      print(response.statusCode);
+      return response;
+    } catch (e) {
+      print(e);
+      return null;
+      // return 'Something went wrong! Please try later';
+    }
+  }
+
   static Future<Response> updateUserDetailsSocial(Map bodyData) async {
 
     String url = App.baseUrlSA + App.user;
@@ -693,33 +746,37 @@ class RestApi {
   }
 
 
-  static Future<Response> updateUserProfile(Map bodyData) async {
+  static Future<http.StreamedResponse> updateUserProfile(File image) async {
 
     String url = App.baseUrl + "members/${appState.currentUserData.data.id}/avatar";
-
+    d.Dio dio = d.Dio();
     var headerData = {
       // "Authorization" : "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvZG9vci5paGVhcnRtdXNsaW1zLmNvbSIsImlhdCI6MTYxMTYzOTk2MywibmJmIjoxNjExNjM5OTYzLCJleHAiOjQ3NjUyMzk5NjMsImRhdGEiOnsidXNlciI6eyJpZCI6NH19fQ.HM5lJUFLUeh7ojYImLIwY3wj2mnzaZb_y1g_va8PPWk"
       "Authorization" : "Bearer ${appState.accessToken}",
+      // "Content-Type":"multipart/form-data"
       // "Content-Type" : "application/json"
     };
 
     print(url);
-    print("From Data : $bodyData");
     print(headerData);
-
+    
     try {
 
-      // encoding: Encoding.getByName("utf-8")
-      Response response = await http.post(url,headers: headerData, body: bodyData);
-      print(response.statusCode);
+      var uri = Uri.parse(url);
+
+      http.MultipartRequest request = new http.MultipartRequest('POST', uri);
+
+      List<MultipartFile> newList = new List<MultipartFile>();
+      var stream = http.ByteStream(DelegatingStream.typed(image.openRead()));
+      var length = await image.length();
+      request.fields['action'] = 'bp_avatar_upload';
+      var multipartFile = new http.MultipartFile("file", stream, length, filename: image.path);
+      newList.add(multipartFile);
+      request.files.addAll(newList);
+      request.headers.addAll(headerData);
+      var response = await request.send();
       return response;
-      /*if (response.statusCode == 200) {
-        print(response.body);
-        return response.body;
-      } else {
-        print(response.body);
-        return jsonDecode(response.body)['message'];
-      }*/
+
 
     } catch (e) {
       print(e);

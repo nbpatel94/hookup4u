@@ -9,23 +9,26 @@ import 'package:hookup4u/restapi/restapi.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:lottie/lottie.dart';
 
-class ChatScreen extends StatefulWidget {
+import 'chat_viewmodel.dart';
+
+class SocialChatScreen extends StatefulWidget {
   // final User sender;
   final Meta sender;
   final String userId;
   final String matchId;
   String threadId;
 
-  ChatScreen({this.sender, this.userId, this.threadId, this.matchId});
+  SocialChatScreen({this.sender, this.userId, this.threadId, this.matchId});
 
   @override
-  ChatScreenState createState() => ChatScreenState();
+  SocialChatScreenState createState() => SocialChatScreenState();
 }
 
 final TextEditingController _saveMsg = new TextEditingController();
 
-class ChatScreenState extends State<ChatScreen> {
-  ChatScreenViewModel model;
+class SocialChatScreenState extends State<SocialChatScreen> {
+
+  SocialChatScreenViewModel model;
   bool isLoading = true;
 
   _buildMessage(ThreadModel message, bool isMe) {
@@ -140,7 +143,7 @@ class ChatScreenState extends State<ChatScreen> {
           InkWell(
             child: Padding(
               padding: const EdgeInsets.all(10.0),
-              child: Icon(
+              child: Icon (
                 Icons.send,
                 color: ColorRes.textColor,
                 size: 25,
@@ -164,7 +167,7 @@ class ChatScreenState extends State<ChatScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    model = ChatScreenViewModel(this);
+    model = SocialChatScreenViewModel(this);
   }
 
   @override

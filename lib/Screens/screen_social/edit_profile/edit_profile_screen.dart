@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:hookup4u/app.dart';
+import 'package:hookup4u/models/match_model.dart';
 // import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:hookup4u/util/utils.dart';
@@ -173,25 +174,25 @@ class EditProfilePageState extends State<EditProfilePage> {
               ),
             ),
 
-            Container(
-              height: 50,
-              padding: EdgeInsets.only(left: 15, right: 15),
-              width: MediaQuery.of(context).size.width,
-              child: Row(
-                children: [
-                  Container(
-                      width: 100,
-                      child: Text("Phone", style: TextStyle(color: ColorRes.greyBg))),
-                  Expanded(
-                      child: TextField (
-                        controller: phoneTxt,
-                        textAlign: TextAlign.right,
-                        style: TextStyle(color: ColorRes.white),
-                        decoration: decorationTextFiled("+65 39879343"),
-                      ))
-                ],
-              ),
-            ),
+            // Container(
+            //   height: 50,
+            //   padding: EdgeInsets.only(left: 15, right: 15),
+            //   width: MediaQuery.of(context).size.width,
+            //   child: Row(
+            //     children: [
+            //       Container(
+            //           width: 100,
+            //           child: Text("Phone", style: TextStyle(color: ColorRes.greyBg))),
+            //       Expanded(
+            //           child: TextField (
+            //             controller: phoneTxt,
+            //             textAlign: TextAlign.right,
+            //             style: TextStyle(color: ColorRes.white),
+            //             decoration: decorationTextFiled("+65 39879343"),
+            //           ))
+            //     ],
+            //   ),
+            // ),
 
             Container(
               height: 100,
@@ -317,7 +318,7 @@ class EditProfilePageState extends State<EditProfilePage> {
             actions: <Widget>[
               GestureDetector(
                 onTap: () async {
-                  var _image = await ImagePicker.pickImage(source: ImageSource.camera);
+                  var _image = await ImagePicker.pickImage(source: ImageSource.camera, imageQuality: 50);
                   if (_image != null) {
                     image = _image;
                     print("Image ${image.absolute.path}");
@@ -350,7 +351,7 @@ class EditProfilePageState extends State<EditProfilePage> {
               ),
               GestureDetector(
                 onTap: () async {
-                  File _image = await ImagePicker.pickImage(source: ImageSource.gallery);
+                  File _image = await ImagePicker.pickImage(source: ImageSource.gallery, imageQuality: 50);
                   if (_image != null) {
                     image = _image;
                     print("Image ${image.absolute.path}");
@@ -477,7 +478,6 @@ class EditProfilePageState extends State<EditProfilePage> {
         child:  Container(
           height: 150,
           width: 150,
-          padding: EdgeInsets.all(5),
           margin: EdgeInsets.only(bottom: 10),
           decoration: BoxDecoration(
               border: Border.all(color: Colors.white, width: 1),
@@ -490,17 +490,17 @@ class EditProfilePageState extends State<EditProfilePage> {
                 imageUrl: appState.medialList[0].sourceUrl,
                 placeholder: (context, url) => Image.asset(
                   'asset/Icon/placeholder.png',
-                  height: 120,
-                  width: 120,
+                  height: 150,
+                  width: 150,
                   fit: BoxFit.cover,
                 ),
-                height: 120,
-                width: 120,
+                height: 150,
+                width: 150,
                 fit: BoxFit.contain
             ) : Image.asset(
               'asset/Icon/placeholder.png',
-              height: 120,
-              width: 120,
+              height: 150,
+              width: 150,
               fit: BoxFit.cover,
             ),
           ),

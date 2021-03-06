@@ -18,6 +18,11 @@ class EditWebProfilePageState extends State<EditWebProfilePage> {
   TextEditingController phoneTxt = TextEditingController();
   TextEditingController genderTxt = TextEditingController();
 
+
+  TextEditingController currentPassword = TextEditingController();
+  TextEditingController password = TextEditingController();
+  TextEditingController conformPassword = TextEditingController();
+
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
 
@@ -42,12 +47,12 @@ class EditWebProfilePageState extends State<EditWebProfilePage> {
 
     model ?? (model = EditProfileViewModel(this));
 
-    nameTxt.text = appState.userDetailsModel.meta.name != null && appState.userDetailsModel.meta.name.isNotEmpty ?
+    nameTxt.text = appState?.userDetailsModel?.meta?.name != null && appState.userDetailsModel.meta.name.isNotEmpty ?
                    appState.userDetailsModel.meta.name : appState.currentUserData.data.displayName;
     emailTxt.text = appState.currentUserData.data.email ?? "";
     dateOfBirth = appState?.userDetailsModel?.meta?.dateOfBirth ?? "";
 
-    if(appState.userDetailsModel.meta.gender == "Male") {
+    if(appState?.userDetailsModel?.meta?.gender == "Male") {
       selectGender = "Male";
       _radioValue = 0;
     } else {
@@ -355,134 +360,164 @@ class EditWebProfilePageState extends State<EditWebProfilePage> {
                     )
                 ),
 
-                // Expanded(
-                //     flex: 1,
-                //     child: Container(
-                //       margin: EdgeInsets.only(left: 50, right: 50),
-                //       child: Column(
-                //         mainAxisAlignment: MainAxisAlignment.start,
-                //         children: [
-                //
-                //           Container(
-                //             height: 50,
-                //             child: Row(
-                //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //               children: [
-                //                 Text("Change Password", style: TextStyle(color: ColorRes.white, fontSize: 14)),
-                //                 Text("edit",  style: TextStyle(color: ColorRes.white, fontSize: 14)),
-                //               ],
-                //             ),
-                //           ),
-                //
-                //           Container(
-                //             width: double.infinity,
-                //             height: MediaQuery.of(context).size.height / 3,
-                //             color: ColorRes.greyBg.withOpacity(0.5),
-                //             child: Column(
-                //               mainAxisAlignment: MainAxisAlignment.center,
-                //               crossAxisAlignment: CrossAxisAlignment.center,
-                //               children: [
-                //                 Container(
-                //                   margin: EdgeInsets.only(left: 25, right: 25, bottom: 15),
-                //                   padding: EdgeInsets.only(left: 10, right: 10),
-                //                   decoration: BoxDecoration(
-                //                       color: ColorRes.greyBg,
-                //                       borderRadius: BorderRadius.circular(50)
-                //                   ),
-                //                   child: TextFormField(
-                //                     style: TextStyle(
-                //                         fontSize: 16, color: ColorRes.white),
-                //                     cursorColor: ColorRes.textColor,
-                //                     // controller: passwordCont,
-                //                     obscureText: true,
-                //                     decoration: InputDecoration(
-                //                       hintText: "Password",
-                //                       hintStyle: TextStyle(
-                //                           color: ColorRes.textColor, fontSize: 16),
-                //                       focusColor: ColorRes.textColor,
-                //                       border: InputBorder.none,
-                //                       focusedBorder: InputBorder.none,
-                //                       enabledBorder: InputBorder.none,
-                //                       errorBorder: InputBorder.none,
-                //                       disabledBorder: InputBorder.none,
-                //                     ),
-                //                   ),
-                //                 ),
-                //                 Container(
-                //                   margin: EdgeInsets.only(left: 25, right: 25, bottom: 15),
-                //                   padding: EdgeInsets.only(left: 10, right: 10),
-                //                   decoration: BoxDecoration(
-                //                       color: ColorRes.greyBg,
-                //                       borderRadius: BorderRadius.circular(50)
-                //                   ),
-                //                   child: TextFormField(
-                //                     style: TextStyle(
-                //                         fontSize: 16, color: ColorRes.white),
-                //                     cursorColor: ColorRes.textColor,
-                //                     // controller: passwordCont,
-                //                     obscureText: true,
-                //                     decoration: InputDecoration(
-                //                       hintText: "Conform Password",
-                //                       hintStyle: TextStyle(
-                //                           color: ColorRes.textColor, fontSize: 16),
-                //                       focusColor: ColorRes.textColor,
-                //                       border: InputBorder.none,
-                //                       focusedBorder: InputBorder.none,
-                //                       enabledBorder: InputBorder.none,
-                //                       errorBorder: InputBorder.none,
-                //                       disabledBorder: InputBorder.none,
-                //                     ),
-                //                   ),
-                //                 ),
-                //
-                //                 SizedBox(
-                //                   height: 30,
-                //                 ),
-                //                 GestureDetector(
-                //                   onTap: () {
-                //                     /*if (!isLoading) {
-                //                       // Navigator.push(context, MaterialPageRoute(builder: (context) => VerifyOtpScreen(emailStr: emailCont.text.trim())));
-                //                       if (model.validate()) {
-                //                         setState(() {
-                //                           isLoading = true;
-                //                         });
-                //                         model.signUp();
-                //                       }
-                //                     }*/
-                //                   },
-                //                   child: Container(
-                //                     height: 40,
-                //                     // height: MediaQuery.of(context).size.height * .075,
-                //                     // width: MediaQuery.of(context).size.width / 3.5,
-                //                     margin: EdgeInsets.only(left: 25, right: 25, bottom: 30),
-                //                     decoration: BoxDecoration(
-                //                       borderRadius: BorderRadius.circular(50),
-                //                       color: ColorRes.redButton,
-                //                     ),
-                //                     child: Center(
-                //                         child: isLoadingPassword
-                //                             ? Padding(
-                //                           child: CircularProgressIndicator(
-                //                             backgroundColor:
-                //                             ColorRes.primaryColor,
-                //                           ),
-                //                           padding: EdgeInsets.all(5),
-                //                         )
-                //                             : Text("Update password",
-                //                             style: TextStyle(
-                //                                 color: Colors.white,
-                //                                 fontSize: 16,
-                //                                 fontFamily: 'NeueFrutigerWorld',
-                //                                 fontWeight: FontWeight.w700))),
-                //                   ),
-                //                 ),
-                //
-                //               ],
-                //             ),
-                //           )
-                //         ],
-                //       ),
-                //     ))
+                Expanded (
+                    flex: 1,
+                    child: Container(
+                      margin: EdgeInsets.only(left: kIsWeb ? MediaQuery.of(context).size.height / 20 : 10, right: kIsWeb ? MediaQuery.of(context).size.height / 20 : 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+
+                          Container (
+                            height: 50,
+                            child: Row (
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Change Password", style: TextStyle(color: ColorRes.white, fontSize: 14)),
+                                // Text("edit",  style: TextStyle(color: ColorRes.white, fontSize: 14)),
+                              ],
+                            ),
+                          ),
+
+                          Container(
+                            width: double.infinity,
+                            height: MediaQuery.of(context).size.height / 2.0,
+                            color: ColorRes.greyBg.withOpacity(0.5),
+                            padding: EdgeInsets.only(top: 10),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+
+                                Container(
+                                  margin: EdgeInsets.only(left: 25, right: 25, bottom: 15),
+                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                  decoration: BoxDecoration(
+                                      color: ColorRes.greyBg,
+                                      borderRadius: BorderRadius.circular(50)
+                                  ),
+                                  child: TextFormField(
+                                    style: TextStyle(
+                                        fontSize: 16, color: ColorRes.white),
+                                    cursorColor: ColorRes.textColor,
+                                    controller: currentPassword,
+                                    obscureText: true,
+                                    decoration: InputDecoration(
+                                      hintText: "Current Password",
+                                      hintStyle: TextStyle(
+                                          color: ColorRes.textColor, fontSize: 16),
+                                      focusColor: ColorRes.textColor,
+                                      border: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                      enabledBorder: InputBorder.none,
+                                      errorBorder: InputBorder.none,
+                                      disabledBorder: InputBorder.none,
+                                    ),
+                                  ),
+                                ),
+
+                                Container(
+                                  margin: EdgeInsets.only(left: 25, right: 25, bottom: 15),
+                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                  decoration: BoxDecoration(
+                                      color: ColorRes.greyBg,
+                                      borderRadius: BorderRadius.circular(50)
+                                  ),
+                                  child: TextFormField(
+                                    style: TextStyle(
+                                        fontSize: 16, color: ColorRes.white),
+                                    cursorColor: ColorRes.textColor,
+                                    controller: password,
+                                    obscureText: true,
+                                    decoration: InputDecoration(
+                                      hintText: "Password",
+                                      hintStyle: TextStyle(
+                                          color: ColorRes.textColor, fontSize: 16),
+                                      focusColor: ColorRes.textColor,
+                                      border: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                      enabledBorder: InputBorder.none,
+                                      errorBorder: InputBorder.none,
+                                      disabledBorder: InputBorder.none,
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 25, right: 25, bottom: 15),
+                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                  decoration: BoxDecoration(
+                                      color: ColorRes.greyBg,
+                                      borderRadius: BorderRadius.circular(50)
+                                  ),
+                                  child: TextFormField(
+                                    style: TextStyle(
+                                        fontSize: 16, color: ColorRes.white),
+                                    cursorColor: ColorRes.textColor,
+                                    controller: conformPassword,
+                                    obscureText: true,
+                                    decoration: InputDecoration(
+                                      hintText: "Conform Password",
+                                      hintStyle: TextStyle(
+                                          color: ColorRes.textColor, fontSize: 16),
+                                      focusColor: ColorRes.textColor,
+                                      border: InputBorder.none,
+                                      focusedBorder: InputBorder.none,
+                                      enabledBorder: InputBorder.none,
+                                      errorBorder: InputBorder.none,
+                                      disabledBorder: InputBorder.none,
+                                    ),
+                                  ),
+                                ),
+
+                                SizedBox(
+                                  height: 30,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+
+                                    if (!isLoadingPassword) {
+                                      // Navigator.push(context, MaterialPageRoute(builder: (context) => VerifyOtpScreen(emailStr: emailCont.text.trim())));
+                                      if (model.passwordMatch()) {
+                                        setState(() {
+                                          isLoadingPassword = true;
+                                        });
+                                        model.changePassword();
+                                      }
+                                    }
+
+                                  },
+                                  child: Container(
+                                    height: 50,
+                                    // height: MediaQuery.of(context).size.height * .075,
+                                    // width: MediaQuery.of(context).size.width / 3.5,
+                                    margin: EdgeInsets.only(left: 25, right: 25, bottom: 30),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(50),
+                                      color: ColorRes.redButton,
+                                    ),
+                                    child: Center(
+                                        child: isLoadingPassword
+                                            ? Padding(
+                                            child: CircularProgressIndicator (
+                                              backgroundColor: ColorRes.primaryColor,
+                                            ),
+                                          padding: EdgeInsets.all(5),
+                                        )
+                                            : Text("Update password",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 16,
+                                                fontFamily: 'NeueFrutigerWorld',
+                                                fontWeight: FontWeight.w700))),
+                                  ),
+                                ),
+
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ))
 
               ],
             )
@@ -600,7 +635,7 @@ class EditWebProfilePageState extends State<EditWebProfilePage> {
         textAlign: TextAlign.center,
       ),
       backgroundColor: isError ? ColorRes.redButton : ColorRes.darkButton,
-      duration: Duration(seconds: 3),
+      duration: Duration(seconds: 10),
     ));
   }
 

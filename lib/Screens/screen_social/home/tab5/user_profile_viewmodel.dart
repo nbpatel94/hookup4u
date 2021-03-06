@@ -128,7 +128,7 @@ class UserProfileViewModel {
 
 
   userMediaShow() {
-    SocialRestApi.getUserProfileMedia().then((value) {
+    SocialRestApi.getUserProfileMedia(appState.currentUserData.data.id.toString()).then((value) {
       print(value);
       Map<String, dynamic> message = jsonDecode(value.body);
       if(message['code'] == 200 && message['status'] == "success") {

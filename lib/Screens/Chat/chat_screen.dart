@@ -1,13 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hookup4u/Screens/Chat/chat_viewmodel.dart';
 import 'package:hookup4u/app.dart';
 import 'package:hookup4u/models/match_model.dart';
 import 'package:hookup4u/models/thread_model.dart';
 import 'package:hookup4u/restapi/restapi.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:lottie/lottie.dart';
+
+import 'chat_screeb_viewmodel.dart';
 
 class ChatScreen extends StatefulWidget {
   // final User sender;

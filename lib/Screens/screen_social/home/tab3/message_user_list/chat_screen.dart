@@ -1,24 +1,25 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hookup4u/Screens/Chat/chat_viewmodel.dart';
 import 'package:hookup4u/app.dart';
-import 'package:hookup4u/models/match_model.dart';
+import 'package:hookup4u/models/thread_data_model.dart';
 import 'package:hookup4u/models/thread_model.dart';
-import 'package:hookup4u/restapi/restapi.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:lottie/lottie.dart';
-
 import 'chat_viewmodel.dart';
 
 class SocialChatScreen extends StatefulWidget {
   // final User sender;
-  final Meta sender;
-  final String userId;
-  final String matchId;
-  String threadId;
 
-  SocialChatScreen({this.sender, this.userId, this.threadId, this.matchId});
+  // final Meta sender;
+  // final String userId;
+  // final String matchId;
+  // String threadId;
+
+  final ThreadAllData threadAllData;
+
+  // SocialChatScreen({this.userId, this.threadId, this.matchId});
+  SocialChatScreen({this.threadAllData});
 
   @override
   SocialChatScreenState createState() => SocialChatScreenState();
@@ -78,9 +79,9 @@ class SocialChatScreenState extends State<SocialChatScreen> {
           padding: const EdgeInsets.all(5.0),
           child: ClipRRect(
             borderRadius: BorderRadius.circular(80),
-            child: widget.sender.media.isNotEmpty
+            child: widget.threadAllData.recipientData.thumb.isNotEmpty
                 ? CachedNetworkImage(
-                    imageUrl: widget.sender.media[0],
+                    imageUrl: widget.threadAllData.recipientData.thumb,
                     placeholder: (context, url) => Image.asset(
                           'asset/Icon/placeholder.png',
                           height: 40,
@@ -183,7 +184,7 @@ class SocialChatScreenState extends State<SocialChatScreen> {
           appBar: AppBar(
             elevation: 0,
             title: Text(
-              "${widget.sender.name}",
+              "${widget.threadAllData.recipientData.userName}",
               style: TextStyle(color: Colors.white,fontFamily: 'NeueFrutigerWorld',fontWeight: FontWeight.w700),
             ),
             leading: IconButton(
@@ -192,7 +193,7 @@ class SocialChatScreenState extends State<SocialChatScreen> {
               onPressed: () => Navigator.pop(context, 'No'),
             ),
             backgroundColor: ColorRes.primaryColor,
-            actions: <Widget>[
+           /* actions: <Widget>[
               PopupMenuButton(
                   color: ColorRes.darkButton,
                   onSelected: (index) async {
@@ -219,7 +220,7 @@ class SocialChatScreenState extends State<SocialChatScreen> {
                       )
                     ];
                   }),
-            ],
+            ],*/
           ),
           body: isLoading
               ? Center(
@@ -256,7 +257,7 @@ class SocialChatScreenState extends State<SocialChatScreen> {
                           : Expanded(
                               child: Center(
                                 child: Text(
-                                  "Send message to ${widget.sender.name}",
+                                  "Send message to ${widget.threadAllData.recipientData.userName}",
                                   style: TextStyle(
                                       color: ColorRes.textColor, fontSize: 16),
                                 ),
@@ -269,13 +270,13 @@ class SocialChatScreenState extends State<SocialChatScreen> {
     );
   }
 
-  source() {
+  /*source() {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
           return CupertinoAlertDialog(
             title: Text(
-              "Once you will block ${widget.sender.name} then you will unable to see ${widget.sender.gender == 'man' ? 'him' : 'her'} in your matches \nAre you sure want to block?",
+              "Once you will block ${widget.threadAllData.recipientData.userName} then you will unable to see ${widget.sender.gender == 'man' ? 'him' : 'her'} in your matches \nAre you sure want to block?",
             ),
             insetAnimationCurve: Curves.decelerate,
             actions: <Widget>[
@@ -318,5 +319,5 @@ class SocialChatScreenState extends State<SocialChatScreen> {
             ],
           );
         });
-  }
+  }*/
 }

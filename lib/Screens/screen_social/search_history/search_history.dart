@@ -38,7 +38,7 @@ class SearchHistoryPageState extends State<SearchHistoryPage> {
 
           Padding(
               padding: EdgeInsets.only(left: 10, top: 10),
-              child: Text("Settings", style: TextStyle(color: ColorRes.white, fontSize: 33))
+              child: Text("Search History", style: TextStyle(color: ColorRes.white, fontSize: 33))
           ),
 
           recentView()

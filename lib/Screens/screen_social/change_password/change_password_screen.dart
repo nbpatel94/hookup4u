@@ -18,7 +18,7 @@ class ChangePasswordPageState extends State<ChangePasswordPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 
   bool isLoadingPassword = false;
-  
+
   ChangePasswordViewModel model;
 
   @override

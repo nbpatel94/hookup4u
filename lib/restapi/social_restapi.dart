@@ -751,7 +751,8 @@ class SocialRestApi {
 
   static Future<Response> getNotificationData() async {
 
-    String url = App.baseUrl + App.notifications;
+    String url = App.baseUrlSA + App.getNotification;
+    // String url = App.baseUrl + App.notifications;
 
     var headerData = {
       "Authorization": "Bearer ${appState.accessToken}",

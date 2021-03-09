@@ -138,7 +138,7 @@ class EditProfileViewModel {
           // imageList.add();
           imageList = json.decode(value);
           appState.medialList[0].sourceUrl = imageList[0]['thumb'];
-          print(image.length);
+          print(image. length);
           state.setState(() { });
         } else {
           Utils().showToast("image uploading null data show");

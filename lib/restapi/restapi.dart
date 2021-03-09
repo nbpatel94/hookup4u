@@ -20,6 +20,26 @@ import 'package:async/async.dart';
 
 class RestApi {
 
+/*  Future<Map<String, dynamic>> getFacebookDetails(String url) async {
+    bool isConnect = await isConnectNetworkWithMessage(_context);
+    if (!isConnect) return null;
+    http.Response response = await http.get(url);
+    String data = response.body;
+    return jsonDecode(data);
+  }
+
+  Future<bool> isConnectNetworkWithMessage(BuildContext context) async {
+    // var connectivityResult = await connectivity.checkConnectivity();
+    bool isConnect = getConnectionValue(connectivityResult);
+    if (!isConnect) {
+      commonMessage(
+        context,
+        "Network connection required to fetch data.",
+      );
+    }
+    return isConnect;
+  }*/
+
   static Future<String> signUpApi(String loginId, String name, String email, String password) async {
     String url = App.baseUrl + App.signUp;
 
@@ -177,25 +197,60 @@ class RestApi {
   }
 
 
-  static Future<List<thread.ThreadList>> getThreadListApi() async {
+  static Future<Response> getThreadListApi() async {
 
-    String url = App.baseUrl + App.messages;
+    String url = App.baseUrlSA + App.getThreads ;
 
     var headerData = {
-      "Authorization" : "Bearer "+appState.accessToken
+      "Authorization" : "Bearer " + appState.accessToken
     };
 
     print(url);
     print(headerData);
 
-    Response response = await http.get(url,headers: headerData);
-    print(response.statusCode);
-    if (response.statusCode == 200) {
+    try {
+      Response response = await http.get(url,headers: headerData);
+      print(response.statusCode);
+      return response;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+
+  /*  if (response.statusCode == 200) {
       List<thread.ThreadList> list = thread.threadListFromJson(response.body);
       return list;
     } else {
       return null;
+    }*/
+
+  }
+
+  static Future<Response> getThreadIdWiseApi(String threadId) async {
+
+    String url = App.baseUrlSA + App.getThreads + "/$threadId";
+
+    var headerData = {
+      "Authorization" : "Bearer " + appState.accessToken
+    };
+
+    print(url);
+    print(headerData);
+
+    try {
+      Response response = await http.get(url,headers: headerData);
+      print(response.statusCode);
+      return response;
+    } catch (e) {
+      print(e);
+      return null;
     }
+    /*  if (response.statusCode == 200) {
+      List<thread.ThreadList> list = thread.threadListFromJson(response.body);
+      return list;
+    } else {
+      return null;
+    }*/
 
   }
 
@@ -220,7 +275,33 @@ class RestApi {
     }
   }
 
+  static Future<Response> socialCreateThreadMessage (String senderId, String message) async {
+
+    String url = App.baseUrl + App.messages;
+    var bodyData = {"message": message,"recipients": senderId};
+    var headerData = {
+      "Authorization" : "Bearer "+appState.accessToken
+    };
+
+    print(url);
+    print(bodyData);
+    print(headerData);
+
+    Response response = await http.post(url, body: bodyData,headers: headerData);
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+
+      print(response.body);
+      return response;
+      // return await setThreadId(matchId, jsonDecode(response.body)[0]['id']);
+
+    } else {
+      return null;
+    }
+  }
+
   static Future<String> createThreadMessage(String senderId, String message,String matchId) async {
+
     String url = App.baseUrl + App.messages;
 
     var bodyData = {"message": message,"recipients": senderId};

@@ -184,7 +184,7 @@ class ListHolderPageState extends State<ListHolderPage> {
                               ),
                               title: Text(
                                 'Settings',
-                                style: TextStyle(
+                                style: TextStyle (
                                     color: ColorRes.textColor,
                                     fontSize: 18,
                                     fontFamily: 'NeueFrutigerWorld',
@@ -192,7 +192,7 @@ class ListHolderPageState extends State<ListHolderPage> {
                               ),
                             ),
 
-                            ListTile(
+                            ListTile (
                               onTap: () {
                                 Navigator.pop(context);
                                 Navigator.push(context, MaterialPageRoute(builder: (context) => SocialMainPage()));

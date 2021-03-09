@@ -34,6 +34,7 @@ class App{
   static const String reset_password = 'reset-password';
   static const String validate_code = 'validate-code';
   static const String notifications = 'notifications';
+  static const String getNotification = 'get_notification';
   static const String activeUser = 'activate_user';
   static const String reSendEmail = 'resend_mail';
 
@@ -51,6 +52,7 @@ class App{
   static const String followList = 'follow_list';
   static const String recent = 'recent';
   static const String changesPassword = 'change_password';
+  static const String getThreads = 'get_threads';
 
 }
 

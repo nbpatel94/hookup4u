@@ -14,21 +14,21 @@ class SocialChatScreenViewModel{
   }
 
   printUserData(){
-    print("User Id: ${state.widget.userId}");
-    print("Thread Id: ${state.widget.threadId}");
-    print("Match Id: ${state.widget.matchId}");
-    print("Sender: ${state.widget.sender.name}");
+    print("User Id: ${state.widget.threadAllData.recipient}");
+    print("Thread Id: ${state.widget.threadAllData.threadId}");
+    // print("Match Id: ${state.widget.matchId}");
+    // print("Sender: ${state.widget.sender.name}");
   }
 
   getChatDetails() async {
-    if(state.widget.threadId!=null){
-      List temp = await databaseHelper.checkThreadDatabase(int.parse(state.widget.threadId));
+    if(state.widget.threadAllData.threadId != null){
+      List temp = await databaseHelper.checkThreadDatabase(int.parse(state.widget.threadAllData.threadId));
       print('--- ${temp.length} ---');
       if( temp.isNotEmpty){
         print("Contain Messages");
         messageElement = MessageElement();
         messageElement.messages = [];
-       messageElement.messages = await databaseHelper.getSingleUserMessages(int.parse(state.widget.threadId));
+       messageElement.messages = await databaseHelper.getSingleUserMessages(int.parse(state.widget.threadAllData.threadId));
        await Future.delayed(Duration(seconds: 1));
 
         messageElement.messages = messageElement.messages.reversed.toList();
@@ -38,9 +38,9 @@ class SocialChatScreenViewModel{
           state.isLoading = false;
         });
 
-        messageElement = await RestApi.getThreadMessages(state.widget.threadId);
+        messageElement = await RestApi.getThreadMessages(state.widget.threadAllData.threadId);
 
-        await databaseHelper.clearThreadMessageDatabase(int.parse(state.widget.threadId));
+        await databaseHelper.clearThreadMessageDatabase(int.parse(state.widget.threadAllData.threadId));
 
         for(int i = 0; i<messageElement.messages.length ; i++){
           await databaseHelper.insert(messageElement.messages[i]);
@@ -52,9 +52,9 @@ class SocialChatScreenViewModel{
 
       }else{
         print("Not Contain Messages");
-        messageElement = await RestApi.getThreadMessages(state.widget.threadId);
+        messageElement = await RestApi.getThreadMessages(state.widget.threadAllData.threadId);
 
-        await databaseHelper.clearThreadMessageDatabase(int.parse(state.widget.threadId));
+        await databaseHelper.clearThreadMessageDatabase(int.parse(state.widget.threadAllData.threadId));
 
         for(int i = 0; i<messageElement.messages.length ; i++){
           await databaseHelper.insert(messageElement.messages[i]);
@@ -75,15 +75,15 @@ class SocialChatScreenViewModel{
 
   sendMessage(String message) async {
     ThreadModel temp = ThreadModel(senderId: appState.id,message: MessageMessage(raw: message),dateSent: DateTime.now());
-    if(state.widget.threadId!=null) {
+    if(state.widget.threadAllData.threadId!=null) {
       if (!state.mounted) return;
       state.setState(() {
         messageElement.messages.insert(0,temp);
       });
-      temp.threadId = int.parse(state.widget.threadId);
+      temp.threadId = int.parse(state.widget.threadAllData.threadId);
       await databaseHelper.insert(temp);
       print("Sending Message");
-      await RestApi.sendThreadMessage(state.widget.userId, message,state.widget.threadId);
+      await RestApi.sendThreadMessage(state.widget.threadAllData.recipient, message,state.widget.threadAllData.threadId);
     } else {
       if (!state.mounted) return;
       state.setState(() {
@@ -92,9 +92,9 @@ class SocialChatScreenViewModel{
         messageElement.messages.insert(0,temp);
       });
       print("Sending First Message");
-      String threadId = await RestApi.createThreadMessage(state.widget.userId, message,state.widget.matchId);
-      state.widget.threadId = threadId;
-      temp.threadId = int.parse(state.widget.threadId);
+      String threadId = await RestApi.createThreadMessage(state.widget.threadAllData.recipient, message,state.widget.threadAllData.threadId);
+      state.widget.threadAllData.threadId = threadId;
+      temp.threadId = int.parse(state.widget.threadAllData.threadId);
       await databaseHelper.insert(temp);
     }
   }

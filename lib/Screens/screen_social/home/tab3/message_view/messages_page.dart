@@ -238,7 +238,7 @@ class SocialMessagesScreenState extends State<SocialMessagesScreen> {
             padding: EdgeInsets.only(right: 10),
             child: InkWell (
               onTap: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewUserListPage()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NewUserListPage(mapData: model.listMapData)));
               },
               child: Icon(Icons.supervised_user_circle, color: ColorRes.white, size: 25),
             ),
@@ -253,36 +253,42 @@ class SocialMessagesScreenState extends State<SocialMessagesScreen> {
               height: MediaQuery.of(context).size.width / 2,
               width: MediaQuery.of(context).size.width / 2),
         ),
-      ) : model.matchList.isNotEmpty ?
-      SingleChildScrollView(
-        child: Column(
+      ) :
+      // model.matchList.isNotEmpty ?
+
+      model?.threadDataModel?.data != null && model.threadDataModel.data.isNotEmpty ?
+
+      SingleChildScrollView (
+        child: Column (
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Container(
+            Container (
               width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
+              decoration: BoxDecoration (
                 color: ColorRes.primaryColor,
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(30.0),
                   topRight: Radius.circular(30.0),
                 ),
               ),
-              child: ListView.builder(
+              child: ListView.builder (
                 physics: NeverScrollableScrollPhysics(),
-                itemCount: model.matchList.length,
-                // itemCount: model.tempList.length,
+                // itemCount: model.matchList.length,
+                itemCount: model.threadDataModel.data.length,
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
-                  return Column(
+                  return Column (
                     children: [
-                      index ==0 ? SizedBox(height: 20,): Divider(
+                      index == 0 ? SizedBox(height: 20) :
+                      Divider (
                         endIndent: 20,
                         indent: 20,
                         color: Colors.grey,
                       ),
-                      InkWell(
+                      InkWell (
                         onTap: () async {
-                          var res = await Navigator.push(
+
+                        /*  var res = await Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (_) => SocialChatScreen(
@@ -296,13 +302,31 @@ class SocialMessagesScreenState extends State<SocialMessagesScreen> {
                                 matchId: model.matchList[index].matchId,
                               ),
                             ),
-                          );
+                          );*/
 
+                          var res = await Navigator.push (
+                            context,
+                            MaterialPageRoute (
+                              builder: (_) => SocialChatScreen (
+
+                                  threadAllData: model.threadDataModel.data[index],
+
+                             /*   sender: model.threadDataModel.data[index].lastMessage.senderId != appState.id.toString() ?
+                                model.matchList[index].senderMeta :
+                                model.matchList[index].targetMeta,
+                                userId: model.matchList[index].senderId != appState.id.toString() ?
+                                model.matchList[index].senderId :
+                                model.matchList[index].taregtId,
+                                threadId: model.matchList[index].threadId,
+                                matchId: model.matchList[index].matchId,*/
+                              ),
+                            ),
+                          );
                           if(res=='Yes') {
                             setState(() {
                               isLoading = true;
                             });
-                            model.getMyMatch();
+                            // model.getMyMatch();
                           }
 
                         },
@@ -317,56 +341,75 @@ class SocialMessagesScreenState extends State<SocialMessagesScreen> {
                                   Stack (
                                     alignment: Alignment.bottomCenter,
                                     children: [
-                                      ClipRRect (
-                                        borderRadius: BorderRadius.circular(80),
-                                        child: model.matchList[index].senderId != appState.id.toString() ?
-                                        model.matchList[index].senderMeta.media.isNotEmpty ?
-                                        // child: model.friendIdList[index] != appState.id.toString() ?
-                                        //        model.tempList[index].recipients["${model.friendIdList[index]}"].userAvatars.thumb.isNotEmpty ?
-                                        CachedNetworkImage (
-                                          // imageUrl:  model.matchList[index].senderMeta.media[0],
-                                          imageUrl:  model.tempList[index].recipients["${model.friendIdList[index]}"].userAvatars.thumb,
-                                          placeholder: (context, url) => Image.asset (
-                                              'asset/Icon/placeholder.png',
-                                               height: 60,
-                                               width: 60,
-                                           fit: BoxFit.cover,
-                                          ),
-                                          height: 60,
-                                          width: 60,
-                                          fit: BoxFit.cover
-                                        ) : Image.asset(
-                                          'asset/Icon/placeholder.png',
-                                          height: 60,
-                                          width: 60,
-                                          fit: BoxFit.cover,
-                                        ) :
-                                        model.matchList[index].targetMeta.media.isNotEmpty ?
-                                        CachedNetworkImage (
-                                            imageUrl:  model.matchList[index].targetMeta.media[0],
-                                            placeholder: (context, url) => Image.asset(
-                                              'asset/Icon/placeholder.png',
-                                              height: 60,
-                                              width: 60,
-                                              fit: BoxFit.cover,
-                                            ),
-                                            height: 60,
-                                            width: 60,
-                                            fit: BoxFit.cover
-                                        ) : Image.asset (
-                                          'asset/Icon/placeholder.png',
-                                          height: 60,
-                                          width: 60,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
+                                                ClipRRect(
+                                                  child: model.threadDataModel.data[index].recipientData.thumb.isNotEmpty
+                                                      ? CachedNetworkImage(
+                                                          imageUrl: model.threadDataModel.data[index].recipientData.thumb,
+                                                          // imageUrl:  model.tempList[index].recipients["${model.friendIdList[index]}"].userAvatars.thumb,
+                                                          placeholder: (context, url) =>
+                                                                  Image.asset(
+                                                                    'asset/Icon/placeholder.png',
+                                                                    height: 60,
+                                                                    width: 60,
+                                                                    fit: BoxFit.cover),
+                                                          height: 60,
+                                                          width: 60,
+                                                          fit: BoxFit.cover)
+                                                      : Image.asset('asset/Icon/placeholder.png',
+                                                          height: 60,
+                                                          width: 60,
+                                                          fit: BoxFit.cover),
+                                                ),
+                                                // ClipRRect (
+                                      //   borderRadius: BorderRadius.circular(80),
+                                      //   child: model.matchList[index].senderId != appState.id.toString() ?
+                                      //   model.matchList[index].senderMeta.media.isNotEmpty ?
+                                      //   // child: model.friendIdList[index] != appState.id.toString() ?
+                                      //   //        model.tempList[index].recipients["${model.friendIdList[index]}"].userAvatars.thumb.isNotEmpty ?
+                                      //   CachedNetworkImage (
+                                      //     imageUrl:  model.matchList[index].senderMeta.media[0],
+                                      //     // imageUrl:  model.tempList[index].recipients["${model.friendIdList[index]}"].userAvatars.thumb,
+                                      //     placeholder: (context, url) => Image.asset (
+                                      //         'asset/Icon/placeholder.png',
+                                      //          height: 60,
+                                      //          width: 60,
+                                      //      fit: BoxFit.cover,
+                                      //     ),
+                                      //     height: 60,
+                                      //     width: 60,
+                                      //     fit: BoxFit.cover
+                                      //   ) : Image.asset(
+                                      //     'asset/Icon/placeholder.png',
+                                      //     height: 60,
+                                      //     width: 60,
+                                      //     fit: BoxFit.cover,
+                                      //   ) :
+                                      //   model.matchList[index].targetMeta.media.isNotEmpty ?
+                                      //   CachedNetworkImage (
+                                      //       imageUrl:  model.matchList[index].targetMeta.media[0],
+                                      //       placeholder: (context, url) => Image.asset(
+                                      //         'asset/Icon/placeholder.png',
+                                      //         height: 60,
+                                      //         width: 60,
+                                      //         fit: BoxFit.cover,
+                                      //       ),
+                                      //       height: 60,
+                                      //       width: 60,
+                                      //       fit: BoxFit.cover
+                                      //   ) : Image.asset (
+                                      //     'asset/Icon/placeholder.png',
+                                      //     height: 60,
+                                      //     width: 60,
+                                      //     fit: BoxFit.cover,
+                                      //   ),
+                                      // ),
                                       Container(
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(12),
                                           color: Colors.green,
                                         ),
                                         padding: EdgeInsets.symmetric(horizontal: 7,vertical: 3),
-                                        child: Text("ONLINE",style: TextStyle(color: ColorRes.white,fontSize: 10,fontWeight: FontWeight.w600),),
+                                        child: Text("ONLINE",style: TextStyle(color: ColorRes.white,fontSize: 10,fontWeight: FontWeight.w600)),
                                       )
                                     ],
                                   ),
@@ -376,10 +419,10 @@ class SocialMessagesScreenState extends State<SocialMessagesScreen> {
                                     children: <Widget>[
                                       Row(
                                         children: [
-                                          Text(
-                                            model.friendIdList[index] != appState.id.toString() ?
-                                            model.matchList[index].senderMeta.name :
-                                            model.matchList[index].targetMeta.name,
+                                          Text( model.threadDataModel?.data[index]?.recipientData?.userName ?? "Empty",
+                                            // model.matchList[index].senderId != appState.id.toString() ?
+                                            // model.matchList[index].senderMeta.name :
+                                            // model.matchList[index].targetMeta.name,
                                             style: TextStyle(
                                               color: ColorRes.white,
                                               fontSize: 18,
@@ -393,10 +436,11 @@ class SocialMessagesScreenState extends State<SocialMessagesScreen> {
                                         ],
                                       ),
                                       SizedBox(height: 5.0),
-                                      model.matchList[index].threadId !=null ? Container(
+                                      model.threadDataModel?.data[index]?.lastMessage?.message != null ? Container (
                                         width: MediaQuery.of(context).size.width * 0.4,
                                         child: Text(
-                                          "${model.matchList[index].lastMessage}",
+                                          model.threadDataModel?.data[index]?.lastMessage?.message ?? "last message",
+                                          // "${model.matchList[index].lastMessage}",
                                           style: TextStyle(
                                             color: Colors.blueGrey,
                                             fontSize: 15.0,

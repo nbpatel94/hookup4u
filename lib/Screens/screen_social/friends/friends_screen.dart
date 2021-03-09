@@ -101,25 +101,31 @@ class FriendsScreenState extends State<FriendsScreen> {
                     itemCount: 10,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                    return Container(
-                      height: 100,
-                      width: 130,
-                      margin: EdgeInsets.only(right: 10),
-                      decoration: BoxDecoration(
-                        color: Colors.blueAccent,
-                        borderRadius: BorderRadius.circular(10)
-                      ),
-                      child: Column(
-                        children: [
-                          Expanded(child: Icon(Icons.add)),
-                          SizedBox(
-                              height: 25,
-                              child: Text("Facebook", style: TextStyle(color: ColorRes.white, fontSize: 15))),
-                          SizedBox(
-                              height: 25,
-                              child: Text("connect", style: TextStyle(color: ColorRes.white, fontSize: 15))),
-                          SizedBox(height: 10)
-                        ],
+                    return InkResponse(
+                      onTap: () {
+                        // faceBookButton();
+                        model.loginWithFB();
+                      },
+                      child: Container(
+                        height: 100,
+                        width: 130,
+                        margin: EdgeInsets.only(right: 10),
+                        decoration: BoxDecoration(
+                          color: Colors.blueAccent,
+                          borderRadius: BorderRadius.circular(10)
+                        ),
+                        child: Column(
+                          children: [
+                            Expanded(child: Icon(Icons.add)),
+                            SizedBox(
+                                height: 25,
+                                child: Text("Facebook", style: TextStyle(color: ColorRes.white, fontSize: 15))),
+                            SizedBox(
+                                height: 25,
+                                child: Text("connect", style: TextStyle(color: ColorRes.white, fontSize: 15))),
+                            SizedBox(height: 10)
+                          ],
+                        ),
                       ),
                     );
                 }),
@@ -141,6 +147,22 @@ class FriendsScreenState extends State<FriendsScreen> {
           ),
         ),
       ),
+    );
+  }
+
+
+  Widget faceBookButton() {
+    return GestureDetector(
+      //child: GestureDetector(
+      onTap: () {
+        //faceBookLogin();
+      },
+      child: Container(
+        // height:70,
+        margin: EdgeInsets.only(top: 10),
+        child: Icon(Icons.face),
+      ),
+      // ),
     );
   }
 

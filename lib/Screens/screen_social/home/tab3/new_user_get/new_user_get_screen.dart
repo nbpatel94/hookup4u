@@ -1,11 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:hookup4u/Screens/Chat/chat_screen.dart';
+import 'package:hookup4u/Screens/screen_social/home/tab3/message_user_list/chat_screen.dart';
 import 'package:hookup4u/Screens/screen_social/user_profile_view/user_profile_screen.dart';
 import 'package:hookup4u/util/color.dart';
 import 'package:hookup4u/util/utils.dart';
+import '../../../../../app.dart';
 import 'new_user_get_viewmodel.dart';
 
 class NewUserListPage extends StatefulWidget {
+
+  final List<Map> mapData;
+  const NewUserListPage({Key key, this.mapData}) : super(key: key);
 
   @override
   NewUserListPageState createState() => NewUserListPageState();
@@ -16,7 +22,6 @@ class NewUserListPageState extends State<NewUserListPage> {
 
   TextEditingController searchFiled = TextEditingController();
   final focus = FocusNode();
-
 
   NewUserGetViewModel model;
 
@@ -31,10 +36,6 @@ class NewUserListPageState extends State<NewUserListPage> {
   Widget build(BuildContext context) {
     return Scaffold (
       backgroundColor: ColorRes.primaryColor,
-      appBar: AppBar (
-        elevation: 0.0,
-        // title: Text ("hgllo"),
-      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -135,12 +136,12 @@ class NewUserListPageState extends State<NewUserListPage> {
                 children: [
                   InkResponse(
                     onTap: () async {
-                      final data = await Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfilePage(
-                          userId: model.searchResponseModel.data[index].userId,
-                          isFollow: model.searchResponseModel.data[index].following)));
-                      if (data == true) {
-                        model.searchListApi(searchFiled.text);
-                      }
+                      // final data = await Navigator.push(context, MaterialPageRoute(builder: (context) => UserProfilePage(
+                      //     userId: model.searchResponseModel.data[index].userId,
+                      //     isFollow: model.searchResponseModel.data[index].following)));
+                      // if (data == true) {
+                      //   model.searchListApi(searchFiled.text);
+                      // }
                     },
                     child: Container(
                       height: 70,
@@ -194,7 +195,46 @@ class NewUserListPageState extends State<NewUserListPage> {
                             ),
                             InkResponse(
                               onTap: () {
-                                model.createThreadMessage(model.searchResponseModel.data[index].userId.toString());
+
+                                bool isStop = false;
+                                // print(widget.mapData);
+
+                                for(int i = 0 ; i < widget.mapData.length; i++) {
+                                  if(isStop == false) {
+                                    if (widget.mapData[i].containsKey("userId") && widget.mapData[i].containsKey("threadId")) {
+                                      if (widget.mapData[i].containsValue(model.searchResponseModel.data[index].userId.toString())) {
+                                        // your list of map contains key "id" which has value 3
+                                        print("user id show ${model.searchResponseModel.data[index].userId}");
+                                        model.existingThreadMessage(widget.mapData[i]['threadId']);
+                                        // model.createThreadMessage(model.searchResponseModel.data[index].userId.toString(), widget.mapData[i]['threadId']);
+                                        isStop = true;
+                                      }
+                                      /* else {
+                                        print("Id not avalible");
+                                      }*/
+                                    }
+                                  }
+                                }
+
+                                if(isStop == false) {
+
+                                  print("NO data found");
+                                  model.createThreadMessage(model.searchResponseModel.data[index].userId.toString(), null);
+
+                                }
+
+                               /* Navigator.push (context, MaterialPageRoute (builder: (_) => ChatScreen (
+                                  sender: model.matchList[index].senderId != appState.id.toString() ?
+                                  model.matchList[index].senderMeta :
+                                  model.matchList[index].targetMeta,
+                                  userId: model.matchList[index].senderId != appState.id.toString() ?
+                                  model.matchList[index].senderId :
+                                  model.matchList[index].taregtId,
+                                  threadId: model.matchList[index].threadId,
+                                  matchId: model.matchList[index].matchId,
+                                )));*/
+
+
                                 // model.userFollowApi(model.searchResponseModel.data[index].userId.toString(), true);
                               },
                               child: Container(
@@ -209,7 +249,8 @@ class NewUserListPageState extends State<NewUserListPage> {
                                     //     .following
                                     //     ? "UnFollow" :
                                     "Message", style: TextStyle(color: ColorRes.white, fontSize: 15),
-                                    textAlign: TextAlign.center),
+                                    textAlign: TextAlign.center
+                                ),
                               ),
                             )
                           ]),

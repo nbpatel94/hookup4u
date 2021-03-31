@@ -68,7 +68,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
               ],
             )
             : model.matchList.isNotEmpty
-                ? SingleChildScrollView(
+                ? SingleChildScrollView (
                   child: Column(
                     children: [
                       ListView.builder(
@@ -247,8 +247,8 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                                             .w700))),
                                           ),
                                         ),
-                                        InkWell(
-                                          onTap: (){
+                                        InkWell (
+                                          onTap: () {
                                             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => ListHolderPage()),(Route<dynamic> route) => false);
                                           },
                                           child: Container(
@@ -312,7 +312,7 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                                 textAlign: TextAlign.center,
                                               ),
                                             ),
-                                            Padding(
+                                            Padding (
                                               padding: const EdgeInsets.symmetric(
                                                   horizontal: 30, vertical: 3),
                                               child: Text(
@@ -324,16 +324,16 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                           ],
                                         ),
                                       ),
-                                      Positioned(
+                                      Positioned (
                                         left: 0,
                                         child: Padding(
                                           padding: const EdgeInsets.only(left: 10),
-                                          child: ClipRRect(
+                                          child: ClipRRect (
                                             borderRadius: BorderRadius.circular(80),
                                             child: model.matchList[index].senderId != appState.id.toString() ?
                                             model.matchList[index].senderMeta.media.isNotEmpty
                                                 ?
-                                            CachedNetworkImage(
+                                            CachedNetworkImage (
                                                 imageUrl:  model.matchList[index].senderMeta.media[0],
                                                 placeholder: (context, url) => Image.asset(
                                                   'asset/Icon/placeholder.png',
@@ -344,18 +344,15 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                                 height: 60,
                                                 width: 60,
                                                 fit: BoxFit.cover
-                                            ) : Image.asset(
+                                            ) : Image.asset (
                                               'asset/Icon/placeholder.png',
                                               height: 60,
                                               width: 60,
                                               fit: BoxFit.cover,
-                                            )
-                                                :
-                                            model.matchList[index].targetMeta.media.isNotEmpty
-                                                ?
-                                            CachedNetworkImage(
+                                            ) : model.matchList[index].targetMeta.media.isNotEmpty ?
+                                            CachedNetworkImage (
                                                 imageUrl:  model.matchList[index].targetMeta.media[0],
-                                                placeholder: (context, url) => Image.asset(
+                                                placeholder: (context, url) => Image.asset (
                                                   'asset/Icon/placeholder.png',
                                                   height: 60,
                                                   width: 60,
@@ -547,22 +544,22 @@ class MyMatchesPageState extends State<MyMatchesPage> {
                                   )
                                 ],
                               ),
-                            ),
-                                )
+                            ))
                                 : appState.subscriptionDate!=null && DateTime.now().difference(appState.subscriptionDate).inDays<=30
                                 ? appState.subscriptionName == appState.productIds[1] || appState.subscriptionName == appState.productIds[2]
-                                ? Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
+                                ? Padding (
+                              padding: EdgeInsets.all(8.0),
+                              child: Column (
                                 children: [
-                                  Stack(
+                                  Stack (
                                     alignment: Alignment.topCenter,
                                     children: [
-                                      Container(
-                                        decoration: BoxDecoration(
+                                      Container (
+                                        decoration: BoxDecoration (
                                             borderRadius: BorderRadius.circular(20),
                                             border: model.matchList[index].superLike == 0 ? Border.all(color: Colors.transparent,width: 0,): Border.all(color: ColorRes.superLike,width: 3,),
-                                            color: Colors.white),
+                                            color: Colors.white
+                                        ),
                                         width: MediaQuery.of(context).size.width * 0.80,
                                         margin: EdgeInsets.only(top: 20),
                                         child: Column(

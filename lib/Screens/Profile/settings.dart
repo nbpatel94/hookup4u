@@ -335,9 +335,10 @@ class _SettingsState extends State<Settings> {
                           Text("- No ads"),
                         ],
                       ),
-            actions: <Widget>[
-              GestureDetector(
+            actions: <Widget> [
+              GestureDetector (
                 onTap: () async {
+
                   appState.settingContext = this.context;
                   int index;
                   if (plan == 'Gold')
@@ -349,14 +350,12 @@ class _SettingsState extends State<Settings> {
 
                   EasyLoading.show();
 
-                  final PurchaseParam purchaseParam = PurchaseParam(
-                      productDetails: appState.products
-                          .where((element) =>
-                      element.id == appState.productIds[index])
-                          .first);
+                  print(appState.products[0].id);
+
+                  final PurchaseParam purchaseParam = PurchaseParam (
+                      productDetails: appState.products.where((element) => element.id == appState.productIds[index]).first);
                   print(purchaseParam.productDetails.title);
-                  InAppPurchaseConnection.instance
-                      .buyConsumable(purchaseParam: purchaseParam);
+                  InAppPurchaseConnection.instance.buyConsumable(purchaseParam: purchaseParam);
 
                   // if (plan == 'Gold') {
                   //   print("Buying Gold Subscription");

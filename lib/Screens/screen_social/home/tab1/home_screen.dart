@@ -72,9 +72,9 @@ class SocialHomePageState extends State<SocialHomePage> {
       child: RefreshIndicator(
         key: refreshKey,
         onRefresh: refreshList,
-        child: SingleChildScrollView(
+        child: SingleChildScrollView (
           physics: ClampingScrollPhysics(),
-          child: Column(
+          child: Column (
             children: [
               headerView(),
               // storyView(),
@@ -116,7 +116,7 @@ class SocialHomePageState extends State<SocialHomePage> {
                 height: 40,
                 padding: EdgeInsets.only(left: 8),
                 alignment: Alignment.centerLeft,
-                decoration: BoxDecoration(
+                decoration: BoxDecoration (
                   color: ColorRes.greyBg.withOpacity(0.5),
                   borderRadius: BorderRadius.circular(60),
                 ),

@@ -4,9 +4,7 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hookup4u/Screens/Welcome.dart';
 import 'package:hookup4u/Screens/auth/start_screen.dart';
 import 'package:hookup4u/Screens/home/list_holder_page.dart';
 import 'package:hookup4u/app.dart';
@@ -95,21 +93,18 @@ class _SplashState extends State<Splash> {
             appState.medialList = medialList;
             await sharedPreferences.setString(
                 Preferences.mediaData, mediaListToJson(medialList));
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ListHolderPage()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => ListHolderPage()));
           }
         }
       } else {
         print("meta !contain");
         Future.delayed(Duration(seconds: 4), () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => StartScreen()));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => StartScreen()));
         });
       }
     } else {
       Future.delayed(Duration(seconds: 4), () {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => StartScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => StartScreen()));
       });
     }
   }
@@ -125,6 +120,7 @@ class _SplashState extends State<Splash> {
       _firebaseMessaging.getToken().then((token) {
         print("fcm : $token");
         sp.setString('token', token);
+        appState.fcmToken = token;
         // RestApi.addFCMToken(token);
       });
     }
@@ -159,7 +155,8 @@ class _SplashState extends State<Splash> {
           child: Container(
               height: 150,
               width: 230,
-              child: Platform.isIOS ? Image.asset("asset/Icon/logo_white.png") : SvgPicture.asset(
+              child: Platform.isIOS ? Image.asset("asset/Icon/logo_white.png") :
+              SvgPicture.asset (
                 "asset/ihr-mus-clear-bg.svg",
                 fit: BoxFit.contain,
               )
@@ -193,6 +190,7 @@ class _SplashState extends State<Splash> {
   String _queryProductError;
 
   Future<void> initStoreInfo() async {
+
     _connection = InAppPurchaseConnection.instance;
 
     final bool isAvailable = await _connection.isAvailable();
@@ -222,11 +220,11 @@ class _SplashState extends State<Splash> {
       print("inAppPurchase error: $error");
     });
 
-    ProductDetailsResponse productDetailResponse =
-        await _connection.queryProductDetails(appState.productIds.toSet());
+    ProductDetailsResponse productDetailResponse = await _connection.queryProductDetails(appState.productIds.toSet());
     productDetailResponse.productDetails.forEach((element) {
       print("inAppPurchase ${element.title} -- ${element.price}");
     });
+
     if (productDetailResponse.error != null) {
       // setState(() {
       _queryProductError = productDetailResponse.error.message;
@@ -304,16 +302,12 @@ class _SplashState extends State<Splash> {
     });
     if (check == 'success') {
       appState.subscriptionName = purchaseDetails.productID;
-      appState.subscriptionDate = DateTime.fromMillisecondsSinceEpoch(
-          int.parse(purchaseDetails.transactionDate));
-      appState.userDetailsModel.meta.subscriptionDate =
-          appState.subscriptionDate;
-      appState.userDetailsModel.meta.subscriptionName =
-          appState.subscriptionName;
+      appState.subscriptionDate = DateTime.fromMillisecondsSinceEpoch(int.parse(purchaseDetails.transactionDate));
+      appState.userDetailsModel.meta.subscriptionDate = appState.subscriptionDate;
+      appState.userDetailsModel.meta.subscriptionName = appState.subscriptionName;
 
       print(appState.userDetailsModel.meta.toJson());
-      await sharedPreferences.setString(
-          Preferences.metaData, jsonEncode(appState.userDetailsModel.toJson()));
+      await sharedPreferences.setString(Preferences.metaData, jsonEncode(appState.userDetailsModel.toJson()));
 
       // EasyLoading.dismiss();
       getSharedDetails();
@@ -479,4 +473,6 @@ class _SplashState extends State<Splash> {
       }
     }
   }
+
+
 }

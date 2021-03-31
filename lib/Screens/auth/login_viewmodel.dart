@@ -37,6 +37,17 @@ class LoginViewModel {
         appState.jobTitle = userDetailsModel.meta.jobTitle;
         appState.about = userDetailsModel.meta.about;
 
+        print("device fcm 123456:  -   ${appState.fcmToken}");
+        print("user id ${userDetailsModel.id}");
+        print(appState.accessToken);
+        Map mapData = {
+          "id" : userDetailsModel.id,
+          "device_token" : appState.fcmToken
+        };
+
+        await RestApi.updateUserDetailsSocial(mapData);
+
+
         appState.superLikeCount = userDetailsModel.meta.superLike;
         appState.likeCount = userDetailsModel.meta.likeCount;
         if(userDetailsModel.meta.likeTime!="") {

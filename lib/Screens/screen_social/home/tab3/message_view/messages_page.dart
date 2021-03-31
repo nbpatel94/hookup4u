@@ -328,8 +328,8 @@ class SocialMessagesScreenState extends State<SocialMessagesScreen> {
                             });
                             // model.getMyMatch();
                           }
-
                         },
+
                         child: Container(
                           margin: EdgeInsets.only(top: 5.0, bottom: 5.0, right: 20.0),
                           padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
@@ -342,6 +342,7 @@ class SocialMessagesScreenState extends State<SocialMessagesScreen> {
                                     alignment: Alignment.bottomCenter,
                                     children: [
                                                 ClipRRect(
+                                                  borderRadius: BorderRadius.circular(60),
                                                   child: model.threadDataModel.data[index].recipientData.thumb.isNotEmpty
                                                       ? CachedNetworkImage(
                                                           imageUrl: model.threadDataModel.data[index].recipientData.thumb,

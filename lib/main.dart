@@ -9,12 +9,10 @@ import 'package:hookup4u/web_view/home_view/home_screen.dart' as webView;
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'Screens/auth/start_screen.dart';
 import 'app.dart';
 import 'dart:io';
 import 'package:flutter/foundation.dart' show kIsWeb, kReleaseMode;
 import 'dart:io' show Platform;
-
 import 'web_view/edit_profile_view/edit_profile_screen.dart';
 
 void main() async {

@@ -71,11 +71,11 @@ class FriendsRequestPageState extends State<FriendsRequestPage> {
            SizedBox(height: 10),
            followingView(),
            SizedBox(height: 10),
-           Padding(
-               padding: EdgeInsets.only(left: 10),
-               child: Text("Friends Suggestion", style: TextStyle(color: ColorRes.white, fontSize: 20))),
-           SizedBox(height: 10),
-           friendSuggestion()
+           // Padding(
+           //     padding: EdgeInsets.only(left: 10),
+           //     child: Text("Friends Suggestion", style: TextStyle(color: ColorRes.white, fontSize: 20))),
+           // SizedBox(height: 10),
+           // friendSuggestion()
          ],
        ),
      ),

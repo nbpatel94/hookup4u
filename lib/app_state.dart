@@ -19,6 +19,8 @@ class AppState {
   List<ProductDetails> products = [];
   List<String> productIds = <String>['gold_sub', 'premium_sub', 'plus_sub'];
 
+  String fcmToken = '';
+
   int id;
   String accessToken = '';
   String name = '';

@@ -92,7 +92,7 @@ class FriendRequestViewModel {
       // if(message['code'] == 200 && message['status'] == "success") {
       if(value != null && value.statusCode == 200) {
 
-        Utils().showToast("Delete $friendId request.");
+        Utils().showToast("Delete request.");
 
         friendRequestShow(true);
 
